@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://Audio/Bit Forest Intro/bit_forrest_intro.mp3" type="AudioStream" id=1]
 [ext_resource path="res://Scripts/Managers/GameManager.cs" type="Script" id=2]
 
 [node name="Main" type="Node2D"]
@@ -10,3 +11,7 @@ NodePathLevel = NodePath("Level")
 [node name="Map" type="Node2D" parent="."]
 
 [node name="Level" type="Node2D" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+autoplay = true
