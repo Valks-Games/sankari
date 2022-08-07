@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Managers/GameManager.cs" type="Script" id=2]
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 2 )
+NodePathMap = NodePath("Map")
+NodePathLevel = NodePath("Level")
+
+[node name="Map" type="Node2D" parent="."]
+
+[node name="Level" type="Node2D" parent="."]

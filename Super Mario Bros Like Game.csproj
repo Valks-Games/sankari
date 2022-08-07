@@ -1,0 +1,13 @@
+<Project Sdk="Godot.NET.Sdk/3.3.0">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <RootNamespace>SuperMarioBrosLikeGame</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" /> <!--This is used because net472 does not have System.Text.Json-->
+    <Reference Include="ENet-CSharp">
+        <HintPath>ENet-CSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
