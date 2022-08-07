@@ -3,9 +3,9 @@ namespace MarioLikeGame;
 public class PlayerController : KinematicBody2D
 {
     private const float _wallGravity = 200;
-    private const float _gravity = 1200;
-    private const int _walkSpeed = 200;
-    private const int _jumpForce = -300;
+    private const float _gravity = 200;
+    private const int _walkSpeed = 100;
+    private const int _jumpForce = -100;
     private bool _jumping;
     private Vector2 _velocity;
 
