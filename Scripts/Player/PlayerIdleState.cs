@@ -4,16 +4,17 @@ public class PlayerIdleState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager manager)
     {
+        base.EnterState(manager);
         GD.Print("Idle");
     }
 
     public override void UpdateState(PlayerStateManager manager)
     {
-        if (manager.IsMoving())
-            manager.SwitchState(manager.PlayerMovingState);
-
         if (manager.IsJumping())
             manager.SwitchState(manager.PlayerJumpingState);
+
+        if (manager.IsMoving())
+            manager.SwitchState(manager.PlayerMovingState);
 
         if (manager.IsFalling())
             manager.SwitchState(manager.PlayerFallingState);

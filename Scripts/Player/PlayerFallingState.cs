@@ -6,12 +6,12 @@ public class PlayerFallingState : PlayerBaseState
 
     public override void EnterState(PlayerStateManager manager)
     {
-        GD.Print("Falling");
+        base.EnterState(manager);
     }
 
     public override void UpdateState(PlayerStateManager manager)
     {
-        manager.HandleMovement(_fallAirSpeed);
+        manager.Speed = _fallAirSpeed;
 
         if (manager.IsOnFloor())
         {

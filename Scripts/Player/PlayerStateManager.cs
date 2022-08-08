@@ -2,9 +2,12 @@ namespace MarioLikeGame;
 
 public class PlayerStateManager : KinematicBody2D
 {
+    public Label Label { get; private set; }
+
     public GameManager GameManager { get; private set; }
     public LevelManager LevelManager { get; private set; }
     public Vector2 Velocity;
+    public float Speed;
 
     public bool InputLeft { get; private set; }
     public bool InputRight { get; private set; }
@@ -27,6 +30,7 @@ public class PlayerStateManager : KinematicBody2D
 
     public override void _Ready()
     {
+        Label = GetNode<Label>("Label");
         _levelStartPos = Position;
         _currentState = new PlayerIdleState();
         _currentState.EnterState(this);
@@ -42,8 +46,7 @@ public class PlayerStateManager : KinematicBody2D
         Velocity.x = 0;
         Velocity.y += _gravity * delta;
 
-        if (IsOnFloor())
-            Velocity.y = 0;
+        HandleMovement(Speed);
 
         _currentState.UpdateState(this);
 
@@ -56,7 +59,7 @@ public class PlayerStateManager : KinematicBody2D
         _currentState.EnterState(this);
     }
 
-    public void HandleMovement(int speed) 
+    private void HandleMovement(float speed) 
     {
         if (InputLeft) 
             Velocity.x -= speed;

@@ -7,6 +7,7 @@ public class PlayerJumpingState : PlayerBaseState
 
     public override void EnterState(PlayerStateManager manager)
     {
+        base.EnterState(manager);
         GD.Print("Jumping");
 
         if (!manager.IsOnFloor()) 
@@ -20,7 +21,7 @@ public class PlayerJumpingState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager manager)
     {
-        manager.HandleMovement(_jumpAirSpeed);
+        manager.Speed = _jumpAirSpeed;
 
         if (manager.IsFalling())
             manager.SwitchState(manager.PlayerFallingState);

@@ -6,23 +6,17 @@ public class PlayerMovingState : PlayerBaseState
 
     public override void EnterState(PlayerStateManager manager)
     {
+        base.EnterState(manager);
         GD.Print("Moving");
     }
 
     public override void UpdateState(PlayerStateManager manager)
     {
-        var left = manager.InputLeft;
-        var right = manager.InputRight;
-
-        if (left) 
-            manager.Velocity.x -= _moveSpeed;
-
-        if (right)
-            manager.Velocity.x += _moveSpeed;
+        manager.Speed = _moveSpeed;
 
         if (manager.InputJump)
             manager.SwitchState(manager.PlayerJumpingState);
-        else if (!left && !right)
+        else if (!manager.IsMoving())
             manager.SwitchState(manager.PlayerIdleState);
     }
 
