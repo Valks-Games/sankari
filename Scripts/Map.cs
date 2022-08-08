@@ -65,7 +65,7 @@ public class Map : Node
         _levelManager.LevelNames["Level C1"].Locked = false;
     }
 
-    public override void _Input(InputEvent @event)
+    public override async void _Input(InputEvent @event)
     {
         CheckMove("map_move_left", new Vector2(-16, 0));
         CheckMove("map_move_right", new Vector2(16, 0));
@@ -77,6 +77,8 @@ public class Map : Node
             var id = GetCurrentTileId(_tileMapLevelIcons, _playerIcon.Position);
             if (id != -1)
             {
+                await _gameManager.TransitionManager.AlphaToBlackAndBack();
+
                 _levelManager.LoadLevel();
                 
                 _prevPlayerMapIconPosition = _playerIcon.Position;

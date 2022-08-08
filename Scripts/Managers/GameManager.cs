@@ -15,8 +15,10 @@ public class GameManager : Node
 {
     [Export] protected readonly NodePath NodePathMap;
     [Export] protected readonly NodePath NodePathLevel;
+    [Export] protected readonly NodePath NodePathTransition;
 
     private Node _map;
+    public TransitionManager TransitionManager { get; private set; }
     public LevelManager LevelManager { get; private set; }
 
     public override void _Ready()
@@ -24,6 +26,7 @@ public class GameManager : Node
         _map = GetNode<Node>(NodePathMap);
 
         LevelManager = new(this, GetNode<Node>(NodePathLevel));
+        TransitionManager = GetNode<TransitionManager>(NodePathTransition);
 
         LoadMap();
     }

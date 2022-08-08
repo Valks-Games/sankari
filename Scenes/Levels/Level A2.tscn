@@ -4,7 +4,7 @@
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/LevelScene.cs" type="Script" id=3]
 [ext_resource path="res://Scenes/Prefabs/Enemy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://AnimatedWaterTop.tres" type="Texture" id=5]
+[ext_resource path="res://Sprites/animated tiles/water/water_top/AnimatedWaterTop.tres" type="Texture" id=5]
 [ext_resource path="res://Fonts/BoxyBoldFont/Boxy-Bold.ttf" type="DynamicFontData" id=6]
 
 [sub_resource type="DynamicFont" id=20]

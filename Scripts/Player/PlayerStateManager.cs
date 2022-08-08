@@ -21,6 +21,7 @@ public class PlayerStateManager : KinematicBody2D
     private PlayerBaseState _currentState;
     private const float _gravity = 200;
     private Vector2 _levelStartPos;
+    private bool _dead;
 
     public void PreInit(GameManager gameManager)
     {
@@ -38,6 +39,9 @@ public class PlayerStateManager : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
+        if (_dead)
+            return;
+
         InputLeft = Input.IsActionPressed("player_move_left");
         InputRight = Input.IsActionPressed("player_move_right");
         InputJump = Input.IsActionJustPressed("player_jump");
@@ -72,16 +76,33 @@ public class PlayerStateManager : KinematicBody2D
     public bool IsJumping() => InputJump;
     public bool IsFalling() => Velocity.y > 10;
 
-    private void _on_Player_Area_area_entered(Area2D area)
+    public async Task Died()
     {
-        if (area.Name == "Bottom")
-            Position = _levelStartPos;
+        _dead = true;
+        await GameManager.TransitionManager.AlphaToBlackAndBack();
+        _dead = false;
+        Position = _levelStartPos;
+    }
 
-        if (area.Name == "Level Finish")
-            LevelManager.CompleteLevel(LevelManager.CurrentLevel);
+    private async void _on_Player_Area_area_entered(Area2D area)
+    {
+        if (_dead)
+            return;
 
-        if (area.Name == "Enemy")
-            Position = _levelStartPos;
+        if (area.Name == "Bottom") 
+        {
+            await Died();
+        }
+
+        if (area.Name == "Level Finish") 
+        {
+            await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
+        }
+
+        if (area.Name == "Enemy") 
+        {
+            await Died();
+        }
 
         _currentState.OnAreaEntered(this, area);
     }

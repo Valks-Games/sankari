@@ -43,8 +43,10 @@ public class LevelManager
         _nodeLevel.AddChild(level);
     }
 
-    public void CompleteLevel(string levelName)
+    public async Task CompleteLevel(string levelName)
     {
+        await _gameManager.TransitionManager.AlphaToBlackAndBack();
+
         // remove level
         _nodeLevel.QueueFreeChildren();
 
