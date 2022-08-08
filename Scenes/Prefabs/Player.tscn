@@ -2,10 +2,10 @@
 
 [ext_resource path="res://Sprites/Player Map Icon.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player/PlayerStateManager.cs" type="Script" id=2]
-[ext_resource path="res://Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Fonts/BoxyBoldFont/Boxy-Bold.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=3]
-size = 12
+size = 8
 font_data = ExtResource( 3 )
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -19,14 +19,15 @@ position = Vector2( 20, 100 )
 script = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = -20.0
-margin_top = -19.0
-margin_right = 19.0
+margin_left = -48.0
+margin_top = -14.0
+margin_right = 48.0
 margin_bottom = -5.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 3 )
 text = "Idle"
 align = 1
+valign = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
