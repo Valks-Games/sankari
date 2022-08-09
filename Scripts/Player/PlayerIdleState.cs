@@ -5,7 +5,6 @@ public class PlayerIdleState : PlayerBaseState
     public override void EnterState(PlayerStateManager manager)
     {
         base.EnterState(manager);
-        GD.Print("Idle");
     }
 
     public override void UpdateState(PlayerStateManager manager)

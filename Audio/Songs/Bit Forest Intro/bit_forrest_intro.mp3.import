@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bit_forrest_intro.mp3-58e1363042a434c6fcdc2393dfcf20c3.mp3str"
+
+[deps]
+
+source_file="res://Audio/Songs/Bit Forest Intro/bit_forrest_intro.mp3"
+dest_files=[ "res://.import/bit_forrest_intro.mp3-58e1363042a434c6fcdc2393dfcf20c3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

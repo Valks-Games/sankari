@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Camera.cs" type="Script" id=1]
+
+[node name="Camera" type="Camera2D"]
+current = true
+zoom = Vector2( 0.2, 0.2 )
+limit_left = -10
+limit_top = -100
+limit_right = 770
+limit_bottom = 159
+editor_draw_limits = true
+script = ExtResource( 1 )

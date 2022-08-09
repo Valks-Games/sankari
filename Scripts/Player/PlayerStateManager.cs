@@ -21,7 +21,7 @@ public class PlayerStateManager : KinematicBody2D
     private PlayerBaseState _currentState;
     private const float _gravity = 200;
     private Vector2 _levelStartPos;
-    private bool _dead;
+    private bool _haltPlayerLogic;
 
     public void PreInit(GameManager gameManager)
     {
@@ -39,7 +39,7 @@ public class PlayerStateManager : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if (_dead)
+        if (_haltPlayerLogic)
             return;
 
         InputLeft = Input.IsActionPressed("player_move_left");
@@ -78,30 +78,41 @@ public class PlayerStateManager : KinematicBody2D
 
     public async Task Died()
     {
-        _dead = true;
+        _haltPlayerLogic = true;
         await GameManager.TransitionManager.AlphaToBlackAndBack();
-        _dead = false;
+        _haltPlayerLogic = false;
         Position = _levelStartPos;
     }
 
     private async void _on_Player_Area_area_entered(Area2D area)
     {
-        if (_dead)
+        if (_haltPlayerLogic)
             return;
 
-        if (area.Name == "Bottom") 
+        if (area.IsInGroup("Killzone")) 
         {
             await Died();
+            return;
         }
 
-        if (area.Name == "Level Finish") 
+        if (area.IsInGroup("Level Finish"))
         {
+            _haltPlayerLogic = true;
             await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
+            _haltPlayerLogic = false;
+            return;
         }
 
-        if (area.Name == "Enemy") 
+        if (area.IsInGroup("Enemy")) 
         {
             await Died();
+            return;
+        }
+
+        if (area.IsInGroup("Coin"))
+        {
+            GameManager.Audio.Play("coin_pickup");
+            area.GetParent().QueueFree();
         }
 
         _currentState.OnAreaEntered(this, area);

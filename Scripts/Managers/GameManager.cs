@@ -13,19 +13,23 @@ namespace MarioLikeGame;
 
 public class GameManager : Node
 {
-    [Export] protected readonly NodePath NodePathMap;
-    [Export] protected readonly NodePath NodePathLevel;
     [Export] protected readonly NodePath NodePathTransition;
 
-    private Node _map;
+    // managers
     public TransitionManager TransitionManager { get; private set; }
     public LevelManager LevelManager { get; private set; }
+    public Audio Audio { get; private set; }
+
+    private Node _map;
+    private AudioStreamPlayer _sfx;
 
     public override void _Ready()
     {
-        _map = GetNode<Node>(NodePathMap);
+        _map = GetNode<Node>("Map");
+        _sfx = GetNode<AudioStreamPlayer>("SFX");
 
-        LevelManager = new(this, GetNode<Node>(NodePathLevel));
+        Audio = new(_sfx);
+        LevelManager = new(this, GetNode<Node>("Level"));
         TransitionManager = GetNode<TransitionManager>(NodePathTransition);
 
         LoadMap();

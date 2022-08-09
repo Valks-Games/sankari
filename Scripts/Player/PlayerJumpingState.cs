@@ -8,13 +8,14 @@ public class PlayerJumpingState : PlayerBaseState
     public override void EnterState(PlayerStateManager manager)
     {
         base.EnterState(manager);
-        GD.Print("Jumping");
 
         if (!manager.IsOnFloor()) 
         {
             manager.SwitchState(manager.PlayerIdleState);
             return;
         }
+
+        manager.GameManager.Audio.Play("player_jump");
 
         manager.Velocity.y += _jumpForce;
     }

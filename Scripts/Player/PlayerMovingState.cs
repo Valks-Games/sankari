@@ -7,7 +7,6 @@ public class PlayerMovingState : PlayerBaseState
     public override void EnterState(PlayerStateManager manager)
     {
         base.EnterState(manager);
-        GD.Print("Moving");
     }
 
     public override void UpdateState(PlayerStateManager manager)

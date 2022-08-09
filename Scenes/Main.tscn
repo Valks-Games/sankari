@@ -1,26 +1,27 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Audio/Bit Forest Intro/bit_forrest_intro.mp3" type="AudioStream" id=1]
+[ext_resource path="res://Audio/Songs/Bit Forest Intro/bit_forrest_intro.mp3" type="AudioStream" id=1]
 [ext_resource path="res://Scripts/Managers/GameManager.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/Managers/TransitionManager.cs" type="Script" id=3]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
-NodePathMap = NodePath("Map")
-NodePathLevel = NodePath("Level")
-NodePathTransition = NodePath("CanvasLayer/ColorRect")
+NodePathTransition = NodePath("CanvasLayer/Transition")
 
 [node name="Map" type="Node2D" parent="."]
 
 [node name="Level" type="Node2D" parent="."]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 autoplay = true
 
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="Transition" type="ColorRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )

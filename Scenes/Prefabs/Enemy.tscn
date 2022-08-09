@@ -25,7 +25,7 @@ color = Color( 1, 0, 0, 1 )
 shape = SubResource( 11 )
 one_way_collision = true
 
-[node name="Enemy" type="Area2D" parent="."]
+[node name="Enemy" type="Area2D" parent="." groups=["Enemy"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
 shape = SubResource( 12 )
