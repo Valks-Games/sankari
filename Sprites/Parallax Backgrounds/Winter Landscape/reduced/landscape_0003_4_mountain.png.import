@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/water_top_2.png-38cda763c95c8621d215053dcd63d132.stex"
+path="res://.import/landscape_0003_4_mountain.png-c8c41cc92b7a939b6670d37e2c9342ec.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Animated Tiles/water/water_top/water_top_2.png"
-dest_files=[ "res://.import/water_top_2.png-38cda763c95c8621d215053dcd63d132.stex" ]
+source_file="res://Sprites/Parallax Backgrounds/Winter Landscape/reduced/landscape_0003_4_mountain.png"
+dest_files=[ "res://.import/landscape_0003_4_mountain.png-c8c41cc92b7a939b6670d37e2c9342ec.stex" ]
 
 [params]
 

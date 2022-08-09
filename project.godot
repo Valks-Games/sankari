@@ -14,6 +14,11 @@ config/name="Super Mario Bros Like Game"
 run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://Sprites/icon.png"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep_height"
+
 [input]
 
 map_move_up={

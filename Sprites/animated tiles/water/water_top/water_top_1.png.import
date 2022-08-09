@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/water_top_1.png-02598821305c7aa2aaec12422ed4b018.stex"
+path="res://.import/water_top_1.png-e4e5db90b1c6a7e3ac1572078fe056ca.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/animated tiles/water/water_top/water_top_1.png"
-dest_files=[ "res://.import/water_top_1.png-02598821305c7aa2aaec12422ed4b018.stex" ]
+source_file="res://Sprites/Animated Tiles/water/water_top/water_top_1.png"
+dest_files=[ "res://.import/water_top_1.png-e4e5db90b1c6a7e3ac1572078fe056ca.stex" ]
 
 [params]
 
