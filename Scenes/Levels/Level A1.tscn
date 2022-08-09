@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Sprites/Animated Tiles/water/water_top/AnimatedWaterTop.tres" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Sprites/Parallax Backgrounds/Winter Landscape/reduced/landscape_0004_5_clouds.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Parallax Backgrounds/Winter Landscape/reduced/landscape_0003_4_mountain.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/sprite_sheet_1.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Parallax Backgrounds/Winter Landscape/reduced/landscape_front.png" type="Texture" id=12]
 
 [sub_resource type="RectangleShape2D" id=10]
 
@@ -192,54 +193,64 @@ points = PoolVector2Array( 8, 8, 0, 8, 0, 0, 8, 0 )
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="ParallaxBackgroundRear" type="ParallaxBackground" parent="."]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackgroundRear"]
 motion_scale = Vector2( 0.5, 1 )
 motion_mirroring = Vector2( 384, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+[node name="Sprite" type="Sprite" parent="ParallaxBackgroundRear/ParallaxLayer"]
 position = Vector2( 192, 60 )
 texture = ExtResource( 8 )
 
-[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackgroundRear"]
 motion_scale = Vector2( 0.5, 1 )
 motion_mirroring = Vector2( 384, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+[node name="Sprite" type="Sprite" parent="ParallaxBackgroundRear/ParallaxLayer2"]
 position = Vector2( 192, 60 )
 texture = ExtResource( 9 )
 
-[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackgroundRear"]
 motion_scale = Vector2( 0.7, 1 )
 motion_mirroring = Vector2( 384, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
+[node name="Sprite" type="Sprite" parent="ParallaxBackgroundRear/ParallaxLayer3"]
 position = Vector2( 192, 60 )
 texture = ExtResource( 10 )
 
-[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackgroundRear"]
 motion_scale = Vector2( 0.8, 1 )
 motion_mirroring = Vector2( 384, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer4"]
+[node name="Sprite" type="Sprite" parent="ParallaxBackgroundRear/ParallaxLayer4"]
 position = Vector2( 192, 60 )
 texture = ExtResource( 5 )
 
-[node name="ParallaxLayer5" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="ParallaxBackgroundRear"]
 motion_scale = Vector2( 0.9, 1 )
 motion_mirroring = Vector2( 384, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer5"]
+[node name="Sprite" type="Sprite" parent="ParallaxBackgroundRear/ParallaxLayer5"]
 position = Vector2( 192, 60 )
 texture = ExtResource( 6 )
 
-[node name="ParallaxLayer6" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer6" type="ParallaxLayer" parent="ParallaxBackgroundRear"]
 motion_mirroring = Vector2( 384, 0 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer6"]
+[node name="Sprite" type="Sprite" parent="ParallaxBackgroundRear/ParallaxLayer6"]
 position = Vector2( 192, 60 )
 texture = ExtResource( 7 )
+
+[node name="ParallaxBackgroundFront" type="ParallaxBackground" parent="."]
+layer = 1
+
+[node name="ParallaxLayer6" type="ParallaxLayer" parent="ParallaxBackgroundFront"]
+motion_mirroring = Vector2( 384, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackgroundFront/ParallaxLayer6"]
+position = Vector2( 192, 60 )
+texture = ExtResource( 12 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
