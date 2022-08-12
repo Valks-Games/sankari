@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Scripts/Enemy/Enemy.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Enemy/BasicEnemy.cs" type="Script" id=1]
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 3, 3 )

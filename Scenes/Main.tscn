@@ -12,6 +12,9 @@ NodePathTransition = NodePath("CanvasLayer/Transition")
 
 [node name="Level" type="Node2D" parent="."]
 
+[node name="For Testing Pitch" type="AudioStreamPlayer" parent="."]
+pitch_scale = 0.7
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 autoplay = true

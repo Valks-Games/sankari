@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/LevelScene.cs" type="Script" id=2]
 [ext_resource path="res://Sprites/tilemap_16x.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/Prefabs/Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Prefabs/BasicEnemy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Prefabs/Camera.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
