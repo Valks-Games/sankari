@@ -12,6 +12,9 @@ public class PlayerStateManager : KinematicBody2D
     public bool InputLeft { get; private set; }
     public bool InputRight { get; private set; }
     public bool InputJump { get; private set; }
+    public bool InputDash { get; private set; }
+
+    public bool DashReady = true;
 
     public PlayerIdleState PlayerIdleState = new();
     public PlayerMovingState PlayerMovingState = new();
@@ -22,6 +25,7 @@ public class PlayerStateManager : KinematicBody2D
     private const float _gravity = 200;
     private Vector2 _levelStartPos;
     private bool _haltPlayerLogic;
+    private GTimer _dashTimer;
 
     public void PreInit(GameManager gameManager)
     {
@@ -35,6 +39,7 @@ public class PlayerStateManager : KinematicBody2D
         _levelStartPos = Position;
         _currentState = new PlayerIdleState();
         _currentState.EnterState(this);
+        _dashTimer = new GTimer(this, nameof(OnDashReady), 1000, false, false);
     }
 
     public override void _PhysicsProcess(float delta)
@@ -45,6 +50,7 @@ public class PlayerStateManager : KinematicBody2D
         InputLeft = Input.IsActionPressed("player_move_left");
         InputRight = Input.IsActionPressed("player_move_right");
         InputJump = Input.IsActionJustPressed("player_jump");
+        InputDash = Input.IsActionJustPressed("player_dash");
 
 
         Velocity.x = 0;
@@ -66,10 +72,23 @@ public class PlayerStateManager : KinematicBody2D
     private void HandleMovement(float speed) 
     {
         if (InputLeft) 
+        {
+            //Direction = Direction.West;
             Velocity.x -= speed;
+        }
 
-        if (InputRight)
+        if (InputRight) 
+        {
+            //Direction = Direction.East;
             Velocity.x += speed;
+        }
+
+        if (InputDash && DashReady)
+        {
+            DashReady = false;
+            _dashTimer.Start();
+            Velocity += Velocity * 10;
+        }
     }
 
     public bool IsMoving() => InputLeft || InputRight;
@@ -81,7 +100,13 @@ public class PlayerStateManager : KinematicBody2D
         _haltPlayerLogic = true;
         await GameManager.TransitionManager.AlphaToBlackAndBack();
         _haltPlayerLogic = false;
-        Position = _levelStartPos;
+        //Position = _levelStartPos;
+        GameManager.LevelManager.LoadLevel();
+    }
+
+    private void OnDashReady()
+    {
+        DashReady = true;
     }
 
     private async void _on_Player_Area_area_entered(Area2D area)
@@ -111,7 +136,7 @@ public class PlayerStateManager : KinematicBody2D
 
         if (area.IsInGroup("Coin"))
         {
-            GameManager.Audio.Play("coin_pickup");
+            GameManager.Audio.PlaySFX("coin_pickup");
             area.GetParent().QueueFree();
         }
 

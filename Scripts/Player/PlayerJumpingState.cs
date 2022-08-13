@@ -15,7 +15,7 @@ public class PlayerJumpingState : PlayerBaseState
             return;
         }
 
-        manager.GameManager.Audio.Play("player_jump");
+        manager.GameManager.Audio.PlaySFX("player_jump");
 
         manager.Velocity.y += _jumpForce;
     }

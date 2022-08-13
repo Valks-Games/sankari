@@ -60,7 +60,15 @@ public class Map : Node
             _levelManager.LevelNames.Add(level.Value.Name, level.Value);
         }
 
-        _levelManager.LevelNames["Level A1"].Locked = false;
+        var levelA1 = _levelManager.LevelNames["Level A1"];
+        levelA1.Locked = false;
+        levelA1.Music = "grassy_1";
+        levelA1.MusicPitch = 0.9f;
+
+        var levelA2 = _levelManager.LevelNames["Level A2"];
+        levelA2.Music = "grassy_2";
+        levelA2.MusicPitch = 0.9f;
+
         _levelManager.LevelNames["Level B1"].Locked = false;
         _levelManager.LevelNames["Level C1"].Locked = false;
     }
@@ -125,27 +133,5 @@ public class Map : Node
     private void _on_Player_Area_area_entered(Area2D area)
     {
         _levelManager.CurrentLevel = area.Name;
-    }
-}
-
-public class Level 
-{
-    public string Name { get; set; }
-    public bool Locked { get; set; }
-    public bool Completed { get; set; }
-    public List<string> Unlocks { get; set; }
-
-    public Level(string name)
-    {
-        Name = name;
-        Unlocks = new();
-
-        var levelId = name.Split(" ")[1];
-        var letter = levelId.Substring(0, 1);
-        var num = int.Parse(levelId.Substring(1));
-        
-        num += 1;
-
-        Unlocks.Add($"Level {letter}{num}"); // if this is Level A1, then this adds a unlock for Level A2
     }
 }

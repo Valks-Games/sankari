@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/8bit Bossa.mp3-88ae3fa34ec0ae773f17be38db1f0231.mp3str"
+
+[deps]
+
+source_file="res://Audio/Music/Joth/bossa nova/8bit Bossa.mp3"
+dest_files=[ "res://.import/8bit Bossa.mp3-88ae3fa34ec0ae773f17be38db1f0231.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

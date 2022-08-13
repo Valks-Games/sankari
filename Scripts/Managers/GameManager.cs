@@ -21,15 +21,13 @@ public class GameManager : Node
     public Audio Audio { get; private set; }
 
     private Node _map;
-    private AudioStreamPlayer _sfx;
 
     public override void _Ready()
     {
         _map = GetNode<Node>("Map");
-        _sfx = GetNode<AudioStreamPlayer>("SFX");
 
-        Audio = new(_sfx);
-        LevelManager = new(this, GetNode<Node>("Level"));
+        Audio = new Audio(GetNode<AudioStreamPlayer>("SFX"), GetNode<AudioStreamPlayer>("Music"));
+        LevelManager = new LevelManager(this, GetNode<Node>("Level"));
         TransitionManager = GetNode<TransitionManager>(NodePathTransition);
 
         LoadMap();
@@ -45,6 +43,7 @@ public class GameManager : Node
         var mapScript = (Map)Prefabs.Map.Instance();
         mapScript.PreInit(this);
         _map.CallDeferred("add_child", mapScript); // need to wait for the engine because we are dealing with areas with is physics related
+        Audio.PlayMusic("map_grassy");
     }
 
     public void DestroyMap() => _map.QueueFreeChildren();

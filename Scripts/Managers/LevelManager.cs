@@ -29,11 +29,14 @@ public class LevelManager
         // remove map
         _gameManager.DestroyMap();
 
+        // remove level if any
+        _nodeLevel.QueueFreeChildren();
+
         // load level
         var scenePath = $"res://Scenes/Levels/{CurrentLevel}.tscn";
         if (!new File().FileExists(scenePath))
         {
-            GD.Print("Level has not been made yet!");
+            Logger.LogWarning("Level has not been made yet!");
             return;
         }
 
@@ -41,6 +44,10 @@ public class LevelManager
         var level = (LevelScene)levelPacked.Instance();
         level.PreInit(_gameManager);
         _nodeLevel.AddChild(level);
+
+        var curLevel = LevelNames[CurrentLevel];
+
+        _gameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
     }
 
     public async Task CompleteLevel(string levelName)
@@ -59,5 +66,30 @@ public class LevelManager
 
         // load map
         _gameManager.LoadMap();
+    }
+}
+
+public class Level 
+{
+    public string Name { get; set; }
+    public string Music { get; set; }
+    public float MusicPitch { get; set; }
+    public bool Locked { get; set; }
+    public bool Completed { get; set; }
+    public List<string> Unlocks { get; set; }
+
+    public Level(string name)
+    {
+        Name = name;
+        Unlocks = new();
+        MusicPitch = 1.0f;
+
+        var levelId = name.Split(" ")[1];
+        var letter = levelId.Substring(0, 1);
+        var num = int.Parse(levelId.Substring(1));
+        
+        num += 1;
+
+        Unlocks.Add($"Level {letter}{num}"); // if this is Level A1, then this adds a unlock for Level A2
     }
 }

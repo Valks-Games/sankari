@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Sprites/Animated Tiles/water/water_top/AnimatedWaterTop.tres" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/LevelScene.cs" type="Script" id=3]
-[ext_resource path="res://Scenes/Prefabs/Crusher.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Prefabs/BasicEnemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Prefabs/Slime.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Sprites/sprite_sheet_1.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/Prefabs/Camera.tscn" type="PackedScene" id=12]
 
@@ -204,8 +205,23 @@ position = Vector2( 23, 107 )
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Crusher" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 92, 48 )
+[node name="Walking 1" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 202, 125 )
+
+[node name="Walking 2" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 233, 125 )
+
+[node name="Walking 3" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 218, 125 )
+
+[node name="Slime" parent="Enemies" instance=ExtResource( 5 )]
+position = Vector2( 374, 124 )
+
+[node name="Slime2" parent="Enemies" instance=ExtResource( 5 )]
+position = Vector2( 393, 124 )
+
+[node name="Slime3" parent="Enemies" instance=ExtResource( 5 )]
+position = Vector2( 383, 124 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 20 )

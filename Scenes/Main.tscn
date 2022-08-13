@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Audio/Songs/Bit Forest Intro/bit_forrest_intro.mp3" type="AudioStream" id=1]
 [ext_resource path="res://Scripts/Managers/GameManager.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/Managers/TransitionManager.cs" type="Script" id=3]
 
@@ -16,7 +15,7 @@ NodePathTransition = NodePath("CanvasLayer/Transition")
 pitch_scale = 0.7
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 1 )
+volume_db = -5.0
 autoplay = true
 
 [node name="SFX" type="AudioStreamPlayer" parent="."]
