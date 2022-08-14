@@ -15,7 +15,6 @@ public class Player : KinematicBody2D
     private const int JUMP_FORCE_WALL_VERT = 100;
     private const int JUMP_FORCE_WALL_HORZ = 50;
 
-    private Label _label;
     private GameManager _gameManager;
     private LevelManager _levelManager;
     private Vector2 _velocity;
@@ -44,7 +43,6 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
-        _label = GetNode<Label>("Label");
         _levelStartPos = Position;
         _dashTimer = new GTimer(this, nameof(OnDashReady), 1000, false, false);
         _preventHorzMovementAfterJump = new GTimer(this, nameof(OnPreventHorzDone), 200, false, false);
@@ -80,6 +78,8 @@ public class Player : KinematicBody2D
         _inputDash = Input.IsActionJustPressed("player_dash");
         _inputDown = Input.IsActionPressed("player_move_down");
 
+        var snap = Vector2.Down * 16;
+
         if (_wallDir != 0 && IsFalling())
         {
             _velocity.y = 0;
@@ -103,6 +103,7 @@ public class Player : KinematicBody2D
             
             if (_inputJump && IsOnFloor())
             {
+                snap = Vector2.Zero;
                 _gameManager.Audio.PlaySFX("player_jump");
                 _velocity.y -= JUMP_FORCE;
             }
@@ -112,6 +113,7 @@ public class Player : KinematicBody2D
         {
             if (_inputJump && IsOnFloor())
             {
+                snap = Vector2.Zero;
                 _gameManager.Audio.PlaySFX("player_jump");
                 _velocity.y -= JUMP_FORCE;
             }
@@ -145,7 +147,7 @@ public class Player : KinematicBody2D
             _velocity += _velocity * 10;
         }
 
-        _velocity = MoveAndSlide(_velocity, new Vector2(0, -1));
+        _velocity = MoveAndSlideWithSnap(_velocity, snap, new Vector2(0, -1));
     }
 
     private bool IsFalling() => _velocity.y > 0;
