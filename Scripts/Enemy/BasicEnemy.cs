@@ -5,7 +5,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy
     private const float _gravity = 6000f;
     private bool _movingForward;
 
-    public void PreInit(PlayerStateManager player)
+    public void PreInit(Player player)
     {
 
     }

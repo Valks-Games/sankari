@@ -4,7 +4,7 @@ public class LevelScene : Node
 {
     public void PreInit(GameManager gameManager)
     {
-        var player = GetNode<PlayerStateManager>("Player");
+        var player = GetNode<Player>("Player");
         player.PreInit(gameManager);
 
         foreach (IEnemy child in GetNode<Node2D>("Enemies").GetChildren()) 

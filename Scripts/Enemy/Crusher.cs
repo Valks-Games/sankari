@@ -2,7 +2,7 @@ namespace MarioLikeGame;
 
 public class Crusher : Node, IEnemy
 {
-    public void PreInit(PlayerStateManager player)
+    public void PreInit(Player player)
     {
 
     }

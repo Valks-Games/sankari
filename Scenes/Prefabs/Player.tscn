@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Sprites/Player Map Icon.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/Player/PlayerStateManager.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=2]
 [ext_resource path="res://Fonts/BoxyBoldFont/Boxy-Bold.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=3]
@@ -15,8 +15,9 @@ extents = Vector2( 4.5, 5 )
 extents = Vector2( 4.5, 5 )
 
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( 20, 100 )
 script = ExtResource( 2 )
+NodePathWallChecksLeft = NodePath("Wall Checks/Left")
+NodePathWallChecksRight = NodePath("Wall Checks/Right")
 
 [node name="Label" type="Label" parent="."]
 margin_left = -48.0
@@ -32,6 +33,32 @@ valign = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.5, 0 )
 shape = SubResource( 1 )
+
+[node name="Wall Checks" type="Node2D" parent="."]
+
+[node name="Left" type="Node2D" parent="Wall Checks"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Wall Checks/Left"]
+position = Vector2( -5, -3 )
+enabled = true
+cast_to = Vector2( -1, 0 )
+
+[node name="RayCast2D2" type="RayCast2D" parent="Wall Checks/Left"]
+position = Vector2( -5, 4 )
+enabled = true
+cast_to = Vector2( -1, 0 )
+
+[node name="Right" type="Node2D" parent="Wall Checks"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Wall Checks/Right"]
+position = Vector2( 4, -3 )
+enabled = true
+cast_to = Vector2( 1, 0 )
+
+[node name="RayCast2D2" type="RayCast2D" parent="Wall Checks/Right"]
+position = Vector2( 4, 4 )
+enabled = true
+cast_to = Vector2( 1, 0 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

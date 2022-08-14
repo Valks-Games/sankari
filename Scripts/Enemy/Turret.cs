@@ -5,11 +5,11 @@ public class Turret : StaticBody2D, IEnemy
     [Export] protected readonly NodePath NodePathPositionEndOfRod;
 
     private Sprite _rod;
-    private PlayerStateManager _player;
+    private Player _player;
     private GTimer _shootTimer;
     private Position2D _endOfRod;
 
-    public void PreInit(PlayerStateManager player)
+    public void PreInit(Player player)
     {
         _player = player;
     }

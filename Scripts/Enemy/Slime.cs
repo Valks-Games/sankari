@@ -9,7 +9,7 @@ public class Slime : KinematicBody2D, IEnemy
     private bool _movingForward;
     private int _wallHugTime;
 
-    public void PreInit(PlayerStateManager player)
+    public void PreInit(Player player)
     {
         
     }

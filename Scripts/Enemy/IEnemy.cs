@@ -2,5 +2,5 @@ namespace MarioLikeGame;
 
 public interface IEnemy 
 {
-    void PreInit(PlayerStateManager player);
+    void PreInit(Player player);
 }
