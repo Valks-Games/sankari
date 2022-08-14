@@ -9,9 +9,9 @@ public class Player : KinematicBody2D
     private const int SPEED_AIR = 1;
     private const int SPEED_MAX_GROUND = 75;
     private const int SPEED_MAX_AIR = 225;
-    private const int GRAVITY_AIR = 200;
+    private const int GRAVITY_AIR = 350;
     private const int GRAVITY_WALL = 750;
-    private const int JUMP_FORCE = 100;
+    private const int JUMP_FORCE = 150;
     private const int JUMP_FORCE_WALL_VERT = 100;
     private const int JUMP_FORCE_WALL_HORZ = 50;
 
