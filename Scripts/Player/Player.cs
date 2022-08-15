@@ -2,8 +2,11 @@ namespace MarioLikeGame;
 
 public class Player : KinematicBody2D
 {
-    [Export] protected readonly NodePath NodePathWallChecksLeft;
-    [Export] protected readonly NodePath NodePathWallChecksRight;
+    [Export] protected readonly NodePath NodePathRayCast2DWallChecksLeft;
+    [Export] protected readonly NodePath NodePathRayCast2DWallChecksRight;
+    [Export] protected readonly NodePath NodePathRayCast2DFloorCheck;
+    [Export] protected readonly NodePath NodePathRayCast2DSlopeCheck;
+    [Export] protected readonly NodePath NodePathSprite;
 
     private const int SPEED_GROUND = 10;
     private const int SPEED_AIR = 1;
@@ -11,9 +14,10 @@ public class Player : KinematicBody2D
     private const int SPEED_MAX_AIR = 225;
     private const int GRAVITY_AIR = 350;
     private const int GRAVITY_WALL = 750;
+    private const int GRAVITY_SLOPE = 1300;
     private const int JUMP_FORCE = 150;
-    private const int JUMP_FORCE_WALL_VERT = 100;
-    private const int JUMP_FORCE_WALL_HORZ = 50;
+    private const int JUMP_FORCE_WALL_VERT = 150;
+    private const int JUMP_FORCE_WALL_HORZ = 75;
 
     private GameManager _gameManager;
     private LevelManager _levelManager;
@@ -29,11 +33,15 @@ public class Player : KinematicBody2D
     private GTimer _preventHorzMovementAfterJump;
     private Node2D _parentWallChecksLeft;
     private Node2D _parentWallChecksRight;
-    private List<RayCast2D> _wallChecksLeft = new();
-    private List<RayCast2D> _wallChecksRight = new();
+    private List<RayCast2D> _rayCast2DWallChecksLeft = new();
+    private List<RayCast2D> _rayCast2DWallChecksRight = new();
+    private RayCast2D _rayCast2DFloorCheck;
+    private RayCast2D _rayCast2DSlopeCheck;
     private int _horzMoveDir;
     private int _wallDir;
     private float _gravity = GRAVITY_AIR;
+    private Vector2 _snap;
+    private Sprite _sprite;
 
     public void PreInit(GameManager gameManager)
     {
@@ -46,19 +54,24 @@ public class Player : KinematicBody2D
         _levelStartPos = Position;
         _dashTimer = new GTimer(this, nameof(OnDashReady), 1000, false, false);
         _preventHorzMovementAfterJump = new GTimer(this, nameof(OnPreventHorzDone), 200, false, false);
-        _parentWallChecksLeft = GetNode<Node2D>(NodePathWallChecksLeft);
-        _parentWallChecksRight = GetNode<Node2D>(NodePathWallChecksRight);
+        _rayCast2DFloorCheck = GetNode<RayCast2D>(NodePathRayCast2DFloorCheck);
+        _rayCast2DFloorCheck.AddException(this);
+        _rayCast2DSlopeCheck = GetNode<RayCast2D>(NodePathRayCast2DSlopeCheck);
+        _rayCast2DSlopeCheck.AddException(this);
+        _parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
+        _parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
+        _sprite = GetNode<Sprite>(NodePathSprite);
 
         foreach (RayCast2D raycast in _parentWallChecksLeft.GetChildren()) 
         {
             raycast.AddException(this);
-            _wallChecksLeft.Add(raycast);
+            _rayCast2DWallChecksLeft.Add(raycast);
         }
 
         foreach (RayCast2D raycast in _parentWallChecksRight.GetChildren()) 
         {
             raycast.AddException(this);
-            _wallChecksRight.Add(raycast);
+            _rayCast2DWallChecksRight.Add(raycast);
         }
     }
 
@@ -78,8 +91,9 @@ public class Player : KinematicBody2D
         _inputDash = Input.IsActionJustPressed("player_dash");
         _inputDown = Input.IsActionPressed("player_move_down");
 
-        var snap = Vector2.Down * 16;
+        _snap = Vector2.Down * 16;
 
+        // on a wall and falling
         if (_wallDir != 0 && IsFalling())
         {
             _velocity.y = 0;
@@ -88,6 +102,7 @@ public class Player : KinematicBody2D
             if (_inputDown)
                 _velocity.y += 50;
 
+            // wall jump
             if (_inputJump)
             {
                 _canHorzMove = false;
@@ -97,32 +112,31 @@ public class Player : KinematicBody2D
             }
         }
         
+        // not touching a wall
         if (_wallDir == 0)
         {
             _gravity = GRAVITY_AIR;
             
-            if (_inputJump && IsOnFloor())
+            if (_inputJump && IsOnGround())
             {
-                snap = Vector2.Zero;
-                _gameManager.Audio.PlaySFX("player_jump");
-                _velocity.y -= JUMP_FORCE;
+                Jump();
             }
         }
 
-        if (_wallDir != 0 && IsOnFloor())
+        // touching a wall but while touching the ground
+        if (_wallDir != 0)
         {
-            if (_inputJump && IsOnFloor())
+            if (_inputJump && IsOnGround())
             {
-                snap = Vector2.Zero;
-                _gameManager.Audio.PlaySFX("player_jump");
-                _velocity.y -= JUMP_FORCE;
+                Jump();
             }
         }
 
+        // apply gravity
         _velocity.y += _gravity * delta;
         
         if (_canHorzMove)
-            if (IsOnFloor())
+            if (IsOnGround())
                 _velocity.x += _horzMoveDir * SPEED_GROUND;
             else
                 _velocity.x += _horzMoveDir * SPEED_AIR;
@@ -130,14 +144,9 @@ public class Player : KinematicBody2D
         _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
         _velocity.y = Mathf.Clamp(_velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
 
-        if (IsOnFloor())
+        if (IsOnGround())
         {
-            if (_velocity.x >= -2 && _velocity.x <= 2)
-                _velocity.x = 0;
-            else if (_velocity.x > 2)
-                _velocity.x -= 5;
-            else if (_velocity.x < 2)
-                _velocity.x += 5;
+            HorzDampening(5, 2);
         }
 
         if (_inputDash && _dashReady)
@@ -147,7 +156,33 @@ public class Player : KinematicBody2D
             _velocity += _velocity * 10;
         }
 
-        _velocity = MoveAndSlideWithSnap(_velocity, snap, new Vector2(0, -1));
+        _velocity = MoveAndSlide(_velocity, Vector2.Up);
+    }
+
+    private void HorzDampening(int dampening, int deadzone)
+    {
+        if (_velocity.x >= -deadzone && _velocity.x <= deadzone)
+            _velocity.x = 0;
+        else if (_velocity.x > deadzone)
+            _velocity.x -= dampening;
+        else if (_velocity.x < deadzone)
+            _velocity.x += dampening;
+    }
+
+    private void Jump()
+    {
+        _snap = Vector2.Zero;
+        _gameManager.Audio.PlaySFX("player_jump");
+        _velocity.y -= JUMP_FORCE;
+    }
+
+    private bool IsOnGround() => _rayCast2DFloorCheck.IsColliding();
+    private bool IsOnSlope() 
+    {
+        if (_rayCast2DSlopeCheck.IsColliding())
+            return false;
+
+        return _rayCast2DSlopeCheck.GetCollisionNormal().Dot(Vector2.Up) < 1;
     }
 
     private bool IsFalling() => _velocity.y > 0;
@@ -155,12 +190,19 @@ public class Player : KinematicBody2D
     private void UpdateMoveDirection() =>
         _horzMoveDir = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
 
-    private void UpdateWallDirection() =>
-        _wallDir = -Convert.ToInt32(IsTouchingWallLeft()) + Convert.ToInt32(IsTouchingWallRight());
+    private void UpdateWallDirection() 
+    {
+        var left = IsTouchingWallLeft();
+        var right = IsTouchingWallRight();
+
+        _sprite.FlipH = right;
+
+        _wallDir = -Convert.ToInt32(left) + Convert.ToInt32(right);
+    }
 
     private bool IsTouchingWallLeft()
     {
-        foreach (var raycast in _wallChecksLeft)
+        foreach (var raycast in _rayCast2DWallChecksLeft) 
             if (raycast.IsColliding()) 
                 return true;
 
@@ -169,7 +211,7 @@ public class Player : KinematicBody2D
 
     private bool IsTouchingWallRight()
     {
-        foreach (var raycast in _wallChecksRight)
+        foreach (var raycast in _rayCast2DWallChecksRight)
             if (raycast.IsColliding())
                 return true;
 

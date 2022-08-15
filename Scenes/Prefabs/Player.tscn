@@ -11,38 +11,55 @@ extents = Vector2( 4.5, 5 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
-NodePathWallChecksLeft = NodePath("Wall Checks/Left")
-NodePathWallChecksRight = NodePath("Wall Checks/Right")
+NodePathRayCast2DWallChecksLeft = NodePath("Raycasts/Wall Checks/Left")
+NodePathRayCast2DWallChecksRight = NodePath("Raycasts/Wall Checks/Right")
+NodePathRayCast2DFloorCheck = NodePath("Raycasts/Floor/FloorCheck")
+NodePathRayCast2DSlopeCheck = NodePath("Raycasts/Floor/SlopeCheck")
+NodePathSprite = NodePath("Sprite")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.5, 0 )
 shape = SubResource( 1 )
 
-[node name="Wall Checks" type="Node2D" parent="."]
+[node name="Raycasts" type="Node2D" parent="."]
 
-[node name="Left" type="Node2D" parent="Wall Checks"]
+[node name="Wall Checks" type="Node2D" parent="Raycasts"]
 
-[node name="RayCast2D" type="RayCast2D" parent="Wall Checks/Left"]
+[node name="Left" type="Node2D" parent="Raycasts/Wall Checks"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
 position = Vector2( -5, -3 )
 enabled = true
 cast_to = Vector2( -1, 0 )
 
-[node name="RayCast2D2" type="RayCast2D" parent="Wall Checks/Left"]
+[node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
 position = Vector2( -5, 4 )
 enabled = true
 cast_to = Vector2( -1, 0 )
 
-[node name="Right" type="Node2D" parent="Wall Checks"]
+[node name="Right" type="Node2D" parent="Raycasts/Wall Checks"]
 
-[node name="RayCast2D" type="RayCast2D" parent="Wall Checks/Right"]
+[node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
 position = Vector2( 4, -3 )
 enabled = true
 cast_to = Vector2( 1, 0 )
 
-[node name="RayCast2D2" type="RayCast2D" parent="Wall Checks/Right"]
+[node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
 position = Vector2( 4, 4 )
 enabled = true
 cast_to = Vector2( 1, 0 )
+
+[node name="Floor" type="Node2D" parent="Raycasts"]
+
+[node name="FloorCheck" type="RayCast2D" parent="Raycasts/Floor"]
+position = Vector2( 0, 5 )
+enabled = true
+cast_to = Vector2( 0, 1 )
+
+[node name="SlopeCheck" type="RayCast2D" parent="Raycasts/Floor"]
+position = Vector2( 0, 5 )
+enabled = true
+cast_to = Vector2( 0, 17 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
