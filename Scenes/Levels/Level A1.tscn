@@ -223,15 +223,18 @@ script = ExtResource( 3 )
 
 [node name="Coins" type="Node2D" parent="."]
 
-[node name="ColorRect" parent="." instance=ExtResource( 4 )]
+[node name="Moving Platform" parent="." instance=ExtResource( 4 )]
 position = Vector2( 154, -24 )
+z_index = 1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 108, -29 )
+position = Vector2( 107, -29 )
 
 [node name="Enemies" type="Node2D" parent="."]
+z_index = 1
 
 [node name="TileMap" type="TileMap" parent="."]
+z_index = 1
 tile_set = SubResource( 20 )
 cell_size = Vector2( 8, 8 )
 collision_layer = 3
