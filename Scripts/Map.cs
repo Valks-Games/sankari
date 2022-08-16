@@ -16,6 +16,7 @@ public class Map : Node
 
     private GameManager _gameManager;
     private LevelManager _levelManager;
+    private bool _loadingLevel;
 
     public void PreInit(GameManager gameManager) 
     {
@@ -80,11 +81,12 @@ public class Map : Node
         CheckMove("map_move_up", new Vector2(0, -16));
         CheckMove("map_move_down", new Vector2(0, 16));
 
-        if (Input.IsActionJustPressed("map_action"))
+        if (Input.IsActionJustPressed("map_action") && !_loadingLevel)
         {
             var id = GetCurrentTileId(_tileMapLevelIcons, _playerIcon.Position);
             if (id != -1)
             {
+                _loadingLevel = true;
                 await _gameManager.TransitionManager.AlphaToBlackAndBack();
 
                 _levelManager.LoadLevel();
