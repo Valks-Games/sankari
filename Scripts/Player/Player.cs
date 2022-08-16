@@ -68,13 +68,13 @@ public class Player : KinematicBody2D
         _parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
         _sprite = GetNode<Sprite>(NodePathSprite);
 
-        foreach (RayCast2D raycast in _parentWallChecksLeft.GetChildren()) 
+        foreach (RayCast2D raycast in _parentWallChecksLeft.GetChildren())
         {
             raycast.AddException(this);
             _rayCast2DWallChecksLeft.Add(raycast);
         }
 
-        foreach (RayCast2D raycast in _parentWallChecksRight.GetChildren()) 
+        foreach (RayCast2D raycast in _parentWallChecksRight.GetChildren())
         {
             raycast.AddException(this);
             _rayCast2DWallChecksRight.Add(raycast);
@@ -91,7 +91,7 @@ public class Player : KinematicBody2D
         HandleMovement(delta);
     }
 
-    private void HandleMovement(float delta) 
+    private void HandleMovement(float delta)
     {
         _inputJump = Input.IsActionJustPressed("player_jump");
         _inputDash = Input.IsActionJustPressed("player_dash");
@@ -100,60 +100,57 @@ public class Player : KinematicBody2D
         _snap = Vector2.Down * 16;
 
         // on a wall and falling
-        if (_wallDir != 0 && IsFalling())
+        if (_wallDir != 0)
         {
-            _velocity.y = 0;
-            _gravity = GRAVITY_WALL;
-
-            if (_inputDown)
-                _velocity.y += 50;
-
-            // wall jump
-            if (_inputJump)
+            if (IsFalling())
             {
-                _canHorzMove = false;
-                _preventHorzMovementAfterJump.Start();
-                _velocity.x += -JUMP_FORCE_WALL_HORZ * _wallDir;
-                _velocity.y -= JUMP_FORCE_WALL_VERT;
+                _velocity.y = 0;
+                _gravity = GRAVITY_WALL;
+
+                if (_inputDown)
+                    _velocity.y += 50;
+
+                // wall jump
+                if (_inputJump)
+                {
+                    _canHorzMove = false;
+                    _preventHorzMovementAfterJump.Start();
+                    _velocity.x += -JUMP_FORCE_WALL_HORZ * _wallDir;
+                    _velocity.y -= JUMP_FORCE_WALL_VERT;
+                }
             }
-        }
-        
-        // not touching a wall
-        if (_wallDir == 0)
-        {
+
+            // touching a wall but while touching the ground
+            if (_inputJump && IsOnGround())
+            {
+                Jump();
+            }
+        } else { 
+            // not touching a wall
             _gravity = GRAVITY_AIR;
-            
+
             if (_inputJump && IsOnGround())
             {
                 Jump();
             }
         }
 
-        if (_currentlyDashing) 
+        if (_currentlyDashing)
         {
             _velocity.x += 200;
             _velocity.y = 0;
             _gravity = 0;
         }
 
-        // touching a wall but while touching the ground
-        if (_wallDir != 0)
-        {
-            if (_inputJump && IsOnGround())
-            {
-                Jump();
-            }
-        }
-
         // apply gravity
         _velocity.y += _gravity * delta;
-        
+
         if (_canHorzMove)
             if (IsOnGround())
                 _velocity.x += _horzMoveDir * SPEED_GROUND;
             else
                 _velocity.x += _horzMoveDir * SPEED_AIR;
-            
+
         _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
         _velocity.y = Mathf.Clamp(_velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
 
@@ -191,7 +188,7 @@ public class Player : KinematicBody2D
     }
 
     private bool IsOnGround() => _rayCast2DFloorCheck.IsColliding();
-    private bool IsOnSlope() 
+    private bool IsOnSlope()
     {
         if (_rayCast2DSlopeCheck.IsColliding())
             return false;
@@ -204,7 +201,7 @@ public class Player : KinematicBody2D
     private void UpdateMoveDirection() =>
         _horzMoveDir = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
 
-    private void UpdateWallDirection() 
+    private void UpdateWallDirection()
     {
         var left = IsTouchingWallLeft();
         var right = IsTouchingWallRight();
@@ -216,8 +213,8 @@ public class Player : KinematicBody2D
 
     private bool IsTouchingWallLeft()
     {
-        foreach (var raycast in _rayCast2DWallChecksLeft) 
-            if (raycast.IsColliding()) 
+        foreach (var raycast in _rayCast2DWallChecksLeft)
+            if (raycast.IsColliding())
                 return true;
 
         return false;
@@ -250,7 +247,7 @@ public class Player : KinematicBody2D
         if (_haltPlayerLogic)
             return;
 
-        if (area.IsInGroup("Killzone")) 
+        if (area.IsInGroup("Killzone"))
         {
             await Died();
             return;
@@ -264,7 +261,7 @@ public class Player : KinematicBody2D
             return;
         }
 
-        if (area.IsInGroup("Enemy")) 
+        if (area.IsInGroup("Enemy"))
         {
             await Died();
             return;
