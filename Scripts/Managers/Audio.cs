@@ -5,14 +5,15 @@ public class Audio
     private Dictionary<string, AudioStream> _sfx = new();
     private Dictionary<string, AudioStream> _music = new();
 
-    private AudioStreamPlayer _sfxPlayer;
-    private AudioStreamPlayer _musicPlayer;
+    private GAudioStreamPlayer _sfxPlayer;
+    private GAudioStreamPlayer _musicPlayer;
     private float _lastPitch;
 
-    public Audio(AudioStreamPlayer sfxPlayer, AudioStreamPlayer musicPlayer) 
+    public Audio(GAudioStreamPlayer sfxPlayer, GAudioStreamPlayer musicPlayer) 
     {
         _sfxPlayer = sfxPlayer;
         _musicPlayer = musicPlayer;
+        _musicPlayer.Volume = 80;
 
         LoadSoundEffects();
         LoadSoundTracks();
@@ -34,7 +35,7 @@ public class Audio
         
         _lastPitch = pitchScale;
 
-        _sfxPlayer.PitchScale = pitchScale;
+        _sfxPlayer.Pitch = pitchScale;
         _sfxPlayer.Play();
     }
 
@@ -46,7 +47,7 @@ public class Audio
         }
 
         _musicPlayer.Stream = _music[name];
-        _musicPlayer.PitchScale = pitch;
+        _musicPlayer.Pitch = pitch;
         _musicPlayer.Play();
     }
     

@@ -26,7 +26,7 @@ public class GameManager : Node
     {
         _map = GetNode<Node>("Map");
 
-        Audio = new Audio(GetNode<AudioStreamPlayer>("SFX"), GetNode<AudioStreamPlayer>("Music"));
+        Audio = new Audio(new GAudioStreamPlayer(this), new GAudioStreamPlayer(this));
         LevelManager = new LevelManager(this, GetNode<Node>("Level"));
         TransitionManager = GetNode<TransitionManager>(NodePathTransition);
 

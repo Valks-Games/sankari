@@ -15,7 +15,8 @@ NodePathTransition = NodePath("CanvasLayer/Transition")
 pitch_scale = 0.7
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-volume_db = -5.0
+volume_db = -0.478
+pitch_scale = 0.97
 autoplay = true
 
 [node name="SFX" type="AudioStreamPlayer" parent="."]
