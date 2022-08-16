@@ -19,7 +19,7 @@ public class Player : KinematicBody2D
     private const int JUMP_FORCE_WALL_VERT = 150;
     private const int JUMP_FORCE_WALL_HORZ = 75;
     private const int DASH_COOLDOWN = 1000;
-    private const int DASH_DURATION = 500;
+    private const int DASH_DURATION = 200;
     private const int PREVENT_HORZ_MOVEMENT_AFTER_WALL_JUMP_DURATION = 200;
 
     private GameManager _gameManager;
@@ -45,7 +45,6 @@ public class Player : KinematicBody2D
     private int _horzMoveDir;
     private int _wallDir;
     private float _gravity = GRAVITY_AIR;
-    private Vector2 _snap;
     private Sprite _sprite;
 
     public void PreInit(GameManager gameManager)
@@ -97,8 +96,6 @@ public class Player : KinematicBody2D
         _inputDash = Input.IsActionJustPressed("player_dash");
         _inputDown = Input.IsActionPressed("player_move_down");
 
-        _snap = Vector2.Down * 16;
-
         // on a wall and falling
         if (_wallDir != 0)
         {
@@ -119,46 +116,12 @@ public class Player : KinematicBody2D
                     _velocity.y -= JUMP_FORCE_WALL_VERT;
                 }
             }
-
-            // touching a wall but while touching the ground
-            if (_inputJump && IsOnGround())
-            {
-                Jump();
-            }
-        } else { 
-            // not touching a wall
-            _gravity = GRAVITY_AIR;
-
-            if (_inputJump && IsOnGround())
-            {
-                Jump();
-            }
         }
 
-        if (_currentlyDashing)
-        {
-            _velocity.x += 200;
-            _velocity.y = 0;
-            _gravity = 0;
-        }
+        if (_inputJump && IsOnFloor())
+            Jump();
 
-        // apply gravity
-        _velocity.y += _gravity * delta;
-
-        if (_canHorzMove)
-            if (IsOnGround())
-                _velocity.x += _horzMoveDir * SPEED_GROUND;
-            else
-                _velocity.x += _horzMoveDir * SPEED_AIR;
-
-        _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
-        _velocity.y = Mathf.Clamp(_velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
-
-        if (IsOnGround())
-        {
-            HorzDampening(5, 2);
-        }
-
+        // dash
         if (_inputDash && _dashReady)
         {
             _dashReady = false;
@@ -166,6 +129,32 @@ public class Player : KinematicBody2D
             _timerDashDuration.Start();
             _timerDashCooldown.Start();
         }
+
+        if (_currentlyDashing)
+        {
+            _velocity.x = 0;
+            _velocity.y = -100;
+            _gravity = 0;
+        }
+        else
+            _gravity = GRAVITY_AIR;
+
+        // apply gravity
+        _velocity.y += _gravity * delta;
+
+        if (_canHorzMove)
+            if (IsOnGround()) 
+            {
+                _velocity.x += _horzMoveDir * SPEED_GROUND;
+                HorzDampening(5, 2);
+            }
+            else 
+            {
+                _velocity.x += _horzMoveDir * SPEED_AIR;
+            }
+
+        _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
+        _velocity.y = Mathf.Clamp(_velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
 
         _velocity = MoveAndSlide(_velocity, Vector2.Up);
     }
@@ -182,7 +171,6 @@ public class Player : KinematicBody2D
 
     private void Jump()
     {
-        _snap = Vector2.Zero;
         _gameManager.Audio.PlaySFX("player_jump");
         _velocity.y -= JUMP_FORCE;
     }
