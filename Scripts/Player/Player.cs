@@ -18,6 +18,9 @@ public class Player : KinematicBody2D
     private const int JUMP_FORCE = 150;
     private const int JUMP_FORCE_WALL_VERT = 150;
     private const int JUMP_FORCE_WALL_HORZ = 75;
+    private const int DASH_COOLDOWN = 1000;
+    private const int DASH_DURATION = 500;
+    private const int PREVENT_HORZ_MOVEMENT_AFTER_WALL_JUMP_DURATION = 200;
 
     private GameManager _gameManager;
     private LevelManager _levelManager;
@@ -26,10 +29,12 @@ public class Player : KinematicBody2D
     private bool _inputDash;
     private bool _inputDown;
     private bool _dashReady = true;
+    private bool _currentlyDashing;
     private bool _canHorzMove = true;
     private Vector2 _levelStartPos;
     private bool _haltPlayerLogic;
-    private GTimer _dashTimer;
+    private GTimer _timerDashCooldown;
+    private GTimer _timerDashDuration;
     private GTimer _preventHorzMovementAfterJump;
     private Node2D _parentWallChecksLeft;
     private Node2D _parentWallChecksRight;
@@ -52,8 +57,9 @@ public class Player : KinematicBody2D
     public override void _Ready()
     {
         _levelStartPos = Position;
-        _dashTimer = new GTimer(this, nameof(OnDashReady), 1000, false, false);
-        _preventHorzMovementAfterJump = new GTimer(this, nameof(OnPreventHorzDone), 200, false, false);
+        _timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
+        _timerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DASH_DURATION, false, false);
+        _preventHorzMovementAfterJump = new GTimer(this, nameof(OnPreventHorzDone), PREVENT_HORZ_MOVEMENT_AFTER_WALL_JUMP_DURATION, false, false);
         _rayCast2DFloorCheck = GetNode<RayCast2D>(NodePathRayCast2DFloorCheck);
         _rayCast2DFloorCheck.AddException(this);
         _rayCast2DSlopeCheck = GetNode<RayCast2D>(NodePathRayCast2DSlopeCheck);
@@ -123,6 +129,13 @@ public class Player : KinematicBody2D
             }
         }
 
+        if (_currentlyDashing) 
+        {
+            _velocity.x += 200;
+            _velocity.y = 0;
+            _gravity = 0;
+        }
+
         // touching a wall but while touching the ground
         if (_wallDir != 0)
         {
@@ -152,8 +165,9 @@ public class Player : KinematicBody2D
         if (_inputDash && _dashReady)
         {
             _dashReady = false;
-            _dashTimer.Start();
-            _velocity += _velocity * 10;
+            _currentlyDashing = true;
+            _timerDashDuration.Start();
+            _timerDashCooldown.Start();
         }
 
         _velocity = MoveAndSlide(_velocity, Vector2.Up);
@@ -229,6 +243,7 @@ public class Player : KinematicBody2D
 
     private void OnDashReady() => _dashReady = true;
     private void OnPreventHorzDone() => _canHorzMove = true;
+    private void OnDashDurationDone() => _currentlyDashing = false;
 
     private async void _on_Player_Area_area_entered(Area2D area)
     {
