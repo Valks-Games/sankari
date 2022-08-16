@@ -42,7 +42,7 @@ public class Player : KinematicBody2D
     private List<RayCast2D> _rayCast2DWallChecksRight = new();
     private RayCast2D _rayCast2DFloorCheck;
     private RayCast2D _rayCast2DSlopeCheck;
-    private int _horzMoveDir;
+    private Vector2 _moveDir;
     private int _wallDir;
     private float _gravity = GRAVITY_AIR;
     private Sprite _sprite;
@@ -129,11 +129,14 @@ public class Player : KinematicBody2D
             _timerDashDuration.Start();
             _timerDashCooldown.Start();
         }
-
+        
         if (_currentlyDashing)
         {
-            _velocity.x = 0;
-            _velocity.y = -100;
+            var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
+            sprite.GlobalPosition = GlobalPosition;
+            GetTree().Root.AddChild(sprite);
+
+            _velocity += _moveDir * 1000;
             _gravity = 0;
         }
         else
@@ -145,12 +148,12 @@ public class Player : KinematicBody2D
         if (_canHorzMove)
             if (IsOnGround()) 
             {
-                _velocity.x += _horzMoveDir * SPEED_GROUND;
+                _velocity.x += _moveDir.x * SPEED_GROUND;
                 HorzDampening(5, 2);
             }
             else 
             {
-                _velocity.x += _horzMoveDir * SPEED_AIR;
+                _velocity.x += _moveDir.x * SPEED_AIR;
             }
 
         _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
@@ -186,8 +189,12 @@ public class Player : KinematicBody2D
 
     private bool IsFalling() => _velocity.y > 0;
 
-    private void UpdateMoveDirection() =>
-        _horzMoveDir = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
+    private void UpdateMoveDirection() 
+    {
+        _moveDir.x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
+        _moveDir.y = Input.IsActionPressed("player_jump") ? 1 : 0;
+    }
+        
 
     private void UpdateWallDirection()
     {

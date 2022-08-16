@@ -41,6 +41,12 @@ public class Audio
 
     public void PlayMusic(string name, float pitch = 1) 
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            // This level does not have any music set
+            return;
+        }
+
         if (!_music.ContainsKey(name)) 
         {
             Logger.LogWarning($"The music track for '{name}' does not exist");
