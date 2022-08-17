@@ -1,5 +1,5 @@
 ## About
-Sankari is a non-profit F2P 2D Platformer about a hero whose village gets raided and they go on a journey to free back the villagers that were captured and defeat the evil king. 
+Sankari is a non-profit F2P 2D Platformer about a hero whose village gets raided by the evil king. The hero goes on a journey to free back the villagers that were captured and defeat the evil king. 
 
 ## Contributing
 I am looking for C# programmers to help peer-review my code and expand on new gameplay mechanics like moving platforms, new enemies and player abilities. If this interests you send me a DM over Discord (valk#9904) or join the [Sankari Discord](https://discord.gg/5frafxrwwd) and send a message there.
