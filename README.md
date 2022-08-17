@@ -1,3 +1,4 @@
+## About
 Sankari is a non-profit F2P 2D Platformer about a hero whose village gets raided and they go on a journey to free back the villagers that were captured and defeat the evil king. 
 
 ## Contributing
