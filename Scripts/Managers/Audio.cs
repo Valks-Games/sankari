@@ -13,7 +13,8 @@ public class Audio
     {
         _sfxPlayer = sfxPlayer;
         _musicPlayer = musicPlayer;
-        _musicPlayer.Volume = 80;
+        _musicPlayer.Volume = 100;
+        _sfxPlayer.Volume = 80;
 
         LoadSoundEffects();
         LoadSoundTracks();

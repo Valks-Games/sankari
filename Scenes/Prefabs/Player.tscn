@@ -10,6 +10,7 @@ extents = Vector2( 4.5, 5 )
 extents = Vector2( 4.5, 5 )
 
 [node name="Player" type="KinematicBody2D"]
+z_index = 1
 script = ExtResource( 2 )
 NodePathRayCast2DWallChecksLeft = NodePath("Raycasts/Wall Checks/Left")
 NodePathRayCast2DWallChecksRight = NodePath("Raycasts/Wall Checks/Right")
