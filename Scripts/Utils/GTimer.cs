@@ -1,6 +1,6 @@
 using Timer = Godot.Timer;
 
-namespace MarioLikeGame;
+namespace Sankari;
 
 public class GTimer
 {

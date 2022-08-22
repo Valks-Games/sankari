@@ -1,4 +1,4 @@
-namespace MarioLikeGame;
+namespace Sankari;
 
 public class MovingPlatform : KinematicBody2D
 {
