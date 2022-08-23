@@ -127,7 +127,7 @@ public class Player : KinematicBody2D
             Jump();
 
         // dash
-        if (_inputDash && _dashReady && _hasTouchedGroundAfterDash)
+        if (_inputDash && _dashReady && _hasTouchedGroundAfterDash && !_currentlyDashing)
         {
             _dashReady = false;
             _currentlyDashing = true;
