@@ -19,7 +19,7 @@ public class Player : KinematicBody2D
     private const int JUMP_FORCE = 150;
     private const int JUMP_FORCE_WALL_VERT = 150;
     private const int JUMP_FORCE_WALL_HORZ = 75;
-    private const int DASH_COOLDOWN = 1000;
+    private const int DASH_COOLDOWN = 500;
     private const int DASH_DURATION = 200;
     private const int PREVENT_HORZ_MOVEMENT_AFTER_WALL_JUMP_DURATION = 200;
 
