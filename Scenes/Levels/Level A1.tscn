@@ -484,6 +484,17 @@ script = ExtResource( 3 )
 position = Vector2( 47, 80 )
 z_index = 1
 
+[node name="Target" parent="Moving Platform" index="2"]
+position = Vector2( 66, -61 )
+
+[node name="Moving Platform2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 129, 18 )
+z_index = 1
+StartDelay = 3
+
+[node name="Target" parent="Moving Platform2" index="2"]
+position = Vector2( 125, 0 )
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 27, 120 )
 
@@ -511,3 +522,6 @@ shape = SubResource( 5 )
 [node name="Camera" parent="." instance=ExtResource( 12 )]
 limit_left = 16
 limit_right = 752
+
+[editable path="Moving Platform"]
+[editable path="Moving Platform2"]
