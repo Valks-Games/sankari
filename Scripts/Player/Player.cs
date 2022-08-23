@@ -90,6 +90,8 @@ public class Player : KinematicBody2D
         HandleMovement(delta);
     }
 
+    private Vector2 _dashDir;
+
     private void HandleMovement(float delta)
     {
         _inputJump = Input.IsActionJustPressed("player_jump");
@@ -128,6 +130,19 @@ public class Player : KinematicBody2D
             _currentlyDashing = true;
             _timerDashDuration.Start();
             _timerDashCooldown.Start();
+
+            // determine dash direction
+            var input_up = Input.IsActionPressed("player_move_up");
+            if (input_up && _moveDir.x < 0)
+                _dashDir = new Vector2(-1, -1);
+            else if (input_up && _moveDir.x > 0)
+                _dashDir = new Vector2(1, -1);
+            else if (input_up)
+                _dashDir = new Vector2(0, -1);
+            else if (_moveDir.x < 0)
+                _dashDir = new Vector2(-1, 0);
+            else if (_moveDir.x > 0)
+                _dashDir = new Vector2(1, 0);
         }
         
         if (_currentlyDashing)
@@ -136,7 +151,7 @@ public class Player : KinematicBody2D
             sprite.GlobalPosition = GlobalPosition;
             GetTree().Root.AddChild(sprite);
 
-            _velocity += _moveDir * 1000;
+            _velocity = _dashDir * 100;
             _gravity = 0;
         }
         else
