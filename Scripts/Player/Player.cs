@@ -12,9 +12,10 @@ public class Player : KinematicBody2D
     private const int SPEED_AIR = 1;
     private const int SPEED_MAX_GROUND = 75;
     private const int SPEED_MAX_AIR = 225;
+    private const int SPEED_DASH_VERTICAL = 100;
+    private const int SPEED_DASH_HORIZONTAL = 150;
     private const int GRAVITY_AIR = 350;
     private const int GRAVITY_WALL = 750;
-    private const int GRAVITY_SLOPE = 1300;
     private const int JUMP_FORCE = 150;
     private const int JUMP_FORCE_WALL_VERT = 150;
     private const int JUMP_FORCE_WALL_HORZ = 75;
@@ -167,10 +168,10 @@ public class Player : KinematicBody2D
             sprite.GlobalPosition = GlobalPosition;
             GetTree().Root.AddChild(sprite);
 
-            var dashSpeed = 100;
+            var dashSpeed = SPEED_DASH_VERTICAL;
 
             if (_horizontalDash)
-                dashSpeed = 150;
+                dashSpeed = SPEED_DASH_HORIZONTAL;
             
             _velocity = _dashDir * dashSpeed;
             _gravity = 0;
