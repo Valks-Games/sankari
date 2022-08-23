@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Sprites/Tilesets/sprite_sheet_1.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scripts/LevelScene.cs" type="Script" id=3]
+[ext_resource path="res://Scripts/Level/LevelScene.cs" type="Script" id=3]
 [ext_resource path="res://Sprites/Parallax Backgrounds/Winter Landscape/reduced/landscape_0003_4_mountain.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Animated Tiles/water/water_top/AnimatedWaterTop.tres" type="Texture" id=5]
 [ext_resource path="res://Scenes/Prefabs/Camera.tscn" type="PackedScene" id=7]
