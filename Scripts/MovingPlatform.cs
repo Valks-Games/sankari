@@ -15,6 +15,7 @@ public class MovingPlatform : KinematicBody2D
         (
             Position, 
             GetNode<Position2D>("Target").GlobalPosition, 
+            GetNode<Sprite>("Sprite").GetRect().Size.x,
             Duration, 
             StartDelay, 
             TransitionType, 
