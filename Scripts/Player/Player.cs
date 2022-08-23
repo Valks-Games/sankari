@@ -93,6 +93,7 @@ public class Player : KinematicBody2D
 
     private Vector2 _dashDir;
     private bool _horizontalDash;
+    private bool _hasTouchedGroundAfterDash = true;
 
     private void HandleMovement(float delta)
     {
@@ -126,7 +127,7 @@ public class Player : KinematicBody2D
             Jump();
 
         // dash
-        if (_inputDash && _dashReady)
+        if (_inputDash && _dashReady && _hasTouchedGroundAfterDash)
         {
             _dashReady = false;
             _currentlyDashing = true;
@@ -175,6 +176,7 @@ public class Player : KinematicBody2D
             
             _velocity = _dashDir * dashSpeed;
             _gravity = 0;
+            _hasTouchedGroundAfterDash = false;
         }
         else
             _gravity = GRAVITY_AIR;
@@ -185,6 +187,7 @@ public class Player : KinematicBody2D
         if (_canHorzMove)
             if (IsOnGround()) 
             {
+                _hasTouchedGroundAfterDash = true;
                 _velocity.x += _moveDir.x * SPEED_GROUND;
                 HorzDampening(5, 2);
             }
