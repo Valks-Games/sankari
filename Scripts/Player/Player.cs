@@ -91,6 +91,7 @@ public class Player : KinematicBody2D
     }
 
     private Vector2 _dashDir;
+    private bool _horizontalDash;
 
     private void HandleMovement(float delta)
     {
@@ -133,16 +134,31 @@ public class Player : KinematicBody2D
 
             // determine dash direction
             var input_up = Input.IsActionPressed("player_move_up");
-            if (input_up && _moveDir.x < 0)
+            if (input_up && _moveDir.x < 0) 
+            {
+                _horizontalDash = false;
                 _dashDir = new Vector2(-1, -1);
-            else if (input_up && _moveDir.x > 0)
+            }
+            else if (input_up && _moveDir.x > 0) 
+            {
+                _horizontalDash = false;
                 _dashDir = new Vector2(1, -1);
-            else if (input_up)
+            }
+            else if (input_up) 
+            {
+                _horizontalDash = false;
                 _dashDir = new Vector2(0, -1);
-            else if (_moveDir.x < 0)
+            }
+            else if (_moveDir.x < 0) 
+            {
+                _horizontalDash = true;
                 _dashDir = new Vector2(-1, 0);
-            else if (_moveDir.x > 0)
+            }
+            else if (_moveDir.x > 0) 
+            {
+                _horizontalDash = true;
                 _dashDir = new Vector2(1, 0);
+            }
         }
         
         if (_currentlyDashing)
@@ -151,7 +167,12 @@ public class Player : KinematicBody2D
             sprite.GlobalPosition = GlobalPosition;
             GetTree().Root.AddChild(sprite);
 
-            _velocity = _dashDir * 100;
+            var dashSpeed = 100;
+
+            if (_horizontalDash)
+                dashSpeed = 150;
+            
+            _velocity = _dashDir * dashSpeed;
             _gravity = 0;
         }
         else
@@ -171,8 +192,11 @@ public class Player : KinematicBody2D
                 _velocity.x += _moveDir.x * SPEED_AIR;
             }
 
-        _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
-        _velocity.y = Mathf.Clamp(_velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
+        if (!_currentlyDashing) 
+        {
+            _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
+            _velocity.y = Mathf.Clamp(_velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
+        }
 
         _velocity = MoveAndSlide(_velocity, Vector2.Up);
     }
