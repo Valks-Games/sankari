@@ -1,0 +1,119 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Themes/Main.tres" type="Theme" id=1]
+[ext_resource path="res://Scripts/UI/UIMenu.cs" type="Script" id=2]
+[ext_resource path="res://Themes/Button New/Large.tres" type="Theme" id=4]
+[ext_resource path="res://Themes/Button New/Medium.tres" type="Theme" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+
+[node name="Menu" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Left Sidebar" type="MarginContainer" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -26.0
+margin_right = 249.0
+margin_bottom = 26.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 0
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Left Sidebar"]
+margin_left = 50.0
+margin_right = 199.0
+margin_bottom = 52.0
+theme = ExtResource( 4 )
+
+[node name="Play" type="Button" parent="Left Sidebar/VBoxContainer"]
+margin_right = 149.0
+margin_bottom = 52.0
+focus_neighbour_right = NodePath("../../../Right Sidebar/VBoxContainer/Options")
+text = "Play"
+
+[node name="Right Sidebar" type="MarginContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -212.0
+margin_top = -102.0
+margin_bottom = 102.0
+theme = ExtResource( 5 )
+custom_constants/margin_right = 50
+custom_constants/margin_top = 0
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Right Sidebar"]
+margin_left = 50.0
+margin_right = 162.0
+margin_bottom = 204.0
+theme = ExtResource( 5 )
+
+[node name="Options" type="Button" parent="Right Sidebar/VBoxContainer"]
+margin_right = 112.0
+margin_bottom = 48.0
+text = "Options"
+
+[node name="Mods" type="Button" parent="Right Sidebar/VBoxContainer"]
+margin_top = 52.0
+margin_right = 112.0
+margin_bottom = 100.0
+text = "Mods"
+
+[node name="Credits" type="Button" parent="Right Sidebar/VBoxContainer"]
+margin_top = 104.0
+margin_right = 112.0
+margin_bottom = 152.0
+text = "Credits"
+
+[node name="Quit" type="Button" parent="Right Sidebar/VBoxContainer"]
+margin_top = 156.0
+margin_right = 112.0
+margin_bottom = 204.0
+focus_neighbour_left = NodePath("../../../Left Sidebar/VBoxContainer/Play")
+text = "Quit"
+
+[node name="Social Links" type="MarginContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -35.0
+margin_right = 127.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 0
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Social Links"]
+margin_left = 10.0
+margin_right = 117.0
+margin_bottom = 35.0
+
+[node name="Discord" type="Button" parent="Social Links/HBoxContainer"]
+margin_right = 53.0
+margin_bottom = 35.0
+text = "Discord"
+flat = true
+
+[node name="GitHub" type="Button" parent="Social Links/HBoxContainer"]
+margin_left = 57.0
+margin_right = 107.0
+margin_bottom = 35.0
+text = "GitHub"
+flat = true
+
+[connection signal="pressed" from="Left Sidebar/VBoxContainer/Play" to="." method="_on_Play_pressed"]
+[connection signal="pressed" from="Right Sidebar/VBoxContainer/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="Right Sidebar/VBoxContainer/Mods" to="." method="_on_Mods_pressed"]
+[connection signal="pressed" from="Right Sidebar/VBoxContainer/Credits" to="." method="_on_Credits_pressed"]
+[connection signal="pressed" from="Right Sidebar/VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="Social Links/HBoxContainer/Discord" to="." method="_on_Discord_pressed"]
+[connection signal="pressed" from="Social Links/HBoxContainer/GitHub" to="." method="_on_GitHub_pressed"]

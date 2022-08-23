@@ -1,0 +1,18 @@
+[gd_resource type="Theme" load_steps=6 format=2]
+
+[ext_resource path="res://Themes/Fonts/Large.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Themes/Button New/Normal.tres" type="StyleBox" id=2]
+[ext_resource path="res://Themes/Button New/Hover.tres" type="StyleBox" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.6, 0.6, 0.6, 0.0588235 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.6, 0.6, 0.6, 0.235294 )
+
+[resource]
+Button/fonts/font = ExtResource( 1 )
+Button/styles/focus = SubResource( 1 )
+Button/styles/hover = ExtResource( 3 )
+Button/styles/normal = ExtResource( 2 )
+Button/styles/pressed = SubResource( 2 )

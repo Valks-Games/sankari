@@ -21,16 +21,19 @@ public class GameManager : Node
     public Audio Audio { get; private set; }
 
     private Node _map;
+    private UIMenu _menu;
 
     public override void _Ready()
     {
         _map = GetNode<Node>("Map");
+        _menu = GetNode<UIMenu>("CanvasLayer/Menu");
+        _menu.PreInit(this);
 
         Audio = new Audio(new GAudioStreamPlayer(this), new GAudioStreamPlayer(this));
         LevelManager = new LevelManager(this, GetNode<Node>("Level"));
         TransitionManager = GetNode<TransitionManager>(NodePathTransition);
 
-        LoadMap();
+        //LoadMap();
     }
 
     public override void _Process(float delta)

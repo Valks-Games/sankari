@@ -1,0 +1,124 @@
+[gd_resource type="Theme" load_steps=19 format=2]
+
+[ext_resource path="res://Themes/Fonts/Roboto.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Themes/Button Old/Btn_Hover.tres" type="StyleBox" id=2]
+[ext_resource path="res://Themes/Button Old/Btn_Pressed.tres" type="StyleBox" id=3]
+[ext_resource path="res://Themes/Button Old/Btn_Disabled.tres" type="StyleBox" id=4]
+[ext_resource path="res://Themes/Button Old/Btn_Focus.tres" type="StyleBox" id=5]
+[ext_resource path="res://Themes/Button Old/Btn_Normal.tres" type="StyleBox" id=6]
+[ext_resource path="res://Themes/Slider/Slider_Grabber_Area.tres" type="StyleBox" id=7]
+[ext_resource path="res://Themes/TextEdit/TextEdit_Normal.tres" type="StyleBox" id=8]
+[ext_resource path="res://Themes/LineEdit/LineEdit_Normal.tres" type="StyleBox" id=9]
+[ext_resource path="res://Themes/ScrollBar/ScrollBar_Grabber.tres" type="StyleBox" id=10]
+
+[sub_resource type="StyleBoxFlat" id=5]
+border_width_top = 2
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.164706, 0.164706, 0.164706, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 1, 0.619608, 0.976471, 1 )
+border_blend = true
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.188235, 0.188235, 0.188235, 1 )
+shadow_color = Color( 0.184314, 0.184314, 0.184314, 0.486275 )
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.141176, 0.141176, 0.141176, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.8, 0.8, 0.8, 0 )
+expand_margin_left = 3.0
+expand_margin_right = 3.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.992157, 0.709804, 1, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.8, 0.8, 0.8, 0 )
+expand_margin_left = 3.0
+expand_margin_right = 3.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.0862745, 0.0862745, 0.0862745, 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color( 0.109804, 0.109804, 0.109804, 1 )
+expand_margin_left = 3.0
+expand_margin_right = 3.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=9]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color( 0.341176, 0.341176, 0.341176, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.231373, 0.231373, 0.231373, 1 )
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[resource]
+Button/fonts/font = ExtResource( 1 )
+Button/styles/disabled = ExtResource( 4 )
+Button/styles/focus = ExtResource( 5 )
+Button/styles/hover = ExtResource( 2 )
+Button/styles/normal = ExtResource( 6 )
+Button/styles/pressed = ExtResource( 3 )
+HScrollBar/styles/grabber = ExtResource( 10 )
+HScrollBar/styles/scroll = SubResource( 5 )
+HSlider/styles/grabber_area = ExtResource( 7 )
+HSlider/styles/grabber_area_highlight = ExtResource( 7 )
+Label/fonts/font = ExtResource( 1 )
+LineEdit/styles/focus = SubResource( 6 )
+LineEdit/styles/normal = ExtResource( 9 )
+PanelContainer/styles/panel = SubResource( 1 )
+ProgressBar/styles/bg = SubResource( 10 )
+ProgressBar/styles/fg = SubResource( 11 )
+RichTextLabel/constants/line_separation = 4
+TabContainer/styles/panel = SubResource( 7 )
+TabContainer/styles/tab_bg = SubResource( 8 )
+TabContainer/styles/tab_fg = SubResource( 9 )
+TextEdit/colors/brace_mismatch_color = Color( 0.372549, 0.372549, 0.372549, 1 )
+TextEdit/colors/font_color = Color( 0.615686, 0.615686, 0.615686, 1 )
+TextEdit/colors/font_color_readonly = Color( 1, 1, 1, 1 )
+TextEdit/colors/font_color_selected = Color( 0.0901961, 0, 1, 1 )
+TextEdit/colors/function_color = Color( 0.968627, 0.721569, 1, 1 )
+TextEdit/colors/member_variable_color = Color( 1, 0.827451, 1, 1 )
+TextEdit/colors/number_color = Color( 1, 0.435294, 0.960784, 1 )
+TextEdit/colors/selection_color = Color( 0.278431, 0.164706, 0.294118, 1 )
+TextEdit/colors/symbol_color = Color( 0.392157, 0.392157, 0.392157, 1 )
+TextEdit/styles/focus = ExtResource( 8 )
+TextEdit/styles/normal = ExtResource( 8 )
+TextEdit/styles/read_only = ExtResource( 8 )
+VScrollBar/styles/grabber = ExtResource( 10 )
+VScrollBar/styles/scroll = SubResource( 5 )
