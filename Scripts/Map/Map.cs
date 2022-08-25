@@ -119,8 +119,8 @@ public class Map : Node
 
             var nextTilePos = _tileMapLevelIcons.WorldToMap(nextPos);
 
-            if (_levelManager.LevelPositions.ContainsKey(nextTilePos) && _levelManager.LevelPositions[nextTilePos].Locked)
-                return;
+            //if (_levelManager.LevelPositions.ContainsKey(nextTilePos) && _levelManager.LevelPositions[nextTilePos].Locked)
+             //   return;
 
             _playerIcon.Position = nextPos;
         }
