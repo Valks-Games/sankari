@@ -1,4 +1,6 @@
-## About
+![Discord](https://img.shields.io/discord/1005979449340211240?color=black&label=Sankari&logo=Discord&logoColor=white)
+
+## What is Sankari?
 Sankari is a non-profit F2P 2D Platformer about a hero whose village gets raided by the evil king. The hero goes on a journey to free back the villagers that were captured and defeat the evil king. 
 
 ## Contributing
