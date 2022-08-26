@@ -2,6 +2,8 @@ I am looking for C# programmers to help peer-review my code and expand on new ga
 
 [Issues for coders](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)  
 
+![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coder)
+
 ### VSCode
 Please use VSCode, using the built in Godot script editor with C# should be a crime.
 1. Install [VSCode](https://code.visualstudio.com)
