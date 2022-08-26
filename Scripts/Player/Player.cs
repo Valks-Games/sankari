@@ -129,54 +129,12 @@ public class Player : KinematicBody2D
         // dash
         if (_inputDash && _dashReady && _hasTouchedGroundAfterDash && !_currentlyDashing)
         {
-            _dashReady = false;
-            _currentlyDashing = true;
-            _timerDashDuration.Start();
-            _timerDashCooldown.Start();
-
-            // determine dash direction
-            var input_up = Input.IsActionPressed("player_move_up");
-            if (input_up && _moveDir.x < 0) 
-            {
-                _horizontalDash = false;
-                _dashDir = new Vector2(-1, -1);
-            }
-            else if (input_up && _moveDir.x > 0) 
-            {
-                _horizontalDash = false;
-                _dashDir = new Vector2(1, -1);
-            }
-            else if (input_up) 
-            {
-                _horizontalDash = false;
-                _dashDir = new Vector2(0, -1);
-            }
-            else if (_moveDir.x < 0) 
-            {
-                _horizontalDash = true;
-                _dashDir = new Vector2(-1, 0);
-            }
-            else if (_moveDir.x > 0) 
-            {
-                _horizontalDash = true;
-                _dashDir = new Vector2(1, 0);
-            }
+            HandleDash();
         }
-        
+
         if (_currentlyDashing)
         {
-            var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
-            sprite.GlobalPosition = GlobalPosition;
-            GetTree().Root.AddChild(sprite);
-
-            var dashSpeed = SPEED_DASH_VERTICAL;
-
-            if (_horizontalDash)
-                dashSpeed = SPEED_DASH_HORIZONTAL;
-            
-            _velocity = _dashDir * dashSpeed;
-            _gravity = 0;
-            _hasTouchedGroundAfterDash = false;
+            DoDashStuff();
         }
         else
             _gravity = GRAVITY_AIR;
@@ -185,24 +143,76 @@ public class Player : KinematicBody2D
         _velocity.y += _gravity * delta;
 
         if (_canHorzMove)
-            if (IsOnGround()) 
+            if (IsOnGround())
             {
                 _hasTouchedGroundAfterDash = true;
                 _velocity.x += _moveDir.x * SPEED_GROUND;
                 HorzDampening(5, 2);
             }
-            else 
+            else
             {
                 _velocity.x += _moveDir.x * SPEED_AIR;
             }
 
-        if (!_currentlyDashing) 
+        if (!_currentlyDashing)
         {
             _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
             _velocity.y = Mathf.Clamp(_velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
         }
 
         _velocity = MoveAndSlide(_velocity, Vector2.Up);
+    }
+
+    private void DoDashStuff()
+    {
+        var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
+        sprite.GlobalPosition = GlobalPosition;
+        GetTree().Root.AddChild(sprite);
+
+        var dashSpeed = SPEED_DASH_VERTICAL;
+
+        if (_horizontalDash)
+            dashSpeed = SPEED_DASH_HORIZONTAL;
+
+        _velocity = _dashDir * dashSpeed;
+        _gravity = 0;
+        _hasTouchedGroundAfterDash = false;
+    }
+
+    private void HandleDash()
+    {
+        _dashReady = false;
+        _currentlyDashing = true;
+        _timerDashDuration.Start();
+        _timerDashCooldown.Start();
+
+        // determine dash direction
+        var input_up = Input.IsActionPressed("player_move_up");
+        if (input_up && _moveDir.x < 0)
+        {
+            _horizontalDash = false;
+            _dashDir = new Vector2(-1, -1);
+        }
+        else if (input_up && _moveDir.x > 0)
+        {
+            _horizontalDash = false;
+            _dashDir = new Vector2(1, -1);
+        }
+        else if (input_up)
+        {
+            _horizontalDash = false;
+            _dashDir = new Vector2(0, -1);
+        }
+        else if (_moveDir.x < 0)
+        {
+            _horizontalDash = true;
+            _dashDir = new Vector2(-1, 0);
+        }
+        else if (_moveDir.x > 0)
+        {
+            _horizontalDash = true;
+            _dashDir = new Vector2(1, 0);
+        }
     }
 
     private void HorzDampening(int dampening, int deadzone)
@@ -232,12 +242,12 @@ public class Player : KinematicBody2D
 
     private bool IsFalling() => _velocity.y > 0;
 
-    private void UpdateMoveDirection() 
+    private void UpdateMoveDirection()
     {
         _moveDir.x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
         _moveDir.y = Input.IsActionPressed("player_jump") ? 1 : 0;
     }
-        
+
 
     private void UpdateWallDirection()
     {
