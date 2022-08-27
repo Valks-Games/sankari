@@ -2,7 +2,6 @@ namespace Sankari;
 
 public class LevelManager
 {
-    public Dictionary<Vector2, Level> LevelPositions = new();
     public Dictionary<string, Level> LevelNames = new();
 
     public Dictionary<string, PackedScene> Levels = new();
@@ -22,7 +21,23 @@ public class LevelManager
             if (!dir.CurrentIsDir())
                 Levels[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
         });
+
+        AddLevel("Level A1", "grassy_1", 0.9f, false);
+        AddLevel("Level A2", "grassy_2", 0.9f);
+
+        // unused
+        AddLevel("Level B1", "", 1, false);
+
+        // unused
+        AddLevel("Level C1", "", 1, false);
     }
+
+    private void AddLevel(string name, string music = "", float musicPitch = 1, bool locked = true) =>
+        LevelNames.Add(name, new Level(name) {
+            Locked = locked,
+            Music = music,
+            MusicPitch = musicPitch
+        });
 
     public void LoadLevel()
     {
@@ -76,6 +91,7 @@ public class Level
     public float MusicPitch { get; set; }
     public bool Locked { get; set; }
     public bool Completed { get; set; }
+    public Vector2 Position { get; set; }
     public List<string> Unlocks { get; set; }
 
     public Level(string name)

@@ -31,11 +31,9 @@ public class Map : Node
         _levels = GetNode<Node>(NodePathLevels);
         _playerIcon = GetNode<Sprite>(NodePathPlayerIcon);
 
-        foreach (var pos in _levelManager.LevelPositions.Keys) 
-        {
-            if (_levelManager.LevelPositions[pos].Completed)
-                _tileMapLevelIcons.SetCellv(pos, 1); // remember 1 is gray circle
-        }
+        foreach (var level in _levelManager.LevelNames.Values) 
+            if (level.Completed)
+                _tileMapLevelIcons.SetCellv(level.Position, 1); // remember 1 is gray circle
 
         if (HasMapLoadedBefore) 
         {
@@ -45,33 +43,18 @@ public class Map : Node
 
         HasMapLoadedBefore = true;
 
-        foreach (Area2D node in _levels.GetChildren())
+        foreach (Area2D levelArea in _levels.GetChildren())
         {
-            var worldPos = ((CollisionShape2D)node.GetChild(0)).Position;
+            var worldPos = ((CollisionShape2D)levelArea.GetChild(0)).Position;
             var tilePos = _tileMapLevelIcons.WorldToMap(worldPos);
 
-            _levelManager.LevelPositions.Add(tilePos, new Level(node.Name)
-            {
-                Locked = true
-            });
+            if (!_levelManager.LevelNames.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
+                _levelManager.LevelNames.Add(levelArea.Name, new Level(levelArea.Name) {
+                    Position = tilePos
+                });
+            else
+                _levelManager.LevelNames[levelArea.Name].Position = tilePos;
         }
-
-        foreach (var level in _levelManager.LevelPositions)
-        {
-            _levelManager.LevelNames.Add(level.Value.Name, level.Value);
-        }
-
-        var levelA1 = _levelManager.LevelNames["Level A1"];
-        levelA1.Locked = false;
-        levelA1.Music = "grassy_1";
-        levelA1.MusicPitch = 0.9f;
-
-        var levelA2 = _levelManager.LevelNames["Level A2"];
-        levelA2.Music = "grassy_2";
-        levelA2.MusicPitch = 0.9f;
-
-        _levelManager.LevelNames["Level B1"].Locked = false;
-        _levelManager.LevelNames["Level C1"].Locked = false;
     }
 
     public override async void _Input(InputEvent @event)
