@@ -13,5 +13,11 @@ Please use VSCode, using the built in Godot script editor with C# should be a cr
     - [MoonSharp Debug](https://marketplace.visualstudio.com/items?itemName=xanathar.moonsharp-debug) (only if debugging lua)
 3. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor` or simply click the `Open Godot Editor` button bottom right
 
+### GitHub
+1. Fork this repo
+2. Install [Git scm](https://git-scm.com/downloads)
+3. Clone your fork with `git clone https://github.com/<USERNAME>/Sankari` (replace `<USERNAME>` with your GitHub username)
+4. Push changes to your fork and fetch the upstream from the main repo all in vscode
+
 ### Code Style
 Please make use of the following [code style](https://github.com/GodotModules/GodotModulesCSharp/blob/main/.github/FORMATTING_GUIDELINES.md).
