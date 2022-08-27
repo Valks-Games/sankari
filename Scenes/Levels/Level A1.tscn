@@ -507,11 +507,15 @@ z_index = 1
 position = Vector2( 99, -42 )
 
 [node name="FollowPath" parent="Moving Platforms" instance=ExtResource( 7 )]
+position = Vector2( 43, -80 )
 
 [node name="Disappear" parent="Moving Platforms" instance=ExtResource( 5 )]
 position = Vector2( 210, 95 )
 
 [node name="Circle" parent="Moving Platforms" instance=ExtResource( 8 )]
+position = Vector2( 157, 68 )
+z_index = 1
+Radius = 20.0
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 27, 120 )
