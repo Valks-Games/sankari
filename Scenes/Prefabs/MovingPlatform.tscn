@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=25]
 extents = Vector2( 16, 1 )
 
-[node name="KinematicBody2D" type="KinematicBody2D"]
+[node name="KinematicBody2D" type="KinematicBody2D" groups=["Platform"]]
 motion/sync_to_physics = true
 script = ExtResource( 1 )
 

@@ -126,6 +126,9 @@ public class Player : KinematicBody2D
         if (_inputJump && IsOnFloor())
             Jump();
 
+        // Platform Check
+        PlatformDownCheck();
+
         // dash
         if (_inputDash && _dashReady && _hasTouchedGroundAfterDash && !_currentlyDashing)
         {
@@ -161,6 +164,22 @@ public class Player : KinematicBody2D
         }
 
         _velocity = MoveAndSlide(_velocity, Vector2.Up);
+    }
+
+    private void PlatformDownCheck()
+    {
+        var collision = _rayCast2DFloorCheck.GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
+
+        if (collision != null) 
+        {
+            var node = (Node)collision;
+
+            if (node.IsInGroup("Platform") && _inputDown)
+            {
+                var platform = (MovingPlatform)node;
+                platform.TemporarilyDisablePlatform();
+            }
+        }
     }
 
     private void DoDashStuff()
