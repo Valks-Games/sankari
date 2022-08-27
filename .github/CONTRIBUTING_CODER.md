@@ -21,5 +21,8 @@ Please use VSCode, using the built in Godot script editor with C# should be a cr
 
 > ⚠️ Please double check that you are not changing every single line in the project when you commit because you had the wrong line space settings. To see the correct line settings, have a look at the code style document below.
 
+### Notes
+- Please always use `Logger.Log()` over `GD.Print()`
+
 ### Code Style
 Please make use of the following [code style](https://github.com/GodotModules/GodotModulesCSharp/blob/main/.github/FORMATTING_GUIDELINES.md).
