@@ -176,7 +176,7 @@ public class Player : KinematicBody2D
 
             if (node.IsInGroup("Platform") && _inputDown)
             {
-                var platform = (MovingPlatform)node;
+                var platform = (APlatform)node;
                 platform.TemporarilyDisablePlatform();
             }
         }
