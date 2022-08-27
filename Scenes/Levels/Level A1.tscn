@@ -508,7 +508,7 @@ position = Vector2( 99, -42 )
 curve = SubResource( 28 )
 
 [node name="Platform Disappear" parent="Moving Platforms" instance=ExtResource( 5 )]
-position = Vector2( 55, 96 )
+position = Vector2( 195, 95 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 27, 120 )
