@@ -19,5 +19,7 @@ Please use VSCode, using the built in Godot script editor with C# should be a cr
 3. Clone your fork with `git clone https://github.com/<USERNAME>/Sankari` (replace `<USERNAME>` with your GitHub username)
 4. Push changes you make to your fork (don't forget to fetch the upstream from the main repo before you do this) all in vscode
 
+> ⚠️ Please double check that you are not changing every single line in the project when you commit because you had the wrong line space settings. To see the correct line settings, have a look at the code style document below.
+
 ### Code Style
 Please make use of the following [code style](https://github.com/GodotModules/GodotModulesCSharp/blob/main/.github/FORMATTING_GUIDELINES.md).
