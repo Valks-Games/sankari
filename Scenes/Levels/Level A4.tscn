@@ -91,3 +91,4 @@ shape = SubResource( 11 )
 
 [node name="Camera" parent="." instance=ExtResource( 4 )]
 position = Vector2( -12, 21 )
+limit_right = 225
