@@ -109,6 +109,11 @@ public class Map : Node
         }
     }
 
+    // This method is useless because it's returning values like "tiles_packed.png 1" and "tiles_packed.png 4"
+    // This is suppose to be fixed in Godot 4
+    private string GetTileName(TileMap tilemap, Vector2 pos) =>
+        tilemap.TileSet.TileGetName(GetCurrentTileId(tilemap, pos));
+
     private int GetCurrentTileId(TileMap tilemap, Vector2 pos)
     {
         var cellPos = tilemap.WorldToMap(pos);
