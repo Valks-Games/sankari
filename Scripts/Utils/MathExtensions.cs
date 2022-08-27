@@ -14,4 +14,9 @@ public static class MathExtensions
     public static int Clamp(this int v, int min, int max) => Mathf.Clamp(v, min, max);
     public static float Clamp(this float v, float min, float max) => Mathf.Clamp(v, min, max);
     public static float Lerp(this float a, float b, float t) => Mathf.Lerp(a, b, t);
+
+    /// <summary>
+    /// Pulses a value from 0 to 1 to 0 to 1 over time
+    /// </summary>
+    public static float Pulse(this float time, float frequency) => 0.5f * (1 + Mathf.Sin(2 * Mathf.Pi * frequency * time));
 }
