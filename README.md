@@ -16,4 +16,4 @@ Sankari is a non-profit F2P 2D Platformer about a hero whose village gets raided
 ### [I am a artist](https://github.com/Valks-Games/sankari/blob/main/.github/CONTRIBUTING_ARTIST.md)
 ### [I am a musician](https://github.com/Valks-Games/sankari/blob/main/.github/CONTRIBUTING_AUDIO.md)
 
-https://user-images.githubusercontent.com/6277739/185241853-d946d7f6-17fd-4121-9aba-7ae425739501.mp4
+https://user-images.githubusercontent.com/6277739/187015745-7548e65f-5e64-4b2f-bdf9-a76833eaf4ac.mp4
