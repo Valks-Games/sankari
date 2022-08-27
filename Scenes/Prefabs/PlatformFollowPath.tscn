@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Curve2D" id=28]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 91, 71, 0, 0, 0, 0, 80, 28, 0, 0, 0, 0, 125, -6 )
+}
+
+[sub_resource type="RectangleShape2D" id=29]
+
+[node name="FollowPath" type="KinematicBody2D" groups=["Platform"]]
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 28 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 29 )

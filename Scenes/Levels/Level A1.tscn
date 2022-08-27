@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Sprites/Tilesets/tile_set_16x16.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
@@ -6,12 +6,9 @@
 [ext_resource path="res://Scenes/Prefabs/MovingPlatform.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Prefabs/Platform Disappear.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Prefabs/Coin.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Prefabs/PlatformFollowPath.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Prefabs/PlatformCircle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Prefabs/Camera.tscn" type="PackedScene" id=12]
-
-[sub_resource type="Curve2D" id=28]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 91, 71, 0, 0, 0, 0, 80, 28, 0, 0, 0, 0, 125, -6 )
-}
 
 [sub_resource type="ConvexPolygonShape2D" id=12]
 points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
@@ -495,27 +492,26 @@ position = Vector2( 95, 122 )
 
 [node name="Moving Platforms" type="Node2D" parent="."]
 
-[node name="Moving Platform" parent="Moving Platforms" instance=ExtResource( 4 )]
+[node name="Moving2" parent="Moving Platforms" instance=ExtResource( 4 )]
 position = Vector2( 47, 80 )
 z_index = 1
 
-[node name="Target" parent="Moving Platforms/Moving Platform" index="2"]
+[node name="Target" parent="Moving Platforms/Moving2" index="2"]
 position = Vector2( 24, 38 )
 
-[node name="Moving Platform2" parent="Moving Platforms" instance=ExtResource( 4 )]
+[node name="Moving" parent="Moving Platforms" instance=ExtResource( 4 )]
 position = Vector2( 80, 80 )
 z_index = 1
 
-[node name="Target" parent="Moving Platforms/Moving Platform2" index="2"]
+[node name="Target" parent="Moving Platforms/Moving" index="2"]
 position = Vector2( 99, -42 )
 
-[node name="Follow Path" type="Node2D" parent="Moving Platforms"]
+[node name="FollowPath" parent="Moving Platforms" instance=ExtResource( 7 )]
 
-[node name="Path2D" type="Path2D" parent="Moving Platforms/Follow Path"]
-curve = SubResource( 28 )
-
-[node name="Platform Disappear" parent="Moving Platforms" instance=ExtResource( 5 )]
+[node name="Disappear" parent="Moving Platforms" instance=ExtResource( 5 )]
 position = Vector2( 195, 95 )
+
+[node name="Circle" parent="Moving Platforms" instance=ExtResource( 8 )]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 27, 120 )
@@ -545,5 +541,5 @@ shape = SubResource( 5 )
 limit_left = 16
 limit_right = 752
 
-[editable path="Moving Platforms/Moving Platform"]
-[editable path="Moving Platforms/Moving Platform2"]
+[editable path="Moving Platforms/Moving2"]
+[editable path="Moving Platforms/Moving"]
