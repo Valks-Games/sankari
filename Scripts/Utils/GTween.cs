@@ -49,9 +49,8 @@ public class GTween
     ) 
     {
         _tween.Repeat = true;
-        var endValue = finalValue - new Vector2(width / 2, 0);
-        InterpolateProperty("position", initialValue, endValue, duration, 0, transType, easeType);
-        InterpolateProperty("position", endValue, initialValue, duration, duration, transType, easeType);
+        InterpolateProperty("position", initialValue, finalValue, duration, 0, transType, easeType);
+        InterpolateProperty("position", finalValue, initialValue, duration, duration, transType, easeType);
         await Task.Delay(startDelay * 1000);
         Start();
     }
