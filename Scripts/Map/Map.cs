@@ -31,7 +31,7 @@ public class Map : Node
         _levels = GetNode<Node>(NodePathLevels);
         _playerIcon = GetNode<Sprite>(NodePathPlayerIcon);
 
-        foreach (var level in _levelManager.LevelNames.Values) 
+        foreach (var level in _levelManager.Levels.Values) 
             if (level.Completed)
                 _tileMapLevelIcons.SetCellv(level.Position, 1); // remember 1 is gray circle
 
@@ -48,12 +48,12 @@ public class Map : Node
             var worldPos = ((CollisionShape2D)levelArea.GetChild(0)).Position;
             var tilePos = _tileMapLevelIcons.WorldToMap(worldPos);
 
-            if (!_levelManager.LevelNames.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
-                _levelManager.LevelNames.Add(levelArea.Name, new Level(levelArea.Name) {
+            if (!_levelManager.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
+                _levelManager.Levels.Add(levelArea.Name, new Level(levelArea.Name) {
                     Position = tilePos
                 });
             else
-                _levelManager.LevelNames[levelArea.Name].Position = tilePos;
+                _levelManager.Levels[levelArea.Name].Position = tilePos;
         }
     }
 

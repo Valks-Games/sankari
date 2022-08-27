@@ -2,9 +2,9 @@ namespace Sankari;
 
 public class LevelManager
 {
-    public Dictionary<string, Level> LevelNames = new();
+    public Dictionary<string, Level> Levels = new();
 
-    public Dictionary<string, PackedScene> Levels = new();
+    public Dictionary<string, PackedScene> Scenes = new();
 
     public string CurrentLevel { get; set; }
 
@@ -19,7 +19,7 @@ public class LevelManager
         godotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
         {
             if (!dir.CurrentIsDir())
-                Levels[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
+                Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
         });
 
         AddLevel("Level A1", "grassy_1", 0.9f, false);
@@ -33,7 +33,7 @@ public class LevelManager
     }
 
     private void AddLevel(string name, string music = "", float musicPitch = 1, bool locked = true) =>
-        LevelNames.Add(name, new Level(name) {
+        Levels.Add(name, new Level(name) {
             Locked = locked,
             Music = music,
             MusicPitch = musicPitch
@@ -60,7 +60,7 @@ public class LevelManager
         level.PreInit(_gameManager);
         _nodeLevel.AddChild(level);
 
-        var curLevel = LevelNames[CurrentLevel];
+        var curLevel = Levels[CurrentLevel];
 
         _gameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
     }
@@ -73,11 +73,11 @@ public class LevelManager
         _nodeLevel.QueueFreeChildren();
 
         // mark level as completed
-        LevelNames[levelName].Completed = true;
+        Levels[levelName].Completed = true;
 
-        foreach (var level in LevelNames[levelName].Unlocks)
-            if (LevelNames.ContainsKey(level))
-                LevelNames[level].Locked = false;
+        foreach (var level in Levels[levelName].Unlocks)
+            if (Levels.ContainsKey(level))
+                Levels[level].Locked = false;
 
         // load map
         _gameManager.LoadMap();
