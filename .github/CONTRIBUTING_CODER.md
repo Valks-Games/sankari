@@ -1,5 +1,7 @@
 I am looking for C# programmers to help peer-review my code and expand on new gameplay mechanics like moving platforms, new enemies and player abilities.
 
+If you need help understanding something, please just ask me on Discord (valk#9904) for help.
+
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
 ### VSCode
