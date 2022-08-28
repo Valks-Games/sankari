@@ -9,8 +9,16 @@ public class GAudioStreamPlayer
     /// </summary>
     public float Volume 
     {
-        get { return _audioStreamPlayer.VolumeDb.Remap(-80, 0, 0, 100); }
-        set { _audioStreamPlayer.VolumeDb = value.Remap(0, 100, -80, 0); }
+        get { return _audioStreamPlayer.VolumeDb.Remap(-40, 0, 0, 100); }
+        set 
+        {
+            var v = value.Remap(0, 100, -40, 0);
+
+            if (value == 0)
+                v = 0;
+
+            _audioStreamPlayer.VolumeDb = v; 
+        }
     }
 
     /// <summary>
