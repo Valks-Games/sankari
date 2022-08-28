@@ -64,4 +64,9 @@ public class GTween
     /// The name of the method passed must have Object @object, NodePath nodePath params
     /// </summary>
     public void OnCompleted(string method) => _tween.Connect("tween_completed", _target, method);
+
+    /// <summary>
+    /// Emitted when all the animations in the tween have been completed.
+    /// </summary>
+    public void OnAllCompleted(string method) => _tween.Connect("tween_all_completed", _target, method);
 }
