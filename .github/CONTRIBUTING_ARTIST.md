@@ -13,7 +13,7 @@
 
 Figure 1.1 
 
-![image](https://user-images.githubusercontent.com/6277739/187054011-2bc3672c-70c5-4bc3-afc1-a8e88fde434c.png)
+![image](https://user-images.githubusercontent.com/6277739/187090289-5462265f-fa7c-49e4-8238-6a1539af3c07.png)
 
 Figure 1.2
 
