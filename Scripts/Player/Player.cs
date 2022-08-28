@@ -324,7 +324,7 @@ public class Player : KinematicBody2D
             "position:y", 
             _dieStartPos - 30, 
             _dieStartPos + 100, 
-            1.25f, 
+            1f, 
             0.75f, 
             Tween.TransitionType.Circ, 
             Tween.EaseType.In
@@ -335,8 +335,8 @@ public class Player : KinematicBody2D
         (
             "rotation_degrees",
             0,
-            230,
-            3f,
+            160,
+            2f,
             0.25f
         );
 
