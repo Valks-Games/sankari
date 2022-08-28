@@ -331,7 +331,7 @@ public class Player : KinematicBody2D
         _dieTween.Start();
         _haltPlayerLogic = true;
         _gameManager.Audio.StopMusic();
-        _gameManager.Audio.PlaySFX("game_over");
+        _gameManager.Audio.PlaySFX("game_over_3");
         _dieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
         
     }

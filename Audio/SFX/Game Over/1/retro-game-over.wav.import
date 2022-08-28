@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/retro-game-over.wav-1c40784f7d510ce61eb251fb358200b4.sample"
+path="res://.import/retro-game-over.wav-a3b40f3e63ef5c503118e9eb5ae63a45.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/Game Over/retro-game-over.wav"
-dest_files=[ "res://.import/retro-game-over.wav-1c40784f7d510ce61eb251fb358200b4.sample" ]
+source_file="res://Audio/SFX/Game Over/1/retro-game-over.wav"
+dest_files=[ "res://.import/retro-game-over.wav-a3b40f3e63ef5c503118e9eb5ae63a45.sample" ]
 
 [params]
 

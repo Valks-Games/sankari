@@ -20,6 +20,21 @@ public class Audio
         LoadSoundTracks();
     }
 
+    private void LoadSoundEffects()
+    {
+        LoadSFX("player_jump", "SubspaceAudio/sfx_movement_jump1.wav");
+        LoadSFX("coin_pickup", "SubspaceAudio/sfx_coin_single1.wav");
+        LoadSFX("game_over_2", "Game Over/2/game-over-dark-orchestra.wav");
+        LoadSFX("game_over_3", "Game Over/3/musical-game-over.wav");
+    }
+
+    private void LoadSoundTracks()
+    {
+        LoadMusic("map_grassy", "Joth/bossa nova/8bit Bossa.mp3");
+        LoadMusic("grassy_1", "SubspaceAudio/4 chiptunes adventure/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg");
+        LoadMusic("grassy_2", "SubspaceAudio/4 chiptunes adventure/Juhani Junkala [Chiptune Adventures] 2. Stage 2.ogg");
+    }
+
     public void PlaySFX(string name, int volume = 100)
     {
         _sfxPlayer.Volume = volume;
@@ -65,20 +80,6 @@ public class Audio
     /// Values range from 0 to 100
     /// </summary>
     public void SetSFXVolume(int v) => _sfxPlayer.Volume = v;
-    
-    private void LoadSoundEffects()
-    {
-        LoadSFX("player_jump", "SubspaceAudio/sfx_movement_jump1.wav");
-        LoadSFX("coin_pickup", "SubspaceAudio/sfx_coin_single1.wav");
-        LoadSFX("game_over", "Game Over/retro-game-over.wav");
-    }
-
-    private void LoadSoundTracks()
-    {
-        LoadMusic("map_grassy", "Joth/bossa nova/8bit Bossa.mp3");
-        LoadMusic("grassy_1", "SubspaceAudio/4 chiptunes adventure/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg");
-        LoadMusic("grassy_2", "SubspaceAudio/4 chiptunes adventure/Juhani Junkala [Chiptune Adventures] 2. Stage 2.ogg");
-    }
 
     private void LoadSFX(string name, string path) => _sfx[name] = ResourceLoader.Load<AudioStream>($"res://Audio/SFX/{path}");
     private void LoadMusic(string name, string path) => _music[name] = ResourceLoader.Load<AudioStream>($"res://Audio/Music/{path}");
