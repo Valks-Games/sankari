@@ -7,6 +7,7 @@
 - If you have the tiles for it, sort the tiles so they work well with Godots autotile system (see Figure 1)
 - Make sure the png size is a divisor of the tiles dimensions
 - The png's width and height do not need to be the same, if you have a lot of empty space then crop the image to the content
+- Once the tiles are positioned in the tileset and given to the level designer, do not change the position of the tiles otherwise this may cause 1) missing tiles and 2) swapped tiles in Godot making the level designer having to redo the entire level(s) that used that tileset
 
 Figure 1  
 
