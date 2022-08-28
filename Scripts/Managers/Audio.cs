@@ -24,8 +24,11 @@ public class Audio
     {
         LoadSFX("player_jump", "SubspaceAudio/sfx_movement_jump1.wav");
         LoadSFX("coin_pickup", "SubspaceAudio/sfx_coin_single1.wav");
+        
+        LoadSFX("game_over_1", "Game Over/1/retro-game-over.wav");
         LoadSFX("game_over_2", "Game Over/2/game-over-dark-orchestra.wav");
         LoadSFX("game_over_3", "Game Over/3/musical-game-over.wav");
+        LoadSFX("game_over_4", "Game Over/4/orchestra-game-over.wav");
     }
 
     private void LoadSoundTracks()

@@ -306,6 +306,7 @@ public class Player : KinematicBody2D
     {
         _dieStartPos = Position.y;
 
+        // animate y position
         _dieTween.InterpolateProperty
         (
             "position:y", 
@@ -328,10 +329,20 @@ public class Player : KinematicBody2D
             Tween.EaseType.In
         );
 
+        // animate rotation
+        _dieTween.InterpolateProperty
+        (
+            "rotation_degrees",
+            0,
+            230,
+            3f,
+            0.25f
+        );
+
         _dieTween.Start();
         _haltPlayerLogic = true;
         _gameManager.Audio.StopMusic();
-        _gameManager.Audio.PlaySFX("game_over_3");
+        _gameManager.Audio.PlaySFX("game_over_1");
         _dieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
         
     }
