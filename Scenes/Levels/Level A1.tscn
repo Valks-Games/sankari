@@ -1027,7 +1027,7 @@ shape = SubResource( 10 )
 [node name="Bottom" type="Area2D" parent="." groups=["Killzone"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom"]
-position = Vector2( 859, 384 )
+position = Vector2( 856, 256 )
 shape = SubResource( 5 )
 
 [node name="Camera" parent="." instance=ExtResource( 12 )]
