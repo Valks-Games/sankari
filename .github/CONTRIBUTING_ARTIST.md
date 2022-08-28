@@ -1,21 +1,28 @@
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/art?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Aart)  
 
 ### Tilesets
+To get an idea of what the tileset looks like in Godot have a look at Figure 1.1 (all white arrows mark the atlases)
+
+Rules to follow when making tilesets
 - Most of the tilesets should be 16 x 16 (some can be 8 x 8 depending on what it is you are trying to do)
 - The example usage of the tileset should be put into a separate png
 - Tiles should be packed together without any gaps between them starting from the top left
-- If you have the tiles for it, sort the tiles so they work well with Godots autotile system (see Figure 1.1)
+- If you have the tiles for it, sort the tiles so they work well with Godots autotile system (see Figure 1.2)
 - Make sure the png size is a divisor of the tiles dimensions
 - The png's width and height do not need to be the same, if you have a lot of empty space then crop the image to the content
 - Once the tiles are positioned in the tileset and given to the level designer, do not change the position of the tiles otherwise this may cause 1) missing tiles and 2) swapped tiles in Godot making the level designer having to redo the entire level(s) that used that tileset
 - Platforms the player can stand on should go into their own individual pngs
-- If there is more than one variation of a tile, organize them in a horizontal or vertical strip (see Figure 1.2)
+- If there is more than one variation of a tile, organize them in a horizontal or vertical strip (see Figure 1.3)
 
 Figure 1.1 
 
-![image](https://user-images.githubusercontent.com/6277739/187090289-5462265f-fa7c-49e4-8238-6a1539af3c07.png)
+![image](https://user-images.githubusercontent.com/6277739/187090505-7ee668d1-867a-4d07-9533-3f15e6880b75.png)
 
 Figure 1.2
+
+![image](https://user-images.githubusercontent.com/6277739/187090289-5462265f-fa7c-49e4-8238-6a1539af3c07.png)
+
+Figure 1.3
 
 ![image](https://user-images.githubusercontent.com/6277739/187090161-712dee94-bed2-4ad6-a60e-dab32734dcd3.png)
 
