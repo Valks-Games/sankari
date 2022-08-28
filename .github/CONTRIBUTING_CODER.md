@@ -30,6 +30,8 @@ Please use VSCode, using the built in Godot script editor with C# should be a cr
 
 **How to fetch upstream from your fork**
 
+*I've never done this before so let me know how it goes for you*
+
 ![image](https://user-images.githubusercontent.com/6277739/187052216-c8ca5c25-7e8c-4239-9da8-2205b6fc2f00.png)
 
 ### Notes
