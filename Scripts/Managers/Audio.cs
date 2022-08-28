@@ -20,8 +20,9 @@ public class Audio
         LoadSoundTracks();
     }
 
-    public void PlaySFX(string name)
+    public void PlaySFX(string name, int volume = 100)
     {
+        _sfxPlayer.Volume = volume;
         _sfxPlayer.Stream = _sfx[name];
 
         var rng = new RandomNumberGenerator();
@@ -57,11 +58,19 @@ public class Audio
         _musicPlayer.Pitch = pitch;
         _musicPlayer.Play();
     }
+
+    public void StopMusic() => _musicPlayer.Stop();
+
+    /// <summary>
+    /// Values range from 0 to 100
+    /// </summary>
+    public void SetSFXVolume(int v) => _sfxPlayer.Volume = v;
     
     private void LoadSoundEffects()
     {
         LoadSFX("player_jump", "SubspaceAudio/sfx_movement_jump1.wav");
         LoadSFX("coin_pickup", "SubspaceAudio/sfx_coin_single1.wav");
+        LoadSFX("game_over", "Game Over/retro-game-over.wav");
     }
 
     private void LoadSoundTracks()
