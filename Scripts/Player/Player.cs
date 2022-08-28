@@ -47,6 +47,7 @@ public class Player : KinematicBody2D
     private int _wallDir;
     private float _gravity = GRAVITY_AIR;
     private Sprite _sprite;
+    private GTween _dieTween;
 
     public void PreInit(GameManager gameManager)
     {
@@ -67,6 +68,7 @@ public class Player : KinematicBody2D
         _parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
         _parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
         _sprite = GetNode<Sprite>(NodePathSprite);
+        _dieTween = new GTween(this);
 
         foreach (RayCast2D raycast in _parentWallChecksLeft.GetChildren())
         {
@@ -81,10 +83,14 @@ public class Player : KinematicBody2D
         }
     }
 
+    private float _dieStartPos;
+
     public override void _PhysicsProcess(float delta)
     {
-        if (_haltPlayerLogic)
+        if (_haltPlayerLogic) 
+        {
             return;
+        }
 
         UpdateMoveDirection();
         UpdateWallDirection();
@@ -246,7 +252,7 @@ public class Player : KinematicBody2D
 
     private void Jump()
     {
-        _gameManager.Audio.PlaySFX("player_jump");
+        _gameManager.Audio.PlaySFX("player_jump", 80);
         _velocity.y -= JUMP_FORCE;
     }
 
@@ -296,12 +302,44 @@ public class Player : KinematicBody2D
         return false;
     }
 
-    public async Task Died()
+    public void Died()
     {
+        _dieStartPos = Position.y;
+
+        _dieTween.InterpolateProperty
+        (
+            "position:y", 
+            _dieStartPos, 
+            _dieStartPos - 30, 
+            0.75f, 
+            0, 
+            Tween.TransitionType.Quint, 
+            Tween.EaseType.Out
+        );
+        
+        _dieTween.InterpolateProperty
+        (
+            "position:y", 
+            _dieStartPos - 30, 
+            _dieStartPos + 100, 
+            1.25f, 
+            0.75f, 
+            Tween.TransitionType.Circ, 
+            Tween.EaseType.In
+        );
+
+        _dieTween.Start();
         _haltPlayerLogic = true;
+        _gameManager.Audio.StopMusic();
+        _gameManager.Audio.PlaySFX("game_over");
+        _dieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
+        
+    }
+
+    private async void OnDieTweenCompleted()
+    {
         await _gameManager.TransitionManager.AlphaToBlackAndBack();
         _haltPlayerLogic = false;
-        //Position = _levelStartPos;
         _gameManager.LevelManager.LoadLevel();
     }
 
@@ -316,7 +354,7 @@ public class Player : KinematicBody2D
 
         if (area.IsInGroup("Killzone"))
         {
-            await Died();
+            Died();
             return;
         }
 
@@ -330,13 +368,13 @@ public class Player : KinematicBody2D
 
         if (area.IsInGroup("Enemy"))
         {
-            await Died();
+            Died();
             return;
         }
 
         if (area.IsInGroup("Coin"))
         {
-            _gameManager.Audio.PlaySFX("coin_pickup");
+            _gameManager.Audio.PlaySFX("coin_pickup", 70);
             area.GetParent().QueueFree();
         }
     }
