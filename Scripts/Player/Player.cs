@@ -138,6 +138,7 @@ public class Player : KinematicBody2D
         // dash
         if (_inputDash && _dashReady && _hasTouchedGroundAfterDash && !_currentlyDashing)
         {
+            _gameManager.Audio.PlaySFX("dash");
             HandleDash();
         }
 
