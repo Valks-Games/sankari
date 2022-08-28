@@ -37,6 +37,7 @@ public class Audio
         LoadMusic("map_grassy", "Joth/bossa nova/8bit Bossa.mp3");
         LoadMusic("grassy_1", "SubspaceAudio/4 chiptunes adventure/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg");
         LoadMusic("grassy_2", "SubspaceAudio/4 chiptunes adventure/Juhani Junkala [Chiptune Adventures] 2. Stage 2.ogg");
+        LoadMusic("ice_1", "Ice/Icy_Expanse.mp3");
     }
 
     public void PlaySFX(string name, int volume = 100)

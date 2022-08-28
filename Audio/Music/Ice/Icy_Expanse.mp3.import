@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Icy_Expanse.mp3-e38b63d1e1ffdaab5e322fad0dff861e.mp3str"
+
+[deps]
+
+source_file="res://Audio/Music/Ice/Icy_Expanse.mp3"
+dest_files=[ "res://.import/Icy_Expanse.mp3-e38b63d1e1ffdaab5e322fad0dff861e.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
