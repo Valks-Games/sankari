@@ -143,7 +143,8 @@ public class Player : KinematicBody2D
 
             if (inputJump)
             {
-                Jump();
+                _gameManager.Audio.PlaySFX("player_jump", 80);
+                _velocity.y -= JUMP_FORCE;
             }
         }
         else
@@ -236,12 +237,6 @@ public class Player : KinematicBody2D
             _velocity.x -= dampening;
         else if (_velocity.x < deadzone)
             _velocity.x += dampening;
-    }
-
-    private void Jump()
-    {
-        _gameManager.Audio.PlaySFX("player_jump", 80);
-        _velocity.y -= JUMP_FORCE;
     }
 
     private bool IsOnGround()
