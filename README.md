@@ -25,4 +25,4 @@ This project is under the [MIT license](https://github.com/Valks-Games/sankari/b
 - Most assets (art / audio) are under the [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/) from [Open Game Art](https://opengameart.org/)
 - Some of the audio is from [Mixkit](https://mixkit.co/free-sound-effects/game-over/) under the Mixkit license
 
-https://user-images.githubusercontent.com/6277739/187015745-7548e65f-5e64-4b2f-bdf9-a76833eaf4ac.mp4
+https://user-images.githubusercontent.com/6277739/187283070-c10b19e9-d9ac-4fac-be7f-06873affb869.mp4
