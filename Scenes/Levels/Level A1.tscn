@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://Sprites/Tilesets/autotile_template_3x3_minimal.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/Prefabs/BasicEnemy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Prefabs/Spike.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Prefabs/Coin.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scripts/Level/Bottom.cs" type="Script" id=7]
 [ext_resource path="res://Scenes/Prefabs/Camera.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=62]
@@ -511,7 +512,7 @@ points = PoolVector2Array( 5, 16, 16, 5, 16, 16 )
 [sub_resource type="RectangleShape2D" id=10]
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 816, 17 )
+extents = Vector2( 436.75, 21 )
 
 [node name="Level A1" type="Node2D"]
 script = ExtResource( 3 )
@@ -608,12 +609,15 @@ position = Vector2( 1698, 139 )
 shape = SubResource( 10 )
 
 [node name="Bottom" type="Area2D" parent="." groups=["Killzone"]]
+script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom"]
-position = Vector2( 856, 256 )
+position = Vector2( 466.25, 263 )
 shape = SubResource( 5 )
 
 [node name="Camera" parent="." instance=ExtResource( 12 )]
 limit_left = -16
 limit_right = 1710
 limit_bottom = 160
+
+[connection signal="area_entered" from="Bottom" to="Bottom" method="_on_Bottom_area_entered"]
