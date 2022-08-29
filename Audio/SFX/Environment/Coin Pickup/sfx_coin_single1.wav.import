@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/sfx_movement_jump1.wav-b2a40d95f1931ffdba88694cfddb95ca.sample"
+path="res://.import/sfx_coin_single1.wav-691a38a4f46db5bbca88e00780583517.sample"
 
 [deps]
 
-source_file="res://Audio/SFX/SubspaceAudio/sfx_movement_jump1.wav"
-dest_files=[ "res://.import/sfx_movement_jump1.wav-b2a40d95f1931ffdba88694cfddb95ca.sample" ]
+source_file="res://Audio/SFX/Environment/Coin Pickup/sfx_coin_single1.wav"
+dest_files=[ "res://.import/sfx_coin_single1.wav-691a38a4f46db5bbca88e00780583517.sample" ]
 
 [params]
 

@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Audio 
+public class Audio
 {
     private Dictionary<string, AudioStream> _sfx = new();
     private Dictionary<string, AudioStream> _music = new();
@@ -9,7 +9,7 @@ public class Audio
     private GAudioStreamPlayer _musicPlayer;
     private float _lastPitch;
 
-    public Audio(GAudioStreamPlayer sfxPlayer, GAudioStreamPlayer musicPlayer) 
+    public Audio(GAudioStreamPlayer sfxPlayer, GAudioStreamPlayer musicPlayer)
     {
         _sfxPlayer = sfxPlayer;
         _musicPlayer = musicPlayer;
@@ -22,8 +22,8 @@ public class Audio
 
     private void LoadSoundEffects()
     {
-        LoadSFX("player_jump", "SubspaceAudio/sfx_movement_jump1.wav");
-        LoadSFX("coin_pickup", "SubspaceAudio/sfx_coin_single1.wav");
+        LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav");
+        LoadSFX("coin_pickup", "Environment/Coin Pickup/sfx_coin_single1.wav");
         LoadSFX("dash", "Movement/Dash/swish-9.wav");
 
         LoadSFX("game_over_1", "Game Over/1/retro-game-over.wav");
@@ -34,10 +34,10 @@ public class Audio
 
     private void LoadSoundTracks()
     {
-        LoadMusic("map_grassy", "Joth/bossa nova/8bit Bossa.mp3");
-        LoadMusic("grassy_1", "SubspaceAudio/4 chiptunes adventure/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg");
-        LoadMusic("grassy_2", "SubspaceAudio/4 chiptunes adventure/Juhani Junkala [Chiptune Adventures] 2. Stage 2.ogg");
-        LoadMusic("ice_1", "Ice/Icy_Expanse.mp3");
+        LoadMusic("map_grassy", "Map/8bit Bossa/8bit Bossa.mp3");
+        LoadMusic("grassy_1", "Level/Grassy Peaceful/Chiptune Adventures/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg");
+        LoadMusic("grassy_2", "Level/Grassy Peaceful/Chiptune Adventures/Juhani Junkala [Chiptune Adventures] 2. Stage 2.ogg");
+        LoadMusic("ice_1", "Level/Ice/Icy_Expanse.mp3");
     }
 
     public void PlaySFX(string name, int volume = 100)
@@ -49,19 +49,19 @@ public class Audio
         rng.Randomize();
         var pitchScale = rng.RandfRange(0.8f, 1.2f);
 
-        while (Mathf.Abs(pitchScale - _lastPitch) < 0.1f) 
+        while (Mathf.Abs(pitchScale - _lastPitch) < 0.1f)
         {
             rng.Randomize();
             pitchScale = rng.RandfRange(0.8f, 1.2f);
         }
-        
+
         _lastPitch = pitchScale;
 
         _sfxPlayer.Pitch = pitchScale;
         _sfxPlayer.Play();
     }
 
-    public void PlayMusic(string name, float pitch = 1) 
+    public void PlayMusic(string name, float pitch = 1)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -69,7 +69,7 @@ public class Audio
             return;
         }
 
-        if (!_music.ContainsKey(name)) 
+        if (!_music.ContainsKey(name))
         {
             Logger.LogWarning($"The music track for '{name}' does not exist");
         }
