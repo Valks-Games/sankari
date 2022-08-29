@@ -159,6 +159,9 @@ public class Player : KinematicBody2D
         else
         {
             _velocity.x += _moveDir.x * SPEED_AIR;
+
+            if (inputDown)
+                _velocity.y += 10;
         }
 
         // apply gravity
