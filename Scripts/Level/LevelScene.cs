@@ -7,7 +7,7 @@ public class LevelScene : Node
         var player = GetNode<Player>("Player");
         player.PreInit(gameManager);
 
-        foreach (IEnemy child in GetNode<Node2D>("Enemies").GetChildren()) 
+        foreach (IEnemy child in GetNode<Node2D>("Environment/Enemies").GetChildren()) 
             child.PreInit(player);
     }
 }

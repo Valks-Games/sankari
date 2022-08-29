@@ -210,8 +210,6 @@ texture = ExtResource( 10 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
-[node name="Enemies" type="Node2D" parent="."]
-
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 4 )
 cell_size = Vector2( 8, 8 )
@@ -237,3 +235,7 @@ shape = SubResource( 5 )
 [node name="Camera" parent="." instance=ExtResource( 7 )]
 limit_right = 1000
 limit_bottom = 165
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="Environment"]
