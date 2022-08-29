@@ -22,7 +22,7 @@ Sankari is a non-profit F2P 2D Platformer about a hero whose village gets raided
 This project is under the [MIT license](https://github.com/Valks-Games/sankari/blob/main/LICENSE)
 
 ### Assets
-- Most assets (audio / art) are under the [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/) from [Open Game Art](https://opengameart.org/)
-- Some audio files were taken from [Mixkit](https://mixkit.co/free-sound-effects/game-over/) under the Mixkit license
+- All art assets are under the [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/) from [Open Game Art](https://opengameart.org/)
+- Half of the audio is from [Mixkit](https://mixkit.co/free-sound-effects/game-over/) under the Mixkit license and the other half is CC0
 
 https://user-images.githubusercontent.com/6277739/187015745-7548e65f-5e64-4b2f-bdf9-a76833eaf4ac.mp4
