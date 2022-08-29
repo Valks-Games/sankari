@@ -278,57 +278,57 @@ script = ExtResource( 3 )
 [node name="Coins" type="Node2D" parent="."]
 
 [node name="Coin" parent="Coins" instance=ExtResource( 6 )]
-position = Vector2( 69, 140 )
+position = Vector2( 69, 145 )
 
 [node name="Coin2" parent="Coins" instance=ExtResource( 6 )]
-position = Vector2( 78, 140 )
+position = Vector2( 78, 145 )
 
 [node name="Moving Platforms" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 27, 139 )
+position = Vector2( 27, 144 )
 
 [node name="Enemies" type="Node2D" parent="."]
 z_index = 1
 
 [node name="Enemy" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 110, 140 )
+position = Vector2( 110, 145 )
 
 [node name="Enemy2" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 609, 124 )
+position = Vector2( 609, 129 )
 
 [node name="Enemy3" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 619, 124 )
+position = Vector2( 619, 129 )
 
 [node name="Enemy4" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 629, 124 )
+position = Vector2( 629, 129 )
 
 [node name="Enemy5" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 639, 124 )
+position = Vector2( 639, 129 )
 
 [node name="Enemy6" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 874, 140 )
+position = Vector2( 874, 145 )
 
 [node name="Enemy7" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 884, 140 )
+position = Vector2( 884, 145 )
 
 [node name="Enemy8" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 894, 140 )
+position = Vector2( 894, 145 )
 
 [node name="Enemy9" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 904, 140 )
+position = Vector2( 904, 145 )
 
 [node name="Enemy10" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 1433, 124 )
+position = Vector2( 1433, 145 )
 
 [node name="Enemy11" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 1443, 124 )
+position = Vector2( 1443, 145 )
 
 [node name="Enemy12" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 1453, 124 )
+position = Vector2( 1453, 145 )
 
 [node name="Enemy13" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 1463, 124 )
+position = Vector2( 1463, 145 )
 
 [node name="Complex" type="TileMap" parent="."]
 tile_set = SubResource( 11 )
@@ -341,7 +341,7 @@ tile_data = PoolIntArray( -458645, 0, 8, -458644, 0, 11, -327683, 0, 8, -327682,
 [node name="Level Finish" type="Area2D" parent="." groups=["Level Finish"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level Finish"]
-position = Vector2( 1698, 118 )
+position = Vector2( 1698, 139 )
 shape = SubResource( 10 )
 
 [node name="Bottom" type="Area2D" parent="." groups=["Killzone"]]
