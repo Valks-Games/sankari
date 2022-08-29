@@ -153,6 +153,7 @@ public class Player : KinematicBody2D
             if (inputJump)
             {
                 _gameManager.Audio.PlaySFX("player_jump", 80);
+                _velocity.y = 0;
                 _velocity.y -= JUMP_FORCE;
             }
         }
