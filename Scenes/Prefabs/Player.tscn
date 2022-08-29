@@ -14,8 +14,7 @@ z_index = 1
 script = ExtResource( 2 )
 NodePathRayCast2DWallChecksLeft = NodePath("Raycasts/Wall Checks/Left")
 NodePathRayCast2DWallChecksRight = NodePath("Raycasts/Wall Checks/Right")
-NodePathRayCast2DFloorCheck = NodePath("Raycasts/Floor/FloorCheck")
-NodePathRayCast2DSlopeCheck = NodePath("Raycasts/Floor/SlopeCheck")
+NodePathRayCast2DGroundChecks = NodePath("Raycasts/Ground Checks")
 NodePathSprite = NodePath("Sprite")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -50,17 +49,22 @@ position = Vector2( 4, 4 )
 enabled = true
 cast_to = Vector2( 1, 0 )
 
-[node name="Floor" type="Node2D" parent="Raycasts"]
+[node name="Ground Checks" type="Node2D" parent="Raycasts"]
 
-[node name="FloorCheck" type="RayCast2D" parent="Raycasts/Floor"]
+[node name="Ground Check 1" type="RayCast2D" parent="Raycasts/Ground Checks"]
 position = Vector2( 0, 5 )
 enabled = true
 cast_to = Vector2( 0, 1 )
 
-[node name="SlopeCheck" type="RayCast2D" parent="Raycasts/Floor"]
-position = Vector2( 0, 5 )
+[node name="Ground Check 2" type="RayCast2D" parent="Raycasts/Ground Checks"]
+position = Vector2( 4, 5 )
 enabled = true
-cast_to = Vector2( 0, 17 )
+cast_to = Vector2( 0, 1 )
+
+[node name="Ground Check 3" type="RayCast2D" parent="Raycasts/Ground Checks"]
+position = Vector2( -5, 5 )
+enabled = true
+cast_to = Vector2( 0, 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

@@ -4,11 +4,10 @@ public class Player : KinematicBody2D
 {
     [Export] protected readonly NodePath NodePathRayCast2DWallChecksLeft;
     [Export] protected readonly NodePath NodePathRayCast2DWallChecksRight;
-    [Export] protected readonly NodePath NodePathRayCast2DFloorCheck;
-    [Export] protected readonly NodePath NodePathRayCast2DSlopeCheck;
+    [Export] protected readonly NodePath NodePathRayCast2DGroundChecks;
     [Export] protected readonly NodePath NodePathSprite;
 
-    private const int SPEED_GROUND = 10;
+    private const int SPEED_GROUND_WALK = 15;
     private const int SPEED_AIR = 1;
     private const int SPEED_MAX_GROUND = 75;
     private const int SPEED_MAX_AIR = 225;
@@ -21,14 +20,14 @@ public class Player : KinematicBody2D
     private const int JUMP_FORCE_WALL_HORZ = 75;
     private const int DASH_COOLDOWN = 500;
     private const int DASH_DURATION = 200;
-    private const int PREVENT_HORZ_MOVEMENT_AFTER_WALL_JUMP_DURATION = 200;
+    private const int PREVENT_HORZ_MOVEMENT_AFTER_WALL_JUMP_DURATION = 1000;
 
     private GameManager _gameManager;
     private LevelManager _levelManager;
     private Vector2 _velocity;
     private bool _inputJump;
-    private bool _inputDash;
     private bool _inputDown;
+    private bool _inputDash;
     private bool _dashReady = true;
     private bool _currentlyDashing;
     private bool _canHorzMove = true;
@@ -41,13 +40,17 @@ public class Player : KinematicBody2D
     private Node2D _parentWallChecksRight;
     private List<RayCast2D> _rayCast2DWallChecksLeft = new();
     private List<RayCast2D> _rayCast2DWallChecksRight = new();
-    private RayCast2D _rayCast2DFloorCheck;
-    private RayCast2D _rayCast2DSlopeCheck;
+    private List<RayCast2D> _rayCast2DGroundChecks = new();
+    private Node2D _parentGroundChecks;
     private Vector2 _moveDir;
     private int _wallDir;
     private float _gravity = GRAVITY_AIR;
     private Sprite _sprite;
     private GTween _dieTween;
+    private float _dieStartPos;
+    private Vector2 _dashDir;
+    private bool _horizontalDash;
+    private bool _hasTouchedGroundAfterDash = true;
 
     public void PreInit(GameManager gameManager)
     {
@@ -61,10 +64,7 @@ public class Player : KinematicBody2D
         _timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
         _timerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DASH_DURATION, false, false);
         _preventHorzMovementAfterJump = new GTimer(this, nameof(OnPreventHorzDone), PREVENT_HORZ_MOVEMENT_AFTER_WALL_JUMP_DURATION, false, false);
-        _rayCast2DFloorCheck = GetNode<RayCast2D>(NodePathRayCast2DFloorCheck);
-        _rayCast2DFloorCheck.AddException(this);
-        _rayCast2DSlopeCheck = GetNode<RayCast2D>(NodePathRayCast2DSlopeCheck);
-        _rayCast2DSlopeCheck.AddException(this);
+        _parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
         _parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
         _parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
         _sprite = GetNode<Sprite>(NodePathSprite);
@@ -81,31 +81,29 @@ public class Player : KinematicBody2D
             raycast.AddException(this);
             _rayCast2DWallChecksRight.Add(raycast);
         }
-    }
 
-    private float _dieStartPos;
+        foreach (RayCast2D rayCast in _parentGroundChecks.GetChildren())
+        {
+            rayCast.AddException(this);
+            _rayCast2DGroundChecks.Add(rayCast);
+        }
+    }
 
     public override void _PhysicsProcess(float delta)
     {
         if (_haltPlayerLogic) 
-        {
             return;
-        }
 
         UpdateMoveDirection();
         UpdateWallDirection();
         HandleMovement(delta);
     }
 
-    private Vector2 _dashDir;
-    private bool _horizontalDash;
-    private bool _hasTouchedGroundAfterDash = true;
-
     private void HandleMovement(float delta)
     {
         _inputJump = Input.IsActionJustPressed("player_jump");
-        _inputDash = Input.IsActionJustPressed("player_dash");
         _inputDown = Input.IsActionPressed("player_move_down");
+        _inputDash = Input.IsActionJustPressed("player_dash");
 
         // on a wall and falling
         if (_wallDir != 0)
@@ -129,9 +127,6 @@ public class Player : KinematicBody2D
             }
         }
 
-        if (_inputJump && IsOnFloor())
-            Jump();
-
         // Platform Check
         PlatformDownCheck();
 
@@ -149,20 +144,26 @@ public class Player : KinematicBody2D
         else
             _gravity = GRAVITY_AIR;
 
+        if (IsOnGround())
+        {
+            _hasTouchedGroundAfterDash = true;
+
+            _velocity.x += _moveDir.x * SPEED_GROUND_WALK;
+            
+            HorzDampening(5, 2);
+
+            if (_inputJump)
+            {
+                Jump();
+            }
+        }
+        else 
+        {
+            _velocity.x += _moveDir.x * SPEED_AIR;
+        }
+
         // apply gravity
         _velocity.y += _gravity * delta;
-
-        if (_canHorzMove)
-            if (IsOnGround())
-            {
-                _hasTouchedGroundAfterDash = true;
-                _velocity.x += _moveDir.x * SPEED_GROUND;
-                HorzDampening(5, 2);
-            }
-            else
-            {
-                _velocity.x += _moveDir.x * SPEED_AIR;
-            }
 
         if (!_currentlyDashing)
         {
@@ -175,7 +176,7 @@ public class Player : KinematicBody2D
 
     private void PlatformDownCheck()
     {
-        var collision = _rayCast2DFloorCheck.GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
+        var collision = _rayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
 
         if (collision != null) 
         {
@@ -257,14 +258,22 @@ public class Player : KinematicBody2D
         _velocity.y -= JUMP_FORCE;
     }
 
-    private bool IsOnGround() => _rayCast2DFloorCheck.IsColliding();
-    private bool IsOnSlope()
+    private bool IsOnGround() 
+    {
+        foreach (var raycast in _rayCast2DGroundChecks)
+            if (raycast.IsColliding())
+                return true;
+
+        return false;
+    }
+
+    /*private bool IsOnSlope()
     {
         if (_rayCast2DSlopeCheck.IsColliding())
             return false;
 
         return _rayCast2DSlopeCheck.GetCollisionNormal().Dot(Vector2.Up) < 1;
-    }
+    }*/
 
     private bool IsFalling() => _velocity.y > 0;
 
