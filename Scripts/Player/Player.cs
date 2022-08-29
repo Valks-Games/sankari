@@ -46,6 +46,9 @@ public class Player : KinematicBody2D
     private Sprite _sprite;
     private GTween _dieTween;
 
+    // wall
+    private bool _inWallJumpArea;
+
     // dash
     private Vector2 _dashDir;
     private bool _horizontalDash;
@@ -93,8 +96,10 @@ public class Player : KinematicBody2D
         var wallDir = UpdateWallDirection();
 
         // on a wall and falling
-        if (wallDir != 0)
+        if (wallDir != 0 && _inWallJumpArea)
         {
+            _sprite.FlipH = wallDir == 1 ? true : false;
+
             if (IsFalling())
             {
                 _velocity.y = 0;
@@ -110,6 +115,10 @@ public class Player : KinematicBody2D
                     _velocity.y -= JUMP_FORCE_WALL_VERT;
                 }
             }
+        }
+        else
+        {
+            _sprite.FlipH = false;
         }
 
         CheckIfCanGoUnderPlatform(inputDown);
@@ -261,8 +270,6 @@ public class Player : KinematicBody2D
         var left = IsTouchingWallLeft();
         var right = IsTouchingWallRight();
 
-        _sprite.FlipH = right;
-
         return -Convert.ToInt32(left) + Convert.ToInt32(right);
     }
 
@@ -378,5 +385,14 @@ public class Player : KinematicBody2D
             _gameManager.Audio.PlaySFX("coin_pickup", 70);
             area.GetParent().QueueFree();
         }
+
+        if (area.IsInGroup("WallJumpArea"))
+            _inWallJumpArea = true;
+    }
+
+    private void _on_Area_area_exited(Area2D area)
+    {
+        if (area.IsInGroup("WallJumpArea"))
+            _inWallJumpArea = false;
     }
 }

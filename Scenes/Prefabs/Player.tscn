@@ -76,3 +76,4 @@ position = Vector2( -0.5, 0 )
 shape = SubResource( 2 )
 
 [connection signal="area_entered" from="Area" to="." method="_on_Player_Area_area_entered"]
+[connection signal="area_exited" from="Area" to="." method="_on_Area_area_exited"]
