@@ -26,15 +26,18 @@ Please use VSCode, using the built in Godot script editor with C# should be a cr
 
 > ⚠️ Please double check that you are not changing every single line in the project when you commit because you had the wrong line space settings. To see the correct line settings, have a look at the code style document below.
 
-**How to delete commits from remote**
-1. `git reset --hard <last_working_commit_id>`
-2. `git push --force`
+**How to delete commits from your fork**
+```
+git reset --hard <last_working_commit_id>
+git push --force
+```
 
-**How to fetch upstream from your fork**
-
-*I've never done this before so let me know how it goes for you*
-
-[Click to see how to Fetch upstream](https://user-images.githubusercontent.com/6277739/187052216-c8ca5c25-7e8c-4239-9da8-2205b6fc2f00.png)
+**How to fetch the latest updates from this repo to your fork**
+```
+git remote add upstream https://github.com/Valks-Games/sankari.git
+git fetch upstream
+git merge upstream/main
+```
 
 ### Notes
 - Please always use `Logger.Log()` over `GD.Print()`
