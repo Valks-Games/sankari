@@ -44,7 +44,7 @@ git remote add upstream https://github.com/Valks-Games/sankari.git
 # Fetch data from upstream
 git fetch upstream
 
-# Merge upstream with your fork
+# Merge upstream with your fork (if you don't care about your history, then replace merge with rebase)
 git merge upstream/main
 ```
 
