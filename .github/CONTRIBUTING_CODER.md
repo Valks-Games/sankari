@@ -18,26 +18,35 @@ Please use VSCode, using the built in Godot script editor with C# should be a cr
     - [MoonSharp Debug](https://marketplace.visualstudio.com/items?itemName=xanathar.moonsharp-debug) (only if debugging lua)
 3. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor` or simply click the `Open Godot Editor` button bottom right
 
-### GitHub
+### Setup GitHub Fork
 1. Fork this repo
 2. Install [Git scm](https://git-scm.com/downloads)
 3. Clone your fork with `git clone https://github.com/<USERNAME>/Sankari` (replace `<USERNAME>` with your GitHub username)
-4. Push changes you make to your fork (don't forget to fetch the upstream from the main repo before you do this) all in vscode
+4. Push and pull changes from your fork with `git pull` `git push`
+5. Create a pull request through the GitHub website to merge your work with this repo
 
 > ⚠️ Please double check that you are not changing every single line in the project when you commit because you had the wrong line space settings. To see the correct line settings, have a look at the code style document below.
 
-**How to delete commits from remote**
-1. `git reset --hard <last_working_commit_id>`
-2. `git push --force`
+### How to Delete Commits From Your Fork
+```bash
+# Delete all commits except for <last_working_commit_id>
+git reset --hard <last_working_commit_id>
 
-**How to fetch upstream from your fork**
+# Push the changes (be sure that this is what you really want to do or you may lose a lot of progress)
+git push --force
+```
 
-*I've never done this before so let me know how it goes for you*
+### How to Fetch the Latest Updates From This Repo to Your Fork
+```bash
+# Add upstream as a remote (check remotes with git remote -v)
+git remote add upstream https://github.com/Valks-Games/sankari.git
 
-[Click to see how to Fetch upstream](https://user-images.githubusercontent.com/6277739/187052216-c8ca5c25-7e8c-4239-9da8-2205b6fc2f00.png)
+# Fetch data from upstream
+git fetch upstream
 
-### Notes
-- Please always use `Logger.Log()` over `GD.Print()`
+# Merge upstream with your fork (if you don't care about your history, then replace merge with rebase)
+git merge upstream/main
+```
 
 ### Code Style
 Please make use of the following [code style](https://github.com/GodotModules/GodotModulesCSharp/blob/main/.github/FORMATTING_GUIDELINES.md).
