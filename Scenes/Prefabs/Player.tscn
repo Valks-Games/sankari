@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Sprites/Player Map Icon.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Map/Player Map Icon.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -10,6 +10,7 @@ extents = Vector2( 4.5, 5 )
 extents = Vector2( 4.5, 5 )
 
 [node name="Player" type="KinematicBody2D"]
+scale = Vector2( 4, 4 )
 z_index = 1
 script = ExtResource( 2 )
 NodePathRayCast2DWallChecksLeft = NodePath("Raycasts/Wall Checks/Left")

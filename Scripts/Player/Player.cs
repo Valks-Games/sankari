@@ -7,17 +7,18 @@ public class Player : KinematicBody2D
     [Export] protected readonly NodePath NodePathRayCast2DGroundChecks;
     [Export] protected readonly NodePath NodePathSprite;
 
-    private const int SPEED_GROUND_WALK = 15;
-    private const int SPEED_AIR = 1;
-    private const int SPEED_MAX_GROUND = 75;
-    private const int SPEED_MAX_AIR = 225;
-    private const int SPEED_DASH_VERTICAL = 100;
-    private const int SPEED_DASH_HORIZONTAL = 150;
-    private const int GRAVITY_AIR = 350;
-    private const int GRAVITY_WALL = 750;
-    private const int JUMP_FORCE = 150;
-    private const int JUMP_FORCE_WALL_VERT = 150;
-    private const int JUMP_FORCE_WALL_HORZ = 75;
+    private const int UNIVERSAL_FORCE_MODIFIER = 4;
+    private const int SPEED_GROUND_WALK = 15 * UNIVERSAL_FORCE_MODIFIER;
+    private const int SPEED_AIR = 1 * UNIVERSAL_FORCE_MODIFIER;
+    private const int SPEED_MAX_GROUND = 75 * UNIVERSAL_FORCE_MODIFIER;
+    private const int SPEED_MAX_AIR = 225 * UNIVERSAL_FORCE_MODIFIER;
+    private const int SPEED_DASH_VERTICAL = 100 * UNIVERSAL_FORCE_MODIFIER;
+    private const int SPEED_DASH_HORIZONTAL = 150 * UNIVERSAL_FORCE_MODIFIER;
+    private const int GRAVITY_AIR = 350 * UNIVERSAL_FORCE_MODIFIER;
+    private const int GRAVITY_WALL = 750 * UNIVERSAL_FORCE_MODIFIER;
+    private const int JUMP_FORCE = 150 * UNIVERSAL_FORCE_MODIFIER;
+    private const int JUMP_FORCE_WALL_VERT = 150 * UNIVERSAL_FORCE_MODIFIER;
+    private const int JUMP_FORCE_WALL_HORZ = 75 * UNIVERSAL_FORCE_MODIFIER;
     private const int DASH_COOLDOWN = 500;
     private const int DASH_DURATION = 200;
 
@@ -153,7 +154,7 @@ public class Player : KinematicBody2D
 
             velocity.x += moveDir.x * SPEED_GROUND_WALK;
 
-            HorzDampening(5, 2);
+            HorzDampening(10, 1);
 
             if (inputJump)
             {

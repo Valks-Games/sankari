@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Sprites/Turret Rod.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Level/Turret Rod.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Enemy/Turret.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=24]

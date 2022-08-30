@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Sprites/spike.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Level/spike.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=38]
 extents = Vector2( 7, 2.5 )
