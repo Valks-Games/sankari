@@ -60,7 +60,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy
         }
             
         MoveAndSlide(velocity, new Vector2(0, -1));
-    }
+    }//
 
     private bool IsNearLeftWall() 
     {
