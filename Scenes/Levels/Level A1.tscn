@@ -680,7 +680,7 @@ margin_bottom = 30.0
 position = Vector2( 14, 14 )
 scale = Vector2( 1.23333, 1.23333 )
 frames = SubResource( 73 )
-frame = 1
+frame = 3
 playing = true
 
 [node name="Control" type="Control" parent="CanvasLayer/PanelContainer/HBoxContainer"]

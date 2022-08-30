@@ -56,6 +56,9 @@ public class Player : KinematicBody2D
     private bool _dashReady = true;
     private bool _currentlyDashing;
 
+    // msc
+    private Viewport _tree;
+
     public void PreInit(GameManager gameManager)
     {
         _gameManager = gameManager;
@@ -71,6 +74,7 @@ public class Player : KinematicBody2D
         _parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
         _sprite = GetNode<Sprite>(NodePathSprite);
         _dieTween = new GTween(this);
+        _tree = GetTree().Root;
 
         PrepareRaycasts(_parentWallChecksLeft, _rayCast2DWallChecksLeft);
         PrepareRaycasts(_parentWallChecksRight, _rayCast2DWallChecksRight);
@@ -199,7 +203,7 @@ public class Player : KinematicBody2D
     {
         var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
         sprite.GlobalPosition = GlobalPosition;
-        GetTree().Root.AddChild(sprite);
+        _tree.AddChild(sprite);
 
         var dashSpeed = SPEED_DASH_VERTICAL;
 
@@ -212,14 +216,13 @@ public class Player : KinematicBody2D
 
     private Vector2 GetDashDirection(bool inputUp, bool inputDown)
     {
-        // determine dash direction
-        
         if (inputDown && _moveDir.x < 0) 
         {
             return new Vector2(-1, 1);
         }
         else if (inputDown && _moveDir.x == 0) 
         {
+            _horizontalDash = false;
             return new Vector2(0, 1);
         }
         else if (inputDown && _moveDir.x > 0) 
