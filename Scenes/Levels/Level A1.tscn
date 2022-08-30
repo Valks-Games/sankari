@@ -612,6 +612,7 @@ font_data = ExtResource( 8 )
 
 [node name="Level A1" type="Node2D"]
 script = ExtResource( 3 )
+NodePathCoinSprite = NodePath("CanvasLayer/PanelContainer/HBoxContainer/AnimatedSprite")
 NodePathLabelCoins = NodePath("CanvasLayer/PanelContainer/HBoxContainer/Coins")
 
 [node name="Environment" type="Node2D" parent="."]
@@ -702,8 +703,6 @@ margin_bottom = 30.0
 position = Vector2( 14, 14 )
 scale = Vector2( 1.23333, 1.23333 )
 frames = SubResource( 73 )
-frame = 1
-playing = true
 
 [node name="Padding Left" type="Control" parent="CanvasLayer/PanelContainer/HBoxContainer"]
 margin_right = 25.0
