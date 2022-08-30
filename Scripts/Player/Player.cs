@@ -89,7 +89,9 @@ public class Player : KinematicBody2D
     private void HandleMovement(float delta)
     {
         var inputJump = Input.IsActionJustPressed("player_jump");
+        var inputUp = Input.IsActionPressed("player_move_up");
         var inputDown = Input.IsActionPressed("player_move_down");
+        var inputFastFall = Input.IsActionPressed("player_fast_fall");
         var inputDash = Input.IsActionJustPressed("player_dash");
 
         var gravity = GRAVITY_AIR;
@@ -131,7 +133,7 @@ public class Player : KinematicBody2D
             _currentlyDashing = true;
             _timerDashDuration.Start();
             _timerDashCooldown.Start();
-            _dashDir = GetDashDirection();
+            _dashDir = GetDashDirection(inputUp, inputDown);
         }
 
         if (_currentlyDashing)
@@ -161,7 +163,7 @@ public class Player : KinematicBody2D
         {
             _velocity.x += _moveDir.x * SPEED_AIR;
 
-            if (inputDown)
+            if (inputFastFall)
                 _velocity.y += 10;
         }
 
@@ -208,22 +210,33 @@ public class Player : KinematicBody2D
         _hasTouchedGroundAfterDash = false;
     }
 
-    private Vector2 GetDashDirection()
+    private Vector2 GetDashDirection(bool inputUp, bool inputDown)
     {
         // determine dash direction
-        var input_up = Input.IsActionPressed("player_move_up");
-
-        if (input_up && _moveDir.x < 0)
+        
+        if (inputDown && _moveDir.x < 0) 
+        {
+            return new Vector2(-1, 1);
+        }
+        else if (inputDown && _moveDir.x == 0) 
+        {
+            return new Vector2(0, 1);
+        }
+        else if (inputDown && _moveDir.x > 0) 
+        {
+            return new Vector2(1, 1);
+        }
+        else if (inputUp && _moveDir.x < 0)
         {
             _horizontalDash = false;
             return new Vector2(-1, -1);
         }
-        else if (input_up && _moveDir.x > 0)
+        else if (inputUp && _moveDir.x > 0)
         {
             _horizontalDash = false;
             return new Vector2(1, -1);
         }
-        else if (input_up)
+        else if (inputUp)
         {
             _horizontalDash = false;
             return new Vector2(0, -1);

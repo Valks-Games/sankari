@@ -6,7 +6,10 @@ public class GTimer
 {
     private readonly Timer _timer = new Timer();
 
-    public float Delay { get; set; }
+    public float TimeLeft 
+    { 
+        get { return _timer.TimeLeft; } 
+    }
 
     public GTimer(Node target, string methodName, int delayMs = 1000, bool loop = true, bool autoStart = true)
     {
@@ -17,7 +20,6 @@ public class GTimer
     private void Init(Node target, int delayMs, bool loop, bool autoStart)
     {
         _timer.WaitTime = delayMs / 1000f;
-        Delay = _timer.WaitTime;
         _timer.OneShot = !loop;
         _timer.Autostart = autoStart;
         target.AddChild(_timer);
