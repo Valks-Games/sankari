@@ -6,55 +6,55 @@ public class PlatformDisappear : APlatform
     [Export] public int DurationFlash2 = 2000;
     [Export] public int DurationReappear = 3000;
 
-    private Sprite _sprite;
-    private ShaderMaterial _shaderMaterial;
-    private float _time;
-    private bool _playerOnPlatform;
-    private bool _phase2;
-    private GTimer _timerFlash1;
-    private GTimer _timerFlash2;
-    private GTimer _timerReappear;
+    private Sprite sprite;
+    private ShaderMaterial shaderMaterial;
+    private float time;
+    private bool playerOnPlatform;
+    private bool phase2;
+    private GTimer timerFlash1;
+    private GTimer timerFlash2;
+    private GTimer timerReappear;
 
     public override void _Ready()
     {
         Init();
 
-        _sprite = GetNode<Sprite>("Sprite");
-        _shaderMaterial = (_sprite.Material as ShaderMaterial);
-        _timerFlash1 = new GTimer(this, nameof(OnTimerFlash1Up), DurationFlash1, false, false);
-        _timerFlash2 = new GTimer(this, nameof(OnTimerFlash2Up), DurationFlash2, false, false);
-        _timerReappear = new GTimer(this, nameof(OnTimerReappear), DurationReappear, false, false);
+        sprite = GetNode<Sprite>("Sprite");
+        shaderMaterial = (sprite.Material as ShaderMaterial);
+        timerFlash1 = new GTimer(this, nameof(OnTimerFlash1Up), DurationFlash1, false, false);
+        timerFlash2 = new GTimer(this, nameof(OnTimerFlash2Up), DurationFlash2, false, false);
+        timerReappear = new GTimer(this, nameof(OnTimerReappear), DurationReappear, false, false);
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        _time += delta;
+        time += delta;
 
-        if (_playerOnPlatform) 
+        if (playerOnPlatform) 
         {
-            if (!_phase2)
-                SetWhiteProgress(_time.Pulse(2));
+            if (!phase2)
+                SetWhiteProgress(time.Pulse(2));
             else
-                SetWhiteProgress(_time.Pulse(4));
+                SetWhiteProgress(time.Pulse(4));
         }
             
     }
 
-    private void SetWhiteProgress(float v) => _shaderMaterial.SetShaderParam("white_progress", v);
+    private void SetWhiteProgress(float v) => shaderMaterial.SetShaderParam("white_progress", v);
 
     private bool AreaIsPlayer(Area2D area) => area.GetParent() is Player;
 
     private void OnTimerFlash1Up()
     {
-        _phase2 = true;
-        _timerFlash2.Start();
+        phase2 = true;
+        timerFlash2.Start();
     }
 
     private void OnTimerFlash2Up() 
     {
         Visible = false;
         Collision.Disabled = true;
-        _timerReappear.Start();
+        timerReappear.Start();
     }
 
     private void OnTimerReappear()
@@ -68,8 +68,8 @@ public class PlatformDisappear : APlatform
     {
         if (AreaIsPlayer(area))
         {
-            _playerOnPlatform = true;
-            _timerFlash1.Start();
+            playerOnPlatform = true;
+            timerFlash1.Start();
         }
     }
 
@@ -78,10 +78,10 @@ public class PlatformDisappear : APlatform
         if (AreaIsPlayer(area))
         {
             SetWhiteProgress(0);
-            _playerOnPlatform = false;
-            _phase2 = false;
-            _timerFlash1.Stop();
-            _timerFlash2.Stop();
+            playerOnPlatform = false;
+            phase2 = false;
+            timerFlash1.Stop();
+            timerFlash2.Stop();
         }
     }
 }

@@ -3,57 +3,57 @@ namespace Sankari;
 public class Map : Node
 {
     public static bool HasMapLoadedBefore { get; private set; }
-    private static Vector2 _prevPlayerMapIconPosition { get; set; }
+    private static Vector2 prevPlayerMapIconPosition { get; set; }
 
     [Export] protected readonly NodePath NodePathLevels;
     [Export] protected readonly NodePath NodePathTileMapLevelIcons;
     [Export] protected readonly NodePath NodePathTileMapTerrain;
     [Export] protected readonly NodePath NodePathPlayerIcon;
 
-    private TileMap _tileMapLevelIcons, _tileMapTerrain;
-    private Node _levels;
-    private Sprite _playerIcon;
+    private TileMap tileMapLevelIcons, tileMapTerrain;
+    private Node levels;
+    private Sprite playerIcon;
 
-    private GameManager _gameManager;
-    private LevelManager _levelManager;
-    private bool _loadingLevel;
+    private GameManager gameManager;
+    private LevelManager levelManager;
+    private bool loadingLevel;
 
     public void PreInit(GameManager gameManager) 
     {
-        _gameManager = gameManager;
-        _levelManager = gameManager.LevelManager;
+        this.gameManager = gameManager;
+        levelManager = gameManager.LevelManager;
     }
 
     public override void _Ready()
     {
-        _tileMapLevelIcons = GetNode<TileMap>(NodePathTileMapLevelIcons);
-        _tileMapTerrain = GetNode<TileMap>(NodePathTileMapTerrain);
-        _levels = GetNode<Node>(NodePathLevels);
-        _playerIcon = GetNode<Sprite>(NodePathPlayerIcon);
+        tileMapLevelIcons = GetNode<TileMap>(NodePathTileMapLevelIcons);
+        tileMapTerrain = GetNode<TileMap>(NodePathTileMapTerrain);
+        levels = GetNode<Node>(NodePathLevels);
+        playerIcon = GetNode<Sprite>(NodePathPlayerIcon);
 
-        foreach (var level in _levelManager.Levels.Values) 
+        foreach (var level in levelManager.Levels.Values) 
             if (level.Completed)
-                _tileMapLevelIcons.SetCellv(level.Position, 1); // remember 1 is gray circle
+                tileMapLevelIcons.SetCellv(level.Position, 1); // remember 1 is gray circle
 
         if (HasMapLoadedBefore) 
         {
-            _playerIcon.Position = _prevPlayerMapIconPosition;
+            playerIcon.Position = prevPlayerMapIconPosition;
             return;
         }
 
         HasMapLoadedBefore = true;
 
-        foreach (Area2D levelArea in _levels.GetChildren())
+        foreach (Area2D levelArea in levels.GetChildren())
         {
             var worldPos = ((CollisionShape2D)levelArea.GetChild(0)).Position;
-            var tilePos = _tileMapLevelIcons.WorldToMap(worldPos);
+            var tilePos = tileMapLevelIcons.WorldToMap(worldPos);
 
-            if (!_levelManager.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
-                _levelManager.Levels.Add(levelArea.Name, new Level(levelArea.Name) {
+            if (!levelManager.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
+                levelManager.Levels.Add(levelArea.Name, new Level(levelArea.Name) {
                     Position = tilePos
                 });
             else
-                _levelManager.Levels[levelArea.Name].Position = tilePos;
+                levelManager.Levels[levelArea.Name].Position = tilePos;
         }
     }
 
@@ -64,17 +64,17 @@ public class Map : Node
         CheckMove("map_move_up", new Vector2(0, -16));
         CheckMove("map_move_down", new Vector2(0, 16));
 
-        if (Input.IsActionJustPressed("map_action") && !_loadingLevel)
+        if (Input.IsActionJustPressed("map_action") && !loadingLevel)
         {
-            var id = GetCurrentTileId(_tileMapLevelIcons, _playerIcon.Position);
+            var id = GetCurrentTileId(tileMapLevelIcons, playerIcon.Position);
             if (id != -1)
             {
-                _loadingLevel = true;
-                await _gameManager.TransitionManager.AlphaToBlackAndBack();
+                loadingLevel = true;
+                await gameManager.TransitionManager.AlphaToBlackAndBack();
 
-                _levelManager.LoadLevel();
+                levelManager.LoadLevel();
                 
-                _prevPlayerMapIconPosition = _playerIcon.Position;
+                prevPlayerMapIconPosition = playerIcon.Position;
 
                 // hide map and load level
                 
@@ -86,26 +86,26 @@ public class Map : Node
     {
         if (Input.IsActionJustPressed(inputAction))
         {
-            var currPos = _playerIcon.Position;
+            var currPos = playerIcon.Position;
             var nextPos = currPos + moveOffset;
 
-            var tileIdTerrain = GetCurrentTileId(_tileMapTerrain, nextPos);
+            var tileIdTerrain = GetCurrentTileId(tileMapTerrain, nextPos);
 
             if (tileIdTerrain == 0) // this is not a path tile, cancel movement
                 return;
 
-            var tileIdLevelOffset = GetCurrentTileId(_tileMapLevelIcons, nextPos);
-            var tileIdLevelCurr = GetCurrentTileId(_tileMapLevelIcons, currPos);
+            var tileIdLevelOffset = GetCurrentTileId(tileMapLevelIcons, nextPos);
+            var tileIdLevelCurr = GetCurrentTileId(tileMapLevelIcons, currPos);
 
             // yellow circle = 0
             // gray circle   = 1
 
-            var nextTilePos = _tileMapLevelIcons.WorldToMap(nextPos);
+            var nextTilePos = tileMapLevelIcons.WorldToMap(nextPos);
 
             //if (_levelManager.LevelPositions.ContainsKey(nextTilePos) && _levelManager.LevelPositions[nextTilePos].Locked)
              //   return;
 
-            _playerIcon.Position = nextPos;
+            playerIcon.Position = nextPos;
         }
     }
 
@@ -122,6 +122,6 @@ public class Map : Node
 
     private void _on_Player_Area_area_entered(Area2D area)
     {
-        _levelManager.CurrentLevel = area.Name;
+        levelManager.CurrentLevel = area.Name;
     }
 }

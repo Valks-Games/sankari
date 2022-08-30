@@ -4,9 +4,9 @@ public class BasicEnemy : KinematicBody2D, IEnemy
 {
     [Export] public bool StartWalkingRight;
 
-    private const float _gravity = 6000f;
-    private bool _movingForward;
-    private AnimatedSprite _animatedSprite;
+    private const float gravity = 6000f;
+    private bool movingForward;
+    private AnimatedSprite animatedSprite;
     private RayCast2D wallCheckLeft;
     private RayCast2D wallCheckRight;
 
@@ -17,8 +17,8 @@ public class BasicEnemy : KinematicBody2D, IEnemy
 
     public override void _Ready()
     {
-        _animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
-        _animatedSprite.Play();
+        animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        animatedSprite.Play();
 
         wallCheckLeft = GetNode<RayCast2D>("Wall Checks/Left");
         wallCheckLeft.AddException(this);
@@ -27,8 +27,8 @@ public class BasicEnemy : KinematicBody2D, IEnemy
 
         if (StartWalkingRight) 
         {
-            _movingForward = !_movingForward;
-            _animatedSprite.FlipH = true;
+            movingForward = !movingForward;
+            animatedSprite.FlipH = true;
         }
     }
 
@@ -36,16 +36,16 @@ public class BasicEnemy : KinematicBody2D, IEnemy
     {
         var velocity = new Vector2(0, 0);
 
-        velocity.y += delta * _gravity;
+        velocity.y += delta * gravity;
 
-        if (_movingForward)
+        if (movingForward)
         {
             velocity.x += 10;
 
             if (IsNearRightWall())
             {
-                _movingForward = !_movingForward;
-                _animatedSprite.FlipH = !_animatedSprite.FlipH;
+                movingForward = !movingForward;
+                animatedSprite.FlipH = !animatedSprite.FlipH;
             }
         }
         else 
@@ -54,8 +54,8 @@ public class BasicEnemy : KinematicBody2D, IEnemy
 
             if (IsNearLeftWall())
             {
-                _movingForward = !_movingForward;
-                _animatedSprite.FlipH = !_animatedSprite.FlipH;
+                movingForward = !movingForward;
+                animatedSprite.FlipH = !animatedSprite.FlipH;
             }
         }
             

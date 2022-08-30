@@ -8,13 +8,13 @@ public class LevelManager
 
     public string CurrentLevel { get; set; }
 
-    private Node _nodeLevel;
-    private GameManager _gameManager;
+    private Node nodeLevel;
+    private GameManager gameManager;
 
     public LevelManager(GameManager gameManager, Node nodeLevel)
     {
-        _gameManager = gameManager;
-        _nodeLevel = nodeLevel;
+        this.gameManager = gameManager;
+        this.nodeLevel = nodeLevel;
         var godotFileManager = new GodotFileManager();
         godotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
         {
@@ -42,10 +42,10 @@ public class LevelManager
     public void LoadLevel()
     {
         // remove map
-        _gameManager.DestroyMap();
+        gameManager.DestroyMap();
 
         // remove level if any
-        _nodeLevel.QueueFreeChildren();
+        nodeLevel.QueueFreeChildren();
 
         // load level
         var scenePath = $"res://Scenes/Levels/{CurrentLevel}.tscn";
@@ -57,20 +57,20 @@ public class LevelManager
 
         var levelPacked = ResourceLoader.Load<PackedScene>(scenePath);
         var level = (LevelScene)levelPacked.Instance();
-        level.PreInit(_gameManager);
-        _nodeLevel.AddChild(level);
+        level.PreInit(gameManager);
+        nodeLevel.AddChild(level);
 
         var curLevel = Levels[CurrentLevel];
 
-        _gameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
+        gameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
     }
 
     public async Task CompleteLevel(string levelName)
     {
-        await _gameManager.TransitionManager.AlphaToBlackAndBack();
+        await gameManager.TransitionManager.AlphaToBlackAndBack();
 
         // remove level
-        _nodeLevel.QueueFreeChildren();
+        nodeLevel.QueueFreeChildren();
 
         // mark level as completed
         Levels[levelName].Completed = true;
@@ -80,7 +80,7 @@ public class LevelManager
                 Levels[level].Locked = false;
 
         // load map
-        _gameManager.LoadMap();
+        gameManager.LoadMap();
     }
 }
 

@@ -2,8 +2,8 @@ namespace Sankari;
 
 public class GTween 
 {
-    private Tween _tween;
-    private Node _target;
+    private Tween tween;
+    private Node target;
 
     /// <summary>
     /// Should the tween animation loop? Note that if Repeat is set to false than the values set in InterpolateProperty
@@ -11,16 +11,16 @@ public class GTween
     /// </summary>
     public bool Repeat
     {
-        get { return _tween.Repeat; }
-        set { _tween.Repeat = value; }
+        get { return tween.Repeat; }
+        set { tween.Repeat = value; }
     }
 
     public GTween(Node target)
     {
-        _tween = new Tween();
-        _tween.ProcessPriority = (int)Tween.TweenProcessMode.Physics;
-        _target = target;
-        _target.AddChild(_tween);
+        tween = new Tween();
+        tween.ProcessPriority = (int)Tween.TweenProcessMode.Physics;
+        this.target = target;
+        this.target.AddChild(tween);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class GTween
         float delay = 0,
         Tween.TransitionType transType = Tween.TransitionType.Cubic, 
         Tween.EaseType easeType = Tween.EaseType.InOut
-    ) => _tween.InterpolateProperty(_target, property, initialValue, finalValue, duration, transType, easeType, delay);
+    ) => tween.InterpolateProperty(target, property, initialValue, finalValue, duration, transType, easeType, delay);
 
     public async Task AnimatePlatform
     (
@@ -48,25 +48,25 @@ public class GTween
         Tween.EaseType easeType = Tween.EaseType.InOut
     ) 
     {
-        _tween.Repeat = true;
+        tween.Repeat = true;
         InterpolateProperty("position", initialValue, finalValue, duration, 0, transType, easeType);
         InterpolateProperty("position", finalValue, initialValue, duration, duration, transType, easeType);
         await Task.Delay(startDelay * 1000);
         Start();
     }
 
-    public void IsActive() => _tween.IsActive();
-    public void Start() => _tween.Start();
-    public void Pause() => _tween.StopAll();
-    public void Resume() => _tween.ResumeAll();
+    public void IsActive() => tween.IsActive();
+    public void Start() => tween.Start();
+    public void Pause() => tween.StopAll();
+    public void Resume() => tween.ResumeAll();
 
     /// <summary>
     /// The name of the method passed must have Object @object, NodePath nodePath params
     /// </summary>
-    public void OnCompleted(string method) => _tween.Connect("tween_completed", _target, method);
+    public void OnCompleted(string method) => tween.Connect("tween_completed", target, method);
 
     /// <summary>
     /// Emitted when all the animations in the tween have been completed.
     /// </summary>
-    public void OnAllCompleted(string method) => _tween.Connect("tween_all_completed", _target, method);
+    public void OnAllCompleted(string method) => tween.Connect("tween_all_completed", target, method);
 }

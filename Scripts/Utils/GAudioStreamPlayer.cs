@@ -2,14 +2,14 @@ namespace Sankari;
 
 public class GAudioStreamPlayer 
 {
-    private AudioStreamPlayer _audioStreamPlayer;
+    private AudioStreamPlayer audioStreamPlayer;
 
     /// <summary>
     /// The volume ranging from a value of 0 to 100
     /// </summary>
     public float Volume 
     {
-        get { return _audioStreamPlayer.VolumeDb.Remap(-40, 0, 0, 100); }
+        get { return audioStreamPlayer.VolumeDb.Remap(-40, 0, 0, 100); }
         set 
         {
             var v = value.Remap(0, 100, -40, 0);
@@ -17,7 +17,7 @@ public class GAudioStreamPlayer
             if (value == 0)
                 v = 0;
 
-            _audioStreamPlayer.VolumeDb = v; 
+            audioStreamPlayer.VolumeDb = v; 
         }
     }
 
@@ -26,22 +26,22 @@ public class GAudioStreamPlayer
     /// </summary>
     public float Pitch 
     {
-        get { return _audioStreamPlayer.PitchScale; }
-        set { _audioStreamPlayer.PitchScale = value; }
+        get { return audioStreamPlayer.PitchScale; }
+        set { audioStreamPlayer.PitchScale = value; }
     }
 
     public AudioStream Stream 
     {
-        get { return _audioStreamPlayer.Stream; }
-        set { _audioStreamPlayer.Stream = value; }
+        get { return audioStreamPlayer.Stream; }
+        set { audioStreamPlayer.Stream = value; }
     }
 
     public GAudioStreamPlayer(Node target) 
     {
-        _audioStreamPlayer = new();
-        target.AddChild(_audioStreamPlayer);
+        audioStreamPlayer = new();
+        target.AddChild(audioStreamPlayer);
     }
 
-    public void Play() => _audioStreamPlayer.Play();
-    public void Stop() => _audioStreamPlayer.Stop();
+    public void Play() => audioStreamPlayer.Play();
+    public void Stop() => audioStreamPlayer.Stop();
 }

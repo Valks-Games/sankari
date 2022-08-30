@@ -2,11 +2,11 @@ namespace Sankari;
 
 public class PlayerDashTrace : Sprite
 {
-    private GTimer _timer;
+    private GTimer timer;
 
     public override void _Ready()
     {
-        _timer = new GTimer(this, nameof(OnTimerDone), 200, false, true);
+        timer = new GTimer(this, nameof(OnTimerDone), 200, false, true);
     }
 
     private void OnTimerDone()

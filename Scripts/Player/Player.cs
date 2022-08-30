@@ -25,38 +25,38 @@ public class Player : KinematicBody2D
     private LevelScene levelScene;
 
     // movement
-    private Vector2 _moveDir;
-    private Vector2 _velocity;
-    private bool _haltPlayerLogic;
+    private Vector2 moveDir;
+    private Vector2 velocity;
+    private bool haltPlayerLogic;
 
     // timers
-    private GTimer _timerDashCooldown;
-    private GTimer _timerDashDuration;
+    private GTimer timerDashCooldown;
+    private GTimer timerDashDuration;
 
     // raycasts
-    private Node2D _parentWallChecksLeft;
-    private Node2D _parentWallChecksRight;
-    private List<RayCast2D> _rayCast2DWallChecksLeft = new();
-    private List<RayCast2D> _rayCast2DWallChecksRight = new();
-    private List<RayCast2D> _rayCast2DGroundChecks = new();
-    private Node2D _parentGroundChecks;
+    private Node2D parentWallChecksLeft;
+    private Node2D parentWallChecksRight;
+    private List<RayCast2D> rayCast2DWallChecksLeft = new();
+    private List<RayCast2D> rayCast2DWallChecksRight = new();
+    private List<RayCast2D> rayCast2DGroundChecks = new();
+    private Node2D parentGroundChecks;
     
     // animation
-    private Sprite _sprite;
-    private GTween _dieTween;
+    private Sprite sprite;
+    private GTween dieTween;
 
     // wall
-    private bool _inWallJumpArea;
+    private bool inWallJumpArea;
 
     // dash
-    private Vector2 _dashDir;
-    private bool _horizontalDash;
-    private bool _hasTouchedGroundAfterDash = true;
-    private bool _dashReady = true;
-    private bool _currentlyDashing;
+    private Vector2 dashDir;
+    private bool horizontalDash;
+    private bool hasTouchedGroundAfterDash = true;
+    private bool dashReady = true;
+    private bool currentlyDashing;
 
     // msc
-    private Viewport _tree;
+    private Viewport tree;
 
     public void PreInit(LevelScene levelScene)
     {
@@ -65,23 +65,23 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
-        _timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
-        _timerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DASH_DURATION, false, false);
-        _parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
-        _parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
-        _parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
-        _sprite = GetNode<Sprite>(NodePathSprite);
-        _dieTween = new GTween(this);
-        _tree = GetTree().Root;
+        timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
+        timerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DASH_DURATION, false, false);
+        parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
+        parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
+        parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
+        sprite = GetNode<Sprite>(NodePathSprite);
+        dieTween = new GTween(this);
+        tree = GetTree().Root;
 
-        PrepareRaycasts(_parentWallChecksLeft, _rayCast2DWallChecksLeft);
-        PrepareRaycasts(_parentWallChecksRight, _rayCast2DWallChecksRight);
-        PrepareRaycasts(_parentGroundChecks, _rayCast2DGroundChecks);
+        PrepareRaycasts(parentWallChecksLeft, rayCast2DWallChecksLeft);
+        PrepareRaycasts(parentWallChecksRight, rayCast2DWallChecksRight);
+        PrepareRaycasts(parentGroundChecks, rayCast2DGroundChecks);
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if (_haltPlayerLogic)
+        if (haltPlayerLogic)
             return;
 
         UpdateMoveDirection();
@@ -100,46 +100,46 @@ public class Player : KinematicBody2D
         var wallDir = UpdateWallDirection();
 
         // on a wall and falling
-        if (wallDir != 0 && _inWallJumpArea)
+        if (wallDir != 0 && inWallJumpArea)
         {
-            _hasTouchedGroundAfterDash = true;
-            _sprite.FlipH = wallDir == 1 ? true : false;
+            hasTouchedGroundAfterDash = true;
+            sprite.FlipH = wallDir == 1 ? true : false;
 
             if (IsFalling())
             {
-                _velocity.y = 0;
+                velocity.y = 0;
                 gravity = GRAVITY_WALL;
 
                 if (inputDown)
-                    _velocity.y += 50;
+                    velocity.y += 50;
 
                 // wall jump
                 if (inputJump)
                 {
-                    _velocity.x += -JUMP_FORCE_WALL_HORZ * wallDir;
-                    _velocity.y -= JUMP_FORCE_WALL_VERT;
+                    velocity.x += -JUMP_FORCE_WALL_HORZ * wallDir;
+                    velocity.y -= JUMP_FORCE_WALL_VERT;
                 }
             }
         }
         else
         {
-            _sprite.FlipH = false;
+            sprite.FlipH = false;
         }
 
         CheckIfCanGoUnderPlatform(inputDown);
 
         // dash
-        if (inputDash && _dashReady && _hasTouchedGroundAfterDash && !_currentlyDashing)
+        if (inputDash && dashReady && hasTouchedGroundAfterDash && !currentlyDashing)
         {
             levelScene.GameManager.Audio.PlaySFX("dash");
-            _dashReady = false;
-            _currentlyDashing = true;
-            _timerDashDuration.Start();
-            _timerDashCooldown.Start();
-            _dashDir = GetDashDirection(inputUp, inputDown);
+            dashReady = false;
+            currentlyDashing = true;
+            timerDashDuration.Start();
+            timerDashCooldown.Start();
+            dashDir = GetDashDirection(inputUp, inputDown);
         }
 
-        if (_currentlyDashing)
+        if (currentlyDashing)
         {
             gravity = 0;
             DoDashStuff();
@@ -149,42 +149,42 @@ public class Player : KinematicBody2D
 
         if (IsOnGround())
         {
-            _hasTouchedGroundAfterDash = true;
+            hasTouchedGroundAfterDash = true;
 
-            _velocity.x += _moveDir.x * SPEED_GROUND_WALK;
+            velocity.x += moveDir.x * SPEED_GROUND_WALK;
 
             HorzDampening(5, 2);
 
             if (inputJump)
             {
                 levelScene.GameManager.Audio.PlaySFX("player_jump", 80);
-                _velocity.y = 0;
-                _velocity.y -= JUMP_FORCE;
+                velocity.y = 0;
+                velocity.y -= JUMP_FORCE;
             }
         }
         else
         {
-            _velocity.x += _moveDir.x * SPEED_AIR;
+            velocity.x += moveDir.x * SPEED_AIR;
 
             if (inputFastFall)
-                _velocity.y += 10;
+                velocity.y += 10;
         }
 
         // apply gravity
-        _velocity.y += gravity * delta;
+        velocity.y += gravity * delta;
 
-        if (!_currentlyDashing)
+        if (!currentlyDashing)
         {
-            _velocity.x = Mathf.Clamp(_velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
-            _velocity.y = Mathf.Clamp(_velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
+            velocity.x = Mathf.Clamp(velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
+            velocity.y = Mathf.Clamp(velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
         }
 
-        _velocity = MoveAndSlide(_velocity, Vector2.Up);
+        velocity = MoveAndSlide(velocity, Vector2.Up);
     }
 
     private void CheckIfCanGoUnderPlatform(bool inputDown)
     {
-        var collision = _rayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
+        var collision = rayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
 
         if (collision != null)
         {
@@ -202,55 +202,55 @@ public class Player : KinematicBody2D
     {
         var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
         sprite.GlobalPosition = GlobalPosition;
-        _tree.AddChild(sprite);
+        tree.AddChild(sprite);
 
         var dashSpeed = SPEED_DASH_VERTICAL;
 
-        if (_horizontalDash)
+        if (horizontalDash)
             dashSpeed = SPEED_DASH_HORIZONTAL;
 
-        _velocity = _dashDir * dashSpeed;
-        _hasTouchedGroundAfterDash = false;
+        velocity = dashDir * dashSpeed;
+        hasTouchedGroundAfterDash = false;
     }
 
     private Vector2 GetDashDirection(bool inputUp, bool inputDown)
     {
-        if (inputDown && _moveDir.x < 0) 
+        if (inputDown && moveDir.x < 0) 
         {
             return new Vector2(-1, 1);
         }
-        else if (inputDown && _moveDir.x == 0) 
+        else if (inputDown && moveDir.x == 0) 
         {
-            _horizontalDash = false;
+            horizontalDash = false;
             return new Vector2(0, 1);
         }
-        else if (inputDown && _moveDir.x > 0) 
+        else if (inputDown && moveDir.x > 0) 
         {
             return new Vector2(1, 1);
         }
-        else if (inputUp && _moveDir.x < 0)
+        else if (inputUp && moveDir.x < 0)
         {
-            _horizontalDash = false;
+            horizontalDash = false;
             return new Vector2(-1, -1);
         }
-        else if (inputUp && _moveDir.x > 0)
+        else if (inputUp && moveDir.x > 0)
         {
-            _horizontalDash = false;
+            horizontalDash = false;
             return new Vector2(1, -1);
         }
         else if (inputUp)
         {
-            _horizontalDash = false;
+            horizontalDash = false;
             return new Vector2(0, -1);
         }
-        else if (_moveDir.x < 0)
+        else if (moveDir.x < 0)
         {
-            _horizontalDash = true;
+            horizontalDash = true;
             return new Vector2(-1, 0);
         }
-        else if (_moveDir.x > 0)
+        else if (moveDir.x > 0)
         {
-            _horizontalDash = true;
+            horizontalDash = true;
             return new Vector2(1, 0);
         }
 
@@ -259,29 +259,29 @@ public class Player : KinematicBody2D
 
     private void HorzDampening(int dampening, int deadzone)
     {
-        if (_velocity.x >= -deadzone && _velocity.x <= deadzone)
-            _velocity.x = 0;
-        else if (_velocity.x > deadzone)
-            _velocity.x -= dampening;
-        else if (_velocity.x < deadzone)
-            _velocity.x += dampening;
+        if (velocity.x >= -deadzone && velocity.x <= deadzone)
+            velocity.x = 0;
+        else if (velocity.x > deadzone)
+            velocity.x -= dampening;
+        else if (velocity.x < deadzone)
+            velocity.x += dampening;
     }
 
     private bool IsOnGround()
     {
-        foreach (var raycast in _rayCast2DGroundChecks)
+        foreach (var raycast in rayCast2DGroundChecks)
             if (raycast.IsColliding())
                 return true;
 
         return false;
     }
 
-    private bool IsFalling() => _velocity.y > 0;
+    private bool IsFalling() => velocity.y > 0;
 
     private void UpdateMoveDirection()
     {
-        _moveDir.x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
-        _moveDir.y = Input.IsActionPressed("player_jump") ? 1 : 0;
+        moveDir.x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
+        moveDir.y = Input.IsActionPressed("player_jump") ? 1 : 0;
     }
 
     private int UpdateWallDirection()
@@ -294,7 +294,7 @@ public class Player : KinematicBody2D
 
     private bool IsTouchingWallLeft()
     {
-        foreach (var raycast in _rayCast2DWallChecksLeft)
+        foreach (var raycast in rayCast2DWallChecksLeft)
             if (raycast.IsColliding())
                 return true;
 
@@ -303,7 +303,7 @@ public class Player : KinematicBody2D
 
     private bool IsTouchingWallRight()
     {
-        foreach (var raycast in _rayCast2DWallChecksRight)
+        foreach (var raycast in rayCast2DWallChecksRight)
             if (raycast.IsColliding())
                 return true;
 
@@ -324,7 +324,7 @@ public class Player : KinematicBody2D
         var dieStartPos = Position.y;
 
         // animate y position
-        _dieTween.InterpolateProperty
+        dieTween.InterpolateProperty
         (
             "position:y",
             dieStartPos,
@@ -335,7 +335,7 @@ public class Player : KinematicBody2D
             Tween.EaseType.Out
         );
 
-        _dieTween.InterpolateProperty
+        dieTween.InterpolateProperty
         (
             "position:y",
             dieStartPos - 30,
@@ -347,7 +347,7 @@ public class Player : KinematicBody2D
         );
 
         // animate rotation
-        _dieTween.InterpolateProperty
+        dieTween.InterpolateProperty
         (
             "rotation_degrees",
             0,
@@ -356,27 +356,27 @@ public class Player : KinematicBody2D
             0.25f
         );
 
-        _dieTween.Start();
-        _haltPlayerLogic = true;
+        dieTween.Start();
+        haltPlayerLogic = true;
         levelScene.GameManager.Audio.StopMusic();
         levelScene.GameManager.Audio.PlaySFX("game_over_1");
-        _dieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
+        dieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
 
     }
 
     private async void OnDieTweenCompleted()
     {
         await levelScene.GameManager.TransitionManager.AlphaToBlackAndBack();
-        _haltPlayerLogic = false;
+        haltPlayerLogic = false;
         levelScene.GameManager.LevelManager.LoadLevel();
     }
 
-    private void OnDashReady() => _dashReady = true;
-    private void OnDashDurationDone() => _currentlyDashing = false;
+    private void OnDashReady() => dashReady = true;
+    private void OnDashDurationDone() => currentlyDashing = false;
 
     private async void _on_Player_Area_area_entered(Area2D area)
     {
-        if (_haltPlayerLogic)
+        if (haltPlayerLogic)
             return;
 
         if (area.IsInGroup("Killzone"))
@@ -387,9 +387,9 @@ public class Player : KinematicBody2D
 
         if (area.IsInGroup("Level Finish"))
         {
-            _haltPlayerLogic = true;
+            haltPlayerLogic = true;
             await levelScene.GameManager.LevelManager.CompleteLevel(levelScene.GameManager.LevelManager.CurrentLevel);
-            _haltPlayerLogic = false;
+            haltPlayerLogic = false;
             return;
         }
 
@@ -407,12 +407,12 @@ public class Player : KinematicBody2D
         }
 
         if (area.IsInGroup("WallJumpArea"))
-            _inWallJumpArea = true;
+            inWallJumpArea = true;
     }
 
     private void _on_Area_area_exited(Area2D area)
     {
         if (area.IsInGroup("WallJumpArea"))
-            _inWallJumpArea = false;
+            inWallJumpArea = false;
     }
 }

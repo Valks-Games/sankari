@@ -20,14 +20,14 @@ public class GameManager : Node
     public LevelManager LevelManager { get; private set; }
     public Audio Audio { get; private set; }
 
-    private Node _map;
-    private UIMenu _menu;
+    private Node map;
+    private UIMenu menu;
 
     public override void _Ready()
     {
-        _map = GetNode<Node>("Map");
-        _menu = GetNode<UIMenu>("CanvasLayer/Menu");
-        _menu.PreInit(this);
+        map = GetNode<Node>("Map");
+        menu = GetNode<UIMenu>("CanvasLayer/Menu");
+        menu.PreInit(this);
 
         Audio = new Audio(new GAudioStreamPlayer(this), new GAudioStreamPlayer(this));
         LevelManager = new LevelManager(this, GetNode<Node>("Level"));
@@ -45,9 +45,9 @@ public class GameManager : Node
     {
         var mapScript = (Map)Prefabs.Map.Instance();
         mapScript.PreInit(this);
-        _map.CallDeferred("add_child", mapScript); // need to wait for the engine because we are dealing with areas with is physics related
+        map.CallDeferred("add_child", mapScript); // need to wait for the engine because we are dealing with areas with is physics related
         Audio.PlayMusic("map_grassy");
     }
 
-    public void DestroyMap() => _map.QueueFreeChildren();
+    public void DestroyMap() => map.QueueFreeChildren();
 }
