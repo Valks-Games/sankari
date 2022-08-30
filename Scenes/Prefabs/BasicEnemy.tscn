@@ -54,6 +54,18 @@ frames = SubResource( 19 )
 shape = SubResource( 11 )
 one_way_collision = true
 
+[node name="Wall Checks" type="Node2D" parent="."]
+
+[node name="Left" type="RayCast2D" parent="Wall Checks"]
+position = Vector2( -4, 3 )
+enabled = true
+cast_to = Vector2( -6, 0 )
+
+[node name="Right" type="RayCast2D" parent="Wall Checks"]
+position = Vector2( 4, 3 )
+enabled = true
+cast_to = Vector2( 6, 0 )
+
 [node name="Enemy" type="Area2D" parent="." groups=["Enemy"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]

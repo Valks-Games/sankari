@@ -591,7 +591,8 @@ position = Vector2( 481, 565 )
 z_index = 1
 
 [node name="Enemy" parent="Environment/Enemies" instance=ExtResource( 4 )]
-position = Vector2( 158, 561 )
+position = Vector2( 236, 561 )
+StartWalkingRight = true
 
 [node name="Enemy2" parent="Environment/Enemies" instance=ExtResource( 4 )]
 position = Vector2( 657, 545 )
@@ -643,7 +644,7 @@ shape = SubResource( 62 )
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 75, 560 )
 
-[node name="Tileset" type="TileMap" parent="."]
+[node name="Tileset" type="TileMap" parent="." groups=["Tileset"]]
 tile_set = SubResource( 11 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 3
@@ -687,7 +688,6 @@ margin_bottom = 30.0
 position = Vector2( 14, 14 )
 scale = Vector2( 1.23333, 1.23333 )
 frames = SubResource( 73 )
-frame = 7
 playing = true
 
 [node name="Padding Left" type="Control" parent="CanvasLayer/PanelContainer/HBoxContainer"]
