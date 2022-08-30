@@ -104,6 +104,7 @@ public class Player : KinematicBody2D
         // on a wall and falling
         if (wallDir != 0 && _inWallJumpArea)
         {
+            _hasTouchedGroundAfterDash = true;
             _sprite.FlipH = wallDir == 1 ? true : false;
 
             if (IsFalling())
