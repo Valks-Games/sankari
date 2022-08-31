@@ -191,11 +191,8 @@ public class Player : KinematicBody2D
         {
             var node = (Node)collision;
 
-            if (node.IsInGroup("Platform") && inputDown)
-            {
-                var platform = (APlatform)node;
-                platform.TemporarilyDisablePlatform();
-            }
+            if (inputDown && node.IsInGroup("Platform"))
+                (node as APlatform).TemporarilyDisablePlatform();
         }
     }
 
