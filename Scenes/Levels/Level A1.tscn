@@ -1292,7 +1292,6 @@ position = Vector2( 1184, 0 )
 
 [node name="Circle" parent="Environment/Moving Platforms" instance=ExtResource( 20 )]
 position = Vector2( 2528, 352 )
-Radius = 150.0
 
 [node name="Areas" type="Node2D" parent="Environment"]
 
@@ -1401,3 +1400,4 @@ limit_bottom = 721
 [connection signal="area_entered" from="Bottom" to="Bottom" method="_on_Bottom_area_entered"]
 
 [editable path="Environment/Moving Platforms/KinematicBody2D"]
+[editable path="Environment/Moving Platforms/Circle"]
