@@ -41,7 +41,7 @@ extents = Vector2( 16, 16 )
 [sub_resource type="CircleShape2D" id=20]
 radius = 18.0
 
-[node name="Enemy" type="KinematicBody2D"]
+[node name="KinematicBody2D" type="KinematicBody2D"]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource( 1 )
@@ -65,6 +65,18 @@ cast_to = Vector2( -6, 0 )
 position = Vector2( 16, 13 )
 enabled = true
 cast_to = Vector2( 6, 0 )
+
+[node name="Cliff Checks" type="Node2D" parent="."]
+
+[node name="Left" type="RayCast2D" parent="Cliff Checks"]
+position = Vector2( -17, 16 )
+enabled = true
+cast_to = Vector2( 0, 7 )
+
+[node name="Right" type="RayCast2D" parent="Cliff Checks"]
+position = Vector2( 17, 16 )
+enabled = true
+cast_to = Vector2( 0, 7 )
 
 [node name="Enemy" type="Area2D" parent="." groups=["Enemy"]]
 

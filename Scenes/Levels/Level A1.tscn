@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=2]
+[gd_scene load_steps=93 format=2]
 
 [ext_resource path="res://Sprites/Tilesets/Grass/grass_dirt_64.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://Scenes/Prefabs/Enemies/Spike.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Prefabs/Platforms/MovingPlatform.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/Prefabs/Platforms/PlatformCircle.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Scripts/Level/Trigger.cs" type="Script" id=21]
 
 [sub_resource type="TileSet" id=131]
 0/name = "grass_dirt_64.png 0"
@@ -684,6 +685,9 @@ points = PoolVector2Array( 0, 0, 44, 0, 64, 20, 64, 64, 0, 64 )
 } ]
 5/z_index = 0
 
+[sub_resource type="RectangleShape2D" id=135]
+extents = Vector2( 36.5, 282.5 )
+
 [sub_resource type="RectangleShape2D" id=132]
 extents = Vector2( 300, 8 )
 
@@ -754,27 +758,27 @@ NodePathLabelCoins = NodePath("CanvasLayer/PanelContainer/HBoxContainer/Coins")
 
 [node name="TileMaps" type="Node2D" parent="."]
 
-[node name="Layer 4" type="TileMap" parent="TileMaps"]
+[node name="Layer 4" type="TileMap" parent="TileMaps" groups=["Tileset"]]
 tile_set = SubResource( 131 )
 collision_layer = 3
 collision_mask = 3
 format = 1
 
-[node name="Layer 3" type="TileMap" parent="TileMaps"]
+[node name="Layer 3" type="TileMap" parent="TileMaps" groups=["Tileset"]]
 tile_set = SubResource( 131 )
 collision_layer = 3
 collision_mask = 3
 format = 1
 tile_data = PoolIntArray( 196701, 0, 8, 196702, 0, 10, 196703, 0, 10, 196704, 0, 10, 196705, 0, 10, 196706, 0, 10, 196707, 0, 10, 196708, 0, 10, 196709, 0, 10, 196710, 0, 10, 196711, 0, 10, 196712, 0, 10, 196713, 0, 10, 196714, 0, 10, 196715, 0, 10, 196716, 0, 10, 196717, 0, 11, 262237, 0, 65544, 262238, 0, 131081, 262239, 0, 131081, 262240, 0, 131081, 262241, 0, 131081, 262242, 0, 131081, 262243, 0, 131081, 262244, 0, 131081, 262245, 0, 131081, 262246, 0, 131081, 262247, 0, 131081, 262248, 0, 131081, 262249, 0, 131081, 262250, 0, 131081, 262251, 0, 131081, 262252, 0, 131081, 262253, 0, 131083, 327773, 0, 65544, 327774, 0, 131081, 327775, 0, 131081, 327776, 0, 131081, 327777, 0, 131081, 327778, 0, 131081, 327779, 0, 131081, 327780, 0, 131081, 327781, 0, 131081, 327782, 0, 131081, 327783, 0, 131081, 327784, 0, 131081, 327785, 0, 131081, 327786, 0, 131081, 327787, 0, 131081, 327788, 0, 131081, 327789, 0, 131083, 393309, 0, 65544, 393310, 0, 131081, 393311, 0, 131081, 393312, 0, 131081, 393313, 0, 131081, 393314, 0, 131081, 393315, 0, 131081, 393316, 0, 131081, 393317, 0, 131081, 393318, 0, 131081, 393319, 0, 131081, 393320, 0, 131081, 393321, 0, 131081, 393322, 0, 131081, 393323, 0, 131081, 393324, 0, 131081, 393325, 0, 131083, 458845, 0, 65544, 458846, 0, 131081, 458847, 0, 131081, 458848, 0, 131081, 458849, 0, 131081, 458850, 0, 131081, 458851, 0, 131081, 458852, 0, 131081, 458853, 0, 131081, 458854, 0, 131081, 458855, 0, 131081, 458856, 0, 131081, 458857, 0, 131081, 458858, 0, 131081, 458859, 0, 131081, 458860, 0, 131081, 458861, 0, 131083, 524381, 0, 65544, 524382, 0, 131081, 524383, 0, 131081, 524384, 0, 131081, 524385, 0, 131081, 524386, 0, 131081, 524387, 0, 131081, 524388, 0, 131081, 524389, 0, 131081, 524390, 0, 131081, 524391, 0, 131081, 524392, 0, 131081, 524393, 0, 131081, 524394, 0, 131081, 524395, 0, 131081, 524396, 0, 131081, 524397, 0, 131083, 589917, 0, 196616, 589918, 0, 196617, 589919, 0, 196617, 589920, 0, 196617, 589921, 0, 196617, 589922, 0, 196617, 589923, 0, 196617, 589924, 0, 196617, 589925, 0, 196617, 589926, 0, 196617, 589927, 0, 196617, 589928, 0, 196617, 589929, 0, 196617, 589930, 0, 196617, 589931, 0, 196617, 589932, 0, 196617, 589933, 0, 196619 )
 
-[node name="Layer 2" type="TileMap" parent="TileMaps"]
+[node name="Layer 2" type="TileMap" parent="TileMaps" groups=["Tileset"]]
 tile_set = SubResource( 131 )
 collision_layer = 3
 collision_mask = 3
 format = 1
 tile_data = PoolIntArray( 393232, 0, 8, 393233, 0, 10, 393234, 0, 10, 393235, 0, 10, 393236, 0, 10, 393237, 0, 10, 393238, 0, 10, 393239, 0, 10, 393240, 0, 10, 393241, 0, 11, 393300, 0, 8, 393301, 0, 10, 393302, 0, 10, 393303, 0, 10, 393304, 0, 10, 393305, 0, 10, 393306, 0, 10, 393307, 0, 10, 393308, 0, 10, 393309, 0, 10, 393310, 0, 10, 393311, 0, 10, 393312, 0, 11, 458768, 0, 65544, 458769, 0, 131081, 458770, 0, 131081, 458771, 0, 131081, 458772, 0, 131081, 458773, 0, 131081, 458774, 0, 131081, 458775, 0, 131081, 458776, 0, 131081, 458777, 0, 131083, 458836, 0, 65544, 458837, 0, 131081, 458838, 0, 131081, 458839, 0, 131081, 458840, 0, 131081, 458841, 0, 131081, 458842, 0, 131081, 458843, 0, 131081, 458844, 0, 131081, 458845, 0, 131081, 458846, 0, 131081, 458847, 0, 131081, 458848, 0, 131083, 524304, 0, 65544, 524305, 0, 131081, 524306, 0, 131081, 524307, 0, 131081, 524308, 0, 131081, 524309, 0, 131081, 524310, 0, 131081, 524311, 0, 131081, 524312, 0, 131081, 524313, 0, 131083, 524372, 0, 65544, 524373, 0, 131081, 524374, 0, 131081, 524375, 0, 131081, 524376, 0, 131081, 524377, 0, 131081, 524378, 0, 131081, 524379, 0, 131081, 524380, 0, 131081, 524381, 0, 131081, 524382, 0, 131081, 524383, 0, 131081, 524384, 0, 131083, 589840, 0, 196616, 589841, 0, 196617, 589842, 0, 196617, 589843, 0, 196617, 589844, 0, 196617, 589845, 0, 196617, 589846, 0, 196617, 589847, 0, 196617, 589848, 0, 196617, 589849, 0, 196619, 589908, 0, 196616, 589909, 0, 196617, 589910, 0, 196617, 589911, 0, 196617, 589912, 0, 196617, 589913, 0, 196617, 589914, 0, 196617, 589915, 0, 196617, 589916, 0, 196617, 589917, 0, 196617, 589918, 0, 196617, 589919, 0, 196617, 589920, 0, 196619 )
 
-[node name="Layer 1" type="TileMap" parent="TileMaps"]
+[node name="Layer 1" type="TileMap" parent="TileMaps" groups=["Tileset"]]
 tile_set = SubResource( 78 )
 collision_layer = 3
 collision_mask = 3
@@ -1274,6 +1278,20 @@ position = Vector2( 6878, 188 )
 [node name="Coin156" parent="Environment/Coins" instance=ExtResource( 13 )]
 position = Vector2( 6914, 188 )
 
+[node name="Triggers" type="Node2D" parent="Environment"]
+
+[node name="Area2D" type="Area2D" parent="Environment/Triggers"]
+script = ExtResource( 21 )
+__meta__ = {
+"_editor_description_": "Activates enemies"
+}
+Entities = PoolStringArray( "Enemy4", "Enemy5" )
+NodePathEntities = NodePath("../../Enemies")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Triggers/Area2D"]
+position = Vector2( 439.5, 314.5 )
+shape = SubResource( 135 )
+
 [node name="Spikes" type="Node2D" parent="Environment"]
 
 [node name="Spike" parent="Environment/Spikes" instance=ExtResource( 18 )]
@@ -1297,16 +1315,15 @@ position = Vector2( 4580, 148 )
 [node name="Enemies" type="Node2D" parent="Environment"]
 z_index = 1
 
-[node name="Enemy" parent="Environment/Enemies" instance=ExtResource( 5 )]
-position = Vector2( 448, 580 )
-
-[node name="Enemy2" parent="Environment/Enemies" instance=ExtResource( 5 )]
-position = Vector2( 1672, 516 )
-scale = Vector2( 5, 5 )
-
 [node name="Enemy4" parent="Environment/Enemies" instance=ExtResource( 5 )]
-position = Vector2( 1400, 372 )
+position = Vector2( 1184, 372 )
 scale = Vector2( 1.97173, 1.97173 )
+Active = false
+
+[node name="Enemy5" parent="Environment/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 1424, 372 )
+scale = Vector2( 1.97173, 1.97173 )
+Active = false
 
 [node name="Moving Platforms" type="Node2D" parent="Environment"]
 
@@ -1325,7 +1342,7 @@ Radius = 150.0
 
 [node name="Tileset Platforms" type="Node2D" parent="Environment/Areas"]
 
-[node name="Tileset Platform" type="KinematicBody2D" parent="Environment/Areas/Tileset Platforms" groups=["Platform"]]
+[node name="Tileset Platform" type="KinematicBody2D" parent="Environment/Areas/Tileset Platforms" groups=["Platform", "Tileset"]]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource( 6 )
@@ -1335,7 +1352,7 @@ position = Vector2( 1344, 412 )
 shape = SubResource( 132 )
 one_way_collision = true
 
-[node name="Tileset Platform2" type="KinematicBody2D" parent="Environment/Areas/Tileset Platforms" groups=["Platform"]]
+[node name="Tileset Platform2" type="KinematicBody2D" parent="Environment/Areas/Tileset Platforms" groups=["Platform", "Tileset"]]
 position = Vector2( 4351, 5 )
 collision_layer = 3
 collision_mask = 3
@@ -1346,7 +1363,7 @@ position = Vector2( 1441, 407 )
 shape = SubResource( 133 )
 one_way_collision = true
 
-[node name="Tileset Platform3" type="KinematicBody2D" parent="Environment/Areas/Tileset Platforms" groups=["Platform"]]
+[node name="Tileset Platform3" type="KinematicBody2D" parent="Environment/Areas/Tileset Platforms" groups=["Platform", "Tileset"]]
 position = Vector2( 4927, -187 )
 collision_layer = 3
 collision_mask = 3
@@ -1386,7 +1403,7 @@ align = 1
 valign = 1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 576 )
+position = Vector2( 100, 572 )
 
 [node name="Level Finish" type="Area2D" parent="." groups=["Level Finish"]]
 
