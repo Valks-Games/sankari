@@ -33,7 +33,12 @@ public class GameManager : Node
         LevelManager = new LevelManager(this, GetNode<Node>("Level"));
         TransitionManager = GetNode<TransitionManager>(NodePathTransition);
 
-        Audio.PlayMusic("ice_1");
+        //Audio.PlayMusic("ice_1");
+
+        // for making dev life easier
+        menu.Hide();
+        LevelManager.CurrentLevel = "Level A1";
+        LevelManager.LoadLevel();
     }
 
     public override void _Process(float delta)
