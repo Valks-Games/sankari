@@ -48,6 +48,7 @@ public class Player : KinematicBody2D
 
     // wall
     private bool inWallJumpArea;
+    private int wallDir;
 
     // dash
     private Vector2 dashDir;
@@ -98,7 +99,7 @@ public class Player : KinematicBody2D
         var inputDash = Input.IsActionJustPressed("player_dash");
 
         var gravity = GRAVITY_AIR;
-        var wallDir = UpdateWallDirection();
+        wallDir = UpdateWallDirection();
 
         // on a wall and falling
         if (wallDir != 0 && inWallJumpArea)
@@ -200,6 +201,7 @@ public class Player : KinematicBody2D
     {
         var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
         sprite.GlobalPosition = GlobalPosition;
+        sprite.FlipH = wallDir == 1 ? true : false;
         tree.AddChild(sprite);
 
         var dashSpeed = SPEED_DASH_VERTICAL;
