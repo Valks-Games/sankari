@@ -39,6 +39,7 @@ Figure 2.1
 - All parallax backgrounds should be at least 1920 x 1080 pixels in size
 - To change the position of the parallax layers you must only modify the transform of the `Sprite` node (see Figure 3.1)
 - To modify the horizontal scroll speed, modify the x scale component of a `ParallaxLayer` node
+- The position of the parallax background should start at the very edge of the camera left and bottom limits
 
 Figure 3.1
 
