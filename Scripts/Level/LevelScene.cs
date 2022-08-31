@@ -2,14 +2,8 @@ namespace Sankari;
 
 public class LevelScene : Node
 {
-    [Export] protected readonly NodePath NodePathCoinSprite;
-    [Export] protected readonly NodePath NodePathLabelCoins;
-
     public GameManager GameManager { get; private set; }
 
-    private AnimatedSprite coinSprite;
-    private Label labelCoins;
-    private int coins;
     private Camera2D camera;
 
     public void PreInit(GameManager gameManager)
@@ -26,9 +20,6 @@ public class LevelScene : Node
     public override void _Ready()
     {
         camera = GetNode<Camera2D>("Camera");
-        labelCoins = GetNode<Label>(NodePathLabelCoins);
-        coinSprite = GetNode<AnimatedSprite>(NodePathCoinSprite);
-        coinSprite.Playing = true;
 
         CreateLevelBounds();
     }
@@ -72,11 +63,5 @@ public class LevelScene : Node
         staticBody.AddChild(collider);
 
         AddChild(staticBody);
-    }
-
-    public void AddCoins(int amount = 1)
-    {
-        coins += amount;
-        labelCoins.Text = "" + coins;
     }
 }

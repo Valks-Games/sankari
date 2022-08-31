@@ -24,6 +24,7 @@ public class Player : KinematicBody2D
 
     // dependecy injcetion
     private LevelScene levelScene;
+    private GameManager gameManager;
 
     // movement
     private Vector2 moveDir;
@@ -63,6 +64,7 @@ public class Player : KinematicBody2D
     public void PreInit(LevelScene levelScene)
     {
         this.levelScene = levelScene;
+        gameManager = levelScene.GameManager;
     }
 
     public override void _Ready()
@@ -133,7 +135,7 @@ public class Player : KinematicBody2D
         // dash
         if (inputDash && dashReady && hasTouchedGroundAfterDash && !currentlyDashing)
         {
-            levelScene.GameManager.Audio.PlaySFX("dash");
+            gameManager.Audio.PlaySFX("dash");
             dashReady = false;
             currentlyDashing = true;
             timerDashDuration.Start();
@@ -159,7 +161,7 @@ public class Player : KinematicBody2D
 
             if (inputJump)
             {
-                levelScene.GameManager.Audio.PlaySFX("player_jump", 80);
+                gameManager.Audio.PlaySFX("player_jump", 80);
                 velocity.y = 0;
                 velocity.y -= JUMP_FORCE;
             }
@@ -358,17 +360,24 @@ public class Player : KinematicBody2D
 
         dieTween.Start();
         haltPlayerLogic = true;
-        levelScene.GameManager.Audio.StopMusic();
-        levelScene.GameManager.Audio.PlaySFX("game_over_1");
+        gameManager.Audio.StopMusic();
+        gameManager.Audio.PlaySFX("game_over_1");
         dieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
-
     }
 
     private async void OnDieTweenCompleted()
     {
-        await levelScene.GameManager.TransitionManager.AlphaToBlackAndBack();
+        await gameManager.TransitionManager.AlphaToBlack();
+        await Task.Delay(1000);
+        gameManager.LevelUIManager.ShowLives();
+        await Task.Delay(2000);
+        gameManager.LevelUIManager.RemoveLife();
+        await Task.Delay(1000);
+        await gameManager.LevelUIManager.HideLivesTransition();
+        await Task.Delay(250);
+        gameManager.TransitionManager.BlackToAlpha();
         haltPlayerLogic = false;
-        levelScene.GameManager.LevelManager.LoadLevel();
+        gameManager.LevelManager.LoadLevel();
     }
 
     private void OnDashReady() => dashReady = true;
@@ -388,7 +397,7 @@ public class Player : KinematicBody2D
         if (area.IsInGroup("Level Finish"))
         {
             haltPlayerLogic = true;
-            await levelScene.GameManager.LevelManager.CompleteLevel(levelScene.GameManager.LevelManager.CurrentLevel);
+            await gameManager.LevelManager.CompleteLevel(gameManager.LevelManager.CurrentLevel);
             haltPlayerLogic = false;
             return;
         }
@@ -401,8 +410,8 @@ public class Player : KinematicBody2D
 
         if (area.IsInGroup("Coin"))
         {
-            levelScene.AddCoins();
-            levelScene.GameManager.Audio.PlaySFX("coin_pickup", 70);
+            gameManager.LevelUIManager.AddCoins();
+            gameManager.Audio.PlaySFX("coin_pickup", 70);
             area.GetParent().QueueFree();
         }
 

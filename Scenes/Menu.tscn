@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=1]
 [ext_resource path="res://Scripts/UI/UIMenu.cs" type="Script" id=2]
+[ext_resource path="res://Themes/Fonts/Roboto.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Themes/Button New/Large.tres" type="Theme" id=4]
 [ext_resource path="res://Themes/Button New/Medium.tres" type="Theme" id=5]
 
@@ -85,8 +86,8 @@ text = "Quit"
 [node name="Social Links" type="MarginContainer" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -35.0
-margin_right = 127.0
+margin_top = -27.0
+margin_right = 139.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 0
 custom_constants/margin_left = 10
@@ -94,19 +95,20 @@ custom_constants/margin_bottom = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Social Links"]
 margin_left = 10.0
-margin_right = 117.0
-margin_bottom = 35.0
+margin_right = 129.0
+margin_bottom = 27.0
 
 [node name="Discord" type="Button" parent="Social Links/HBoxContainer"]
-margin_right = 53.0
-margin_bottom = 35.0
+margin_right = 60.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 3 )
 text = "Discord"
 flat = true
 
 [node name="GitHub" type="Button" parent="Social Links/HBoxContainer"]
-margin_left = 57.0
-margin_right = 107.0
-margin_bottom = 35.0
+margin_left = 64.0
+margin_right = 119.0
+margin_bottom = 27.0
 text = "GitHub"
 flat = true
 

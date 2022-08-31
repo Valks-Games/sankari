@@ -18,6 +18,8 @@ public class GameManager : Node
     // managers
     public TransitionManager TransitionManager { get; private set; }
     public LevelManager LevelManager { get; private set; }
+    public PlayerManager PlayerManager { get; private set; }
+    public LevelUIManager LevelUIManager { get; private set; }
     public Audio Audio { get; private set; }
 
     private Node map;
@@ -32,11 +34,14 @@ public class GameManager : Node
         Audio = new Audio(new GAudioStreamPlayer(this), new GAudioStreamPlayer(this));
         LevelManager = new LevelManager(this, GetNode<Node>("Level"));
         TransitionManager = GetNode<TransitionManager>(NodePathTransition);
+        PlayerManager = new PlayerManager();
+        LevelUIManager = GetNode<LevelUIManager>("CanvasLayer/Level UI");
 
         //Audio.PlayMusic("ice_1");
 
         // for making dev life easier
         menu.Hide();
+        LevelUIManager.Show();
         LevelManager.CurrentLevel = "Level A1";
         LevelManager.LoadLevel();
     }
