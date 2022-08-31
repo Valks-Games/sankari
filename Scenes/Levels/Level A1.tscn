@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=2]
+[gd_scene load_steps=88 format=2]
 
 [ext_resource path="res://Sprites/Tilesets/Grass/grass_dirt_64.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=10]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/5_clouds.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/Prefabs/Camera.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Prefabs/Coin.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/3_trees.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/2_trees.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/1_trees.png" type="Texture" id=16]
@@ -813,6 +814,474 @@ position = Vector2( 800, 220 )
 texture = ExtResource( 16 )
 
 [node name="Coins" type="Node2D" parent="Environment"]
+
+[node name="Coin" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 288, 580 )
+
+[node name="Coin2" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 324, 580 )
+
+[node name="Coin3" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 360, 580 )
+
+[node name="Coin4" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 396, 580 )
+
+[node name="Coin5" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 431, 580 )
+
+[node name="Coin6" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 467, 580 )
+
+[node name="Coin7" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 503, 580 )
+
+[node name="Coin8" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 539, 580 )
+
+[node name="Coin9" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 575, 580 )
+
+[node name="Coin10" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 611, 580 )
+
+[node name="Coin11" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 647, 580 )
+
+[node name="Coin12" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 683, 580 )
+
+[node name="Coin13" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1147, 580 )
+
+[node name="Coin14" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1183, 580 )
+
+[node name="Coin15" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1219, 580 )
+
+[node name="Coin16" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1255, 580 )
+
+[node name="Coin17" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1290, 580 )
+
+[node name="Coin18" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1326, 580 )
+
+[node name="Coin19" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1362, 580 )
+
+[node name="Coin20" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1398, 580 )
+
+[node name="Coin21" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1434, 580 )
+
+[node name="Coin22" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1470, 580 )
+
+[node name="Coin23" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1506, 580 )
+
+[node name="Coin24" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 1542, 580 )
+
+[node name="Coin25" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2339, 432 )
+
+[node name="Coin26" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2375, 432 )
+
+[node name="Coin27" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2411, 432 )
+
+[node name="Coin28" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2447, 432 )
+
+[node name="Coin29" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2482, 432 )
+
+[node name="Coin30" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2518, 432 )
+
+[node name="Coin31" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2554, 432 )
+
+[node name="Coin32" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2590, 432 )
+
+[node name="Coin33" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2626, 432 )
+
+[node name="Coin34" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2662, 432 )
+
+[node name="Coin35" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2698, 432 )
+
+[node name="Coin36" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2734, 432 )
+
+[node name="Coin37" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2339, 396 )
+
+[node name="Coin38" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2375, 396 )
+
+[node name="Coin39" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2411, 396 )
+
+[node name="Coin40" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2447, 396 )
+
+[node name="Coin41" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2482, 396 )
+
+[node name="Coin42" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2518, 396 )
+
+[node name="Coin43" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2554, 396 )
+
+[node name="Coin44" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2590, 396 )
+
+[node name="Coin45" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2626, 396 )
+
+[node name="Coin46" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2662, 396 )
+
+[node name="Coin47" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2698, 396 )
+
+[node name="Coin48" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 2734, 396 )
+
+[node name="Coin49" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4119, -4 )
+
+[node name="Coin50" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4155, -4 )
+
+[node name="Coin51" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4191, -4 )
+
+[node name="Coin52" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4227, -4 )
+
+[node name="Coin53" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4262, -4 )
+
+[node name="Coin54" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4298, -4 )
+
+[node name="Coin55" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4334, -4 )
+
+[node name="Coin56" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4370, -4 )
+
+[node name="Coin57" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4406, -4 )
+
+[node name="Coin58" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4442, -4 )
+
+[node name="Coin59" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4478, -4 )
+
+[node name="Coin60" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4514, -4 )
+
+[node name="Coin61" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4119, -40 )
+
+[node name="Coin62" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4155, -40 )
+
+[node name="Coin63" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4191, -40 )
+
+[node name="Coin64" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4227, -40 )
+
+[node name="Coin65" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4262, -40 )
+
+[node name="Coin66" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4298, -40 )
+
+[node name="Coin67" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4334, -40 )
+
+[node name="Coin68" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4370, -40 )
+
+[node name="Coin69" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4406, -40 )
+
+[node name="Coin70" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4442, -40 )
+
+[node name="Coin71" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4478, -40 )
+
+[node name="Coin72" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4514, -40 )
+
+[node name="Coin73" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4119, -4 )
+
+[node name="Coin74" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4155, -4 )
+
+[node name="Coin75" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4191, -4 )
+
+[node name="Coin76" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4227, -4 )
+
+[node name="Coin77" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4262, -4 )
+
+[node name="Coin78" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4298, -4 )
+
+[node name="Coin79" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4334, -4 )
+
+[node name="Coin80" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4370, -4 )
+
+[node name="Coin81" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4406, -4 )
+
+[node name="Coin82" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4442, -4 )
+
+[node name="Coin83" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4478, -4 )
+
+[node name="Coin84" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 4514, -4 )
+
+[node name="Coin85" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5503, 380 )
+
+[node name="Coin86" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5539, 380 )
+
+[node name="Coin87" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5575, 380 )
+
+[node name="Coin88" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5611, 380 )
+
+[node name="Coin89" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5646, 380 )
+
+[node name="Coin90" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5682, 380 )
+
+[node name="Coin91" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5718, 380 )
+
+[node name="Coin92" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5754, 380 )
+
+[node name="Coin93" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5790, 380 )
+
+[node name="Coin94" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5826, 380 )
+
+[node name="Coin95" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5862, 380 )
+
+[node name="Coin96" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5898, 380 )
+
+[node name="Coin97" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5503, 380 )
+
+[node name="Coin98" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5539, 380 )
+
+[node name="Coin99" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5575, 380 )
+
+[node name="Coin100" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5611, 380 )
+
+[node name="Coin101" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5646, 380 )
+
+[node name="Coin102" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5682, 380 )
+
+[node name="Coin103" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5718, 380 )
+
+[node name="Coin104" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5754, 380 )
+
+[node name="Coin105" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5790, 380 )
+
+[node name="Coin106" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5826, 380 )
+
+[node name="Coin107" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5862, 380 )
+
+[node name="Coin108" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 5898, 380 )
+
+[node name="Coin109" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6087, 188 )
+
+[node name="Coin110" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6123, 188 )
+
+[node name="Coin111" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6159, 188 )
+
+[node name="Coin112" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6195, 188 )
+
+[node name="Coin113" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6230, 188 )
+
+[node name="Coin114" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6266, 188 )
+
+[node name="Coin115" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6302, 188 )
+
+[node name="Coin116" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6338, 188 )
+
+[node name="Coin117" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6374, 188 )
+
+[node name="Coin118" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6410, 188 )
+
+[node name="Coin119" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6446, 188 )
+
+[node name="Coin120" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6482, 188 )
+
+[node name="Coin121" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6087, 188 )
+
+[node name="Coin122" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6123, 188 )
+
+[node name="Coin123" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6159, 188 )
+
+[node name="Coin124" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6195, 188 )
+
+[node name="Coin125" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6230, 188 )
+
+[node name="Coin126" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6266, 188 )
+
+[node name="Coin127" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6302, 188 )
+
+[node name="Coin128" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6338, 188 )
+
+[node name="Coin129" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6374, 188 )
+
+[node name="Coin130" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6410, 188 )
+
+[node name="Coin131" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6446, 188 )
+
+[node name="Coin132" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6482, 188 )
+
+[node name="Coin133" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6519, 188 )
+
+[node name="Coin134" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6555, 188 )
+
+[node name="Coin135" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6591, 188 )
+
+[node name="Coin136" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6627, 188 )
+
+[node name="Coin137" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6662, 188 )
+
+[node name="Coin138" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6698, 188 )
+
+[node name="Coin139" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6734, 188 )
+
+[node name="Coin140" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6770, 188 )
+
+[node name="Coin141" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6806, 188 )
+
+[node name="Coin142" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6842, 188 )
+
+[node name="Coin143" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6878, 188 )
+
+[node name="Coin144" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6914, 188 )
+
+[node name="Coin145" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6519, 188 )
+
+[node name="Coin146" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6555, 188 )
+
+[node name="Coin147" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6591, 188 )
+
+[node name="Coin148" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6627, 188 )
+
+[node name="Coin149" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6662, 188 )
+
+[node name="Coin150" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6698, 188 )
+
+[node name="Coin151" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6734, 188 )
+
+[node name="Coin152" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6770, 188 )
+
+[node name="Coin153" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6806, 188 )
+
+[node name="Coin154" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6842, 188 )
+
+[node name="Coin155" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6878, 188 )
+
+[node name="Coin156" parent="Environment/Coins" instance=ExtResource( 13 )]
+position = Vector2( 6914, 188 )
 
 [node name="Spikes" type="Node2D" parent="Environment"]
 
