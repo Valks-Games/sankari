@@ -2,4 +2,4 @@
 
 **Only accepting audio uploaded to [Open Game Art](https://opengameart.org/) with the [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/)**
 
-A lot of music and SFX has been found from opengameart, so the game is good on music right now (see the discord to see all the music linked from opengameart) But if you want to still help with music you can show me your opengameart profile or soundcloud profile or whatever you use.
+A lot of music and SFX has been found from opengameart, so the game is good on music right now (see the discord to see all the music linked from opengameart) But if you want to still help with music you can show me your opengameart profile.
