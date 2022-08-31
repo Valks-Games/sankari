@@ -19,8 +19,8 @@ public class LevelScene : Node
         var player = GetNode<Player>("Player");
         player.PreInit(this);
 
-        foreach (IEnemy child in GetNode<Node2D>("Environment/Enemies").GetChildren()) 
-            child.PreInit(player);
+        //foreach (IEnemy child in GetNode<Node2D>("Environment/Enemies").GetChildren()) 
+        //    child.PreInit(player);
     }
 
     public override void _Ready()
