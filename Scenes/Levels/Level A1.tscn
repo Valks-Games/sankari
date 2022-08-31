@@ -650,41 +650,41 @@ NodePathLabelCoins = NodePath("CanvasLayer/PanelContainer/HBoxContainer/Coins")
 
 [node name="Clouds" type="ParallaxLayer" parent="Environment/ParallaxBackground"]
 motion_scale = Vector2( 0, 1 )
-motion_mirroring = Vector2( 3840, 0 )
+motion_mirroring = Vector2( 1920, 0 )
 
 [node name="Sprite" type="Sprite" parent="Environment/ParallaxBackground/Clouds"]
-position = Vector2( 1700, -150 )
+position = Vector2( 800, 220 )
 texture = ExtResource( 11 )
 
 [node name="Mountains" type="ParallaxLayer" parent="Environment/ParallaxBackground"]
 motion_scale = Vector2( 0.4, 1 )
-motion_mirroring = Vector2( 3840, 0 )
+motion_mirroring = Vector2( 1920, 0 )
 
 [node name="Sprite" type="Sprite" parent="Environment/ParallaxBackground/Mountains"]
-position = Vector2( 1700, -100 )
+position = Vector2( 800, 220 )
 texture = ExtResource( 13 )
 
 [node name="Trees1" type="ParallaxLayer" parent="Environment/ParallaxBackground"]
 motion_scale = Vector2( 0.6, 1 )
-motion_mirroring = Vector2( 3840, 0 )
+motion_mirroring = Vector2( 1920, 0 )
 
 [node name="Sprite" type="Sprite" parent="Environment/ParallaxBackground/Trees1"]
-position = Vector2( 1700, -100 )
+position = Vector2( 800, 220 )
 texture = ExtResource( 14 )
 
 [node name="Trees2" type="ParallaxLayer" parent="Environment/ParallaxBackground"]
 motion_scale = Vector2( 0.8, 1 )
-motion_mirroring = Vector2( 3840, 0 )
+motion_mirroring = Vector2( 1920, 0 )
 
 [node name="Sprite" type="Sprite" parent="Environment/ParallaxBackground/Trees2"]
-position = Vector2( 1700, -75 )
+position = Vector2( 800, 220 )
 texture = ExtResource( 15 )
 
 [node name="Trees3" type="ParallaxLayer" parent="Environment/ParallaxBackground"]
-motion_mirroring = Vector2( 3840, 0 )
+motion_mirroring = Vector2( 1920, 0 )
 
 [node name="Sprite" type="Sprite" parent="Environment/ParallaxBackground/Trees3"]
-position = Vector2( 1700, -50 )
+position = Vector2( 800, 220 )
 texture = ExtResource( 16 )
 
 [node name="Coins" type="Node2D" parent="Environment"]
