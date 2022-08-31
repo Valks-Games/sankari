@@ -7,7 +7,7 @@
 extents = Vector2( 64, 4 )
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 240.033
+radius = 200.04
 
 [node name="Circle" type="KinematicBody2D" groups=["Platform"]]
 motion/sync_to_physics = true

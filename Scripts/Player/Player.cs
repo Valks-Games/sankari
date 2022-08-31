@@ -120,6 +120,7 @@ public class Player : KinematicBody2D
                 // wall jump
                 if (inputJump)
                 {
+                    gameManager.Audio.PlaySFX("player_jump", 80);
                     velocity.x += -JUMP_FORCE_WALL_HORZ * wallDir;
                     velocity.y -= JUMP_FORCE_WALL_VERT;
                 }

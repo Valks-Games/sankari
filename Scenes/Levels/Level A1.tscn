@@ -1250,23 +1250,11 @@ shape = SubResource( 135 )
 
 [node name="Spikes" type="Node2D" parent="Environment"]
 
-[node name="Spike" parent="Environment/Spikes" instance=ExtResource( 18 )]
-position = Vector2( 4060, 148 )
-
-[node name="Spike2" parent="Environment/Spikes" instance=ExtResource( 18 )]
-position = Vector2( 4120, 148 )
-
 [node name="Spike3" parent="Environment/Spikes" instance=ExtResource( 18 )]
 position = Vector2( 4288, 148 )
 
 [node name="Spike4" parent="Environment/Spikes" instance=ExtResource( 18 )]
 position = Vector2( 4348, 148 )
-
-[node name="Spike5" parent="Environment/Spikes" instance=ExtResource( 18 )]
-position = Vector2( 4520, 148 )
-
-[node name="Spike6" parent="Environment/Spikes" instance=ExtResource( 18 )]
-position = Vector2( 4580, 148 )
 
 [node name="Enemies" type="Node2D" parent="Environment"]
 z_index = 1
