@@ -326,7 +326,7 @@ public class Player : KinematicBody2D
         (
             "position:y",
             dieStartPos,
-            dieStartPos - 30,
+            dieStartPos - 80,
             0.75f,
             0,
             Tween.TransitionType.Quint,
@@ -336,8 +336,8 @@ public class Player : KinematicBody2D
         dieTween.InterpolateProperty
         (
             "position:y",
-            dieStartPos - 30,
-            dieStartPos + 100,
+            dieStartPos - 80,
+            dieStartPos + 600,
             1f,
             0.75f,
             Tween.TransitionType.Circ,
