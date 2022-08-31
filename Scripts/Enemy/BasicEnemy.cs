@@ -4,11 +4,13 @@ public class BasicEnemy : KinematicBody2D, IEnemy
 {
     [Export] public bool StartWalkingRight;
 
-    private const float gravity = 6000f;
+    private const float gravity = 30000f;
+    private int speed = 40;
     private bool movingForward;
     private AnimatedSprite animatedSprite;
     private RayCast2D wallCheckLeft;
     private RayCast2D wallCheckRight;
+    private string[] colliderGroups;
 
     public void PreInit(Player player)
     {
@@ -19,6 +21,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         animatedSprite.Play();
+        animatedSprite.Frame = (int)GD.RandRange(0, animatedSprite.Frames.GetFrameCount("default"));
 
         wallCheckLeft = GetNode<RayCast2D>("Wall Checks/Left");
         wallCheckLeft.AddException(this);
@@ -30,6 +33,8 @@ public class BasicEnemy : KinematicBody2D, IEnemy
             movingForward = !movingForward;
             animatedSprite.FlipH = true;
         }
+
+        colliderGroups = new string[] { "Tileset" };
     }
 
     public override void _PhysicsProcess(float delta)
@@ -40,7 +45,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy
 
         if (movingForward)
         {
-            velocity.x += 10;
+            velocity.x += speed;
 
             if (IsNearRightWall())
             {
@@ -50,7 +55,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy
         }
         else 
         {
-            velocity.x -= 10;
+            velocity.x -= speed;
 
             if (IsNearLeftWall())
             {
@@ -59,15 +64,21 @@ public class BasicEnemy : KinematicBody2D, IEnemy
             }
         }
             
-        MoveAndSlide(velocity, new Vector2(0, -1));
+        MoveAndSlide(velocity, Vector2.Up);
     }
 
     private bool IsNearLeftWall() 
     {
         var collider = wallCheckLeft.GetCollider() as Node;
 
-        if (collider != null && collider.IsInGroup("Tileset"))
-            return true;
+        if (collider != null)
+        {
+            foreach (var group in colliderGroups) 
+            {
+                if (collider.IsInGroup(group))
+                    return true;
+            }
+        }
 
         return false;
     }
@@ -76,8 +87,14 @@ public class BasicEnemy : KinematicBody2D, IEnemy
     {
         var collider = wallCheckRight.GetCollider() as Node;
 
-        if (collider != null && collider.IsInGroup("Tileset"))
-            return true;
+        if (collider != null)
+        {
+            foreach (var group in colliderGroups) 
+            {
+                if (collider.IsInGroup(group))
+                    return true;
+            }
+        }
 
         return false;
     }
