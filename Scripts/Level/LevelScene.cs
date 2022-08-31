@@ -3,8 +3,7 @@ namespace Sankari;
 public class LevelScene : Node
 {
     public GameManager GameManager { get; private set; }
-
-    private Camera2D camera;
+    public Camera Camera;
 
     public void PreInit(GameManager gameManager)
     {
@@ -19,7 +18,7 @@ public class LevelScene : Node
 
     public override void _Ready()
     {
-        camera = GetNode<Camera2D>("Camera");
+        Camera = GetNode<Camera>("Camera");
 
         CreateLevelBounds();
     }
@@ -31,22 +30,22 @@ public class LevelScene : Node
         // left
         CreateCollider
         (
-            new Vector2(camera.LimitLeft - colliderThickness, (camera.LimitTop + camera.LimitBottom) / 2),
-            new Vector2(colliderThickness, (Mathf.Abs(camera.LimitTop) + Mathf.Abs(camera.LimitBottom)) / 2)
+            new Vector2(Camera.LimitLeft - colliderThickness, (Camera.LimitTop + Camera.LimitBottom) / 2),
+            new Vector2(colliderThickness, (Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom)) / 2)
         );
 
         // right
         CreateCollider
         (
-            new Vector2(camera.LimitRight + colliderThickness, (camera.LimitTop + camera.LimitBottom) / 2),
-            new Vector2(colliderThickness, (Mathf.Abs(camera.LimitTop) + Mathf.Abs(camera.LimitBottom)) / 2)
+            new Vector2(Camera.LimitRight + colliderThickness, (Camera.LimitTop + Camera.LimitBottom) / 2),
+            new Vector2(colliderThickness, (Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom)) / 2)
         );
 
         // top
         CreateCollider
         (
-            new Vector2((camera.LimitLeft + camera.LimitRight) / 2, camera.LimitTop - colliderThickness),
-            new Vector2((Mathf.Abs(camera.LimitLeft) + Mathf.Abs(camera.LimitRight) / 2), colliderThickness)
+            new Vector2((Camera.LimitLeft + Camera.LimitRight) / 2, Camera.LimitTop - colliderThickness),
+            new Vector2((Mathf.Abs(Camera.LimitLeft) + Mathf.Abs(Camera.LimitRight) / 2), colliderThickness)
         );
     }
 

@@ -323,6 +323,8 @@ public class Player : KinematicBody2D
 
     public void Died()
     {
+        levelScene.Camera.StopFollowingPlayer();
+
         var dieStartPos = Position.y;
 
         // animate y position
@@ -378,6 +380,7 @@ public class Player : KinematicBody2D
         gameManager.TransitionManager.BlackToAlpha();
         haltPlayerLogic = false;
         gameManager.LevelManager.LoadLevel();
+        levelScene.Camera.StartFollowingPlayer();
     }
 
     private void OnDashReady() => dashReady = true;

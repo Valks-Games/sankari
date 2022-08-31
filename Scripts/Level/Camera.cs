@@ -13,4 +13,7 @@ public class Camera : Camera2D
     {
         Position = player.Position;
     }
+
+    public void StopFollowingPlayer() => SetProcess(false);
+    public void StartFollowingPlayer() => SetProcess(true);
 }
