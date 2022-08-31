@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=2]
+[gd_scene load_steps=91 format=2]
 
 [ext_resource path="res://Sprites/Tilesets/Grass/grass_dirt_64.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
@@ -17,6 +17,9 @@
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/2_trees.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/1_trees.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/Animated Tiles/Water/Top/AnimatedWaterTop.tres" type="Texture" id=17]
+[ext_resource path="res://Scenes/Prefabs/Enemies/Spike.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Scenes/Prefabs/Platforms/MovingPlatform.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Scenes/Prefabs/Platforms/PlatformCircle.tscn" type="PackedScene" id=20]
 
 [sub_resource type="TileSet" id=131]
 0/name = "grass_dirt_64.png 0"
@@ -888,76 +891,64 @@ position = Vector2( 1506, 580 )
 position = Vector2( 1542, 580 )
 
 [node name="Coin25" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2339, 432 )
+position = Vector2( 2339, 360 )
 
 [node name="Coin26" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2375, 432 )
+position = Vector2( 2375, 360 )
 
 [node name="Coin27" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2411, 432 )
+position = Vector2( 2483, 224 )
 
 [node name="Coin28" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2447, 432 )
-
-[node name="Coin29" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2482, 432 )
-
-[node name="Coin30" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2518, 432 )
+position = Vector2( 2519, 224 )
 
 [node name="Coin31" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2554, 432 )
+position = Vector2( 2579, 224 )
 
 [node name="Coin32" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2590, 432 )
+position = Vector2( 2447, 224 )
 
 [node name="Coin33" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2626, 432 )
+position = Vector2( 2615, 224 )
 
 [node name="Coin34" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2662, 432 )
+position = Vector2( 2651, 224 )
 
 [node name="Coin35" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2698, 432 )
+position = Vector2( 2699, 360 )
 
 [node name="Coin36" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2734, 432 )
+position = Vector2( 2735, 360 )
 
 [node name="Coin37" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2339, 396 )
+position = Vector2( 2339, 324 )
 
 [node name="Coin38" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2375, 396 )
+position = Vector2( 2375, 324 )
 
 [node name="Coin39" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2411, 396 )
+position = Vector2( 2483, 188 )
 
 [node name="Coin40" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2447, 396 )
-
-[node name="Coin41" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2482, 396 )
-
-[node name="Coin42" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2518, 396 )
+position = Vector2( 2519, 188 )
 
 [node name="Coin43" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2554, 396 )
+position = Vector2( 2579, 188 )
 
 [node name="Coin44" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2590, 396 )
+position = Vector2( 2447, 188 )
 
 [node name="Coin45" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2626, 396 )
+position = Vector2( 2615, 188 )
 
 [node name="Coin46" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2662, 396 )
+position = Vector2( 2651, 188 )
 
 [node name="Coin47" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2698, 396 )
+position = Vector2( 2699, 324 )
 
 [node name="Coin48" parent="Environment/Coins" instance=ExtResource( 13 )]
-position = Vector2( 2734, 396 )
+position = Vector2( 2735, 324 )
 
 [node name="Coin49" parent="Environment/Coins" instance=ExtResource( 13 )]
 position = Vector2( 4119, -4 )
@@ -1285,6 +1276,24 @@ position = Vector2( 6914, 188 )
 
 [node name="Spikes" type="Node2D" parent="Environment"]
 
+[node name="Spike" parent="Environment/Spikes" instance=ExtResource( 18 )]
+position = Vector2( 4060, 148 )
+
+[node name="Spike2" parent="Environment/Spikes" instance=ExtResource( 18 )]
+position = Vector2( 4120, 148 )
+
+[node name="Spike3" parent="Environment/Spikes" instance=ExtResource( 18 )]
+position = Vector2( 4288, 148 )
+
+[node name="Spike4" parent="Environment/Spikes" instance=ExtResource( 18 )]
+position = Vector2( 4348, 148 )
+
+[node name="Spike5" parent="Environment/Spikes" instance=ExtResource( 18 )]
+position = Vector2( 4520, 148 )
+
+[node name="Spike6" parent="Environment/Spikes" instance=ExtResource( 18 )]
+position = Vector2( 4580, 148 )
+
 [node name="Enemies" type="Node2D" parent="Environment"]
 z_index = 1
 
@@ -1300,6 +1309,17 @@ position = Vector2( 1400, 372 )
 scale = Vector2( 1.97173, 1.97173 )
 
 [node name="Moving Platforms" type="Node2D" parent="Environment"]
+
+[node name="KinematicBody2D" parent="Environment/Moving Platforms" instance=ExtResource( 19 )]
+position = Vector2( 4688, 152 )
+Duration = 10
+
+[node name="Target" parent="Environment/Moving Platforms/KinematicBody2D" index="2"]
+position = Vector2( 1184, 0 )
+
+[node name="Circle" parent="Environment/Moving Platforms" instance=ExtResource( 20 )]
+position = Vector2( 2528, 352 )
+Radius = 150.0
 
 [node name="Areas" type="Node2D" parent="Environment"]
 
@@ -1427,3 +1447,5 @@ margin_bottom = 29.0
 rect_min_size = Vector2( 5, 0 )
 
 [connection signal="area_entered" from="Bottom" to="Bottom" method="_on_Bottom_area_entered"]
+
+[editable path="Environment/Moving Platforms/KinematicBody2D"]
