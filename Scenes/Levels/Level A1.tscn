@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://Sprites/Tilesets/Grass/grass_dirt_64.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=10]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/5_clouds.png" type="Texture" id=11]
 [ext_resource path="res://Scenes/Prefabs/Camera.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/4_mountain.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/3_trees.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/2_trees.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/Level/Parallax Backgrounds/Grass/1_trees.png" type="Texture" id=16]
@@ -656,14 +655,6 @@ motion_mirroring = Vector2( 1920, 0 )
 position = Vector2( 800, 220 )
 texture = ExtResource( 11 )
 
-[node name="Mountains" type="ParallaxLayer" parent="Environment/ParallaxBackground"]
-motion_scale = Vector2( 0.4, 1 )
-motion_mirroring = Vector2( 1920, 0 )
-
-[node name="Sprite" type="Sprite" parent="Environment/ParallaxBackground/Mountains"]
-position = Vector2( 800, 220 )
-texture = ExtResource( 13 )
-
 [node name="Trees1" type="ParallaxLayer" parent="Environment/ParallaxBackground"]
 motion_scale = Vector2( 0.6, 1 )
 motion_mirroring = Vector2( 1920, 0 )
@@ -715,6 +706,7 @@ margin_left = 14.0
 margin_top = 419.0
 margin_right = 257.0
 margin_bottom = 500.0
+custom_colors/font_color = Color( 0.384314, 0.713726, 0.419608, 1 )
 custom_fonts/font = SubResource( 77 )
 text = "W = Jump
 A = Move Left
@@ -722,10 +714,11 @@ D = Move Right
 S = Drop Down"
 
 [node name="Dash" type="Label" parent="Environment/Labels"]
-margin_left = 1087.0
-margin_top = 330.0
-margin_right = 1275.0
-margin_bottom = 432.0
+margin_left = 1079.0
+margin_top = 402.0
+margin_right = 1267.0
+margin_bottom = 504.0
+custom_colors/font_color = Color( 0.384314, 0.713726, 0.419608, 1 )
 custom_fonts/font = SubResource( 77 )
 text = "J = Dash
 
