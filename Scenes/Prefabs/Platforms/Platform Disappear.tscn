@@ -23,10 +23,10 @@ shader = SubResource( 2 )
 shader_param/white_progress = 0.0
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 1 )
+extents = Vector2( 64, 4 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 16, 1 )
+extents = Vector2( 64, 1 )
 
 [node name="Platform Disappear" type="KinematicBody2D" groups=["Platform"]]
 script = ExtResource( 2 )
@@ -40,7 +40,7 @@ shape = SubResource( 1 )
 one_way_collision = true
 
 [node name="Area2D" type="Area2D" parent="."]
-position = Vector2( -16, -1 )
+position = Vector2( -16, -4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 16, -1 )

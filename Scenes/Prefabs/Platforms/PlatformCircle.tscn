@@ -4,7 +4,7 @@
 [ext_resource path="res://Scripts/Level/PlatformCircular.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 1 )
+extents = Vector2( 64, 4 )
 
 [node name="Circle" type="KinematicBody2D" groups=["Platform"]]
 motion/sync_to_physics = true

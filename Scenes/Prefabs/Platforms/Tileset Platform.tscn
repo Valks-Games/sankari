@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Level/PlatformTileset.cs" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=132]
+extents = Vector2( 300, 8 )
+
+[node name="Tileset Platform" type="KinematicBody2D" groups=["Platform"]]
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 1344, 412 )
+shape = SubResource( 132 )
+one_way_collision = true

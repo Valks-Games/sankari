@@ -4,18 +4,18 @@
 [ext_resource path="res://Sprites/Level/Platform.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=25]
-extents = Vector2( 16, 1 )
+extents = Vector2( 64, 4 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" groups=["Platform"]]
 motion/sync_to_physics = true
 script = ExtResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 25 )
 one_way_collision = true
 
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
 [node name="Target" type="Position2D" parent="."]
-position = Vector2( 50, 0 )
+position = Vector2( 197, 0 )
