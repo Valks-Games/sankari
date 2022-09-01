@@ -45,8 +45,8 @@ public class Trigger : Area2D
 
         if (OnlyExecuteOnce) 
         {
-            Monitoring = false;
-            Monitorable = false;
+            SetDeferred("monitoring", false);
+            SetDeferred("monitorable", false);
         }
     }
 }
