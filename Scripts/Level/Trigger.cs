@@ -5,6 +5,7 @@ public class Trigger : Area2D
     [Export] public string[] Entities; // the entities this trigger effects
     [Export] public TriggerAction Action; // the action that this trigger will execute when activated
     [Export] public EntityType AllowedEntities; // only these entities will activate this trigger
+    [Export] public bool OnlyExecuteOnce;
 
     [Export] protected readonly NodePath NodePathEntities;
 
@@ -23,7 +24,7 @@ public class Trigger : Area2D
 
         foreach (var entityName in Entities)
         {
-            var entity = entities.GetNode(entityName) as IEntity;
+            var entity = entities.GetNodeOrNull(entityName) as IEntity;
 
             if (entity == null)
                 continue;
@@ -40,6 +41,12 @@ public class Trigger : Area2D
                     entity.Destroy();
                     break;
             }
+        }
+
+        if (OnlyExecuteOnce) 
+        {
+            Monitoring = false;
+            Monitorable = false;
         }
     }
 }

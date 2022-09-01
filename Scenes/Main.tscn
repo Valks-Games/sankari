@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/Menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Managers/GameManager.cs" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://Sprites/Level/Coins/Full Coins.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=77]
 
 [sub_resource type="AtlasTexture" id=65]
 atlas = ExtResource( 5 )
@@ -50,6 +52,8 @@ animations = [ {
 
 [sub_resource type="DynamicFont" id=74]
 size = 24
+outline_size = 1
+outline_color = Color( 0.266667, 0.266667, 0.266667, 1 )
 use_filter = true
 font_data = ExtResource( 6 )
 
@@ -104,12 +108,11 @@ NodePathLabelLives = NodePath("Lives/Lives Value")
 margin_right = 53.0
 margin_bottom = 31.0
 theme = ExtResource( 7 )
+custom_styles/panel = SubResource( 77 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Level UI/PanelContainer"]
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 52.0
-margin_bottom = 30.0
+margin_right = 53.0
+margin_bottom = 31.0
 
 [node name="Coin Sprite" type="AnimatedSprite" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
 position = Vector2( 14, 14 )
@@ -118,13 +121,14 @@ frames = SubResource( 73 )
 
 [node name="Padding Left" type="Control" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
 margin_right = 25.0
-margin_bottom = 29.0
+margin_bottom = 31.0
 rect_min_size = Vector2( 25, 0 )
 
 [node name="Coin Value" type="Label" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
 margin_left = 29.0
+margin_top = 1.0
 margin_right = 42.0
-margin_bottom = 29.0
+margin_bottom = 30.0
 custom_fonts/font = SubResource( 74 )
 text = "0"
 align = 1
@@ -133,10 +137,11 @@ valign = 1
 [node name="Padding Right" type="Control" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
 margin_left = 46.0
 margin_right = 51.0
-margin_bottom = 29.0
+margin_bottom = 31.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="Lives" type="HBoxContainer" parent="CanvasLayer/Level UI"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
