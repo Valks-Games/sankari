@@ -80,4 +80,11 @@ Here you can see the settings of this trigger.
 
 ![image](https://user-images.githubusercontent.com/6277739/188213062-ca109320-ca13-438e-a5fe-f78e8558043b.png)
 
+### Parallax Background  
+
+The parallax background is the art you see in the distance when playing the game. Each layer can have its own horizontal speed. If changing the position of the background, the position of each individual `Sprite` node must be changed otherwise if other values are changed for example in the `ParallaxBackground` node then the position of the background in the editor will not match up with the position in the game. To change the scroll speed of each layer, modify the x value of the scale property in each `ParallaxLayer` node. Values should range from `0` to `1.0`, anything faster than `1.0` would be too fast. Note that parallax backgrounds can also be put in front of the games art (tilesets / player), to achieve this just edit the Z-Index of the background to be `2` or higher.
+
+![image](https://user-images.githubusercontent.com/6277739/188216170-6afc81ab-e40e-41bc-8df1-be71dcaa9ae1.png)
+![image](https://user-images.githubusercontent.com/6277739/188216240-092f3ab8-8a0a-463a-aa02-5b2aea0cd7c0.png)
+
 
