@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=76 format=2]
 
 [ext_resource path="res://Sprites/Tilesets/Grass/grass_dirt_64.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Prefabs/Player.tscn" type="PackedScene" id=2]
@@ -685,6 +685,9 @@ extents = Vector2( 36.5, 282.5 )
 [sub_resource type="RectangleShape2D" id=132]
 extents = Vector2( 300, 8 )
 
+[sub_resource type="RectangleShape2D" id=136]
+extents = Vector2( 460, 8 )
+
 [sub_resource type="DynamicFont" id=77]
 font_data = ExtResource( 4 )
 
@@ -716,7 +719,7 @@ tile_set = SubResource( 131 )
 collision_layer = 3
 collision_mask = 3
 format = 1
-tile_data = PoolIntArray( 393232, 0, 8, 393233, 0, 10, 393234, 0, 10, 393235, 0, 10, 393236, 0, 10, 393237, 0, 10, 393238, 0, 10, 393239, 0, 10, 393240, 0, 10, 393241, 0, 11, 458768, 0, 65544, 458769, 0, 131081, 458770, 0, 131081, 458771, 0, 131081, 458772, 0, 131081, 458773, 0, 131081, 458774, 0, 131081, 458775, 0, 131081, 458776, 0, 131081, 458777, 0, 131083, 524304, 0, 65544, 524305, 0, 131081, 524306, 0, 131081, 524307, 0, 131081, 524308, 0, 131081, 524309, 0, 131081, 524310, 0, 131081, 524311, 0, 131081, 524312, 0, 131081, 524313, 0, 131083, 589840, 0, 196616, 589841, 0, 196617, 589842, 0, 196617, 589843, 0, 196617, 589844, 0, 196617, 589845, 0, 196617, 589846, 0, 196617, 589847, 0, 196617, 589848, 0, 196617, 589849, 0, 196619 )
+tile_data = PoolIntArray( 393232, 0, 8, 393233, 0, 10, 393234, 0, 10, 393235, 0, 10, 393236, 0, 10, 393237, 0, 10, 393238, 0, 10, 393239, 0, 10, 393240, 0, 10, 393241, 0, 11, 393299, 0, 8, 393300, 0, 10, 393301, 0, 10, 393302, 0, 10, 393303, 0, 10, 393304, 0, 10, 393305, 0, 10, 393306, 0, 10, 393307, 0, 10, 393308, 0, 10, 393309, 0, 10, 393310, 0, 10, 393311, 0, 10, 393312, 0, 10, 393313, 0, 11, 458768, 0, 65544, 458769, 0, 131081, 458770, 0, 131081, 458771, 0, 131081, 458772, 0, 131081, 458773, 0, 131081, 458774, 0, 131081, 458775, 0, 131081, 458776, 0, 131081, 458777, 0, 131083, 458835, 0, 65544, 458836, 0, 131081, 458837, 0, 131081, 458838, 0, 131081, 458839, 0, 131081, 458840, 0, 131081, 458841, 0, 131081, 458842, 0, 131081, 458843, 0, 131081, 458844, 0, 131081, 458845, 0, 131081, 458846, 0, 131081, 458847, 0, 131081, 458848, 0, 131081, 458849, 0, 131083, 524304, 0, 65544, 524305, 0, 131081, 524306, 0, 131081, 524307, 0, 131081, 524308, 0, 131081, 524309, 0, 131081, 524310, 0, 131081, 524311, 0, 131081, 524312, 0, 131081, 524313, 0, 131083, 524371, 0, 65544, 524372, 0, 131081, 524373, 0, 131081, 524374, 0, 131081, 524375, 0, 131081, 524376, 0, 131081, 524377, 0, 131081, 524378, 0, 131081, 524379, 0, 131081, 524380, 0, 131081, 524381, 0, 131081, 524382, 0, 131081, 524383, 0, 131081, 524384, 0, 131081, 524385, 0, 131083, 589840, 0, 196616, 589841, 0, 196617, 589842, 0, 196617, 589843, 0, 196617, 589844, 0, 196617, 589845, 0, 196617, 589846, 0, 196617, 589847, 0, 196617, 589848, 0, 196617, 589849, 0, 196619, 589907, 0, 196616, 589908, 0, 196617, 589909, 0, 196617, 589910, 0, 196617, 589911, 0, 196617, 589912, 0, 196617, 589913, 0, 196617, 589914, 0, 196617, 589915, 0, 196617, 589916, 0, 196617, 589917, 0, 196617, 589918, 0, 196617, 589919, 0, 196617, 589920, 0, 196617, 589921, 0, 196619 )
 
 [node name="Layer 1" type="TileMap" parent="TileMaps" groups=["Tileset"]]
 tile_set = SubResource( 78 )
@@ -875,6 +878,19 @@ NodePathEntities = NodePath("../../Enemies")
 position = Vector2( 4344, 320 )
 shape = SubResource( 135 )
 
+[node name="Activate Enemies4" type="Area2D" parent="Environment/Triggers"]
+script = ExtResource( 21 )
+__meta__ = {
+"_editor_description_": "Activates enemies"
+}
+Entities = PoolStringArray( "Enemy14", "Enemy15", "Enemy16", "Enemy17", "Enemy18" )
+OnlyExecuteOnce = true
+NodePathEntities = NodePath("../../Enemies")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Triggers/Activate Enemies4"]
+position = Vector2( 5296, 316 )
+shape = SubResource( 135 )
+
 [node name="Spikes" type="Node2D" parent="Environment"]
 
 [node name="Enemies" type="Node2D" parent="Environment"]
@@ -933,6 +949,45 @@ Active = false
 DontCollideWithWall = true
 FallOffCliff = true
 
+[node name="Enemy16" parent="Environment/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 6396, 548 )
+scale = Vector2( 3, 3 )
+Speed = 300.0
+Active = false
+DontCollideWithWall = true
+FallOffCliff = true
+
+[node name="Enemy17" parent="Environment/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 6528, 532 )
+scale = Vector2( 4, 4 )
+Speed = 200.0
+Active = false
+DontCollideWithWall = true
+FallOffCliff = true
+
+[node name="Enemy18" parent="Environment/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 6692, 516 )
+scale = Vector2( 5, 5 )
+Speed = 100.0
+Active = false
+DontCollideWithWall = true
+FallOffCliff = true
+
+[node name="Enemy19" parent="Environment/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 5564, 372 )
+scale = Vector2( 2, 2 )
+DontCollideWithWall = true
+
+[node name="Enemy20" parent="Environment/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 5808, 372 )
+scale = Vector2( 2, 2 )
+DontCollideWithWall = true
+
+[node name="Enemy21" parent="Environment/Enemies" instance=ExtResource( 5 )]
+position = Vector2( 6048, 372 )
+scale = Vector2( 2, 2 )
+DontCollideWithWall = true
+
 [node name="Moving Platforms" type="Node2D" parent="Environment"]
 
 [node name="Areas" type="Node2D" parent="Environment"]
@@ -951,6 +1006,16 @@ position = Vector2( 1344, 412 )
 shape = SubResource( 132 )
 one_way_collision = true
 
+[node name="Tileset Platform2" type="KinematicBody2D" parent="Environment/Areas/Tileset Platforms" groups=["Platform", "Tileset"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Areas/Tileset Platforms/Tileset Platform2"]
+position = Vector2( 5792, 412 )
+shape = SubResource( 136 )
+one_way_collision = true
+
 [node name="Labels" type="Node2D" parent="Environment"]
 
 [node name="Move" type="Label" parent="Environment/Labels"]
@@ -963,24 +1028,11 @@ custom_fonts/font = SubResource( 77 )
 text = "W = Jump
 A = Move Left
 D = Move Right
-S = Drop Down"
-
-[node name="Dash" type="Label" parent="Environment/Labels"]
-margin_left = 825.0
-margin_top = 435.0
-margin_right = 1013.0
-margin_bottom = 537.0
-custom_colors/font_color = Color( 0.384314, 0.713726, 0.419608, 1 )
-custom_fonts/font = SubResource( 77 )
-text = "J = Dash
-
-
-W + D + J"
-align = 1
-valign = 1
+S = Drop Down
+J = Dash"
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 3788, 572 )
+position = Vector2( 5156, 576 )
 
 [node name="Level Finish" type="Area2D" parent="." groups=["Level Finish"]]
 

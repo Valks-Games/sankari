@@ -93,6 +93,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
     {
         SetPhysicsProcess(true);
         animatedSprite.Frame = (int)GD.RandRange(0, animatedSprite.Frames.GetFrameCount("default"));
+        animatedSprite.SpeedScale = 1 + (Speed * 0.002f);
         animatedSprite.Play();
     }
 
