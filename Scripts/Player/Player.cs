@@ -178,7 +178,7 @@ public class Player : KinematicBody2D
 
             velocity.x += moveDir.x * SPEED_GROUND_WALK;
 
-            HorzDampening(10, 1);
+            HorzDampening(20, 1);
 
             if (inputJump)
             {
