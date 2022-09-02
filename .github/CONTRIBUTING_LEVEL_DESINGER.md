@@ -1,7 +1,7 @@
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/level%20designer?color=black&label=Level%20Designer)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22level+designer%22)
 
 ### Assets
-All levels are placed in `res://Scenes/Levels` with the naming convention `Level <letter><number>` where letter could be `A` and number could be `1`.
+All levels are placed in `res://Scenes/Levels` with the naming convention `Level <letter><number>.tscn` where letter could be `A` and number could be `1`.
 
 All level specific assets such as coins, enemies, and the player are found in `res://Scenes/Prefabs`.
 
