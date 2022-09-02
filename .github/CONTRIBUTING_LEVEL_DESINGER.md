@@ -14,6 +14,12 @@ This is an example of what a level hierarchy could look like, this does not have
 
 ![3](https://user-images.githubusercontent.com/6277739/188210442-c5ae2c69-c4b6-46ce-94dc-78b17b15acca.png) ![1](https://user-images.githubusercontent.com/6277739/188210002-7e0eb644-e057-4bc8-8af8-f82e8bb253fc.png) ![2](https://user-images.githubusercontent.com/6277739/188210261-ec1fa467-d868-4aae-962f-4e2addb862d4.png)
 
+### Camera
+The camera is unique for each level because the "limits" need to be set for each level individually. The yellow border you see below is the camera limits. Note that there is code in the `LevelScene.cs` script that dynamically places colliders at the start of the game so the player can not go outside the level. This is done for the left, right and ceiling of the level. While still on the topic it should be noted that the `LevelScene.cs` script must be attached to the first node in the levels scene. Feel free to change the zoom level of the camera from `0.8` to something else.
+
+![image](https://user-images.githubusercontent.com/6277739/188217154-7b1631a1-68d3-4f5e-bf20-0f8ab1cf7b7f.png)
+![image](https://user-images.githubusercontent.com/6277739/188217468-cc1ee705-46f7-41d4-978e-c828e96aaab3.png)
+
 ### Tilesets
 Make sure the bitmask and colliders are setup in the `TileMap` node.
 
