@@ -2,12 +2,13 @@ namespace Sankari;
 
 public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
 {
+    [Export] public float Speed = 40;
     [Export] public bool Active = true;
     [Export] public bool StartWalkingRight;
+    [Export] public bool DontCollideWithWall;
     [Export] public bool FallOffCliff;
 
     private const float gravity = 30000f;
-    private int speed = 40;
     private bool movingForward;
     
     private AnimatedSprite animatedSprite;
@@ -25,8 +26,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
     public override void _Ready()
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
-        animatedSprite.Play();
-        animatedSprite.Frame = (int)GD.RandRange(0, animatedSprite.Frames.GetFrameCount("default"));
+        Activate();
 
         rayCastWallLeft = PrepareRaycast("Wall Checks/Left");
         rayCastWallRight = PrepareRaycast("Wall Checks/Right");
@@ -37,6 +37,12 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
         {
             rayCastCliffLeft.Enabled = false;
             rayCastCliffRight.Enabled = false;
+        }
+
+        if (DontCollideWithWall)
+        {
+            rayCastWallLeft.Enabled = false;
+            rayCastWallRight.Enabled = false;
         }
 
         if (StartWalkingRight)
@@ -61,9 +67,9 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
 
         if (movingForward)
         {
-            velocity.x += speed;
+            velocity.x += Speed;
 
-            if (IsRaycastColliding(rayCastWallRight))
+            if (!DontCollideWithWall && IsRaycastColliding(rayCastWallRight))
                 ChangeDirection();
 
             if (!FallOffCliff && !IsRaycastColliding(rayCastCliffRight))
@@ -71,9 +77,9 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
         }
         else
         {
-            velocity.x -= speed;
+            velocity.x -= Speed;
 
-            if (IsRaycastColliding(rayCastWallLeft))
+            if (!DontCollideWithWall && IsRaycastColliding(rayCastWallLeft))
                 ChangeDirection();
 
             if (!FallOffCliff && !IsRaycastColliding(rayCastCliffLeft))
@@ -86,6 +92,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
     public void Activate() 
     {
         SetPhysicsProcess(true);
+        animatedSprite.Frame = (int)GD.RandRange(0, animatedSprite.Frames.GetFrameCount("default"));
         animatedSprite.Play();
     }
 
