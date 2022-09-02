@@ -30,3 +30,16 @@ If a player touches a area with this group then they will clear the level.
 
 `Bottom`  
 If a player or a enemy touches a area with this group they will die. This is to prevent entities from falling endlessely off the bottom of the level. The bottom area should be put down enough so for example large enemies are not instantly deleted when they touch this area as the player will see this.
+
+### Triggers
+Triggers can be setup to perform a specific [action] on one or more [entities] when a specific [entity type] enters a area.
+
+Below you can see a trigger marked by the big blue rect on the left. The 3 enemies of varying sizes at the bottom right are activated when the player enters this trigger area.
+
+![image](https://user-images.githubusercontent.com/6277739/188212774-c6e94076-891b-4ee5-ae13-8beed247ea0c.png)
+
+Here you can see the settings of this trigger.
+
+![image](https://user-images.githubusercontent.com/6277739/188213062-ca109320-ca13-438e-a5fe-f78e8558043b.png)
+
+
