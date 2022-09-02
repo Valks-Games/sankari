@@ -66,6 +66,10 @@ If a player touches a area with this group then they will clear the level.
 `Bottom`  
 If a player or a enemy touches a area with this group they will die. This is to prevent entities from falling endlessely off the bottom of the level. The bottom area should be put down enough so for example large enemies are not instantly deleted when they touch this area as the player will see this.
 
+An example of what the bottom area could look like can be see below marked by the large blue rect underneath the level. See how the area covers the entire width of the level.
+
+![image](https://user-images.githubusercontent.com/6277739/188217709-4a979579-f177-4a3e-b820-213f085d923a.png)
+
 ### Enemies
 **Basic Enemy**  
 
