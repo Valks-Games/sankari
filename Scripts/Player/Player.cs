@@ -5,7 +5,6 @@ public class Player : KinematicBody2D
     [Export] protected readonly NodePath NodePathRayCast2DWallChecksLeft;
     [Export] protected readonly NodePath NodePathRayCast2DWallChecksRight;
     [Export] protected readonly NodePath NodePathRayCast2DGroundChecks;
-    [Export] protected readonly NodePath NodePathSprite;
 
     private const int UNIVERSAL_FORCE_MODIFIER = 4;
     private const int SPEED_GROUND_WALK = 15 * UNIVERSAL_FORCE_MODIFIER;
@@ -42,9 +41,9 @@ public class Player : KinematicBody2D
     private List<RayCast2D> rayCast2DWallChecksRight = new();
     private List<RayCast2D> rayCast2DGroundChecks = new();
     private Node2D parentGroundChecks;
-    
+
     // animation
-    private Sprite sprite;
+    private AnimatedSprite animatedSprite;
     private GTween dieTween;
 
     // wall
@@ -74,13 +73,15 @@ public class Player : KinematicBody2D
         parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
         parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
         parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
-        sprite = GetNode<Sprite>(NodePathSprite);
+        animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
         dieTween = new GTween(this);
         tree = GetTree().Root;
 
         PrepareRaycasts(parentWallChecksLeft, rayCast2DWallChecksLeft);
         PrepareRaycasts(parentWallChecksRight, rayCast2DWallChecksRight);
         PrepareRaycasts(parentGroundChecks, rayCast2DGroundChecks);
+
+        animatedSprite.Play("idle");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -107,7 +108,7 @@ public class Player : KinematicBody2D
         if (wallDir != 0 && inWallJumpArea)
         {
             hasTouchedGroundAfterDash = true;
-            sprite.FlipH = wallDir == 1 ? true : false;
+            animatedSprite.FlipH = wallDir == 1 ? true : false;
 
             if (IsFalling())
             {
@@ -120,6 +121,7 @@ public class Player : KinematicBody2D
                 // wall jump
                 if (inputJump)
                 {
+                    animatedSprite.Play("jump_start");
                     gameManager.Audio.PlaySFX("player_jump", 80);
                     velocity.x += -JUMP_FORCE_WALL_HORZ * wallDir;
                     velocity.y -= JUMP_FORCE_WALL_VERT;
@@ -128,7 +130,7 @@ public class Player : KinematicBody2D
         }
         else
         {
-            sprite.FlipH = false;
+            animatedSprite.FlipH = false;
         }
 
         CheckIfCanGoUnderPlatform(inputDown);
@@ -152,9 +154,27 @@ public class Player : KinematicBody2D
         else
             gravity = GRAVITY_AIR;
 
+        if (moveDir.x < 0)
+        {
+            animatedSprite.FlipH = true;
+        }
+        else
+        {
+            animatedSprite.FlipH = false;
+        }
+
         if (IsOnGround())
         {
             hasTouchedGroundAfterDash = true;
+
+            if (moveDir.x != 0)
+            {
+                animatedSprite.Play("walk");
+            }
+            else
+            {
+                animatedSprite.Play("idle");
+            }
 
             velocity.x += moveDir.x * SPEED_GROUND_WALK;
 
@@ -162,6 +182,7 @@ public class Player : KinematicBody2D
 
             if (inputJump)
             {
+                animatedSprite.Play("jump_start");
                 gameManager.Audio.PlaySFX("player_jump", 80);
                 velocity.y = 0;
                 velocity.y -= JUMP_FORCE;
@@ -174,6 +195,9 @@ public class Player : KinematicBody2D
             if (inputFastFall)
                 velocity.y += 10;
         }
+
+        if (IsFalling())
+            animatedSprite.Play("jump_fall");
 
         // apply gravity
         velocity.y += gravity * delta;
@@ -203,8 +227,11 @@ public class Player : KinematicBody2D
     private void DoDashStuff()
     {
         var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
+        sprite.Texture = animatedSprite.Frames.GetFrame(animatedSprite.Animation, animatedSprite.Frame);
         sprite.GlobalPosition = GlobalPosition;
-        sprite.FlipH = wallDir == 1 ? true : false;
+        sprite.Scale = new Vector2(2f, 2f);
+        sprite.FlipH = animatedSprite.FlipH;
+        //sprite.FlipH = wallDir == 1 ? true : false;
         tree.AddChild(sprite);
 
         var dashSpeed = SPEED_DASH_VERTICAL;
@@ -218,16 +245,16 @@ public class Player : KinematicBody2D
 
     private Vector2 GetDashDirection(bool inputUp, bool inputDown)
     {
-        if (inputDown && moveDir.x < 0) 
+        if (inputDown && moveDir.x < 0)
         {
             return new Vector2(-1, 1);
         }
-        else if (inputDown && moveDir.x == 0) 
+        else if (inputDown && moveDir.x == 0)
         {
             horizontalDash = false;
             return new Vector2(0, 1);
         }
-        else if (inputDown && moveDir.x > 0) 
+        else if (inputDown && moveDir.x > 0)
         {
             return new Vector2(1, 1);
         }
