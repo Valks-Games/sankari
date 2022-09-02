@@ -443,7 +443,7 @@ public class Player : KinematicBody2D
         if (area.IsInGroup("Coin"))
         {
             gameManager.LevelUIManager.AddCoins();
-            gameManager.Audio.PlaySFX("coin_pickup", 70);
+            gameManager.Audio.PlaySFX("coin_pickup_1", 30);
             area.GetParent().QueueFree();
         }
 

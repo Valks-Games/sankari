@@ -23,7 +23,8 @@ public class Audio
     private void LoadSoundEffects()
     {
         LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav");
-        LoadSFX("coin_pickup", "Environment/Coin Pickup/sfx_coin_single1.wav");
+        LoadSFX("coin_pickup_1", "Environment/Coin Pickup/1/sfx_coin_single1.wav");
+        LoadSFX("coin_pickup_2", "Environment/Coin Pickup/2/coin.wav");
         LoadSFX("dash", "Movement/Dash/swish-9.wav");
 
         LoadSFX("game_over_1", "Game Over/1/retro-game-over.wav");
