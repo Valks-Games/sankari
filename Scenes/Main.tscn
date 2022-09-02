@@ -98,6 +98,7 @@ color = Color( 0, 0, 0, 0 )
 script = ExtResource( 3 )
 
 [node name="Level UI" type="Control" parent="CanvasLayer"]
+visible = false
 script = ExtResource( 4 )
 NodePathCoinSprite = NodePath("PanelContainer/HBoxContainer/Coin Sprite")
 NodePathLabelCoins = NodePath("PanelContainer/HBoxContainer/Coin Value")

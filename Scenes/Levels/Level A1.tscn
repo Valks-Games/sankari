@@ -883,7 +883,7 @@ script = ExtResource( 21 )
 __meta__ = {
 "_editor_description_": "Activates enemies"
 }
-Entities = PoolStringArray( "Enemy14", "Enemy15", "Enemy16", "Enemy17", "Enemy18" )
+Entities = PoolStringArray( "Enemy16", "Enemy17", "Enemy18" )
 OnlyExecuteOnce = true
 NodePathEntities = NodePath("../../Enemies")
 
