@@ -60,6 +60,15 @@ If a player touches a area with this group then they will clear the level.
 `Bottom`  
 If a player or a enemy touches a area with this group they will die. This is to prevent entities from falling endlessely off the bottom of the level. The bottom area should be put down enough so for example large enemies are not instantly deleted when they touch this area as the player will see this.
 
+### Enemies
+**Basic Enemy**  
+
+These orange balls are *super intelligent*, if told, they can check if their colliding with a wall or if their about go off a cliff. If you beat the example level, you'll know the 3 enemies below have varing speeds.
+
+![image](https://user-images.githubusercontent.com/6277739/188215652-9311b33b-ae05-46aa-8031-882f14797c2a.png)
+
+![image](https://user-images.githubusercontent.com/6277739/188215613-e2bcf8ad-a405-4553-a7c2-46d530e22ccb.png)
+
 ### Triggers
 Triggers can be setup to perform a specific [action] on one or more [entities] when a specific [entity type] enters a area.
 
