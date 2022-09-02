@@ -79,6 +79,10 @@ These orange balls are *super intelligent*, if told, they can check if their col
 
 ![image](https://user-images.githubusercontent.com/6277739/188215613-e2bcf8ad-a405-4553-a7c2-46d530e22ccb.png)
 
+To modify the size of an enemy simply modify the scale property of that enemy.
+
+![image](https://user-images.githubusercontent.com/6277739/188217977-63004e7a-59b9-460d-93a9-ded3c6949f2f.png)
+
 ### Triggers
 Triggers can be setup to perform a specific [action] on one or more [entities] when a specific [entity type] enters a area.
 
