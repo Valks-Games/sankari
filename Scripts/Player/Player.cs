@@ -351,6 +351,7 @@ public class Player : KinematicBody2D
 
     public void Died()
     {
+        animatedSprite.Stop();
         levelScene.Camera.StopFollowingPlayer();
 
         var dieStartPos = Position.y;
