@@ -38,9 +38,11 @@ This platform is straight forward to use, the property values are in `ms`.
 
 **Platform Circle**
 
-A platform that moves in a ciruclar motion. Right click the node and click `Editable Children` and modify the radius of the `Radius` node to change how far out the platform moves.
+A platform that moves in a ciruclar motion. Right click the node and click `Editable Children` and modify the radius of the `Radius` node to change how far out the platform moves. (you will see a orange dot on the right side of the circle you can drag when clicking the `Radius` node)
 
 ![image](https://user-images.githubusercontent.com/6277739/188215183-9d17a5aa-6359-4ebc-a0c8-82291bba6e2c.png)
+
+![image](https://user-images.githubusercontent.com/6277739/188215303-87ee11d6-7f35-4333-949e-c5dca28b1dfb.png)
 
 ### Groups
 `WallJumpArea`  
