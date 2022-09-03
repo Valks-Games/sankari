@@ -8,7 +8,7 @@ public class Player : KinematicBody2D
 
     private const int UNIVERSAL_FORCE_MODIFIER = 4;
     private const int SPEED_GROUND_WALK = 15 * UNIVERSAL_FORCE_MODIFIER;
-    private const int SPEED_AIR = 1 * UNIVERSAL_FORCE_MODIFIER;
+    private const int SPEED_AIR = 4 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_MAX_GROUND = 75 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_MAX_AIR = 225 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_DASH_VERTICAL = 100 * UNIVERSAL_FORCE_MODIFIER;
@@ -18,7 +18,7 @@ public class Player : KinematicBody2D
     private const int JUMP_FORCE = 150 * UNIVERSAL_FORCE_MODIFIER;
     private const int JUMP_FORCE_WALL_VERT = 150 * UNIVERSAL_FORCE_MODIFIER;
     private const int JUMP_FORCE_WALL_HORZ = 75 * UNIVERSAL_FORCE_MODIFIER;
-    private const int DASH_COOLDOWN = 500;
+    private const int DASH_COOLDOWN = 350;
     private const int DASH_DURATION = 200;
 
     // dependecy injcetion
@@ -52,8 +52,9 @@ public class Player : KinematicBody2D
 
     // dash
     private Vector2 dashDir;
+    private const int MAX_DASHES = 2;
+    private int dashCount;
     private bool horizontalDash;
-    private bool hasTouchedGroundAfterDash = true;
     private bool dashReady = true;
     private bool currentlyDashing;
 
@@ -107,7 +108,6 @@ public class Player : KinematicBody2D
         // on a wall and falling
         if (wallDir != 0 && inWallJumpArea)
         {
-            hasTouchedGroundAfterDash = true;
             animatedSprite.FlipH = wallDir == 1 ? true : false;
 
             if (IsFalling())
@@ -135,8 +135,9 @@ public class Player : KinematicBody2D
         CheckIfCanGoUnderPlatform(inputDown);
 
         // dash
-        if (inputDash && dashReady && hasTouchedGroundAfterDash && !currentlyDashing)
+        if (inputDash && dashReady && !currentlyDashing && dashCount != MAX_DASHES && !IsOnGround())
         {
+            dashCount++;
             gameManager.Audio.PlaySFX("dash");
             dashReady = false;
             currentlyDashing = true;
@@ -157,7 +158,7 @@ public class Player : KinematicBody2D
 
         if (IsOnGround())
         {
-            hasTouchedGroundAfterDash = true;
+            dashCount = 0;
 
             if (moveDir.x != 0)
                 animatedSprite.Play("walk");
@@ -166,7 +167,8 @@ public class Player : KinematicBody2D
 
             velocity.x += moveDir.x * SPEED_GROUND_WALK;
 
-            HorzDampening(20, 2);
+            GD.Print(velocity.x);
+            HorzDampening(20);
 
             if (inputJump)
             {
@@ -233,7 +235,6 @@ public class Player : KinematicBody2D
             dashSpeed = SPEED_DASH_HORIZONTAL;
 
         velocity = dashDir * dashSpeed;
-        hasTouchedGroundAfterDash = false;
     }
 
     private Vector2 GetDashDirection(bool inputUp, bool inputDown)
@@ -280,18 +281,23 @@ public class Player : KinematicBody2D
         return Vector2.Zero;
     }
 
-    /// <summary>
-    /// A deadzone value of 1 seems to make the player slide 1 pixel forever sometimes, set this to a value
-    /// higher than 1.
-    /// </summary>
-    private void HorzDampening(int dampening, int deadzone)
+    private void HorzDampening(int dampening)
     {
-        if (velocity.x >= -deadzone && velocity.x <= deadzone)
+        // deadzone has to be bigger than dampening value or the player ghost slide effect will occur
+        int deadzone = (int)(dampening * 1.5f);
+
+        if (velocity.x >= -deadzone && velocity.x <= deadzone) 
+        {
             velocity.x = 0;
-        else if (velocity.x > deadzone)
+        }
+        else if (velocity.x > deadzone) 
+        {
             velocity.x -= dampening;
-        else if (velocity.x < deadzone)
+        }
+        else if (velocity.x < deadzone) 
+        {
             velocity.x += dampening;
+        }
     }
 
     private bool IsOnGround()
