@@ -52,7 +52,7 @@ public class Player : KinematicBody2D
 
     // dash
     private Vector2 dashDir;
-    private const int MAX_DASHES = 2;
+    private const int MAX_DASHES = 1;
     private int dashCount;
     private bool horizontalDash;
     private bool dashReady = true;
@@ -167,7 +167,6 @@ public class Player : KinematicBody2D
 
             velocity.x += moveDir.x * SPEED_GROUND_WALK;
 
-            GD.Print(velocity.x);
             HorzDampening(20);
 
             if (inputJump)
