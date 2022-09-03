@@ -6,6 +6,9 @@ public class Player : KinematicBody2D
     [Export] protected readonly NodePath NodePathRayCast2DWallChecksRight;
     [Export] protected readonly NodePath NodePathRayCast2DGroundChecks;
 
+    public static Vector2 RespawnPosition { get; set; }
+    public static bool HasTouchedCheckpoint { get; set; }
+
     private const int UNIVERSAL_FORCE_MODIFIER = 4;
     private const int SPEED_GROUND_WALK = 15 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_AIR = 4 * UNIVERSAL_FORCE_MODIFIER;
@@ -69,6 +72,8 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
+        if (HasTouchedCheckpoint)
+            Position = RespawnPosition;
         timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
         timerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DASH_DURATION, false, false);
         parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
@@ -403,7 +408,7 @@ public class Player : KinematicBody2D
         await gameManager.TransitionManager.AlphaToBlack();
         await Task.Delay(1000);
         gameManager.LevelUIManager.ShowLives();
-        await Task.Delay(2000);
+        await Task.Delay(1750);
         gameManager.LevelUIManager.RemoveLife();
         await Task.Delay(1000);
         await gameManager.LevelUIManager.HideLivesTransition();

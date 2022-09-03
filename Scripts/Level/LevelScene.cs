@@ -23,6 +23,19 @@ public class LevelScene : Node
         CreateLevelBounds();
     }
 
+    private void UpdateCheckpoints()
+    {
+        var checkpoints = GetNodeOrNull<Node2D>("Environment/Checkpoints");
+
+        if (checkpoints == null)
+            return;
+
+        foreach (Checkpoint checkpoint in checkpoints.GetChildren())
+        {
+
+        }
+    }
+
     private void CreateLevelBounds()
     {
         var colliderThickness = 5;
