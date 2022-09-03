@@ -121,8 +121,7 @@ public class Player : KinematicBody2D
                 // wall jump
                 if (inputJump)
                 {
-                    animatedSprite.Play("jump_start");
-                    gameManager.Audio.PlaySFX("player_jump", 80);
+                    Jump();
                     velocity.x += -JUMP_FORCE_WALL_HORZ * wallDir;
                     velocity.y -= JUMP_FORCE_WALL_VERT;
                 }
@@ -154,36 +153,24 @@ public class Player : KinematicBody2D
         else
             gravity = GRAVITY_AIR;
 
-        if (moveDir.x < 0)
-        {
-            animatedSprite.FlipH = true;
-        }
-        else
-        {
-            animatedSprite.FlipH = false;
-        }
+        animatedSprite.FlipH = moveDir.x < 0 ? true : false;
 
         if (IsOnGround())
         {
             hasTouchedGroundAfterDash = true;
 
             if (moveDir.x != 0)
-            {
                 animatedSprite.Play("walk");
-            }
             else
-            {
                 animatedSprite.Play("idle");
-            }
 
             velocity.x += moveDir.x * SPEED_GROUND_WALK;
 
-            HorzDampening(20, 1);
+            HorzDampening(20, 2);
 
             if (inputJump)
             {
-                animatedSprite.Play("jump_start");
-                gameManager.Audio.PlaySFX("player_jump", 80);
+                Jump();
                 velocity.y = 0;
                 velocity.y -= JUMP_FORCE;
             }
@@ -209,6 +196,12 @@ public class Player : KinematicBody2D
         }
 
         velocity = MoveAndSlide(velocity, Vector2.Up);
+    }
+
+    private void Jump()
+    {
+        animatedSprite.Play("jump_start");
+        gameManager.Audio.PlaySFX("player_jump", 80);
     }
 
     private void CheckIfCanGoUnderPlatform(bool inputDown)
@@ -287,6 +280,10 @@ public class Player : KinematicBody2D
         return Vector2.Zero;
     }
 
+    /// <summary>
+    /// A deadzone value of 1 seems to make the player slide 1 pixel forever sometimes, set this to a value
+    /// higher than 1.
+    /// </summary>
     private void HorzDampening(int dampening, int deadzone)
     {
         if (velocity.x >= -deadzone && velocity.x <= deadzone)

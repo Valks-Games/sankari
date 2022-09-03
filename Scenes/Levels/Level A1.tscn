@@ -928,18 +928,13 @@ Active = false
 FallOffCliff = true
 
 [node name="Enemy10" parent="Environment/Enemies" instance=ExtResource( 5 )]
-position = Vector2( 2792, 68 )
-scale = Vector2( 5, 5 )
+position = Vector2( 2612, 100 )
+scale = Vector2( 3, 3 )
 Active = false
 
 [node name="Enemy11" parent="Environment/Enemies" instance=ExtResource( 5 )]
 position = Vector2( 3964, 564 )
 scale = Vector2( 2, 2 )
-
-[node name="Enemy13" parent="Environment/Enemies" instance=ExtResource( 5 )]
-position = Vector2( 2580, 132 )
-Active = false
-FallOffCliff = true
 
 [node name="Enemy12" parent="Environment/Enemies" instance=ExtResource( 5 )]
 position = Vector2( 4960, 468 )
@@ -1032,7 +1027,7 @@ S = Drop Down
 J = Dash"
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 92, 564 )
+position = Vector2( 3360, 560 )
 
 [node name="Level Finish" type="Area2D" parent="." groups=["Level Finish"]]
 
