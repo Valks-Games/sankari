@@ -142,13 +142,17 @@ public class Player : KinematicBody2D
         // dash
         if (inputDash && dashReady && !currentlyDashing && dashCount != MAX_DASHES && !IsOnGround())
         {
-            dashCount++;
-            gameManager.Audio.PlaySFX("dash");
-            dashReady = false;
-            currentlyDashing = true;
-            timerDashDuration.Start();
-            timerDashCooldown.Start();
             dashDir = GetDashDirection(inputUp, inputDown);
+
+            if (dashDir != Vector2.Zero) 
+            {
+                dashCount++;
+                gameManager.Audio.PlaySFX("dash");
+                dashReady = false;
+                currentlyDashing = true;
+                timerDashDuration.Start();
+                timerDashCooldown.Start();
+            }
         }
 
         if (currentlyDashing)

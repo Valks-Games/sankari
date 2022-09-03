@@ -858,7 +858,7 @@ script = ExtResource( 21 )
 __meta__ = {
 "_editor_description_": "Activates enemies"
 }
-Entities = PoolStringArray( "Enemy7", "Enemy8", "Enemy9", "Enemy10", "Enemy13" )
+Entities = PoolStringArray( "Enemy7", "Enemy8", "Enemy9", "Enemy13" )
 OnlyExecuteOnce = true
 NodePathEntities = NodePath("../../Enemies")
 
@@ -931,7 +931,6 @@ FallOffCliff = true
 [node name="Enemy10" parent="Environment/Enemies" instance=ExtResource( 5 )]
 position = Vector2( 2612, 100 )
 scale = Vector2( 3, 3 )
-Active = false
 
 [node name="Enemy11" parent="Environment/Enemies" instance=ExtResource( 5 )]
 position = Vector2( 3964, 564 )
