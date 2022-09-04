@@ -26,9 +26,7 @@ The camera is unique for each level because the "limits" need to be set for each
 ![image](https://user-images.githubusercontent.com/6277739/188217468-cc1ee705-46f7-41d4-978e-c828e96aaab3.png)
 
 ### Tilesets
-Make sure the bitmask and colliders are setup in the `TileMap` node.
-
-Multiple `TileMap` nodes can be used to create tiles on different layers as seen below. The tilemap in the background has no colliders setup. Instead a one-way collider was manually placed at the grass top part. You can find this collider in `res://Scenes/Prefabs/Platform/Tileset Platform.tscn`, once placed make sure to right click the shape property in the `CollisionShape2D` node and click `Make Unique`, this way changing the size of this collider will not effect any other collider using this prefab.
+There are 2 types of tilesets. One is for the solid ground and another is for the platforms. In the example level the tileset called "Bottom Layer" is the solid ground and "Layer 2" is used for all platforms. If you want more layers then duplicate "Layer 2" tileset.
 
 ![image](https://user-images.githubusercontent.com/6277739/188211331-bfacc803-454a-46da-a2ee-549948d5be67.png)
 
