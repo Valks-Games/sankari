@@ -44,16 +44,16 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=31]
-extents = Vector2( 8, 8 )
+extents = Vector2( 7.5, 8 )
 
 [node name="Coin" type="AnimatedSprite"]
 scale = Vector2( 2, 2 )
 frames = SubResource( 30 )
-frame = 1
 speed_scale = 2.0
 script = ExtResource( 2 )
 
 [node name="Area" type="Area2D" parent="." groups=["Coin"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area"]
+position = Vector2( -0.5, 0 )
 shape = SubResource( 31 )
