@@ -60,11 +60,13 @@ one_way_collision = true
 position = Vector2( -16, 13 )
 enabled = true
 cast_to = Vector2( -6, 0 )
+collision_mask = 3
 
 [node name="Right" type="RayCast2D" parent="Wall Checks"]
 position = Vector2( 16, 13 )
 enabled = true
 cast_to = Vector2( 6, 0 )
+collision_mask = 3
 
 [node name="Cliff Checks" type="Node2D" parent="."]
 
@@ -72,11 +74,13 @@ cast_to = Vector2( 6, 0 )
 position = Vector2( -17, 16 )
 enabled = true
 cast_to = Vector2( 0, 7 )
+collision_mask = 3
 
 [node name="Right" type="RayCast2D" parent="Cliff Checks"]
 position = Vector2( 17, 16 )
 enabled = true
 cast_to = Vector2( 0, 7 )
+collision_mask = 3
 
 [node name="Enemy" type="Area2D" parent="." groups=["Enemy"]]
 

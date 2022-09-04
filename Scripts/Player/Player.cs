@@ -231,19 +231,6 @@ public class Player : KinematicBody2D
         }
     }
 
-    uint UIntPow(uint x, uint pow)
-    {
-        uint ret = 1;
-        while (pow != 0)
-        {
-            if ((pow & 1) == 1)
-                ret *= x;
-            x *= x;
-            pow >>= 1;
-        }
-        return ret;
-    }
-
     private void DoDashStuff()
     {
         var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
