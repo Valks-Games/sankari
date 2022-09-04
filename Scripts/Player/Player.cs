@@ -224,19 +224,9 @@ public class Player : KinematicBody2D
 
             if (inputDown && tilemap.IsInGroup("Platform"))
             {
-                // enable a layer with Mathf.Pow(2, x) where x is the layer you want enabled
-                // if you wanted to enable multiple then add the sum of the powers
-                // e.g. Mathf.Pow(2, 1) + Mathf.Pow(2, 3) to enable layers 1 and 3
-
-                // only have layer 2 enabled
-                tilemap.CollisionLayer = UIntPow(2, 1);
-                tilemap.CollisionMask = UIntPow(2, 1);
-
+                tilemap.EnableLayers(2);
                 await Task.Delay(1000);
-
-                // only have layer 1 and 2 enabled
-                tilemap.CollisionLayer = UIntPow(2, 0) + UIntPow(2, 1);
-                tilemap.CollisionMask = UIntPow(2, 0) + UIntPow(2, 1);
+                tilemap.EnableLayers(1, 2);
             }
         }
     }
