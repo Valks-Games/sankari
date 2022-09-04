@@ -205,10 +205,12 @@ public class Player : KinematicBody2D
         {
             if (IsOnGround() && inputSprint)
             {
+                animatedSprite.SpeedScale = 1.5f;
                 velocity.x = Mathf.Clamp(velocity.x, -SPEED_MAX_GROUND_SPRINT, SPEED_MAX_GROUND_SPRINT);
             }
             else 
             {
+                animatedSprite.SpeedScale = 1;
                 velocity.x = Mathf.Clamp(velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
             }
 
