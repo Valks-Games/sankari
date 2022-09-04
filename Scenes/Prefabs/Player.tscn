@@ -130,12 +130,12 @@ cast_to = Vector2( 0, 1 )
 [node name="Ground Check 2" type="RayCast2D" parent="Raycasts/Ground Checks"]
 position = Vector2( 2.5, 4.75 )
 enabled = true
-cast_to = Vector2( 0, 1 )
+cast_to = Vector2( 2, 2 )
 
 [node name="Ground Check 3" type="RayCast2D" parent="Raycasts/Ground Checks"]
 position = Vector2( -2.5, 4.75 )
 enabled = true
-cast_to = Vector2( 0, 1 )
+cast_to = Vector2( -2, 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.6, 0.6 )
