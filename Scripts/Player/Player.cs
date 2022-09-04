@@ -144,7 +144,7 @@ public class Player : KinematicBody2D
         {
             dashDir = GetDashDirection(inputUp, inputDown);
 
-            if (dashDir != Vector2.Zero) 
+            if (dashDir != Vector2.Zero)
             {
                 dashCount++;
                 gameManager.Audio.PlaySFX("dash");
@@ -214,17 +214,44 @@ public class Player : KinematicBody2D
         gameManager.Audio.PlaySFX("player_jump", 80);
     }
 
-    private void CheckIfCanGoUnderPlatform(bool inputDown)
+    private async void CheckIfCanGoUnderPlatform(bool inputDown)
     {
         var collision = rayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
 
-        if (collision != null)
+        if (collision != null && collision is TileMap)
         {
-            var node = (Node)collision;
+            var tilemap = collision as TileMap;
 
-            if (inputDown && node.IsInGroup("Platform"))
-                (node as APlatform).TemporarilyDisablePlatform();
+            if (inputDown && tilemap.IsInGroup("Platform"))
+            {
+                // enable a layer with Mathf.Pow(2, x) where x is the layer you want enabled
+                // if you wanted to enable multiple then add the sum of the powers
+                // e.g. Mathf.Pow(2, 1) + Mathf.Pow(2, 3) to enable layers 1 and 3
+
+                // only have layer 2 enabled
+                tilemap.CollisionLayer = UIntPow(2, 1);
+                tilemap.CollisionMask = UIntPow(2, 1);
+
+                await Task.Delay(1000);
+
+                // only have layer 1 and 2 enabled
+                tilemap.CollisionLayer = UIntPow(2, 0) + UIntPow(2, 1);
+                tilemap.CollisionMask = UIntPow(2, 0) + UIntPow(2, 1);
+            }
         }
+    }
+
+    uint UIntPow(uint x, uint pow)
+    {
+        uint ret = 1;
+        while (pow != 0)
+        {
+            if ((pow & 1) == 1)
+                ret *= x;
+            x *= x;
+            pow >>= 1;
+        }
+        return ret;
     }
 
     private void DoDashStuff()
@@ -294,15 +321,15 @@ public class Player : KinematicBody2D
         // deadzone has to be bigger than dampening value or the player ghost slide effect will occur
         int deadzone = (int)(dampening * 1.5f);
 
-        if (velocity.x >= -deadzone && velocity.x <= deadzone) 
+        if (velocity.x >= -deadzone && velocity.x <= deadzone)
         {
             velocity.x = 0;
         }
-        else if (velocity.x > deadzone) 
+        else if (velocity.x > deadzone)
         {
             velocity.x -= dampening;
         }
-        else if (velocity.x < deadzone) 
+        else if (velocity.x < deadzone)
         {
             velocity.x += dampening;
         }
