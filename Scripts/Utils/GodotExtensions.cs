@@ -16,22 +16,9 @@ public static class GodotExtensions
         uint result = 0;
 
         foreach (var layer in layers)
-            result += UIntPow(2, layer - 1);
+            result += Utils.UIntPow(2, layer - 1);
 
         tileMap.CollisionLayer = result;
         tileMap.CollisionMask = result;
-    }
-
-    private static uint UIntPow(uint x, uint pow)
-    {
-        uint ret = 1;
-        while (pow != 0)
-        {
-            if ((pow & 1) == 1)
-                ret *= x;
-            x *= x;
-            pow >>= 1;
-        }
-        return ret;
     }
 }
