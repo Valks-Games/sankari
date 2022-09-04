@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public static class Utils 
+public static class Math 
 {
     public static uint UIntPow(this uint x, uint pow)
     {
