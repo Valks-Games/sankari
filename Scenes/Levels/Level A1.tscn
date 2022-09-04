@@ -1332,7 +1332,7 @@ text = "W = Jump
 A = Move Left
 D = Move Right
 S = Drop Down
-J = Dash"
+J = Dash / Sprint"
 
 [node name="Jump!" type="Label" parent="Environment/Labels"]
 margin_left = 2908.0
