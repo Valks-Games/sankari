@@ -66,8 +66,7 @@ public class Map : Node
 
         if (Input.IsActionJustPressed("map_action") && !loadingLevel)
         {
-            var id = GetCurrentTileId(tileMapLevelIcons, playerIcon.Position);
-            if (id != -1)
+            if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared") 
             {
                 loadingLevel = true;
                 await gameManager.TransitionManager.AlphaToBlackAndBack();
@@ -75,9 +74,6 @@ public class Map : Node
                 levelManager.LoadLevel();
                 
                 prevPlayerMapIconPosition = playerIcon.Position;
-
-                // hide map and load level
-                
             }
         }
     }
@@ -89,37 +85,23 @@ public class Map : Node
             var currPos = playerIcon.Position;
             var nextPos = currPos + moveOffset;
 
-            var tileIdTerrain = GetCurrentTileId(tileMapTerrain, nextPos);
-
-            if (tileIdTerrain == 0) // this is not a path tile, cancel movement
+            if (tileMapTerrain.GetTileName(nextPos) != "path")
                 return;
 
-            var tileIdLevelOffset = GetCurrentTileId(tileMapLevelIcons, nextPos);
-            var tileIdLevelCurr = GetCurrentTileId(tileMapLevelIcons, currPos);
+            //var tileIdLevelOffset = GetCurrentTileId(tileMapLevelIcons, nextPos);
+            //var tileIdLevelCurr = GetCurrentTileId(tileMapLevelIcons, currPos);
 
             // yellow circle = 0
             // gray circle   = 1
 
             var nextTilePos = tileMapLevelIcons.WorldToMap(nextPos);
 
-            //if (_levelManager.LevelPositions.ContainsKey(nextTilePos) && _levelManager.LevelPositions[nextTilePos].Locked)
-             //   return;
+            //if (levelManager.LevelPositions.ContainsKey(nextTilePos) && levelManager.LevelPositions[nextTilePos].Locked)
+            //    return;
 
             playerIcon.Position = nextPos;
         }
     }
-
-    // This method is useless because it's returning values like "tiles_packed.png 1" and "tiles_packed.png 4"
-    // This is suppose to be fixed in Godot 4
-    private string GetTileName(TileMap tilemap, Vector2 pos) =>
-        tilemap.TileSet.TileGetName(GetCurrentTileId(tilemap, pos));
-
-    private int GetCurrentTileId(TileMap tilemap, Vector2 pos)
-    {
-        var cellPos = tilemap.WorldToMap(pos);
-        return tilemap.GetCellv(cellPos);
-    }
-
     private void _on_Player_Area_area_entered(Area2D area)
     {
         levelManager.CurrentLevel = area.Name;
