@@ -10,9 +10,10 @@ public class Player : KinematicBody2D
     public static bool HasTouchedCheckpoint { get; set; }
 
     private const int UNIVERSAL_FORCE_MODIFIER = 4;
-    private const int SPEED_GROUND_WALK = 15 * UNIVERSAL_FORCE_MODIFIER;
+    private const int SPEED_GROUND = 15 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_AIR = 4 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_MAX_GROUND = 75 * UNIVERSAL_FORCE_MODIFIER;
+    private const int SPEED_MAX_GROUND_SPRINT = 100 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_MAX_AIR = 225 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_DASH_VERTICAL = 100 * UNIVERSAL_FORCE_MODIFIER;
     private const int SPEED_DASH_HORIZONTAL = 150 * UNIVERSAL_FORCE_MODIFIER;
@@ -106,6 +107,7 @@ public class Player : KinematicBody2D
         var inputDown = Input.IsActionPressed("player_move_down");
         var inputFastFall = Input.IsActionPressed("player_fast_fall");
         var inputDash = Input.IsActionJustPressed("player_dash");
+        var inputSprint = Input.IsActionPressed("player_sprint");
 
         var gravity = GRAVITY_AIR;
         wallDir = UpdateWallDirection();
@@ -174,7 +176,7 @@ public class Player : KinematicBody2D
             else
                 animatedSprite.Play("idle");
 
-            velocity.x += moveDir.x * SPEED_GROUND_WALK;
+            velocity.x += moveDir.x * SPEED_GROUND;
 
             HorzDampening(20);
 
@@ -201,7 +203,15 @@ public class Player : KinematicBody2D
 
         if (!currentlyDashing)
         {
-            velocity.x = Mathf.Clamp(velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
+            if (IsOnGround() && inputSprint)
+            {
+                velocity.x = Mathf.Clamp(velocity.x, -SPEED_MAX_GROUND_SPRINT, SPEED_MAX_GROUND_SPRINT);
+            }
+            else 
+            {
+                velocity.x = Mathf.Clamp(velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
+            }
+
             velocity.y = Mathf.Clamp(velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
         }
 
