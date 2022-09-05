@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Trigger : Area2D
+public class Trigger : Node
 {
     [Export] public string[] Entities; // the entities this trigger effects
     [Export] public TriggerAction Action; // the action that this trigger will execute when activated
@@ -9,12 +9,14 @@ public class Trigger : Area2D
 
     [Export] protected readonly NodePath NodePathEntities;
 
+    private Area2D area2D;
     private Node entities;
 
     public override void _Ready()
     {
+        area2D = GetParent<Area2D>();
         entities = GetNode<Node>(NodePathEntities);
-        Connect("area_entered", this, nameof(OnAreaEntered));
+        area2D.Connect("area_entered", this, nameof(OnAreaEntered));
     }
 
     private void OnAreaEntered(Area2D area)
@@ -45,8 +47,8 @@ public class Trigger : Area2D
 
         if (OnlyExecuteOnce) 
         {
-            SetDeferred("monitoring", false);
-            SetDeferred("monitorable", false);
+            area2D.SetDeferred("monitoring", false);
+            area2D.SetDeferred("monitorable", false);
         }
     }
 }
