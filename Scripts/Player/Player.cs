@@ -8,6 +8,7 @@ public class Player : KinematicBody2D
 
     public static Vector2 RespawnPosition { get; set; }
     public static bool HasTouchedCheckpoint { get; set; }
+    public static Player Instance;
 
     private const int UNIVERSAL_FORCE_MODIFIER = 4;
     private const int SPEED_GROUND = 15 * UNIVERSAL_FORCE_MODIFIER;
@@ -27,7 +28,6 @@ public class Player : KinematicBody2D
 
     // dependecy injcetion
     private LevelScene levelScene;
-    private GameManager gameManager;
 
     // movement
     private Vector2 moveDir;
@@ -68,11 +68,11 @@ public class Player : KinematicBody2D
     public void PreInit(LevelScene levelScene)
     {
         this.levelScene = levelScene;
-        gameManager = levelScene.GameManager;
     }
 
     public override void _Ready()
     {
+        Instance = this;
         if (HasTouchedCheckpoint)
             Position = RespawnPosition;
         timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
@@ -149,7 +149,7 @@ public class Player : KinematicBody2D
             if (dashDir != Vector2.Zero)
             {
                 dashCount++;
-                gameManager.Audio.PlaySFX("dash");
+                GameManager.Audio.PlaySFX("dash");
                 dashReady = false;
                 currentlyDashing = true;
                 timerDashDuration.Start();
@@ -223,7 +223,7 @@ public class Player : KinematicBody2D
     private void Jump()
     {
         animatedSprite.Play("jump_start");
-        gameManager.Audio.PlaySFX("player_jump", 80);
+        GameManager.Audio.PlaySFX("player_jump", 80);
     }
 
     private async void CheckIfCanGoUnderPlatform(bool inputDown)
@@ -418,24 +418,24 @@ public class Player : KinematicBody2D
 
         dieTween.Start();
         haltPlayerLogic = true;
-        gameManager.Audio.StopMusic();
-        gameManager.Audio.PlaySFX("game_over_1");
+        GameManager.Audio.StopMusic();
+        GameManager.Audio.PlaySFX("game_over_1");
         dieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
     }
 
     private async void OnDieTweenCompleted()
     {
-        await gameManager.TransitionManager.AlphaToBlack();
+        await GameManager.TransitionManager.AlphaToBlack();
         await Task.Delay(1000);
-        gameManager.LevelUIManager.ShowLives();
+        GameManager.LevelUIManager.ShowLives();
         await Task.Delay(1750);
-        gameManager.LevelUIManager.RemoveLife();
+        GameManager.LevelUIManager.RemoveLife();
         await Task.Delay(1000);
-        await gameManager.LevelUIManager.HideLivesTransition();
+        await GameManager.LevelUIManager.HideLivesTransition();
         await Task.Delay(250);
-        gameManager.TransitionManager.BlackToAlpha();
+        GameManager.TransitionManager.BlackToAlpha();
         haltPlayerLogic = false;
-        gameManager.LevelManager.LoadLevel();
+        GameManager.LevelManager.LoadLevel();
         levelScene.Camera.StartFollowingPlayer();
     }
 
@@ -456,7 +456,7 @@ public class Player : KinematicBody2D
         if (area.IsInGroup("Level Finish"))
         {
             haltPlayerLogic = true;
-            await gameManager.LevelManager.CompleteLevel(gameManager.LevelManager.CurrentLevel);
+            await GameManager.LevelManager.CompleteLevel(GameManager.LevelManager.CurrentLevel);
             haltPlayerLogic = false;
             return;
         }

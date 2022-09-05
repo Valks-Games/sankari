@@ -2,13 +2,6 @@ namespace Sankari;
 
 public class Coin : AnimatedSprite
 {
-    private GameManager gameManager;
-
-    public void PreInit(GameManager gameManager)
-    {
-        this.gameManager = gameManager;
-    }
-
     public override void _Ready()
     {
         Playing = true;
@@ -19,8 +12,8 @@ public class Coin : AnimatedSprite
     {
         if (area.GetParent() is Player)
         {
-            gameManager.LevelUIManager.AddCoins();
-            gameManager.Audio.PlaySFX("coin_pickup_1", 30);
+            GameManager.LevelUIManager.AddCoins();
+            GameManager.Audio.PlaySFX("coin_pickup_1", 30);
             QueueFree();
         }
     }

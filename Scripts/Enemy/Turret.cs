@@ -5,14 +5,8 @@ public class Turret : StaticBody2D, IEnemy
     [Export] protected readonly NodePath NodePathPositionEndOfRod;
 
     private Sprite rod;
-    private Player player;
     private GTimer shootTimer;
     private Position2D endOfRod;
-
-    public void PreInit(Player player)
-    {
-        this.player = player;
-    }
     
     public override void _Ready()
     {
@@ -23,7 +17,7 @@ public class Turret : StaticBody2D, IEnemy
 
     public override void _PhysicsProcess(float delta)
     {
-        rod.LookAt(player.GlobalPosition);
+        rod.LookAt(Player.Instance.GlobalPosition);
     }
 
     private void OnShoot()
@@ -31,7 +25,7 @@ public class Turret : StaticBody2D, IEnemy
         var cannonBall = Prefabs.CannonBall.Instance<CannonBall>();
         cannonBall.Position = endOfRod.GlobalPosition;
         var cannonBallForce = 200f;
-        cannonBall.LinearVelocity = (player.Position - endOfRod.GlobalPosition).Normalized() * cannonBallForce;
+        cannonBall.LinearVelocity = (Player.Instance.Position - endOfRod.GlobalPosition).Normalized() * cannonBallForce;
         GetTree().Root.AddChild(cannonBall);
     }
 }

@@ -11,33 +11,26 @@ global using System.Linq;
 
 namespace Sankari;
 
-public class GameManager : Node
+public class GameManager
 {
-    [Export] protected readonly NodePath NodePathTransition;
-
     // managers
-    public TransitionManager TransitionManager { get; private set; }
-    public LevelManager LevelManager { get; private set; }
-    public PlayerManager PlayerManager { get; private set; }
-    public LevelUIManager LevelUIManager { get; private set; }
-    public Audio Audio { get; private set; }
+    public static TransitionManager TransitionManager { get; private set; }
+    public static LevelManager LevelManager { get; private set; }
+    public static LevelUIManager LevelUIManager { get; private set; }
+    public static Audio Audio { get; private set; }
 
-    private Node map;
-    private UIMenu menu;
+    private static Node map;
+    private static UIMenu menu;
 
-    public override void _Ready()
+    public GameManager(Linker linker) 
     {
-        map = GetNode<Node>("Map");
-        menu = GetNode<UIMenu>("CanvasLayer/Menu");
-        menu.PreInit(this);
-
-        Audio = new Audio(new GAudioStreamPlayer(this), new GAudioStreamPlayer(this));
-        LevelManager = new LevelManager(this, GetNode<Node>("Level"));
-        TransitionManager = GetNode<TransitionManager>(NodePathTransition);
-        PlayerManager = new PlayerManager();
-        LevelUIManager = GetNode<LevelUIManager>("CanvasLayer/Level UI");
-
-        //Audio.PlayMusic("ice_1");
+        map = linker.GetNode<Node>("Map");
+        menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
+        
+        Audio = new Audio(new GAudioStreamPlayer(linker), new GAudioStreamPlayer(linker));
+        TransitionManager = linker.GetNode<TransitionManager>(linker.NodePathTransition);
+        LevelUIManager = linker.GetNode<LevelUIManager>("CanvasLayer/Level UI");
+        LevelManager = new LevelManager(linker.GetNode<Node>("Level"));
 
         // for making dev life easier
         menu.Hide();
@@ -46,18 +39,12 @@ public class GameManager : Node
         LevelManager.LoadLevel();
     }
 
-    public override void _Process(float delta)
-    {
-        Logger.Update();
-    }
-
-    public void LoadMap()
+    public static void LoadMap()
     {
         var mapScript = (Map)Prefabs.Map.Instance();
-        mapScript.PreInit(this);
         map.CallDeferred("add_child", mapScript); // need to wait for the engine because we are dealing with areas with is physics related
         Audio.PlayMusic("map_grassy");
     }
 
-    public void DestroyMap() => map.QueueFreeChildren();
+    public static void DestroyMap() => map.QueueFreeChildren();
 }

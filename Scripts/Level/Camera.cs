@@ -11,7 +11,7 @@ public class Camera : Camera2D
 
     public override void _Process(float delta)
     {
-        Position = player.Position;
+        Position = Player.Instance.Position;
     }
 
     public void StopFollowingPlayer() => SetProcess(false);

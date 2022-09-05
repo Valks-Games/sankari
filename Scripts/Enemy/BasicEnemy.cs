@@ -18,11 +18,6 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
     private RayCast2D rayCastCliffLeft;
     private RayCast2D rayCastCliffRight;
 
-    public void PreInit(Player player)
-    {
-
-    }
-
     public override void _Ready()
     {
         animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");

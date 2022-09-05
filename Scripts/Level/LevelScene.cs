@@ -2,15 +2,12 @@ namespace Sankari;
 
 public class LevelScene : Node
 {
-    public GameManager GameManager { get; private set; }
     public Camera Camera;
 
-    public void PreInit(GameManager gameManager)
+    public void PreInit()
     {
-        GameManager = gameManager;
-        
-        InitPlayer();
-        InitGameObjects();
+        var player = GetNode<Player>("Player");
+        player.PreInit(this);
     }
 
     public override void _Ready()
@@ -18,28 +15,6 @@ public class LevelScene : Node
         Camera = GetNode<Camera>("Camera");
 
         CreateLevelBounds();
-    }
-
-    private void InitPlayer()
-    {
-        var player = GetNode<Player>("Player");
-        player.PreInit(this);
-    }
-
-    private void InitGameObjects()
-    {
-        InitCoins();
-    }
-
-    private void InitCoins()
-    {
-        var coins = GetNodeOrNull("Environment/Coins");
-
-        if (coins == null)
-            return;
-
-        foreach (Coin coin in coins.GetChildren())
-            coin.PreInit(GameManager);
     }
 
     private void UpdateCheckpoints()

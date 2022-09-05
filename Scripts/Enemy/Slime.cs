@@ -9,11 +9,6 @@ public class Slime : KinematicBody2D, IEnemy
     private bool movingForward;
     private int wallHugTime;
 
-    public void PreInit(Player player)
-    {
-        
-    }
-
     public override void _Ready()
     {
         jumpTimer = new GTimer(this, nameof(OnJumpTimer), 2000);

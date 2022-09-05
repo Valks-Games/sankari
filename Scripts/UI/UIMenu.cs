@@ -1,18 +1,11 @@
-using Godot;
-using System;
-
 namespace Sankari;
 
 public class UIMenu : Control
 {
-    private GameManager gameManager;
-
-    public void PreInit(GameManager gameManager) => this.gameManager = gameManager;
-
     private void _on_Play_pressed() 
     {
         Hide();
-        gameManager.LoadMap();
+        GameManager.LoadMap();
     }
     //private async void _on_Options_pressed() => await _managers.ManagerScene.ChangeScene(GameScene.Options);
     //private async void _on_Mods_pressed() => await _managers.ManagerScene.ChangeScene(GameScene.Mods);

@@ -9,11 +9,9 @@ public class LevelManager
     public string CurrentLevel { get; set; }
 
     private Node nodeLevel;
-    private GameManager gameManager;
 
-    public LevelManager(GameManager gameManager, Node nodeLevel)
+    public LevelManager(Node nodeLevel)
     {
-        this.gameManager = gameManager;
         this.nodeLevel = nodeLevel;
         var godotFileManager = new GodotFileManager();
         godotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
@@ -42,7 +40,7 @@ public class LevelManager
     public void LoadLevel()
     {
         // remove map
-        gameManager.DestroyMap();
+        GameManager.DestroyMap();
 
         // remove level if any
         nodeLevel.QueueFreeChildren();
@@ -57,17 +55,17 @@ public class LevelManager
 
         var levelPacked = ResourceLoader.Load<PackedScene>(scenePath);
         var level = (LevelScene)levelPacked.Instance();
-        level.PreInit(gameManager);
+        level.PreInit();
         nodeLevel.AddChild(level);
 
         var curLevel = Levels[CurrentLevel];
 
-        gameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
+        GameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
     }
 
     public async Task CompleteLevel(string levelName)
     {
-        await gameManager.TransitionManager.AlphaToBlackAndBack();
+        await GameManager.TransitionManager.AlphaToBlackAndBack();
 
         // remove level
         nodeLevel.QueueFreeChildren();
@@ -80,7 +78,7 @@ public class LevelManager
                 Levels[level].Locked = false;
 
         // load map
-        gameManager.LoadMap();
+        GameManager.LoadMap();
     }
 }
 
