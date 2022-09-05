@@ -79,3 +79,5 @@ shape = SubResource( 31 )
 amount = 5
 lifetime = 2.0
 process_material = SubResource( 32 )
+
+[connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]

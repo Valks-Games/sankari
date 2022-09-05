@@ -9,11 +9,8 @@ public class LevelScene : Node
     {
         GameManager = gameManager;
         
-        var player = GetNode<Player>("Player");
-        player.PreInit(this);
-
-        //foreach (IEnemy child in GetNode<Node2D>("Environment/Enemies").GetChildren()) 
-        //    child.PreInit(player);
+        InitPlayer();
+        InitGameObjects();
     }
 
     public override void _Ready()
@@ -21,6 +18,28 @@ public class LevelScene : Node
         Camera = GetNode<Camera>("Camera");
 
         CreateLevelBounds();
+    }
+
+    private void InitPlayer()
+    {
+        var player = GetNode<Player>("Player");
+        player.PreInit(this);
+    }
+
+    private void InitGameObjects()
+    {
+        InitCoins();
+    }
+
+    private void InitCoins()
+    {
+        var coins = GetNodeOrNull("Environment/Coins");
+
+        if (coins == null)
+            return;
+
+        foreach (Coin coin in coins.GetChildren())
+            coin.PreInit(GameManager);
     }
 
     private void UpdateCheckpoints()
@@ -32,7 +51,7 @@ public class LevelScene : Node
 
         foreach (Checkpoint checkpoint in checkpoints.GetChildren())
         {
-
+            // TODO: update checkpoints based on which were touched
         }
     }
 

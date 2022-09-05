@@ -467,13 +467,6 @@ public class Player : KinematicBody2D
             return;
         }
 
-        if (area.IsInGroup("Coin"))
-        {
-            gameManager.LevelUIManager.AddCoins();
-            gameManager.Audio.PlaySFX("coin_pickup_1", 30);
-            area.GetParent().QueueFree();
-        }
-
         if (area.IsInGroup("WallJumpArea"))
             inWallJumpArea = true;
     }
