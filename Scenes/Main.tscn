@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/Menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Linker.cs" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprites/Level/Coins/Full Coins.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=7]
+[ext_resource path="res://Scripts/Managers/ConsoleManager.cs" type="Script" id=8]
 
 [sub_resource type="StyleBoxEmpty" id=77]
 
@@ -66,6 +67,17 @@ font_data = ExtResource( 6 )
 size = 46
 use_filter = true
 font_data = ExtResource( 6 )
+
+[sub_resource type="StyleBoxEmpty" id=78]
+
+[sub_resource type="StyleBoxEmpty" id=79]
+
+[sub_resource type="StyleBoxEmpty" id=80]
+
+[sub_resource type="StyleBoxFlat" id=81]
+bg_color = Color( 0, 0, 0, 0.352941 )
+
+[sub_resource type="StyleBoxEmpty" id=82]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
@@ -170,3 +182,32 @@ margin_right = 222.0
 margin_bottom = 70.0
 custom_fonts/font = SubResource( 76 )
 text = "3"
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 7 )
+custom_styles/panel = SubResource( 78 )
+
+[node name="Console" type="VBoxContainer" parent="CanvasLayer/PanelContainer"]
+visible = false
+margin_right = 1024.0
+margin_bottom = 600.0
+script = ExtResource( 8 )
+
+[node name="Console Logs" type="TextEdit" parent="CanvasLayer/PanelContainer/Console"]
+margin_right = 1024.0
+margin_bottom = 580.0
+size_flags_vertical = 3
+custom_styles/read_only = SubResource( 79 )
+custom_styles/focus = SubResource( 80 )
+custom_styles/normal = SubResource( 81 )
+custom_styles/completion = SubResource( 82 )
+
+[node name="Console Input" type="LineEdit" parent="CanvasLayer/PanelContainer/Console"]
+margin_top = 584.0
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[connection signal="text_entered" from="CanvasLayer/PanelContainer/Console/Console Input" to="CanvasLayer/PanelContainer/Console" method="_on_Console_Input_text_entered"]

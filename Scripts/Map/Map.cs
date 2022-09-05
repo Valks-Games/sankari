@@ -23,7 +23,7 @@ public class Map : Node
         levels = GetNode<Node>(NodePathLevels);
         playerIcon = GetNode<Sprite>(NodePathPlayerIcon);
 
-        foreach (var level in GameManager.LevelManager.Levels.Values) 
+        foreach (var level in GameManager.Level.Levels.Values) 
             if (level.Completed)
                 tileMapLevelIcons.SetCellv(level.Position, 1); // remember 1 is gray circle
 
@@ -40,12 +40,12 @@ public class Map : Node
             var worldPos = ((CollisionShape2D)levelArea.GetChild(0)).Position;
             var tilePos = tileMapLevelIcons.WorldToMap(worldPos);
 
-            if (!GameManager.LevelManager.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
-                GameManager.LevelManager.Levels.Add(levelArea.Name, new Level(levelArea.Name) {
+            if (!GameManager.Level.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
+                GameManager.Level.Levels.Add(levelArea.Name, new Level(levelArea.Name) {
                     Position = tilePos
                 });
             else
-                GameManager.LevelManager.Levels[levelArea.Name].Position = tilePos;
+                GameManager.Level.Levels[levelArea.Name].Position = tilePos;
         }
     }
 
@@ -61,9 +61,9 @@ public class Map : Node
             if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared") 
             {
                 loadingLevel = true;
-                await GameManager.TransitionManager.AlphaToBlackAndBack();
+                await GameManager.Transition.AlphaToBlackAndBack();
 
-                GameManager.LevelManager.LoadLevel();
+                GameManager.Level.LoadLevel();
                 
                 prevPlayerMapIconPosition = playerIcon.Position;
             }
@@ -96,6 +96,6 @@ public class Map : Node
     }
     private void _on_Player_Area_area_entered(Area2D area)
     {
-        GameManager.LevelManager.CurrentLevel = area.Name;
+        GameManager.Level.CurrentLevel = area.Name;
     }
 }

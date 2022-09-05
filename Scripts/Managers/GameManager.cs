@@ -9,15 +9,21 @@ global using System.Text.RegularExpressions;
 global using System.Threading.Tasks;
 global using System.Linq;
 
+using Sankari.Netcode;
+
 namespace Sankari;
 
 public class GameManager
 {
     // managers
-    public static TransitionManager TransitionManager { get; private set; }
-    public static LevelManager LevelManager { get; private set; }
-    public static LevelUIManager LevelUIManager { get; private set; }
+    public static TransitionManager Transition { get; private set; }
+    public static LevelManager Level { get; private set; }
+    public static LevelUIManager LevelUI { get; private set; }
+    public static ConsoleManager Console { get; private set; }
     public static Audio Audio { get; private set; }
+    public static Popups Popups { get; private set; }
+    public static Tokens Tokens { get; private set; }
+    public static Net Net { get; private set; }
 
     private static Node map;
     private static UIMenu menu;
@@ -28,15 +34,33 @@ public class GameManager
         menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
         
         Audio = new Audio(new GAudioStreamPlayer(linker), new GAudioStreamPlayer(linker));
-        TransitionManager = linker.GetNode<TransitionManager>(linker.NodePathTransition);
-        LevelUIManager = linker.GetNode<LevelUIManager>("CanvasLayer/Level UI");
-        LevelManager = new LevelManager(linker.GetNode<Node>("Level"));
+        Transition = linker.GetNode<TransitionManager>(linker.NodePathTransition);
+        Console = linker.ConsoleManager;
+        LevelUI = linker.GetNode<LevelUIManager>("CanvasLayer/Level UI");
+        Level = new LevelManager(linker.GetNode<Node>("Level"));
+        Popups = new Popups(linker);
+        Tokens = new Tokens();
+        Net = new Net();
 
         // for making dev life easier
         menu.Hide();
-        LevelUIManager.Show();
-        LevelManager.CurrentLevel = "Level A1";
-        LevelManager.LoadLevel();
+        LevelUI.Show();
+        Level.CurrentLevel = "Level A1";
+        Level.LoadLevel();
+
+        // TEST
+        var ctsServer = Tokens.Create("server_running");
+        var ctsClient = Tokens.Create("client_running");
+
+        Net.StartServer(25565, 10, ctsServer);
+        Net.StartClient("127.0.0.1", 25565, ctsClient);
+
+        Popups.SpawnMessage("Why hello there", "Nope");
+    }
+
+    public async Task Update() 
+    {
+        await Net.Update();
     }
 
     public static void LoadMap()

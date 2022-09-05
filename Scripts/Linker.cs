@@ -3,14 +3,43 @@ namespace Sankari;
 public class Linker : Node
 {
     [Export] public readonly NodePath NodePathTransition;
+
+    public CanvasLayer CanvasLayer { get; private set; }
+    public ConsoleManager ConsoleManager { get; private set; }
+
+    private GameManager gameManager;
     
     public override void _Ready()
     {
-        new GameManager(this);
+        CanvasLayer = GetNode<CanvasLayer>("CanvasLayer");
+        ConsoleManager = CanvasLayer.GetNode<ConsoleManager>("PanelContainer/Console");
+        gameManager = new GameManager(this);
     }
 
-    public override void _Process(float delta)
+    public override async void _Process(float delta)
     {
         Logger.Update();
+        await gameManager.Update();
+    }
+
+    public override async void _Notification(int what)
+    {
+        if (what == MainLoop.NotificationWmQuitRequest)
+        {
+            GetTree().AutoAcceptQuit = false;
+            await Cleanup();
+        }
+    }
+
+    private async Task Cleanup()
+    {
+        if (Logger.StillWorking())
+            await Task.Delay(1);
+
+        //ModLoader.SaveEnabled();
+        //Options.SaveOptions();
+        await GameManager.Net.Cleanup();
+        GameManager.Tokens.Cleanup();
+        GetTree().Quit();
     }
 }

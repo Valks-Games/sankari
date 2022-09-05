@@ -12,7 +12,7 @@ public class Coin : AnimatedSprite
     {
         if (area.GetParent() is Player)
         {
-            GameManager.LevelUIManager.AddCoins();
+            GameManager.LevelUI.AddCoins();
             GameManager.Audio.PlaySFX("coin_pickup_1", 30);
             QueueFree();
         }

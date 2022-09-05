@@ -425,17 +425,17 @@ public class Player : KinematicBody2D
 
     private async void OnDieTweenCompleted()
     {
-        await GameManager.TransitionManager.AlphaToBlack();
+        await GameManager.Transition.AlphaToBlack();
         await Task.Delay(1000);
-        GameManager.LevelUIManager.ShowLives();
+        GameManager.LevelUI.ShowLives();
         await Task.Delay(1750);
-        GameManager.LevelUIManager.RemoveLife();
+        GameManager.LevelUI.RemoveLife();
         await Task.Delay(1000);
-        await GameManager.LevelUIManager.HideLivesTransition();
+        await GameManager.LevelUI.HideLivesTransition();
         await Task.Delay(250);
-        GameManager.TransitionManager.BlackToAlpha();
+        GameManager.Transition.BlackToAlpha();
         haltPlayerLogic = false;
-        GameManager.LevelManager.LoadLevel();
+        GameManager.Level.LoadLevel();
         levelScene.Camera.StartFollowingPlayer();
     }
 
@@ -456,7 +456,7 @@ public class Player : KinematicBody2D
         if (area.IsInGroup("Level Finish"))
         {
             haltPlayerLogic = true;
-            await GameManager.LevelManager.CompleteLevel(GameManager.LevelManager.CurrentLevel);
+            await GameManager.Level.CompleteLevel(GameManager.Level.CurrentLevel);
             haltPlayerLogic = false;
             return;
         }

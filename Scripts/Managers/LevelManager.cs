@@ -65,7 +65,7 @@ public class LevelManager
 
     public async Task CompleteLevel(string levelName)
     {
-        await GameManager.TransitionManager.AlphaToBlackAndBack();
+        await GameManager.Transition.AlphaToBlackAndBack();
 
         // remove level
         nodeLevel.QueueFreeChildren();
