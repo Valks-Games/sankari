@@ -6,6 +6,7 @@ public class Trigger : Node
     [Export] public TriggerAction Action; // the action that this trigger will execute when activated
     [Export] public EntityType AllowedEntities; // only these entities will activate this trigger
     [Export] public bool OnlyExecuteOnce;
+    [Export] public BasicEnemy BasicEnemy;
 
     [Export] protected readonly NodePath NodePathEntities;
 
