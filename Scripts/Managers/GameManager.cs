@@ -8,8 +8,9 @@ global using System.Threading;
 global using System.Text.RegularExpressions;
 global using System.Threading.Tasks;
 global using System.Linq;
-
-using Sankari.Netcode;
+global using Sankari.Netcode;
+global using Sankari.Netcode.Client;
+global using Sankari.Netcode.Server;
 
 namespace Sankari;
 
@@ -42,18 +43,7 @@ public class GameManager
         Tokens = new Tokens();
         Net = new Net();
 
-        // for making dev life easier
-        menu.Hide();
-        LevelUI.Show();
-        Level.CurrentLevel = "Level A1";
-        Level.LoadLevel();
-
-        // TEST
-        var ctsServer = Tokens.Create("server_running");
-        var ctsClient = Tokens.Create("client_running");
-
-        Net.StartServer(25565, 10, ctsServer);
-        Net.StartClient("127.0.0.1", 25565, ctsClient);
+        LevelUI.Hide();
     }
 
     public async Task Update() 
@@ -61,8 +51,11 @@ public class GameManager
         await Net.Update();
     }
 
+    public static void ShowMenu() => menu.Show();
+
     public static void LoadMap()
     {
+        GameManager.LevelUI.Show();
         var mapScript = (Map)Prefabs.Map.Instance();
         map.CallDeferred("add_child", mapScript); // need to wait for the engine because we are dealing with areas with is physics related
         Audio.PlayMusic("map_grassy");

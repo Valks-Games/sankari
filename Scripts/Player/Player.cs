@@ -218,6 +218,10 @@ public class Player : KinematicBody2D
         }
 
         velocity = MoveAndSlide(velocity, Vector2.Up);
+
+        /*GameManager.Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition {
+            Position = Position
+        });*/
     }
 
     private void Jump()

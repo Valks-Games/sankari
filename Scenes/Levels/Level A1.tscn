@@ -1392,6 +1392,4 @@ limit_top = -1131
 limit_right = 9575
 limit_bottom = 721
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
 [connection signal="area_entered" from="Bottom" to="Bottom" method="_on_Bottom_area_entered"]

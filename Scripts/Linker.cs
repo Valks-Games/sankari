@@ -22,6 +22,21 @@ public class Linker : Node
         await gameManager.Update();
     }
 
+    /*public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey inputEventKey)
+            Notifications.Notify(this, Event.OnKeyboardInput, inputEventKey);
+
+        if (@event is InputEventMouseButton inputEventMouseButton)
+            Notifications.Notify(this, Event.OnMouseButtonInput, inputEventMouseButton);
+
+        if (@event is InputEventMouseMotion inputEventMouseMotion)
+            Notifications.Notify(this, Event.OnMouseMotionInput, inputEventMouseMotion);
+
+        if (@event is InputEventJoypadButton inputEventJoypadButton)
+            Notifications.Notify(this, Event.OnJoypadButtonInput, inputEventJoypadButton);
+    }*/
+
     public override async void _Notification(int what)
     {
         if (what == MainLoop.NotificationWmQuitRequest)

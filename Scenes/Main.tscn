@@ -110,7 +110,6 @@ color = Color( 0, 0, 0, 0 )
 script = ExtResource( 3 )
 
 [node name="Level UI" type="Control" parent="CanvasLayer"]
-visible = false
 script = ExtResource( 4 )
 NodePathCoinSprite = NodePath("PanelContainer/HBoxContainer/Coin Sprite")
 NodePathLabelCoins = NodePath("PanelContainer/HBoxContainer/Coin Value")
@@ -154,7 +153,6 @@ margin_bottom = 31.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="Lives" type="HBoxContainer" parent="CanvasLayer/Level UI"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

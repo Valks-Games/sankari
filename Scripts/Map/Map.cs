@@ -3,16 +3,20 @@ namespace Sankari;
 public class Map : Node
 {
     public static bool HasMapLoadedBefore { get; private set; }
-    private static Vector2 prevPlayerMapIconPosition { get; set; }
+    public static Vector2 PrevPlayerMapIconPosition { get; set; }
+    private static Sprite playerIcon;
+
+    public static void RememberPlayerPosition() => PrevPlayerMapIconPosition = playerIcon.Position;
 
     [Export] protected readonly NodePath NodePathLevels;
     [Export] protected readonly NodePath NodePathTileMapLevelIcons;
     [Export] protected readonly NodePath NodePathTileMapTerrain;
     [Export] protected readonly NodePath NodePathPlayerIcon;
+    [Export] protected readonly NodePath NodePathUIMapMenuScript;
 
     private TileMap tileMapLevelIcons, tileMapTerrain;
     private Node levels;
-    private Sprite playerIcon;
+    private UIMapMenu uiMapMenuScript;
 
     private bool loadingLevel;
 
@@ -22,16 +26,19 @@ public class Map : Node
         tileMapTerrain = GetNode<TileMap>(NodePathTileMapTerrain);
         levels = GetNode<Node>(NodePathLevels);
         playerIcon = GetNode<Sprite>(NodePathPlayerIcon);
+        uiMapMenuScript = GetNode<UIMapMenu>(NodePathUIMapMenuScript);
 
-        foreach (var level in GameManager.Level.Levels.Values) 
+        foreach (var level in GameManager.Level.Levels.Values)
             if (level.Completed)
                 tileMapLevelIcons.SetCellv(level.Position, 1); // remember 1 is gray circle
 
-        if (HasMapLoadedBefore) 
+        if (HasMapLoadedBefore)
         {
-            playerIcon.Position = prevPlayerMapIconPosition;
+            playerIcon.Position = PrevPlayerMapIconPosition;
             return;
         }
+        else
+            PrevPlayerMapIconPosition = playerIcon.Position;
 
         HasMapLoadedBefore = true;
 
@@ -41,7 +48,8 @@ public class Map : Node
             var tilePos = tileMapLevelIcons.WorldToMap(worldPos);
 
             if (!GameManager.Level.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
-                GameManager.Level.Levels.Add(levelArea.Name, new Level(levelArea.Name) {
+                GameManager.Level.Levels.Add(levelArea.Name, new Level(levelArea.Name)
+                {
                     Position = tilePos
                 });
             else
@@ -51,6 +59,12 @@ public class Map : Node
 
     public override async void _Input(InputEvent @event)
     {
+        if (Input.IsActionJustPressed("ui_cancel"))
+            uiMapMenuScript.Visible = !uiMapMenuScript.Visible;
+
+        if (uiMapMenuScript.Visible)
+            return;
+
         CheckMove("map_move_left", new Vector2(-16, 0));
         CheckMove("map_move_right", new Vector2(16, 0));
         CheckMove("map_move_up", new Vector2(0, -16));
@@ -58,14 +72,14 @@ public class Map : Node
 
         if (Input.IsActionJustPressed("map_action") && !loadingLevel)
         {
-            if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared") 
+            if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared")
             {
                 loadingLevel = true;
                 await GameManager.Transition.AlphaToBlackAndBack();
 
                 GameManager.Level.LoadLevel();
-                
-                prevPlayerMapIconPosition = playerIcon.Position;
+
+                PrevPlayerMapIconPosition = playerIcon.Position;
             }
         }
     }
