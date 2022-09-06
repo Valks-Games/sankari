@@ -8,6 +8,8 @@ public class UIMapMenu : Control
     private LineEdit lineEditPassword;
     private Button buttonServerToggle;
 
+    private ushort port;
+
     public override void _Ready()
     {
         var net = GetNode<Node>(NodePathNet);
@@ -15,12 +17,14 @@ public class UIMapMenu : Control
         lineEditPassword = net.GetNode<LineEdit>("Password");
         buttonServerToggle = net.GetNode<Button>("Server Toggle");
 
+        port = ushort.Parse(lineEditPort.Text);
+
         Hide();
     }
 
     private void _on_Port_text_changed(string text)
     {
-
+        port = (ushort)lineEditPort.FilterRange(ushort.MaxValue);
     }
 
     private void _on_Password_text_changed(string text)
@@ -28,7 +32,7 @@ public class UIMapMenu : Control
         
     }
 
-    private void _on_Server_Toggle_pressed() 
+    private async void _on_Server_Toggle_pressed() 
     {
         if (GameManager.Net.Server.IsRunning)
         {
@@ -42,8 +46,19 @@ public class UIMapMenu : Control
             var ctsServer = GameManager.Tokens.Create("server_running");
             var ctsClient = GameManager.Tokens.Create("client_running");
 
-            GameManager.Net.StartServer(25565, 10, ctsServer);
-            GameManager.Net.StartClient("127.0.0.1", 25565, ctsClient);
+            var net = GameManager.Net;
+
+            net.StartServer(port, 10, ctsServer);
+            net.StartClient("127.0.0.1", port, ctsClient);
+
+            while (!net.Server.HasSomeoneConnected)
+                await Task.Delay(1);
+
+            net.Client.Send(ClientPacketOpcode.PlayerJoinServer, new CPacketPlayerJoinServer {
+                Username = "Player",
+                Host = true,
+                Password = "123"
+            });
 
             buttonServerToggle.Text = "Close World to Other Players";
         }

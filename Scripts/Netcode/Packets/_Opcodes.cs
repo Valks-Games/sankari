@@ -8,7 +8,8 @@ public enum ClientPacketOpcode
     PlayerPosition,
     PlayerMovementDirections,
     PlayerRotation,
-    PlayerShoot
+    PlayerShoot,
+    PlayerJoinServer
 }
 
 // Sent to Game Client

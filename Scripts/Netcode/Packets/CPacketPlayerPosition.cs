@@ -1,6 +1,3 @@
-
-using Sankari.Netcode.Server;
-
 namespace Sankari.Netcode;
 
 public class CPacketPlayerPosition : APacketClient

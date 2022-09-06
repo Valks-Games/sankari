@@ -6,7 +6,7 @@
 [ext_resource path="res://Sprites/Map/Path Node Inactive.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Map/Map.cs" type="Script" id=5]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=6]
-[ext_resource path="res://Scenes/Prefabs/UI/UIMapMenu.cs" type="Script" id=7]
+[ext_resource path="res://Scripts/UI/UIMapMenu.cs" type="Script" id=7]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grass"
@@ -246,6 +246,7 @@ valign = 1
 margin_top = 23.0
 margin_right = 230.0
 margin_bottom = 39.0
+text = "25565"
 align = 1
 
 [node name="Label2" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
