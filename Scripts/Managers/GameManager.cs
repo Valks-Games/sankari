@@ -54,8 +54,6 @@ public class GameManager
 
         Net.StartServer(25565, 10, ctsServer);
         Net.StartClient("127.0.0.1", 25565, ctsClient);
-
-        Popups.SpawnMessage("Why hello there", "Nope");
     }
 
     public async Task Update() 
