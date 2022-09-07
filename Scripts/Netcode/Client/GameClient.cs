@@ -1,5 +1,3 @@
-using ENet;
-
 namespace Sankari.Netcode.Client;
 
 using Event = ENet.Event;
@@ -10,7 +8,7 @@ public class GameClient : ENetClient
 
     public GameClient(Net networkManager, GodotCommands godotCmds) : base(networkManager)
     {
-        _godotCmds = godotCmds;
+        base.godotCmds = godotCmds;
     }
 
     protected override void Connecting()
@@ -20,11 +18,12 @@ public class GameClient : ENetClient
 
     protected override void Receive(PacketReader reader)
     {
-        _godotCmds.Enqueue(GodotOpcode.ENetPacket, new PacketInfo(reader, this));
+        godotCmds.Enqueue(GodotOpcode.ENetPacket, new PacketInfo(reader, this));
     }
 
     protected override void Connect(ref Event netEvent)
     {
+        godotCmds.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientConnected);
         Log("Client connected");
     }
 
@@ -35,6 +34,7 @@ public class GameClient : ENetClient
 
     protected override void Stopped()
     {
+        godotCmds.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientStopped);
         Log("Client stopped");
     }
 

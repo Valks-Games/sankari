@@ -319,6 +319,7 @@ valign = 1
 margin_top = 23.0
 margin_right = 250.0
 margin_bottom = 39.0
+text = "127.0.0.1:25565"
 
 [node name="Label2" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
 margin_top = 43.0

@@ -9,22 +9,22 @@ public abstract class ENetServer
     protected static readonly Dictionary<ClientPacketOpcode, APacketClient> HandlePacket = ReflectionUtils.LoadInstances<ClientPacketOpcode, APacketClient>("CPacket");
 
     // thread safe props
-    public bool HasSomeoneConnected => Interlocked.Read(ref _someoneConnected) == 1;
-    public bool IsRunning => Interlocked.Read(ref _running) == 1;
+    public bool HasSomeoneConnected => Interlocked.Read(ref someoneConnected) == 1;
+    public bool IsRunning => Interlocked.Read(ref running) == 1;
     public readonly ConcurrentQueue<ENetServerCmd> ENetCmds = new();
     private readonly ConcurrentQueue<ServerPacket> _outgoing = new();
 
     protected readonly Dictionary<uint, Peer> Peers = new();
     protected CancellationTokenSource CancellationTokenSource = new();
-    protected bool _queueRestart { get; set; }
+    protected bool queueRestart { get; set; }
 
-    private long _someoneConnected = 0;
-    private long _running = 0;
-    private readonly Net _networkManager;
+    private long someoneConnected = 0;
+    private long running = 0;
+    private readonly Net networkManager;
 
     public ENetServer(Net networkManager)
     {
-        _networkManager = networkManager;
+        this.networkManager = networkManager;
     }
 
     public async Task StartAsync(ushort port, int maxClients, CancellationTokenSource cts)
@@ -37,7 +37,7 @@ public abstract class ENetServer
                 return;
             }
 
-            _running = 1;
+            running = 1;
             CancellationTokenSource = cts;
 
             using var task = Task.Run(() => ENetThreadWorker(port, maxClients), CancellationTokenSource.Token);
@@ -156,7 +156,7 @@ public abstract class ENetServer
                         break;
 
                     case EventType.Connect:
-                        _someoneConnected = 1;
+                        someoneConnected = 1;
                         Peers[netEvent.Peer.ID] = netEvent.Peer;
                         Connect(ref netEvent);
                         break;
@@ -179,10 +179,10 @@ public abstract class ENetServer
         server.Flush();
         Cleanup();
 
-        if (_queueRestart)
+        if (queueRestart)
         {
-            _queueRestart = false;
-            _networkManager.StartServer(port, maxClients, CancellationTokenSource);
+            queueRestart = false;
+            networkManager.StartServer(port, maxClients, CancellationTokenSource);
         }
 
         return Task.FromResult(1);
@@ -198,7 +198,7 @@ public abstract class ENetServer
 
     private void Cleanup()
     {
-        _running = 0;
+        running = 0;
         Stopped();
     }
 }

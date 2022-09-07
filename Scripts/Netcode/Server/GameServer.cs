@@ -82,7 +82,7 @@ public class GameServer : ENetServer
 
                     KickAll(DisconnectOpcode.Restarting);
                     CancellationTokenSource.Cancel();
-                    _queueRestart = true;
+                    queueRestart = true;
                     break;
             }
         }

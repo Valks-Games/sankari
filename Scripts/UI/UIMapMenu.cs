@@ -18,7 +18,7 @@ public class UIMapMenu : Control
     private ushort hostPort;
     private string hostPassword = "";
 
-    private string ip = "";
+    private string joinIP = "";
     private string joinPassword = "";
 
     public override void _Ready()
@@ -38,8 +38,16 @@ public class UIMapMenu : Control
         controlJoin.Hide();
 
         hostPort = ushort.Parse(lineEditHostPort.Text);
+        joinIP = lineEditJoinIp.Text;
 
         Hide();
+
+        GameManager.Notifications.AddListener(this, Event.OnGameClientStopped, (sender, args) => 
+        {
+            GameManager.Net.Client.TryingToConnect = false;
+            btnJoin.Disabled = false;
+            btnJoin.Text = "Join World";
+        });
     }
 
     // host
@@ -93,7 +101,7 @@ public class UIMapMenu : Control
         controlHost.Hide();
     }
 
-    private void _on_IP_text_changed(string text) => ip = text;
+    private void _on_IP_text_changed(string text) => joinIP = text;
 
     private void _on_Join_Password_text_changed(string text) => joinPassword = text;
 
@@ -108,7 +116,7 @@ public class UIMapMenu : Control
 
         var popups = GameManager.Popups;
 
-        var indexColon = ip.IndexOf(":");
+        var indexColon = joinIP.IndexOf(":");
 
         if (indexColon == -1) 
         {
@@ -116,8 +124,8 @@ public class UIMapMenu : Control
             return;
         }
 
-        var address = ip.Substring(0, indexColon);
-        var port = ip.Substring(indexColon + 1);
+        var address = joinIP.Substring(0, indexColon);
+        var port = joinIP.Substring(indexColon + 1);
 
         if (!address.IsAddress() || string.IsNullOrWhiteSpace(address)) 
         {
@@ -141,6 +149,13 @@ public class UIMapMenu : Control
     // game
     private void _on_Back_to_Main_Menu_pressed()
     {
+        if (GameManager.Net.Server.IsRunning)
+            GameManager.Net.Server.Stop();
+
+        if (GameManager.Net.Client.IsRunning)
+            GameManager.Net.Client.Stop();
+
+        GameManager.Notifications.RemoveListener(this, Event.OnGameClientStopped);
         GameManager.LevelUI.Hide();
         Map.RememberPlayerPosition();
         GameManager.DestroyMap();

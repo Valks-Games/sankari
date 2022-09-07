@@ -16,6 +16,8 @@ namespace Sankari;
 
 public class GameManager
 {
+    public static Node Linker { get; private set; }
+
     // managers
     public static TransitionManager Transition { get; private set; }
     public static LevelManager Level { get; private set; }
@@ -25,12 +27,14 @@ public class GameManager
     public static Popups Popups { get; private set; }
     public static Tokens Tokens { get; private set; }
     public static Net Net { get; private set; }
+    public static Notifications Notifications { get; private set; }
 
     private static Node map;
     private static UIMenu menu;
 
     public GameManager(Linker linker) 
     {
+        Linker = linker;
         map = linker.GetNode<Node>("Map");
         menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
         
@@ -42,6 +46,7 @@ public class GameManager
         Popups = new Popups(linker);
         Tokens = new Tokens();
         Net = new Net();
+        Notifications = new Notifications();
 
         LevelUI.Hide();
     }

@@ -9,25 +9,25 @@ public abstract class ENetClient
     public static readonly Dictionary<ServerPacketOpcode, APacketServer> HandlePacket = ReflectionUtils.LoadInstances<ServerPacketOpcode, APacketServer>("SPacket");
 
     // thread safe props
-    public bool IsConnected => Interlocked.Read(ref _connected) == 1;
-    public bool IsRunning => Interlocked.Read(ref _running) == 1;
-    private readonly ConcurrentQueue<ENetClientCmd> _enetCmds = new();
-    private readonly ConcurrentDictionary<int, ClientPacket> _outgoing = new();
+    public bool IsConnected => Interlocked.Read(ref connected) == 1;
+    public bool IsRunning => Interlocked.Read(ref running) == 1;
+    private readonly ConcurrentQueue<ENetClientCmd> enetCmds = new();
+    private readonly ConcurrentDictionary<int, ClientPacket> outgoing = new();
 
-    protected GodotCommands _godotCmds;
-    protected readonly Net _networkManager;
+    protected GodotCommands godotCmds;
+    protected readonly Net networkManager;
 
-    private long _connected;
-    private long _running;
-    private int _outgoingId;
-    private CancellationTokenSource _cancellationTokenSource = new();
+    private long connected;
+    private long running;
+    private int outgoingId;
+    private CancellationTokenSource cancellationTokenSource = new();
 
     public ENetClient(Net networkManager)
     {
-        _networkManager = networkManager;
+        this.networkManager = networkManager;
     }
 
-    public async void Start(string ip, ushort port) => await StartAsync(ip, port, _cancellationTokenSource);
+    public async void Start(string ip, ushort port) => await StartAsync(ip, port, cancellationTokenSource);
 
     public async Task StartAsync(string ip, ushort port, CancellationTokenSource cts)
     {
@@ -39,10 +39,10 @@ public abstract class ENetClient
                 return;
             }
 
-            _running = 1;
-            _cancellationTokenSource = cts;
+            running = 1;
+            cancellationTokenSource = cts;
 
-            using var task = Task.Run(() => ENetThreadWorker(ip, port), _cancellationTokenSource.Token);
+            using var task = Task.Run(() => ENetThreadWorker(ip, port), cancellationTokenSource.Token);
             await task;
         }
         catch (Exception e)
@@ -51,7 +51,7 @@ public abstract class ENetClient
         }
     }
 
-    public void Stop() => _enetCmds.Enqueue(new ENetClientCmd(ENetClientOpcode.Disconnect));
+    public void Stop() => enetCmds.Enqueue(new ENetClientCmd(ENetClientOpcode.Disconnect));
 
     public async Task StopAsync()
     {
@@ -63,8 +63,8 @@ public abstract class ENetClient
 
     public void Send(ClientPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
-        _outgoingId++;
-        var success = _outgoing.TryAdd(_outgoingId, new ClientPacket((byte)opcode, flags, data));
+        outgoingId++;
+        var success = outgoing.TryAdd(outgoingId, new ClientPacket((byte)opcode, flags, data));
 
         if (!success)
             Logger.LogWarning($"Failed to add {opcode} to Outgoing queue because of duplicate key");
@@ -74,7 +74,7 @@ public abstract class ENetClient
     {
         Send(opcode, data, flags);
 
-        while (_outgoing.ContainsKey(_outgoingId))
+        while (outgoing.ContainsKey(outgoingId))
             await Task.Delay(1);
     }
 
@@ -106,32 +106,32 @@ public abstract class ENetClient
         peer.PingInterval(pingInterval);
         peer.Timeout(timeout, timeoutMinimum, timeoutMaximum);
 
-        while (!_cancellationTokenSource.IsCancellationRequested)
+        while (!cancellationTokenSource.IsCancellationRequested)
         {
             var polled = false;
 
             // ENet Cmds from Godot Thread
-            while (_enetCmds.TryDequeue(out ENetClientCmd cmd))
+            while (enetCmds.TryDequeue(out ENetClientCmd cmd))
             {
                 switch (cmd.Opcode)
                 {
                     case ENetClientOpcode.Disconnect:
-                        if (_cancellationTokenSource.IsCancellationRequested)
+                        if (cancellationTokenSource.IsCancellationRequested)
                         {
                             Logger.LogWarning("Client is in the middle of stopping");
                             break;
                         }
 
-                        _cancellationTokenSource.Cancel();
+                        cancellationTokenSource.Cancel();
                         peer.Disconnect(0);
                         break;
                 }
             }
 
             // Outgoing
-            while (_outgoing.TryRemove(_outgoingId, out var clientPacket))
+            while (outgoing.TryRemove(outgoingId, out var clientPacket))
             {
-                _outgoingId--;
+                outgoingId--;
                 byte channelID = 0; // The channel all networking traffic will be going through
                 var packet = default(Packet);
                 packet.Create(clientPacket.Data, clientPacket.PacketFlags);
@@ -152,7 +152,7 @@ public abstract class ENetClient
                 switch (netEvent.Type)
                 {
                     case EventType.Connect:
-                        _connected = 1;
+                        connected = 1;
                         Connect(ref netEvent);
                         break;
 
@@ -170,13 +170,13 @@ public abstract class ENetClient
                         break;
 
                     case EventType.Timeout:
-                        _cancellationTokenSource.Cancel();
+                        cancellationTokenSource.Cancel();
                         Timeout(ref netEvent);
                         Leave(ref netEvent);
                         break;
 
                     case EventType.Disconnect:
-                        _cancellationTokenSource.Cancel();
+                        cancellationTokenSource.Cancel();
                         Disconnect(ref netEvent);
                         Leave(ref netEvent);
                         break;
@@ -186,7 +186,7 @@ public abstract class ENetClient
             client.Flush();
         }
 
-        _running = 0;
+        running = 0;
 
         Stopped();
 

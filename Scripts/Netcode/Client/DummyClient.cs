@@ -7,6 +7,6 @@ public class DummyClient : ENetClient
 
     protected override void Sent(ClientPacketOpcode opcode)
     {
-        _networkManager.PingSent = DateTime.Now;
+        networkManager.PingSent = DateTime.Now;
     }
 }

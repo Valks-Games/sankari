@@ -29,6 +29,9 @@ public class GodotCommands
 
                     packetReader.Dispose();
                     break;
+                case GodotOpcode.NetEvent:
+                    GameManager.Notifications.Notify(GameManager.Linker, (Event)cmd.Data);
+                    break;
                 case GodotOpcode.SpawnPopupMessage:
                     var dataMessage = (GodotCmdPopupMessage)cmd.Data;
                     GameManager.Popups.SpawnMessage(dataMessage.Message, dataMessage.Title);
@@ -59,6 +62,7 @@ public enum GodotOpcode
     ENetPacket,
     SpawnPopupMessage,
     SpawnPopupError,
+    NetEvent,
     ChangeScene,
     Disconnect
 }
