@@ -133,25 +133,19 @@ v0.1.3
 - map has its own music
 
 v0.1.2
-Added
 - slime
 - turret 
 
 v0.1.1
-Added
 - fade transitions
 - parallax backgrounds
 - player jump sound
 - sfx pitch randomization (no 2 sounds with same pitch are played in a row)
 - coins
 - coin pickup sound
-
-Changed
 - tweaked viewport / aspect settings
 - each level needs a separate configured camera now
 - instead of checking the name of the area node, the group its in is checked
-
-Bug Fixes
 - player and enemies are no longer rendered in front of water 
 
 v0.1
