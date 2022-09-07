@@ -18,7 +18,7 @@ public class UIMapMenu : Control
     private ushort hostPort;
     private string hostPassword = "";
 
-    private string ip;
+    private string ip = "";
     private string joinPassword = "";
 
     public override void _Ready()
@@ -99,16 +99,43 @@ public class UIMapMenu : Control
 
     private void _on_Join_World_pressed()
     {
-        var ctsClient = GameManager.Tokens.Create("client_running");
         var net = GameManager.Net;
 
-        var address = ip.Substring(0, ip.IndexOf(":"));
-        var port = ip.Substring(ip.IndexOf(":") + 1);
+        if (net.Client.TryingToConnect) 
+        {
+            return;
+        }
 
-        GD.Print(address);
-        GD.Print(port);
+        var popups = GameManager.Popups;
 
-        //net.StartClient(, , ctsClient);
+        var indexColon = ip.IndexOf(":");
+
+        if (indexColon == -1) 
+        {
+            popups.SpawnMessage("The address is missing a port");
+            return;
+        }
+
+        var address = ip.Substring(0, indexColon);
+        var port = ip.Substring(indexColon + 1);
+
+        if (!address.IsAddress() || string.IsNullOrWhiteSpace(address)) 
+        {
+            popups.SpawnMessage("Please enter a valid address");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(port) || !ushort.TryParse(port, out ushort portNum)) 
+        {
+            popups.SpawnMessage("Please enter a valid port");
+            return;
+        }
+
+        net.Client.TryingToConnect = true;
+        btnJoin.Disabled = true;
+        btnJoin.Text = "Searching for world...";
+        var ctsClient = GameManager.Tokens.Create("client_running");
+        net.StartClient(address, portNum, ctsClient);
     }
 
     // game

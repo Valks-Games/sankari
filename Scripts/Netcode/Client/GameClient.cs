@@ -6,6 +6,8 @@ using Event = ENet.Event;
 
 public class GameClient : ENetClient
 {
+    public bool TryingToConnect { get; set; }
+
     public GameClient(Net networkManager, GodotCommands godotCmds) : base(networkManager)
     {
         _godotCmds = godotCmds;
