@@ -48,6 +48,13 @@ public class UIMapMenu : Control
             btnJoin.Disabled = false;
             btnJoin.Text = "Join World";
         });
+
+        GameManager.Notifications.AddListener(this, Event.OnGameClientConnected, (sender, args) => 
+        {
+            GameManager.Net.Client.TryingToConnect = false;
+            btnJoin.Disabled = true;
+            btnJoin.Text = "Connected";
+        });
     }
 
     // host
@@ -109,10 +116,8 @@ public class UIMapMenu : Control
     {
         var net = GameManager.Net;
 
-        if (net.Client.TryingToConnect) 
-        {
+        if (net.Client.TryingToConnect || net.Client.IsConnected) 
             return;
-        }
 
         var popups = GameManager.Popups;
 
@@ -156,6 +161,7 @@ public class UIMapMenu : Control
             GameManager.Net.Client.Stop();
 
         GameManager.Notifications.RemoveListener(this, Event.OnGameClientStopped);
+        GameManager.Notifications.RemoveListener(this, Event.OnGameClientConnected);
         GameManager.LevelUI.Hide();
         Map.RememberPlayerPosition();
         GameManager.DestroyMap();

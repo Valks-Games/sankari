@@ -170,12 +170,14 @@ public abstract class ENetClient
                         break;
 
                     case EventType.Timeout:
+                        connected = 0;
                         cancellationTokenSource.Cancel();
                         Timeout(ref netEvent);
                         Leave(ref netEvent);
                         break;
 
                     case EventType.Disconnect:
+                        connected = 0;
                         cancellationTokenSource.Cancel();
                         Disconnect(ref netEvent);
                         Leave(ref netEvent);

@@ -28,18 +28,10 @@ public class Notifications
         if (!_listeners.ContainsKey(eventType))
             throw new InvalidOperationException($"Tried to remove listener of event type '{eventType}' from an event type that has not even been defined yet");
 
-        var found = false;
-
         foreach (var pair in _listeners)
             for (int i = pair.Value.Count - 1; i >= 0; i--)
                 if (sender.GetInstanceId() == pair.Value[i].Sender.GetInstanceId())
-                {
-                    found = true;
                     pair.Value.RemoveAt(i);
-                }
-
-        if (!found)
-            throw new InvalidOperationException($"Tried to remove non-existent event type '{eventType}' from listeners");
     }
 
     public void RemoveAllListeners() => _listeners.Clear();
