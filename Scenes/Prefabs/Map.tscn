@@ -203,20 +203,22 @@ custom_constants/margin_top = 50
 custom_constants/margin_left = 50
 custom_constants/margin_bottom = 50
 script = ExtResource( 7 )
-NodePathNet = NodePath("PanelContainer/Margin/VBox/Net")
+NodePathHost = NodePath("PanelContainer/Margin/VBox/Net/Host")
+NodePathJoin = NodePath("PanelContainer/Margin/VBox/Net/Join")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UIMapMenu"]
-margin_left = 372.0
-margin_top = 196.0
-margin_right = 652.0
-margin_bottom = 404.0
+margin_left = 362.0
+margin_top = 175.0
+margin_right = 662.0
+margin_bottom = 425.0
+rect_min_size = Vector2( 300, 250 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 custom_styles/panel = SubResource( 5 )
 
 [node name="Margin" type="MarginContainer" parent="CanvasLayer/UIMapMenu/PanelContainer"]
-margin_right = 280.0
-margin_bottom = 208.0
+margin_right = 300.0
+margin_bottom = 250.0
 custom_constants/margin_right = 25
 custom_constants/margin_top = 15
 custom_constants/margin_left = 25
@@ -225,71 +227,135 @@ custom_constants/margin_bottom = 15
 [node name="VBox" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin"]
 margin_left = 25.0
 margin_top = 15.0
-margin_right = 255.0
-margin_bottom = 193.0
+margin_right = 275.0
+margin_bottom = 235.0
 alignment = 1
 
+[node name="HBox" type="HBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
+margin_top = 6.0
+margin_right = 250.0
+margin_bottom = 31.0
+
+[node name="Host" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/HBox"]
+margin_right = 123.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Host"
+
+[node name="Join" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/HBox"]
+margin_left = 127.0
+margin_right = 250.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+text = "Join"
+
 [node name="Net" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
-margin_right = 230.0
+margin_top = 35.0
+margin_right = 250.0
+margin_bottom = 155.0
+
+[node name="Host" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
+margin_right = 250.0
 margin_bottom = 120.0
-size_flags_horizontal = 4
+size_flags_horizontal = 5
 size_flags_vertical = 0
 
-[node name="Label" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
-margin_right = 230.0
+[node name="Label" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
+margin_right = 250.0
 margin_bottom = 19.0
 text = "Port"
 align = 1
 valign = 1
 
-[node name="Port" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
+[node name="Port" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
 margin_top = 23.0
-margin_right = 230.0
+margin_right = 250.0
 margin_bottom = 39.0
 text = "25565"
 align = 1
 
-[node name="Label2" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
+[node name="Label2" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
 margin_top = 43.0
-margin_right = 230.0
+margin_right = 250.0
 margin_bottom = 62.0
 text = "Password"
 align = 1
 valign = 1
 
-[node name="Password" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
+[node name="Password" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
 margin_top = 66.0
-margin_right = 230.0
+margin_right = 250.0
 margin_bottom = 82.0
 align = 1
 secret = true
 
-[node name="Padding" type="Control" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
+[node name="Padding" type="Control" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
 margin_top = 86.0
-margin_right = 230.0
+margin_right = 250.0
 margin_bottom = 91.0
 rect_min_size = Vector2( 0, 5 )
 
-[node name="Server Toggle" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
+[node name="Server Toggle" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
 margin_top = 95.0
-margin_right = 230.0
+margin_right = 250.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 230, 0 )
-size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "Open World to Other Players"
 
+[node name="Join" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
+visible = false
+margin_right = 250.0
+margin_bottom = 120.0
+
+[node name="Label" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+margin_right = 250.0
+margin_bottom = 19.0
+text = "Server Address"
+align = 1
+valign = 1
+
+[node name="IP" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+margin_top = 23.0
+margin_right = 250.0
+margin_bottom = 39.0
+
+[node name="Label2" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+margin_top = 43.0
+margin_right = 250.0
+margin_bottom = 62.0
+text = "Password"
+align = 1
+valign = 1
+
+[node name="Join Password" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+margin_top = 66.0
+margin_right = 250.0
+margin_bottom = 82.0
+
+[node name="Padding" type="Control" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+margin_top = 86.0
+margin_right = 250.0
+margin_bottom = 91.0
+rect_min_size = Vector2( 0, 5 )
+
+[node name="Join World" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+margin_top = 95.0
+margin_right = 250.0
+margin_bottom = 120.0
+text = "Join World"
+
 [node name="Padding" type="Control" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
-margin_top = 124.0
-margin_right = 230.0
-margin_bottom = 149.0
+margin_top = 159.0
+margin_right = 250.0
+margin_bottom = 184.0
 rect_min_size = Vector2( 0, 25 )
 
 [node name="Game" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
-margin_left = 43.0
-margin_top = 153.0
-margin_right = 186.0
-margin_bottom = 178.0
+margin_left = 53.0
+margin_top = 188.0
+margin_right = 196.0
+margin_bottom = 213.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
@@ -299,7 +365,12 @@ margin_bottom = 25.0
 text = "Back to Main Menu"
 
 [connection signal="area_entered" from="Map Player Icon/Player Area" to="." method="_on_Player_Area_area_entered"]
-[connection signal="text_changed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Port" to="CanvasLayer/UIMapMenu" method="_on_Port_text_changed"]
-[connection signal="text_changed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Password" to="CanvasLayer/UIMapMenu" method="_on_Password_text_changed"]
-[connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Server Toggle" to="CanvasLayer/UIMapMenu" method="_on_Server_Toggle_pressed"]
+[connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/HBox/Host" to="CanvasLayer/UIMapMenu" method="_on_Host_pressed"]
+[connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/HBox/Join" to="CanvasLayer/UIMapMenu" method="_on_Join_pressed"]
+[connection signal="text_changed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host/Port" to="CanvasLayer/UIMapMenu" method="_on_Port_text_changed"]
+[connection signal="text_changed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host/Password" to="CanvasLayer/UIMapMenu" method="_on_Password_text_changed"]
+[connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host/Server Toggle" to="CanvasLayer/UIMapMenu" method="_on_Server_Toggle_pressed"]
+[connection signal="text_changed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join/IP" to="CanvasLayer/UIMapMenu" method="_on_IP_text_changed"]
+[connection signal="text_changed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join/Join Password" to="CanvasLayer/UIMapMenu" method="_on_Join_Password_text_changed"]
+[connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join/Join World" to="CanvasLayer/UIMapMenu" method="_on_Join_World_pressed"]
 [connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Game/Back to Main Menu" to="CanvasLayer/UIMapMenu" method="_on_Back_to_Main_Menu_pressed"]

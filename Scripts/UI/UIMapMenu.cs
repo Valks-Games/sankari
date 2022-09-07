@@ -2,35 +2,57 @@ namespace Sankari;
 
 public class UIMapMenu : Control
 {
-    [Export] protected readonly NodePath NodePathNet;
+    [Export] protected readonly NodePath NodePathHost;
+    [Export] protected readonly NodePath NodePathJoin;
 
-    private LineEdit lineEditPort;
-    private LineEdit lineEditPassword;
-    private Button buttonServerToggle;
+    private Control controlHost;
+    private LineEdit lineEditHostPort;
+    private LineEdit lineEditHostPassword;
+    private Button btnHostServerToggle;
 
-    private ushort port;
+    private Control controlJoin;
+    private LineEdit lineEditJoinIp;
+    private LineEdit lineEditJoinPassword;
+    private Button btnJoin;
+
+    private ushort hostPort;
+    private string hostPassword = "";
+
+    private string ip;
+    private string joinPassword = "";
 
     public override void _Ready()
     {
-        var net = GetNode<Node>(NodePathNet);
-        lineEditPort = net.GetNode<LineEdit>("Port");
-        lineEditPassword = net.GetNode<LineEdit>("Password");
-        buttonServerToggle = net.GetNode<Button>("Server Toggle");
+        controlHost = GetNode<Control>(NodePathHost);
+        controlJoin = GetNode<Control>(NodePathJoin);
 
-        port = ushort.Parse(lineEditPort.Text);
+        lineEditHostPort = controlHost.GetNode<LineEdit>("Port");
+        lineEditHostPassword = controlHost.GetNode<LineEdit>("Password");
+        btnHostServerToggle = controlHost.GetNode<Button>("Server Toggle");
+
+        lineEditJoinIp = controlJoin.GetNode<LineEdit>("IP");
+        lineEditJoinPassword = controlJoin.GetNode<LineEdit>("Join Password");
+        btnJoin = controlJoin.GetNode<Button>("Join World");
+
+        controlHost.Show();
+        controlJoin.Hide();
+
+        hostPort = ushort.Parse(lineEditHostPort.Text);
 
         Hide();
     }
 
-    private void _on_Port_text_changed(string text)
+    // host
+    private void _on_Host_pressed() 
     {
-        port = (ushort)lineEditPort.FilterRange(ushort.MaxValue);
+        controlHost.Show();
+        controlJoin.Hide();
     }
 
-    private void _on_Password_text_changed(string text)
-    {
-        
-    }
+    private void _on_Port_text_changed(string text) =>
+        hostPort = (ushort)lineEditHostPort.FilterRange(ushort.MaxValue);
+
+    private void _on_Password_text_changed(string text) => hostPassword = text;
 
     private async void _on_Server_Toggle_pressed() 
     {
@@ -39,7 +61,7 @@ public class UIMapMenu : Control
             GameManager.Net.Server.Stop();
             GameManager.Net.Client.Stop();
 
-            buttonServerToggle.Text = "Open World to Other Players";
+            btnHostServerToggle.Text = "Open World to Other Players";
         }
         else 
         {
@@ -48,8 +70,8 @@ public class UIMapMenu : Control
 
             var net = GameManager.Net;
 
-            net.StartServer(port, 10, ctsServer);
-            net.StartClient("127.0.0.1", port, ctsClient);
+            net.StartServer(hostPort, 10, ctsServer);
+            net.StartClient("127.0.0.1", hostPort, ctsClient); // TODO: Get external IP automatically
 
             while (!net.Server.HasSomeoneConnected)
                 await Task.Delay(1);
@@ -57,13 +79,39 @@ public class UIMapMenu : Control
             net.Client.Send(ClientPacketOpcode.PlayerJoinServer, new CPacketPlayerJoinServer {
                 Username = "Player",
                 Host = true,
-                Password = "123"
+                Password = hostPassword
             });
 
-            buttonServerToggle.Text = "Close World to Other Players";
+            btnHostServerToggle.Text = "Close World to Other Players";
         }
     }
 
+    // join
+    private void _on_Join_pressed() 
+    {
+        controlJoin.Show();
+        controlHost.Hide();
+    }
+
+    private void _on_IP_text_changed(string text) => ip = text;
+
+    private void _on_Join_Password_text_changed(string text) => joinPassword = text;
+
+    private void _on_Join_World_pressed()
+    {
+        var ctsClient = GameManager.Tokens.Create("client_running");
+        var net = GameManager.Net;
+
+        var address = ip.Substring(0, ip.IndexOf(":"));
+        var port = ip.Substring(ip.IndexOf(":") + 1);
+
+        GD.Print(address);
+        GD.Print(port);
+
+        //net.StartClient(, , ctsClient);
+    }
+
+    // game
     private void _on_Back_to_Main_Menu_pressed()
     {
         GameManager.LevelUI.Hide();
