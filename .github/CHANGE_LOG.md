@@ -1,3 +1,7 @@
+v0.1.22
+- there is a new multiplayer menu that can only be accessed from the map scene
+- you can now host / join other games (no game netcode has been achieved so far, just connections and netcode UI logic)
+
 v0.1.21
 - fix enemies falling off platform when player goes through bottom of platform with down key
 - redid the entire grass tileset making each tile 3 pixels wider in all directions
