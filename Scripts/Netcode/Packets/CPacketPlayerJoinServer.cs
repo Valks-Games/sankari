@@ -1,5 +1,9 @@
 namespace Sankari.Netcode;
 
+/// <summary>
+/// Tell server that we joined the server as a new player. 
+/// Also send another packet to inform everyone else playing with us that we are playing.
+/// </summary>
 public class CPacketPlayerJoinServer : APacketClient
 {
     public string Username { get; set; }
@@ -34,9 +38,18 @@ public class CPacketPlayerJoinServer : APacketClient
             Host = Host
         };
 
-        Logger.Log($"Player with username '{Username}' joined");
+        // notify joining player of all players in the server
+        GameManager.Net.Server.Send(ServerPacketOpcode.PlayersOnServer, new SPacketPlayersOnServer 
+        {
+            Usernames = server.Players.Select(x => x.Value.Username).ToArray()
+        });
 
         // notify other players of this player
-        GameManager.Net.Server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.PlayerJoined);
+        GameManager.Net.Server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.PlayerJoined, new SPacketPlayerJoined 
+        {
+            Username = Username
+        });
+
+        Logger.Log($"Player with username '{Username}' joined");
     }
 }

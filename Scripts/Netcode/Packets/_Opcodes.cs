@@ -20,7 +20,8 @@ public enum ServerPacketOpcode
     PlayerTransforms,
     Game,
     EnemyPositions,
-    PlayerJoined
+    PlayerJoined,
+    PlayersOnServer
 }
 
 public enum GameOpcode

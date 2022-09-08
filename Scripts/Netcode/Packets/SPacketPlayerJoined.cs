@@ -1,5 +1,8 @@
 namespace Sankari;
 
+/// <summary>
+/// Tell a client that this person is playing with us.
+/// </summary>
 public class SPacketPlayerJoined : APacketServer 
 {
     public string Username { get; set; }
