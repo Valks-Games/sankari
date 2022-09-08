@@ -49,4 +49,9 @@ git merge upstream/main
 ```
 
 ### Code Style
-Please make use of the following [code style](https://github.com/GodotModules/GodotModulesCSharp/blob/main/.github/FORMATTING_GUIDELINES.md).
+> ⚠️ Please make use of the following [code style](https://github.com/GodotModules/GodotModulesCSharp/blob/main/.github/FORMATTING_GUIDELINES.md).
+
+### Exporting the Game
+> ⚠️ Do not forget to put `enet.dll` beside the games exported executable or all multiplayer functions will not work
+
+> ⚠️ To suppress the rcedit warning download [rcedit](https://github.com/electron/rcedit/releases) and link the executable to `Godot > Editor > Editor Settings > Export > Windows > Rcedit`
