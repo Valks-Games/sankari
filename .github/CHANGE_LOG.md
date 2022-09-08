@@ -1,3 +1,6 @@
+v0.1.23
+- player list is updated when a player joins / leaves (tested and works for all cases)
+
 v0.1.22
 - there is a new multiplayer menu that can only be accessed from the map scene
 - you can now host / join other games (no game netcode has been achieved so far, just connections and netcode UI logic)
