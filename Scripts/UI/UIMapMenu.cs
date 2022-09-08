@@ -6,6 +6,11 @@ public class UIMapMenu : Control
     [Export] protected readonly NodePath NodePathJoin;
     [Export] protected readonly NodePath NodePathOnlineUsername;
 
+    public Button BtnJoin { get; private set; }
+    public bool IsHost { get; private set; }
+    public string OnlineUsername { get; private set; } = "";
+    public string HostPassword { get; private set; } = "";
+
     private Control controlHost;
     private LineEdit lineEditHostPort;
     private LineEdit lineEditHostPassword;
@@ -14,19 +19,15 @@ public class UIMapMenu : Control
     private Control controlJoin;
     private LineEdit lineEditJoinIp;
     private LineEdit lineEditJoinPassword;
-    private Button btnJoin;
 
     private LineEdit lineEditOnlineUsername;
 
-    private bool isHost;
 
     private ushort hostPort;
-    private string hostPassword = "";
 
     private string joinIP = "";
     private string joinPassword = "";
 
-    private string onlineUsername = "";
 
     public override void _Ready()
     {
@@ -39,10 +40,10 @@ public class UIMapMenu : Control
 
         lineEditJoinIp = controlJoin.GetNode<LineEdit>("IP");
         lineEditJoinPassword = controlJoin.GetNode<LineEdit>("Join Password");
-        btnJoin = controlJoin.GetNode<Button>("Join World");
+        BtnJoin = controlJoin.GetNode<Button>("Join World");
 
         lineEditOnlineUsername = GetNode<LineEdit>(NodePathOnlineUsername);
-        onlineUsername = lineEditOnlineUsername.Text;
+        OnlineUsername = lineEditOnlineUsername.Text;
 
         controlHost.Show();
         controlJoin.Hide();
@@ -51,34 +52,11 @@ public class UIMapMenu : Control
         joinIP = lineEditJoinIp.Text;
 
         Hide();
-
-        GameManager.Notifications.AddListener(this, Event.OnGameClientStopped, (sender, args) => 
-        {
-            GameManager.Net.Client.TryingToConnect = false;
-            btnJoin.Disabled = false;
-            btnJoin.Text = "Join World";
-        });
-
-        GameManager.Notifications.AddListener(this, Event.OnGameClientConnected, (sender, args) => 
-        {
-            GameManager.Net.Client.Send(ClientPacketOpcode.PlayerJoinServer, new CPacketPlayerJoinServer {
-                Username = onlineUsername,
-                Host = isHost,
-                Password = hostPassword
-            });
-
-            GameManager.UIPlayerList.Show();
-            GameManager.UIPlayerList.AddPlayer(onlineUsername);
-
-            GameManager.Net.Client.TryingToConnect = false;
-            btnJoin.Disabled = true;
-            btnJoin.Text = "Connected";
-        });
     }
 
     private bool InvalidOnlineUsername() 
     {
-        return string.IsNullOrWhiteSpace(onlineUsername);
+        return string.IsNullOrWhiteSpace(OnlineUsername);
     }
 
     // host
@@ -91,7 +69,7 @@ public class UIMapMenu : Control
     private void _on_Port_text_changed(string text) =>
         hostPort = (ushort)lineEditHostPort.FilterRange(ushort.MaxValue);
 
-    private void _on_Password_text_changed(string text) => hostPassword = text;
+    private void _on_Password_text_changed(string text) => HostPassword = text;
 
     private async void _on_Server_Toggle_pressed() 
     {
@@ -115,7 +93,7 @@ public class UIMapMenu : Control
 
             var net = GameManager.Net;
 
-            isHost = true;
+            IsHost = true;
 
             net.StartServer(hostPort, 10, ctsServer);
             net.StartClient("127.0.0.1", hostPort, ctsClient); // TODO: Get external IP automatically
@@ -138,7 +116,7 @@ public class UIMapMenu : Control
 
     private void _on_Join_Password_text_changed(string text) => joinPassword = text;
 
-    private void _on_Online_Username_text_changed(string text) => onlineUsername = text;
+    private void _on_Online_Username_text_changed(string text) => OnlineUsername = text;
 
     private void _on_Join_World_pressed()
     {
@@ -178,11 +156,11 @@ public class UIMapMenu : Control
             return;
         }
 
-        isHost = false;
+        IsHost = false;
 
         net.Client.TryingToConnect = true;
-        btnJoin.Disabled = true;
-        btnJoin.Text = "Searching for world...";
+        BtnJoin.Disabled = true;
+        BtnJoin.Text = "Searching for world...";
         var ctsClient = GameManager.Tokens.Create("client_running");
         net.StartClient(address, portNum, ctsClient);
     }

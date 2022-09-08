@@ -23,6 +23,7 @@ public class GameManager
     public static LevelManager Level { get; private set; }
     public static LevelUIManager LevelUI { get; private set; }
     public static UIPlayerList UIPlayerList { get; private set; }
+    public static UIMapMenu UIMapMenu { get; private set; }
     public static ConsoleManager Console { get; private set; }
     public static Audio Audio { get; private set; }
     public static Popups Popups { get; private set; }
@@ -43,12 +44,13 @@ public class GameManager
         Transition = linker.GetNode<TransitionManager>(linker.NodePathTransition);
         Console = linker.ConsoleManager;
         LevelUI = linker.GetNode<LevelUIManager>("CanvasLayer/Level UI");
+        UIMapMenu = linker.UIMapMenu;
         UIPlayerList = linker.UIPlayerList;
         Level = new LevelManager(linker.GetNode<Node>("Level"));
         Popups = new Popups(linker);
         Tokens = new Tokens();
-        Net = new Net();
         Notifications = new Notifications();
+        Net = new Net();
 
         LevelUI.Hide();
     }

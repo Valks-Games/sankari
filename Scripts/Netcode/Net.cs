@@ -34,6 +34,31 @@ public class Net
 
         if (!EnetInitialized) // probably won't get logged but lets keep it here because why not
             Logger.LogWarning("Failed to initialize ENet! Remember ENet-CSharp.dll and enet.dll are required in order for ENet to run properly!");
+
+        var mapScript = GameManager.UIMapMenu;
+
+        GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientStopped, (sender, args) => 
+        {
+            GameManager.Net.Client.TryingToConnect = false;
+            mapScript.BtnJoin.Disabled = false;
+            mapScript.BtnJoin.Text = "Join World";
+        });
+
+        GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientConnected, (sender, args) => 
+        {
+            GameManager.Net.Client.Send(ClientPacketOpcode.PlayerJoinServer, new CPacketPlayerJoinServer {
+                Username = mapScript.OnlineUsername,
+                Host = mapScript.IsHost,
+                Password = mapScript.HostPassword
+            });
+
+            GameManager.UIPlayerList.Show();
+            GameManager.UIPlayerList.AddPlayer(mapScript.OnlineUsername);
+
+            GameManager.Net.Client.TryingToConnect = false;
+            mapScript.BtnJoin.Disabled = true;
+            mapScript.BtnJoin.Text = "Connected";
+        });
     }
 
     public async Task Update()

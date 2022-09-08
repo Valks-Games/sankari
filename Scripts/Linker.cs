@@ -7,6 +7,7 @@ public class Linker : Node
     public CanvasLayer CanvasLayer { get; private set; }
     public ConsoleManager ConsoleManager { get; private set; }
     public UIPlayerList UIPlayerList { get; private set; }
+    public UIMapMenu UIMapMenu { get; private set; }
 
     private GameManager gameManager;
     
@@ -15,6 +16,7 @@ public class Linker : Node
         CanvasLayer = GetNode<CanvasLayer>("CanvasLayer");
         ConsoleManager = CanvasLayer.GetNode<ConsoleManager>("PanelContainer/Console");
         UIPlayerList = CanvasLayer.GetNode<UIPlayerList>("Player List");
+        UIMapMenu = CanvasLayer.GetNode<UIMapMenu>("UIMapMenu");
         gameManager = new GameManager(this);
     }
 

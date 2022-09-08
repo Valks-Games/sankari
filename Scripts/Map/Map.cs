@@ -16,7 +16,6 @@ public class Map : Node
 
     private TileMap tileMapLevelIcons, tileMapTerrain;
     private Node levels;
-    private UIMapMenu uiMapMenuScript;
 
     private bool loadingLevel;
 
@@ -26,7 +25,6 @@ public class Map : Node
         tileMapTerrain = GetNode<TileMap>(NodePathTileMapTerrain);
         levels = GetNode<Node>(NodePathLevels);
         playerIcon = GetNode<Sprite>(NodePathPlayerIcon);
-        uiMapMenuScript = GetNode<UIMapMenu>(NodePathUIMapMenuScript);
 
         foreach (var level in GameManager.Level.Levels.Values)
             if (level.Completed)
@@ -60,9 +58,9 @@ public class Map : Node
     public override async void _Input(InputEvent @event)
     {
         if (Input.IsActionJustPressed("ui_cancel"))
-            uiMapMenuScript.Visible = !uiMapMenuScript.Visible;
+            GameManager.UIMapMenu.Visible = !GameManager.UIMapMenu.Visible;
 
-        if (uiMapMenuScript.Visible)
+        if (GameManager.UIMapMenu.Visible)
             return;
 
         CheckMove("map_move_left", new Vector2(-16, 0));
