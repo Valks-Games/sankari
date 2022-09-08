@@ -35,5 +35,8 @@ public class CPacketPlayerJoinServer : APacketClient
         };
 
         Logger.Log($"Player with username '{Username}' joined");
+
+        // notify other players of this player
+        GameManager.Net.Server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.PlayerJoined);
     }
 }

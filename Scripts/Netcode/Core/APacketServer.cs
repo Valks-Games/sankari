@@ -5,7 +5,7 @@ namespace Sankari.Netcode;
 public abstract class APacketServer : APacket
 {
     /// <summary>
-    /// The packet handled client-side
+    /// The packet handled client-side (Godot thread)
     /// </summary>
-    public virtual Task Handle(GameClient client) => Task.FromResult(1);
+    public virtual void Handle(GameClient client) {}
 }

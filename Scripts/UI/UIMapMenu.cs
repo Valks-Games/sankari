@@ -178,5 +178,7 @@ public class UIMapMenu : Control
         Map.RememberPlayerPosition();
         GameManager.DestroyMap();
         GameManager.ShowMenu();
+
+        Hide();
     }
 }

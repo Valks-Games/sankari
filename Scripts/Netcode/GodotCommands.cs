@@ -9,7 +9,7 @@ public class GodotCommands
 
     public void Enqueue(GodotOpcode opcode, object data = null) => _godotCmdQueue.Enqueue(new GodotCmd(opcode, data));
 
-    public async Task Update()
+    public void Update()
     {
         if (_godotCmdQueue.TryDequeue(out var cmd))
         {
@@ -25,7 +25,7 @@ public class GodotCommands
                     var handlePacket = ENetClient.HandlePacket[opcode];
                     handlePacket.Read(packetReader);
 
-                    await handlePacket.Handle(packetInfo.GameClient);
+                    handlePacket.Handle(packetInfo.GameClient);
 
                     packetReader.Dispose();
                     break;

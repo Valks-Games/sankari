@@ -19,7 +19,8 @@ public enum ServerPacketOpcode
     Lobby,
     PlayerTransforms,
     Game,
-    EnemyPositions
+    EnemyPositions,
+    PlayerJoined
 }
 
 public enum GameOpcode
