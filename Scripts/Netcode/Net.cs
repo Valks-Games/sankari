@@ -42,6 +42,8 @@ public class Net
             GameManager.Net.Client.TryingToConnect = false;
             mapScript.BtnJoin.Disabled = false;
             mapScript.BtnJoin.Text = "Join World";
+
+            GameManager.UIPlayerList.RemovePlayer(mapScript.OnlineUsername);
         });
 
         GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientConnected, (sender, args) => 

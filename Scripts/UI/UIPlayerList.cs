@@ -31,7 +31,17 @@ public class UIPlayerList : Control
 
     private void RemoveLabel(string text)
     {
-        var label = controlPlayerList.FindNode(text);
-        label.QueueFree();
+        foreach (Label child in controlPlayerList.GetChildren())
+        {
+            if (child.Name == text) 
+            {
+                child.QueueFree();
+                break;
+            }
+        }
+
+        // have to wait a frame for the child count to update so that's why were checking if equal to 1 instead of 0
+        if (controlPlayerList.GetChildCount() == 1) 
+            Hide();
     }
 }
