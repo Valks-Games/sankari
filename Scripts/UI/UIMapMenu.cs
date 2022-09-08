@@ -174,8 +174,6 @@ public class UIMapMenu : Control
         if (GameManager.Net.Client.IsRunning)
             GameManager.Net.Client.Stop();
 
-        GameManager.Notifications.RemoveListener(this, Event.OnGameClientStopped);
-        GameManager.Notifications.RemoveListener(this, Event.OnGameClientConnected);
         GameManager.LevelUI.Hide();
         Map.RememberPlayerPosition();
         GameManager.DestroyMap();
