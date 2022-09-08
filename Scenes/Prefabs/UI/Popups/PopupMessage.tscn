@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Themes/Main.tres" type="Theme" id=1]
+[ext_resource path="res://Scripts/UI/Popups/PopupMessage.cs" type="Script" id=2]
+
+[node name="UIPopupMessage" type="WindowDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -524.0
+margin_bottom = -400.0
+rect_min_size = Vector2( 500, 200 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+NodePathMessage = NodePath("PanelContainer/Message")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+margin_left = 237.0
+margin_top = 164.0
+margin_right = 262.0
+margin_bottom = 199.0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+custom_constants/margin_bottom = 10
+
+[node name="Ok" type="Button" parent="PanelContainer/MarginContainer"]
+margin_right = 25.0
+margin_bottom = 25.0
+text = "Ok"
+
+[node name="Message" type="Label" parent="PanelContainer"]
+margin_left = 1.0
+margin_top = 79.0
+margin_right = 499.0
+margin_bottom = 120.0
+text = "A very long message that spans for an eternity. What will happen to this message and where will it go?"
+align = 1
+autowrap = true
+
+[connection signal="popup_hide" from="." to="." method="_on_UIPopupMessage_popup_hide"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Ok" to="." method="_on_Ok_pressed"]

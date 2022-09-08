@@ -26,7 +26,6 @@ public class LevelUIManager : Control
         tween = new GTween(controlLives);
         coinSprite.Playing = true;
         controlLives.Hide();
-        Hide();
     }
 
     public void ShowLives() 

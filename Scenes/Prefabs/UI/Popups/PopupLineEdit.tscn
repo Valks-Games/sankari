@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Themes/Main.tres" type="Theme" id=1]
+[ext_resource path="res://Scripts/UI/Popups/PopupLineEdit.cs" type="Script" id=2]
+
+[node name="PopupLineEdit" type="WindowDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -976.0
+margin_bottom = -599.0
+rect_min_size = Vector2( 400, 150 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+NodePathLineEdit = NodePath("PanelContainer/LineEdit")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+margin_left = 188.0
+margin_top = 116.0
+margin_right = 211.0
+margin_bottom = 149.0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+custom_constants/margin_bottom = 10
+
+[node name="Ok" type="Button" parent="PanelContainer/MarginContainer"]
+margin_right = 23.0
+margin_bottom = 23.0
+text = "Ok"
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer"]
+margin_left = 100.0
+margin_top = 67.0
+margin_right = 300.0
+margin_bottom = 83.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[connection signal="popup_hide" from="." to="." method="_on_PopupLineEdit_popup_hide"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Ok" to="." method="_on_Ok_pressed"]
+[connection signal="text_changed" from="PanelContainer/LineEdit" to="." method="_on_LineEdit_text_changed"]

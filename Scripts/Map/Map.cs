@@ -3,16 +3,19 @@ namespace Sankari;
 public class Map : Node
 {
     public static bool HasMapLoadedBefore { get; private set; }
-    private static Vector2 prevPlayerMapIconPosition { get; set; }
+    public static Vector2 PrevPlayerMapIconPosition { get; set; }
+    private static Sprite playerIcon;
+
+    public static void RememberPlayerPosition() => PrevPlayerMapIconPosition = playerIcon.Position;
 
     [Export] protected readonly NodePath NodePathLevels;
     [Export] protected readonly NodePath NodePathTileMapLevelIcons;
     [Export] protected readonly NodePath NodePathTileMapTerrain;
     [Export] protected readonly NodePath NodePathPlayerIcon;
+    [Export] protected readonly NodePath NodePathUIMapMenuScript;
 
     private TileMap tileMapLevelIcons, tileMapTerrain;
     private Node levels;
-    private Sprite playerIcon;
 
     private bool loadingLevel;
 
@@ -23,15 +26,17 @@ public class Map : Node
         levels = GetNode<Node>(NodePathLevels);
         playerIcon = GetNode<Sprite>(NodePathPlayerIcon);
 
-        foreach (var level in GameManager.LevelManager.Levels.Values) 
+        foreach (var level in GameManager.Level.Levels.Values)
             if (level.Completed)
                 tileMapLevelIcons.SetCellv(level.Position, 1); // remember 1 is gray circle
 
-        if (HasMapLoadedBefore) 
+        if (HasMapLoadedBefore)
         {
-            playerIcon.Position = prevPlayerMapIconPosition;
+            playerIcon.Position = PrevPlayerMapIconPosition;
             return;
         }
+        else
+            PrevPlayerMapIconPosition = playerIcon.Position;
 
         HasMapLoadedBefore = true;
 
@@ -40,17 +45,24 @@ public class Map : Node
             var worldPos = ((CollisionShape2D)levelArea.GetChild(0)).Position;
             var tilePos = tileMapLevelIcons.WorldToMap(worldPos);
 
-            if (!GameManager.LevelManager.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
-                GameManager.LevelManager.Levels.Add(levelArea.Name, new Level(levelArea.Name) {
+            if (!GameManager.Level.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
+                GameManager.Level.Levels.Add(levelArea.Name, new Level(levelArea.Name)
+                {
                     Position = tilePos
                 });
             else
-                GameManager.LevelManager.Levels[levelArea.Name].Position = tilePos;
+                GameManager.Level.Levels[levelArea.Name].Position = tilePos;
         }
     }
 
     public override async void _Input(InputEvent @event)
     {
+        if (Input.IsActionJustPressed("ui_cancel"))
+            GameManager.UIMapMenu.Visible = !GameManager.UIMapMenu.Visible;
+
+        if (GameManager.UIMapMenu.Visible)
+            return;
+
         CheckMove("map_move_left", new Vector2(-16, 0));
         CheckMove("map_move_right", new Vector2(16, 0));
         CheckMove("map_move_up", new Vector2(0, -16));
@@ -58,14 +70,14 @@ public class Map : Node
 
         if (Input.IsActionJustPressed("map_action") && !loadingLevel)
         {
-            if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared") 
+            if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared")
             {
                 loadingLevel = true;
-                await GameManager.TransitionManager.AlphaToBlackAndBack();
+                await GameManager.Transition.AlphaToBlackAndBack();
 
-                GameManager.LevelManager.LoadLevel();
-                
-                prevPlayerMapIconPosition = playerIcon.Position;
+                GameManager.Level.LoadLevel();
+
+                PrevPlayerMapIconPosition = playerIcon.Position;
             }
         }
     }
@@ -96,6 +108,6 @@ public class Map : Node
     }
     private void _on_Player_Area_area_entered(Area2D area)
     {
-        GameManager.LevelManager.CurrentLevel = area.Name;
+        GameManager.Level.CurrentLevel = area.Name;
     }
 }

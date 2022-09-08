@@ -122,20 +122,20 @@ cast_to = Vector2( 1, 0 )
 
 [node name="Ground Checks" type="Node2D" parent="Raycasts"]
 
-[node name="Ground Check 1" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2( 0, 4.75 )
-enabled = true
-cast_to = Vector2( 0, 1 )
-
-[node name="Ground Check 2" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2( 2.5, 4.75 )
-enabled = true
-cast_to = Vector2( 2, 2 )
-
-[node name="Ground Check 3" type="RayCast2D" parent="Raycasts/Ground Checks"]
+[node name="Left" type="RayCast2D" parent="Raycasts/Ground Checks"]
 position = Vector2( -2.5, 4.75 )
 enabled = true
-cast_to = Vector2( -2, 2 )
+cast_to = Vector2( 0, 8 )
+
+[node name="Middle" type="RayCast2D" parent="Raycasts/Ground Checks"]
+position = Vector2( 0, 4.75 )
+enabled = true
+cast_to = Vector2( 0, 8 )
+
+[node name="Right" type="RayCast2D" parent="Raycasts/Ground Checks"]
+position = Vector2( 2.5, 4.75 )
+enabled = true
+cast_to = Vector2( 0, 8 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.6, 0.6 )
