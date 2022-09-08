@@ -4,6 +4,7 @@ public class UIMapMenu : Control
 {
     [Export] protected readonly NodePath NodePathHost;
     [Export] protected readonly NodePath NodePathJoin;
+    [Export] protected readonly NodePath NodePathOnlineUsername;
 
     private Control controlHost;
     private LineEdit lineEditHostPort;
@@ -15,11 +16,17 @@ public class UIMapMenu : Control
     private LineEdit lineEditJoinPassword;
     private Button btnJoin;
 
+    private LineEdit lineEditOnlineUsername;
+
+    private bool isHost;
+
     private ushort hostPort;
     private string hostPassword = "";
 
     private string joinIP = "";
     private string joinPassword = "";
+
+    private string onlineUsername = "";
 
     public override void _Ready()
     {
@@ -33,6 +40,9 @@ public class UIMapMenu : Control
         lineEditJoinIp = controlJoin.GetNode<LineEdit>("IP");
         lineEditJoinPassword = controlJoin.GetNode<LineEdit>("Join Password");
         btnJoin = controlJoin.GetNode<Button>("Join World");
+
+        lineEditOnlineUsername = GetNode<LineEdit>(NodePathOnlineUsername);
+        onlineUsername = lineEditOnlineUsername.Text;
 
         controlHost.Show();
         controlJoin.Hide();
@@ -51,10 +61,24 @@ public class UIMapMenu : Control
 
         GameManager.Notifications.AddListener(this, Event.OnGameClientConnected, (sender, args) => 
         {
+            GameManager.Net.Client.Send(ClientPacketOpcode.PlayerJoinServer, new CPacketPlayerJoinServer {
+                Username = onlineUsername,
+                Host = isHost,
+                Password = hostPassword
+            });
+
+            GameManager.UIPlayerList.Show();
+            GameManager.UIPlayerList.AddPlayer(onlineUsername);
+
             GameManager.Net.Client.TryingToConnect = false;
             btnJoin.Disabled = true;
             btnJoin.Text = "Connected";
         });
+    }
+
+    private bool InvalidOnlineUsername() 
+    {
+        return string.IsNullOrWhiteSpace(onlineUsername);
     }
 
     // host
@@ -71,6 +95,12 @@ public class UIMapMenu : Control
 
     private async void _on_Server_Toggle_pressed() 
     {
+        if (InvalidOnlineUsername()) 
+        {
+            GameManager.Popups.SpawnMessage("Please provide a valid online username");
+            return;
+        }
+
         if (GameManager.Net.Server.IsRunning)
         {
             GameManager.Net.Server.Stop();
@@ -85,17 +115,13 @@ public class UIMapMenu : Control
 
             var net = GameManager.Net;
 
+            isHost = true;
+
             net.StartServer(hostPort, 10, ctsServer);
             net.StartClient("127.0.0.1", hostPort, ctsClient); // TODO: Get external IP automatically
 
             while (!net.Server.HasSomeoneConnected)
                 await Task.Delay(1);
-
-            net.Client.Send(ClientPacketOpcode.PlayerJoinServer, new CPacketPlayerJoinServer {
-                Username = "Player",
-                Host = true,
-                Password = hostPassword
-            });
 
             btnHostServerToggle.Text = "Close World to Other Players";
         }
@@ -112,8 +138,16 @@ public class UIMapMenu : Control
 
     private void _on_Join_Password_text_changed(string text) => joinPassword = text;
 
+    private void _on_Online_Username_text_changed(string text) => onlineUsername = text;
+
     private void _on_Join_World_pressed()
     {
+        if (InvalidOnlineUsername()) 
+        {
+            GameManager.Popups.SpawnMessage("Please provide a valid online username");
+            return;
+        }
+
         var net = GameManager.Net;
 
         if (net.Client.TryingToConnect || net.Client.IsConnected) 
@@ -143,6 +177,8 @@ public class UIMapMenu : Control
             popups.SpawnMessage("Please enter a valid port");
             return;
         }
+
+        isHost = false;
 
         net.Client.TryingToConnect = true;
         btnJoin.Disabled = true;
