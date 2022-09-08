@@ -48,7 +48,8 @@ public class Net
 
         GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientConnected, (sender, args) => 
         {
-            GameManager.Net.Client.Send(ClientPacketOpcode.PlayerJoin, new CPacketPlayerJoin {
+            GameManager.Net.Client.Send(ClientPacketOpcode.GameInfo, new CPacketGameInfo {
+                ClientGameInfo = ClientGameInfo.PlayerJoin,
                 Username = mapScript.OnlineUsername,
                 Host = mapScript.IsHost,
                 Password = mapScript.HostPassword

@@ -104,7 +104,7 @@ public class GameServer : ENetServer
 
         if (!HandlePacket.ContainsKey(opcode))
         {
-            Logger.LogWarning($"[Server]: Received malformed opcode: {opcode} (Ignoring)");
+            Logger.LogWarning($"[Server] Received malformed opcode: {opcode} (Ignoring)");
             return;
         }
 
@@ -115,7 +115,7 @@ public class GameServer : ENetServer
         }
         catch (System.IO.EndOfStreamException e)
         {
-            Logger.LogWarning($"[Server]: Received malformed opcode: {opcode} {e.Message} (Ignoring)");
+            Logger.LogWarning($"[Server] Received malformed opcode: {opcode} {e.Message} (Ignoring)");
             return;
         }
         handlePacket.Handle(peer);
@@ -135,8 +135,9 @@ public class GameServer : ENetServer
     {
         var username = Players[(byte)netEvent.Peer.ID].Username;
 
-        SendToOtherPlayers(netEvent.Peer.ID, ServerPacketOpcode.PlayerJoinLeave, new SPacketPlayerJoinLeave 
+        SendToOtherPlayers(netEvent.Peer.ID, ServerPacketOpcode.GameInfo, new SPacketGameInfo 
         {
+            ServerGameInfo = ServerGameInfo.PlayerJoinLeave,
             Username = username,
             Joining = false
         });
@@ -151,5 +152,5 @@ public class GameServer : ENetServer
         Log("Server stopped");
     }
 
-    public void Log(object obj) => Logger.Log($"[Server]: {obj}", ConsoleColor.Green);
+    public void Log(object obj) => Logger.Log($"[Server] {obj}", ConsoleColor.Green);
 }

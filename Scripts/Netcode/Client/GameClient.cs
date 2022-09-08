@@ -39,5 +39,5 @@ public class GameClient : ENetClient
         Log("Client stopped");
     }
 
-    private void Log(object v) => Logger.Log($"[Client]: {v}", ConsoleColor.DarkGreen);
+    private void Log(object v) => Logger.Log($"[Client] {v}", ConsoleColor.DarkGreen);
 }
