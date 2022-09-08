@@ -20,6 +20,14 @@ public class UIPlayerList : Control
         RemoveLabel(name);
     }
 
+    public void RemoveAllPlayers()
+    {
+        foreach (Label child in controlPlayerList.GetChildren())
+            child.QueueFree();
+
+        Hide();
+    }
+
     private void AddLabel(string text)
     {
         var label = new Label();

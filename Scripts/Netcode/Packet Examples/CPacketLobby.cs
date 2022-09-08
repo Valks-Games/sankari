@@ -104,11 +104,11 @@ public class CPacketLobby : APacketClient
         }
     }
 
-    private GameServer _server;
+    private GameServer server;
 
-    public override void Handle(GameServer server, Peer peer)
+    public override void Handle(Peer peer)
     {
-        _server = server;
+        server = GameManager.Net.Server;
         switch (LobbyOpcode)
         {
             case LobbyOpcode.LobbyCreate:
@@ -143,29 +143,29 @@ public class CPacketLobby : APacketClient
 
     private void HandleKick(Peer peer)
     {
-        if (!_server.Players[(byte)peer.ID].Host)
+        if (!server.Players[(byte)peer.ID].Host)
             return;
 
-        _server.Kick(Id, DisconnectOpcode.Kicked);
+        server.Kick(Id, DisconnectOpcode.Kicked);
     }
 
     private void HandleCreate(Peer peer)
     {
-        _server.Lobby = new DataLobby
+        server.Lobby = new DataLobby
         {
             Name = LobbyName,
             Description = LobbyDescription,
             HostId = (byte)peer.ID
         };
 
-        _server.Players[(byte)peer.ID] = new DataPlayer
+        server.Players[(byte)peer.ID] = new DataPlayer
         {
             Username = Username,
             Ready = false,
             Host = true
         };
 
-        _server.Send(ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyCreate)
+        server.Send(ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyCreate)
         {
             Id = (byte)peer.ID
         }, peer);
@@ -173,7 +173,7 @@ public class CPacketLobby : APacketClient
 
     private void HandleChatMessage(Peer peer)
     {
-        _server.SendToAllPlayers(ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyChatMessage)
+        server.SendToAllPlayers(ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyChatMessage)
         {
             Id = (byte)peer.ID,
             Message = Message
@@ -182,10 +182,10 @@ public class CPacketLobby : APacketClient
 
     private void HandleCountdownChange(Peer peer)
     {
-        if (!_server.Players[(byte)peer.ID].Host)
+        if (!server.Players[(byte)peer.ID].Host)
             return;
 
-        _server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyCountdownChange)
+        server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyCountdownChange)
         {
             CountdownRunning = CountdownRunning
         });
@@ -193,11 +193,11 @@ public class CPacketLobby : APacketClient
 
     private void HandleGameStart(Peer peer)
     {
-        if (!_server.Players[(byte)peer.ID].Host)
+        if (!server.Players[(byte)peer.ID].Host)
             return;
 
-        _server.Lobby.AllowJoining = false;
-        _server.SendToAllPlayers(ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyGameStart));
+        server.Lobby.AllowJoining = false;
+        server.SendToAllPlayers(ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyGameStart));
     }
 
     private void HandleJoin(Peer peer)
@@ -206,20 +206,20 @@ public class CPacketLobby : APacketClient
         // TODO
 
         // Keep track of joining player server side
-        if (_server.Players.ContainsKey((byte)peer.ID))
+        if (server.Players.ContainsKey((byte)peer.ID))
         {
-            _server.Log($"Received LobbyJoin packet from peer with id {peer.ID}. Tried to add id {peer.ID} to Players but exists already");
+            server.Log($"Received LobbyJoin packet from peer with id {peer.ID}. Tried to add id {peer.ID} to Players but exists already");
             return;
         }
 
-        if (!_server.Lobby.AllowJoining)
+        if (!server.Lobby.AllowJoining)
         {
-            _server.Kick(peer.ID, DisconnectOpcode.Disconnected);
-            _server.Log($"Peer with id {peer.ID} tried to join lobby but game is running already");
+            server.Kick(peer.ID, DisconnectOpcode.Disconnected);
+            server.Log($"Peer with id {peer.ID} tried to join lobby but game is running already");
             return;
         }
 
-        _server.Players[(byte)peer.ID] = new DataPlayer
+        server.Players[(byte)peer.ID] = new DataPlayer
         {
             Username = Username,
             Ready = false,
@@ -227,19 +227,19 @@ public class CPacketLobby : APacketClient
         };
 
         // tell joining player their Id and tell them about other players in lobby
-        _server.Send(ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyInfo)
+        server.Send(ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyInfo)
         {
             Id = (byte)peer.ID,
-            Players = _server.GetOtherPlayers((byte)peer.ID),
+            Players = server.GetOtherPlayers((byte)peer.ID),
             DirectConnect = DirectConnect,
-            LobbyName = _server.Lobby.Name,
-            LobbyDescription = _server.Lobby.Description,
-            LobbyHostId = _server.Lobby.HostId,
-            LobbyMaxPlayerCount = _server.Lobby.MaxPlayerCount
+            LobbyName = server.Lobby.Name,
+            LobbyDescription = server.Lobby.Description,
+            LobbyHostId = server.Lobby.HostId,
+            LobbyMaxPlayerCount = server.Lobby.MaxPlayerCount
         }, peer);
 
         // tell other players about new player that joined
-        _server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyJoin)
+        server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyJoin)
         {
             Id = (byte)peer.ID,
             Username = Username
@@ -248,10 +248,10 @@ public class CPacketLobby : APacketClient
 
     private void HandleReady(Peer peer)
     {
-        var player = _server.Players[(byte)peer.ID];
+        var player = server.Players[(byte)peer.ID];
         player.Ready = Ready;
 
-        _server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyReady)
+        server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.Lobby, new SPacketLobby(LobbyOpcode.LobbyReady)
         {
             Id = (byte)peer.ID,
             Ready = Ready

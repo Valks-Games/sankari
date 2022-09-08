@@ -9,7 +9,7 @@ public enum ClientPacketOpcode
     PlayerMovementDirections,
     PlayerRotation,
     PlayerShoot,
-    PlayerJoinServer
+    PlayerJoin
 }
 
 // Sent to Game Client
@@ -20,7 +20,7 @@ public enum ServerPacketOpcode
     PlayerTransforms,
     Game,
     EnemyPositions,
-    PlayerJoined,
+    PlayerJoinLeave,
     PlayersOnServer
 }
 

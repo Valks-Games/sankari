@@ -43,12 +43,12 @@ public class Net
             mapScript.BtnJoin.Disabled = false;
             mapScript.BtnJoin.Text = "Join World";
 
-            GameManager.UIPlayerList.RemovePlayer(mapScript.OnlineUsername);
+            GameManager.UIPlayerList.RemoveAllPlayers();
         });
 
         GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientConnected, (sender, args) => 
         {
-            GameManager.Net.Client.Send(ClientPacketOpcode.PlayerJoinServer, new CPacketPlayerJoinServer {
+            GameManager.Net.Client.Send(ClientPacketOpcode.PlayerJoin, new CPacketPlayerJoin {
                 Username = mapScript.OnlineUsername,
                 Host = mapScript.IsHost,
                 Password = mapScript.HostPassword

@@ -4,7 +4,7 @@ namespace Sankari.Netcode;
 /// Tell server that we joined the server as a new player. 
 /// Also send another packet to inform everyone else playing with us that we are playing.
 /// </summary>
-public class CPacketPlayerJoinServer : APacketClient
+public class CPacketPlayerJoin : APacketClient
 {
     public string Username { get; set; }
     public bool Host { get; set; }
@@ -24,8 +24,10 @@ public class CPacketPlayerJoinServer : APacketClient
         Password = reader.ReadString();
     }
 
-    public override void Handle(GameServer server, ENet.Peer peer)
+    public override void Handle(ENet.Peer peer)
     {
+        var server = GameManager.Net.Server;
+
         if (server.Players.ContainsKey((byte)peer.ID)) 
         {
             server.Kick(peer.ID, DisconnectOpcode.Kicked);
@@ -34,15 +36,16 @@ public class CPacketPlayerJoinServer : APacketClient
         }
 
         // notify joining player of all players in the server
-        GameManager.Net.Server.Send(ServerPacketOpcode.PlayersOnServer, new SPacketPlayersOnServer 
+        server.Send(ServerPacketOpcode.PlayersOnServer, new SPacketPlayersOnServer 
         {
             Usernames = server.Players.Select(x => x.Value.Username).ToArray()
         }, peer);
 
-        // notify other players of this player
-        GameManager.Net.Server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.PlayerJoined, new SPacketPlayerJoined 
+        // notify other players that this player is joining
+        server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.PlayerJoinLeave, new SPacketPlayerJoinLeave 
         {
-            Username = Username
+            Username = Username,
+            Joining = true
         });
 
         server.Players[(byte)peer.ID] = new DataPlayer {

@@ -118,7 +118,7 @@ public class GameServer : ENetServer
             Logger.LogWarning($"[Server]: Received malformed opcode: {opcode} {e.Message} (Ignoring)");
             return;
         }
-        handlePacket.Handle(this, peer);
+        handlePacket.Handle(peer);
     }
 
     protected override void Disconnect(ref Event netEvent)
@@ -133,7 +133,17 @@ public class GameServer : ENetServer
 
     protected override void Leave(ref Event netEvent)
     {
+        var username = Players[(byte)netEvent.Peer.ID].Username;
+
+        SendToOtherPlayers(netEvent.Peer.ID, ServerPacketOpcode.PlayerJoinLeave, new SPacketPlayerJoinLeave 
+        {
+            Username = username,
+            Joining = false
+        });
+
         Players.Remove((byte)netEvent.Peer.ID);
+
+        Log($"Player with '{username}' left");
     }
 
     protected override void Stopped()

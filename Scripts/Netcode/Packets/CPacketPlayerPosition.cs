@@ -14,8 +14,8 @@ public class CPacketPlayerPosition : APacketClient
         Position = reader.ReadVector2();
     }
 
-    public override void Handle(GameServer server, ENet.Peer peer)
+    public override void Handle(ENet.Peer peer)
     {
-        server.Players[(byte)peer.ID].Position = Position;
+        GameManager.Net.Server.Players[(byte)peer.ID].Position = Position;
     }
 }

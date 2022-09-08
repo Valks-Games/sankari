@@ -16,9 +16,9 @@ public class CPacketPlayerRotation : APacketClient
         Rotation = reader.ReadFloat();
     }
 
-    public override void Handle(GameServer server, ENet.Peer peer)
+    public override void Handle(ENet.Peer peer)
     {
-        var player = server.Players[(byte)peer.ID];
+        var player = GameManager.Net.Server.Players[(byte)peer.ID];
         player.Rotation = Rotation;
     }
 }
