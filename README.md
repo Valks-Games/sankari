@@ -31,4 +31,4 @@ This project is under the [MIT license](https://github.com/Valks-Games/sankari/b
 
 ![image](https://user-images.githubusercontent.com/6277739/188284863-dec66a12-e4d4-4d5a-b332-ca3c1907108e.png)
 
-Gameplay -> https://www.youtube.com/watch?v=mSUxmJlmxyc
+## Gameplay -> https://www.youtube.com/watch?v=mSUxmJlmxyc
