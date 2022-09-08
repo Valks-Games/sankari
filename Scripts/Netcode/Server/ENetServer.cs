@@ -70,10 +70,30 @@ public abstract class ENetServer
             await Task.Delay(1);
     }
     public void Restart() => ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.Restart));
-    public void Send(ServerPacketOpcode opcode, params Peer[] peers) => Send(opcode, null, PacketFlags.Reliable, peers);
-    public void Send(ServerPacketOpcode opcode, APacket data, params Peer[] peers) => Send(opcode, data, PacketFlags.Reliable, peers);
-    public void Send(ServerPacketOpcode opcode, PacketFlags flags = PacketFlags.Reliable, params Peer[] peers) => Send(opcode, null, flags, peers);
-    public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags = PacketFlags.Reliable, params Peer[] peers) => outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, peers));
+    
+    /// <summary>
+    /// Send an opcode to peer(s)
+    /// </summary>
+    public void Send(ServerPacketOpcode opcode, Peer peer, params Peer[] peers) =>
+        outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, null, JoinPeers(peer, peers)));
+
+    /// <summary>
+    /// Send an opcode to peer(s) with data
+    /// </summary>
+    public void Send(ServerPacketOpcode opcode, APacket data, Peer peer, params Peer[] peers) =>
+        outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, data, JoinPeers(peer, peers)));
+
+    /// <summary>
+    /// Send an opcode to peer(s) and specify how the packet is sent
+    /// </summary>
+    public void Send(ServerPacketOpcode opcode, PacketFlags flags, Peer peer, params Peer[] peers) => 
+        outgoing.Enqueue(new ServerPacket((byte)opcode, flags, null, JoinPeers(peer, peers)));
+
+    /// <summary>
+    /// Send an opcode to peer(s) with data and specify how the packet is sent
+    /// </summary>
+    public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags, Peer peer, params Peer[] peers) => 
+        outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(peer, peers)));
 
     protected Peer[] GetOtherPeers(uint id)
     {
@@ -194,6 +214,28 @@ public abstract class ENetServer
         packet.Create(gamePacket.Data, gamePacket.PacketFlags);
         byte channelID = 0;
         peer.Send(channelID, ref packet);
+    }
+
+    /// <summary>
+    /// Joins peer and peers into one array. If peer is default(Peer) then peers is returned.
+    /// </summary>
+    private Peer[] JoinPeers(Peer peer, Peer[] peers) 
+    {
+        Peer[] thePeers = new Peer[0];
+
+        if (peer.Equals(default(Peer)))
+        {
+            thePeers = peers;
+        }
+        else 
+        {
+            thePeers = new Peer[1 + peers.Length];
+            thePeers[0] = peer;
+            for (int i = 0; i < peers.Length; i++)
+                thePeers[i + 1] = peers[i];
+        }
+
+        return thePeers;
     }
 
     private void Cleanup()

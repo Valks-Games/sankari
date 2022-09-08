@@ -27,9 +27,9 @@ public class GameServer : ENetServer
         var allPlayers = GetAllPlayerPeers();
 
         if (data == null)
-            Send(opcode, flags, allPlayers);
+            Send(opcode, flags, default(Peer), allPlayers);
         else
-            Send(opcode, data, flags, allPlayers);
+            Send(opcode, data, flags, default(Peer), allPlayers);
     }
 
     public void SendToOtherPeers(uint id, ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
@@ -39,9 +39,9 @@ public class GameServer : ENetServer
             return;
 
         if (data == null)
-            Send(opcode, flags, otherPeers);
+            Send(opcode, flags, default(Peer), otherPeers);
         else
-            Send(opcode, data, flags, otherPeers);
+            Send(opcode, data, flags, default(Peer), otherPeers);
     }
 
     public void SendToOtherPlayers(uint id, ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
@@ -51,9 +51,9 @@ public class GameServer : ENetServer
             return;
 
         if (data == null)
-            Send(opcode, flags, otherPlayers);
+            Send(opcode, flags, default(Peer), otherPlayers);
         else
-            Send(opcode, data, flags, otherPlayers);
+            Send(opcode, data, flags, default(Peer), otherPlayers);
     }
 
     protected override void ServerCmds()
