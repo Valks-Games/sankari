@@ -12,7 +12,7 @@ public abstract class ENetServer
     public bool HasSomeoneConnected => Interlocked.Read(ref someoneConnected) == 1;
     public bool IsRunning => Interlocked.Read(ref running) == 1;
     public readonly ConcurrentQueue<ENetServerCmd> ENetCmds = new();
-    private readonly ConcurrentQueue<ServerPacket> _outgoing = new();
+    private readonly ConcurrentQueue<ServerPacket> outgoing = new();
 
     protected readonly Dictionary<uint, Peer> Peers = new();
     protected CancellationTokenSource CancellationTokenSource = new();
@@ -73,7 +73,7 @@ public abstract class ENetServer
     public void Send(ServerPacketOpcode opcode, params Peer[] peers) => Send(opcode, null, PacketFlags.Reliable, peers);
     public void Send(ServerPacketOpcode opcode, APacket data, params Peer[] peers) => Send(opcode, data, PacketFlags.Reliable, peers);
     public void Send(ServerPacketOpcode opcode, PacketFlags flags = PacketFlags.Reliable, params Peer[] peers) => Send(opcode, null, flags, peers);
-    public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags = PacketFlags.Reliable, params Peer[] peers) => _outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, peers));
+    public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags = PacketFlags.Reliable, params Peer[] peers) => outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, peers));
 
     protected Peer[] GetOtherPeers(uint id)
     {
@@ -121,7 +121,7 @@ public abstract class ENetServer
             ServerCmds();
 
             // Outgoing
-            while (_outgoing.TryDequeue(out ServerPacket packet))
+            while (outgoing.TryDequeue(out ServerPacket packet)) 
                 packet.Peers.ForEach(peer => Send(packet, peer));
 
             while (!polled)

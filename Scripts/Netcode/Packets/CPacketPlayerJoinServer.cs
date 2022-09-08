@@ -33,22 +33,22 @@ public class CPacketPlayerJoinServer : APacketClient
             return;
         }
 
-        server.Players[(byte)peer.ID] = new DataPlayer {
-            Username = Username,
-            Host = Host
-        };
-
         // notify joining player of all players in the server
         GameManager.Net.Server.Send(ServerPacketOpcode.PlayersOnServer, new SPacketPlayersOnServer 
         {
             Usernames = server.Players.Select(x => x.Value.Username).ToArray()
-        });
+        }, peer);
 
         // notify other players of this player
         GameManager.Net.Server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.PlayerJoined, new SPacketPlayerJoined 
         {
             Username = Username
         });
+
+        server.Players[(byte)peer.ID] = new DataPlayer {
+            Username = Username,
+            Host = Host
+        };
 
         Logger.Log($"Player with username '{Username}' joined");
     }
