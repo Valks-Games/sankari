@@ -4,11 +4,38 @@ public static class Logger
 {
     private static readonly ConcurrentQueue<LogInfo> _messages = new();
 
-    public static void LogErr(Exception e, string hint = "", ConsoleColor c = ConsoleColor.Red) => _messages.Enqueue(new LogInfo(LoggerOpcode.Exception, $"[Error]: {(string.IsNullOrWhiteSpace(hint) ? "" : $"'{hint}' ")}{e.Message}\n{e.StackTrace}", c));
-    public static void LogDebug(object v, ConsoleColor c = ConsoleColor.Magenta, bool trace = true, [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0) => _messages.Enqueue(new LogInfo(LoggerOpcode.Debug, new LogMessageDebug($"[Debug]: {v}", trace, $"   at {filePath.Substring(filePath.IndexOf("Scripts\\"))} line:{lineNumber}"), c));
-    public static void LogTodo(object v, ConsoleColor c = ConsoleColor.White) => Log($"[Todo]: {v}", c);
-    public static void LogWarning(object v, ConsoleColor c = ConsoleColor.Yellow) => Log($"[Warning]: {v}", c);
-    public static void Log(object v, ConsoleColor c = ConsoleColor.Gray) => _messages.Enqueue(new LogInfo(LoggerOpcode.Message, $"{v}", c));
+    public static void Log(object message, ConsoleColor color = ConsoleColor.Gray) => 
+        _messages.Enqueue(new LogInfo(LoggerOpcode.Message, $"{message}", color));
+
+    public static void LogWarning(object message, ConsoleColor color = ConsoleColor.Yellow) => 
+        Log($"[Warning] {message}", color);
+
+    public static void LogTodo(object message, ConsoleColor color = ConsoleColor.White) => 
+        Log($"[Todo] {message}", color);
+
+    public static void LogErr(Exception e, string hint = "", ConsoleColor color = ConsoleColor.Red) => 
+        _messages.Enqueue
+            (new LogInfo(
+                LoggerOpcode.Exception, 
+                $"[Error] {(string.IsNullOrWhiteSpace(hint) ? "" : $"'{hint}' ")}{e.Message}\n{e.StackTrace}", 
+                color
+            ));
+    
+    public static void LogDebug
+    (
+        object message, 
+        ConsoleColor color = ConsoleColor.Magenta, 
+        bool trace = true, 
+        [CallerFilePath] string filePath = "", 
+        [CallerLineNumber] int lineNumber = 0
+    ) => 
+        _messages.Enqueue
+        (new LogInfo(
+            LoggerOpcode.Debug, 
+            new LogMessageDebug($"[Debug] {message}", trace, $"   at {filePath.Substring(filePath.IndexOf("Scripts\\"))} line:{lineNumber}"), 
+            color
+        ));
+
     public static void LogMs(Action code)
     {
         var watch = new Stopwatch();
@@ -22,30 +49,30 @@ public static class Logger
 
     public static void Update()
     {
-        if (_messages.TryDequeue(out LogInfo result))
+        if (!_messages.TryDequeue(out LogInfo result))
+            return;
+
+        switch (result.Opcode)
         {
-            switch (result.Opcode)
-            {
-                case LoggerOpcode.Message:
-                    Print((string)result.Data, result.Color);
-                    Console.ResetColor();
-                    break;
+            case LoggerOpcode.Message:
+                Print((string)result.Data, result.Color);
+                Console.ResetColor();
+                break;
 
-                case LoggerOpcode.Exception:
-                    PrintErr((string)result.Data, result.Color);
-                    Console.ResetColor();
-                    break;
+            case LoggerOpcode.Exception:
+                PrintErr((string)result.Data, result.Color);
+                Console.ResetColor();
+                break;
 
-                case LoggerOpcode.Debug:
-                    var data = (LogMessageDebug)result.Data;
-                    Print(data.Message, result.Color);
-                    if (data.Trace)
-                    {
-                        Print(data.TracePath, ConsoleColor.DarkGray);
-                    }
-                    Console.ResetColor();
-                    break;
-            }
+            case LoggerOpcode.Debug:
+                var data = (LogMessageDebug)result.Data;
+                Print(data.Message, result.Color);
+                if (data.Trace)
+                {
+                    Print(data.TracePath, ConsoleColor.DarkGray);
+                }
+                Console.ResetColor();
+                break;
         }
     }
 
