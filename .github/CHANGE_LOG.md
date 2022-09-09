@@ -1,3 +1,7 @@
+v0.1.24
+- loading levels are synced with clients
+- changing map position is synced with clients
+
 v0.1.23
 - player list is updated when a player joins / leaves (tested and works for all cases)
 
