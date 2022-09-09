@@ -16,7 +16,7 @@ You can still use vscode debugger to debug your code, just note that you will on
 Please always use `Logger.Log()` over `GD.Print()` as the logger uses a thread safe approach removing the possibility of game crashes due to console text conflicts / overflow.
 
 ### Threads
-This game uses 3 threads (Godot, Server, Client). Do not directly access public variables or methods from these threads to other threads. If you want to communicate between threads please make use of the appropriate `ConcurrentQueue<T>` channels. Violating thread safety can lead to frequent random game crashes with usually no errors in console making these types of issues extremely hard to track down when they start acting up.
+This game makes use of 3 threads (Godot, Server, Client). Do not directly access public variables or methods from these threads to other threads. If you want to communicate between threads please make use of the appropriate `ConcurrentQueue<T>` channels. Violating thread safety can lead to frequent random game crashes with usually no errors in console making these types of issues extremely hard to track down when they start acting up.
 
 ### [Setup VSCode to work with Godot C#](https://github.com/Valks-Games/sankari/blob/main/.github/SETUP_VSCODE.md)
 
