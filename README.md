@@ -28,6 +28,7 @@ This project is under the [MIT license](https://github.com/Valks-Games/sankari/b
 ### Assets
 - Most assets (art / audio) are under the [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/) from [Open Game Art](https://opengameart.org/)
 - Some of the audio is from [Mixkit](https://mixkit.co/free-sound-effects/game-over/) under the Mixkit license
+- The networking library [ENet-CSharp](https://github.com/SoftwareGuy/ENet-CSharp) is under the [MIT license](https://github.com/SoftwareGuy/ENet-CSharp/blob/master/LICENSE)
 
 ![image](https://user-images.githubusercontent.com/6277739/188284863-dec66a12-e4d4-4d5a-b332-ca3c1907108e.png)
 
