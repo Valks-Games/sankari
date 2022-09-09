@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sprites/Sprite Frames/Player.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Scripts/Player/OtherPlayer.cs" type="Script" id=2]
+
+[node name="OtherPlayer" type="AnimatedSprite"]
+scale = Vector2( 2, 2 )
+frames = ExtResource( 1 )
+animation = "idle"
+script = ExtResource( 2 )

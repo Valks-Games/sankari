@@ -1,88 +1,15 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://Sprites/Sprite Frames/Player.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=2]
-[ext_resource path="res://Sprites/Player/player_art.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 3, 4.75 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 32, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 32, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 32, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 3 )
-region = Rect2( 48, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 3 )
-region = Rect2( 64, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 3 )
-region = Rect2( 80, 16, 16, 16 )
-
-[sub_resource type="SpriteFrames" id=7]
-animations = [ {
-"frames": [ SubResource( 4 ), SubResource( 3 ) ],
-"loop": true,
-"name": "idle",
-"speed": 2.0
-}, {
-"frames": [ SubResource( 15 ) ],
-"loop": true,
-"name": "jump_fall",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 16 ) ],
-"loop": true,
-"name": "jump_land",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 14 ) ],
-"loop": true,
-"name": "jump_start",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
-"loop": true,
-"name": "walk",
-"speed": 10.0
-} ]
+extents = Vector2( 10, 16 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 3, 4.75 )
+extents = Vector2( 10, 16 )
 
 [node name="Player" type="KinematicBody2D"]
-scale = Vector2( 4, 4 )
 z_index = 1
 script = ExtResource( 2 )
 NodePathRayCast2DWallChecksLeft = NodePath("Raycasts/Wall Checks/Left")
@@ -99,47 +26,47 @@ shape = SubResource( 1 )
 [node name="Left" type="Node2D" parent="Raycasts/Wall Checks"]
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
-position = Vector2( -3, -3.5 )
+position = Vector2( -10, -12 )
 enabled = true
 cast_to = Vector2( -1, 0 )
 
 [node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
-position = Vector2( -3, 1 )
+position = Vector2( -10, 3 )
 enabled = true
 cast_to = Vector2( -1, 0 )
 
 [node name="Right" type="Node2D" parent="Raycasts/Wall Checks"]
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
-position = Vector2( 3, -3.5 )
+position = Vector2( 10, -12 )
 enabled = true
 cast_to = Vector2( 1, 0 )
 
 [node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
-position = Vector2( 3, 1 )
+position = Vector2( 10, 3 )
 enabled = true
 cast_to = Vector2( 1, 0 )
 
 [node name="Ground Checks" type="Node2D" parent="Raycasts"]
 
 [node name="Left" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2( -2.5, 4.75 )
+position = Vector2( -9, 16 )
 enabled = true
 cast_to = Vector2( 0, 8 )
 
 [node name="Middle" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2( 0, 4.75 )
+position = Vector2( 0.5, 16 )
 enabled = true
 cast_to = Vector2( 0, 8 )
 
 [node name="Right" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2( 2.5, 4.75 )
+position = Vector2( 9, 16 )
 enabled = true
 cast_to = Vector2( 0, 8 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 0.6, 0.6 )
-frames = SubResource( 7 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 1 )
 animation = "idle"
 
 [node name="Area" type="Area2D" parent="." groups=["Player"]]
