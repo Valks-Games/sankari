@@ -110,6 +110,8 @@ public class Map : Node
         }
     }
 
+    public void SetPosition(Vector2 pos) => playerIcon.Position = pos;
+
     private void HandleMovement()
     {
         var moveOffset = 16;
@@ -142,6 +144,17 @@ public class Map : Node
             //    return;
 
             playerIcon.Position = nextPos;
+
+            var net = GameManager.Net;
+
+            if (net.IsMultiplayer() && net.IsHost())
+            {
+                net.Server.SendToOtherPlayers(net.Server.HostId, ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+                {
+                    ServerGameInfo = ServerGameInfo.MapPosition,
+                    MapPosition = nextPos
+                });
+            }
         }
     }
     private void _on_Player_Area_area_entered(Area2D area)

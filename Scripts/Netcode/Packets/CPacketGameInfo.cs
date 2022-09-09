@@ -2,8 +2,7 @@ namespace Sankari.Netcode;
 
 public enum ClientGameInfo 
 {
-    PlayerJoin,
-    StartLevel
+    PlayerJoin
 }
 
 /// <summary>

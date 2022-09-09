@@ -4,7 +4,8 @@ public enum ServerGameInfo
 {
     PlayerJoinLeave,
     PlayersOnServer,
-    StartLevel
+    StartLevel,
+    MapPosition
 }
 
 /// <summary>
@@ -24,6 +25,9 @@ public class SPacketGameInfo : APacketServer
     // StartLevel
     public string LevelName { get; set; }
 
+    // MapPosition
+    public Vector2 MapPosition { get; set; }
+
     public override void Write(PacketWriter writer)
     {
         writer.Write((ushort)ServerGameInfo);
@@ -41,6 +45,9 @@ public class SPacketGameInfo : APacketServer
                 break;
             case ServerGameInfo.StartLevel:
                 writer.Write(LevelName);
+                break;
+            case ServerGameInfo.MapPosition:
+                writer.Write(MapPosition);
                 break;
         }
     }
@@ -66,6 +73,9 @@ public class SPacketGameInfo : APacketServer
             case ServerGameInfo.StartLevel:
                 LevelName = reader.ReadString();
                 break;
+            case ServerGameInfo.MapPosition:
+                MapPosition = reader.ReadVector2();
+                break;
         }
     }
 
@@ -81,6 +91,9 @@ public class SPacketGameInfo : APacketServer
                 break;
             case ServerGameInfo.StartLevel:
                 await HandleStartLevel();
+                break;
+            case ServerGameInfo.MapPosition:
+                HandleMapPosition();
                 break;
         }
     }
@@ -103,5 +116,10 @@ public class SPacketGameInfo : APacketServer
     {
         GameManager.Level.CurrentLevel = LevelName;
         await GameManager.Level.LoadLevel();
+    }
+
+    private void HandleMapPosition() 
+    {
+        GameManager.Map.SetPosition(MapPosition);
     }
 }

@@ -24,6 +24,7 @@ public class GameManager
     public static LevelUIManager LevelUI { get; private set; }
     public static UIPlayerList UIPlayerList { get; private set; }
     public static UIMapMenu UIMapMenu { get; private set; }
+    public static Map Map { get; private set; }
     public static ConsoleManager Console { get; private set; }
     public static Audio Audio { get; private set; }
     public static Popups Popups { get; private set; }
@@ -65,8 +66,11 @@ public class GameManager
     public static void LoadMap()
     {
         GameManager.LevelUI.Show();
-        var mapScript = (Map)Prefabs.Map.Instance();
-        map.CallDeferred("add_child", mapScript); // need to wait for the engine because we are dealing with areas with is physics related
+
+        // weird place to put this but its whatever right now
+        Map = (Map)Prefabs.Map.Instance(); 
+        
+        map.CallDeferred("add_child", Map); // need to wait for the engine because we are dealing with areas with is physics related
         Audio.PlayMusic("map_grassy");
     }
 
