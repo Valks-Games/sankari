@@ -77,21 +77,22 @@ public class CPacketGameInfo : APacketClient
         server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo 
         {
             ServerGameInfo = ServerGameInfo.PlayersOnServer,
-            Usernames = server.Players.Select(x => x.Value.Username).ToArray()
+            Usernames = server.Players.ToDictionary(x => x.Key, x => x.Value.Username)
         }, peer);
-
-        // notify other players that this player is joining
-        server.SendToOtherPlayers(peer.ID, ServerPacketOpcode.GameInfo, new SPacketGameInfo 
-        {
-            ServerGameInfo = ServerGameInfo.PlayerJoinLeave,
-            Username = Username,
-            Joining = true
-        });
 
         server.Players[(byte)peer.ID] = new DataPlayer {
             Username = Username,
             Host = Host
         };
+
+        // notify other players that this player has joined
+        server.SendToAllPlayers(ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+        {
+            ServerGameInfo = ServerGameInfo.PlayerJoinLeave,
+            Username = Username,
+            Joining = true,
+            Id = (byte)peer.ID
+        });
 
         if (Host)
             server.HostId = peer.ID;

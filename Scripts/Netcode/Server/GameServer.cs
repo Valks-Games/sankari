@@ -155,7 +155,8 @@ public class GameServer : ENetServer
         {
             ServerGameInfo = ServerGameInfo.PlayerJoinLeave,
             Username = username,
-            Joining = false
+            Joining = false,
+            Id = (byte)netEvent.Peer.ID
         });
 
         Players.Remove((byte)netEvent.Peer.ID);

@@ -89,6 +89,11 @@ public class Player : KinematicBody2D
         PrepareRaycasts(parentGroundChecks, rayCast2DGroundChecks);
 
         animatedSprite.Play("idle");
+
+        if (GameManager.Net.IsMultiplayer())
+        {
+            // TODO: Spawn 'OtherPlayer' players
+        }
     }
 
     public override void _PhysicsProcess(float delta)

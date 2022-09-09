@@ -55,9 +55,6 @@ public class Net
                 Password = mapScript.HostPassword
             });
 
-            GameManager.UIPlayerList.Show();
-            GameManager.UIPlayerList.AddPlayer(mapScript.OnlineUsername);
-
             GameManager.Net.Client.TryingToConnect = false;
             mapScript.BtnJoin.Disabled = true;
             mapScript.BtnJoin.Text = "Connected";

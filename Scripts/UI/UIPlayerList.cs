@@ -2,6 +2,7 @@ namespace Sankari;
 
 public class UIPlayerList : Control
 {
+    public Dictionary<byte, string> Players = new();
     private Control controlPlayerList;
 
     public override void _Ready()
@@ -10,20 +11,25 @@ public class UIPlayerList : Control
         Hide();
     }
 
-    public void AddPlayer(string name)
+    public void AddPlayer(byte id, string name)
     {
         AddLabel(name);
+        Players.Add(id, name);
+        Show();
     }
 
-    public void RemovePlayer(string name)
+    public void RemovePlayer(byte id)
     {
-        RemoveLabel(name);
+        RemoveLabel(Players[id]);
+        Players.Remove(id);
     }
 
     public void RemoveAllPlayers()
     {
         foreach (Label child in controlPlayerList.GetChildren())
             child.QueueFree();
+
+        Players.Clear();
 
         Hide();
     }
