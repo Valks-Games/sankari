@@ -1,4 +1,4 @@
-This project is using the latest stable Godot Mono (C#) 3.x version.
+This project is using the latest stable version of [Godot Mono (C#)](https://godotengine.org/download)  
 
 > ⚠️ Please talk to me (Discord: valk#9904) whenever you want to work on something, this way I can tell you if others are working on it or if I do not want you to work on that specific thing right now.
 
