@@ -3,7 +3,8 @@ namespace Sankari;
 public enum ServerGameInfo
 {
     PlayerJoinLeave,
-    PlayersOnServer
+    PlayersOnServer,
+    StartLevel
 }
 
 /// <summary>
@@ -20,6 +21,9 @@ public class SPacketGameInfo : APacketServer
     // PlayersOnServer
     public string[] Usernames { get; set; }
 
+    // StartLevel
+    public string LevelName { get; set; }
+
     public override void Write(PacketWriter writer)
     {
         writer.Write((ushort)ServerGameInfo);
@@ -34,6 +38,9 @@ public class SPacketGameInfo : APacketServer
                 writer.Write((byte)Usernames.Length);
                 foreach (var username in Usernames)
                     writer.Write(username);
+                break;
+            case ServerGameInfo.StartLevel:
+                writer.Write(LevelName);
                 break;
         }
     }
@@ -56,10 +63,13 @@ public class SPacketGameInfo : APacketServer
                 for (int i = 0; i < length; i++)
                     Usernames[i] = reader.ReadString();
                 break;
+            case ServerGameInfo.StartLevel:
+                LevelName = reader.ReadString();
+                break;
         }
     }
 
-    public override void Handle()
+    public override async Task Handle()
     {
         switch (ServerGameInfo)
         {
@@ -67,6 +77,10 @@ public class SPacketGameInfo : APacketServer
                 HandlePlayerJoinLeave();
                 break;
             case ServerGameInfo.PlayersOnServer:
+                HandlePlayersOnServer();
+                break;
+            case ServerGameInfo.StartLevel:
+                await HandleStartLevel();
                 break;
         }
     }
@@ -83,5 +97,11 @@ public class SPacketGameInfo : APacketServer
     {
         foreach (var username in Usernames)
             GameManager.UIPlayerList.AddPlayer(username);
+    }
+
+    private async Task HandleStartLevel()
+    {
+        GameManager.Level.CurrentLevel = LevelName;
+        await GameManager.Level.LoadLevel();
     }
 }

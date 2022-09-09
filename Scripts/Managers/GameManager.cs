@@ -55,9 +55,9 @@ public class GameManager
         LevelUI.Hide();
     }
 
-    public void Update() 
+    public async Task Update() 
     {
-        Net.Update();
+        await Net.Update();
     }
 
     public static void ShowMenu() => menu.Show();

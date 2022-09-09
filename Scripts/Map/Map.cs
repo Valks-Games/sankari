@@ -73,9 +73,19 @@ public class Map : Node
             if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared")
             {
                 loadingLevel = true;
-                await GameManager.Transition.AlphaToBlackAndBack();
 
-                GameManager.Level.LoadLevel();
+                var net = GameManager.Net;
+
+                if (net.IsMultiplayer() && net.IsHost())
+                {
+                    net.Server.SendToOtherPlayers(net.Server.HostId, ServerPacketOpcode.GameInfo, new SPacketGameInfo
+                    {
+                        ServerGameInfo = ServerGameInfo.StartLevel,
+                        LevelName = GameManager.Level.CurrentLevel
+                    });
+                }
+
+                await GameManager.Level.LoadLevel();
 
                 PrevPlayerMapIconPosition = playerIcon.Position;
             }

@@ -2,7 +2,8 @@ namespace Sankari.Netcode;
 
 public enum ClientGameInfo 
 {
-    PlayerJoin
+    PlayerJoin,
+    StartLevel
 }
 
 /// <summary>
@@ -12,6 +13,8 @@ public enum ClientGameInfo
 public class CPacketGameInfo : APacketClient
 {
     public ClientGameInfo ClientGameInfo { get; set; }
+
+    // PlayerJoin
     public string Username { get; set; }
     public bool Host { get; set; }
     public string Password { get; set; } = "";
@@ -90,6 +93,9 @@ public class CPacketGameInfo : APacketClient
             Username = Username,
             Host = Host
         };
+
+        if (Host)
+            server.HostId = peer.ID;
 
         Logger.Log($"[Server] Player with username '{Username}' joined");
     }

@@ -20,10 +20,10 @@ public class Linker : Node
         gameManager = new GameManager(this);
     }
 
-    public override void _Process(float delta)
+    public override async void _Process(float delta)
     {
         Logger.Update();
-        gameManager.Update();
+        await gameManager.Update();
     }
 
     /*public override void _Input(InputEvent @event)

@@ -37,7 +37,15 @@ public class LevelManager
             MusicPitch = musicPitch
         });
 
-    public void LoadLevel()
+    public async Task LoadLevel()
+    {
+        await GameManager.Transition.AlphaToBlackAndBack();
+        LoadALevel();
+    }
+
+    public void LoadLevelFast() => LoadALevel();
+
+    private void LoadALevel()
     {
         // remove map
         GameManager.DestroyMap();

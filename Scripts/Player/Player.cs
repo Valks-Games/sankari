@@ -439,7 +439,7 @@ public class Player : KinematicBody2D
         await Task.Delay(250);
         GameManager.Transition.BlackToAlpha();
         haltPlayerLogic = false;
-        GameManager.Level.LoadLevel();
+        GameManager.Level.LoadLevelFast();
         levelScene.Camera.StartFollowingPlayer();
     }
 

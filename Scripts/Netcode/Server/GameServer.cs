@@ -8,6 +8,7 @@ public class GameServer : ENetServer
 {
     public Dictionary<byte, DataPlayer> Players = new();
     public DataLobby Lobby { get; set; }
+    public uint HostId { get; set; }
 
     public GameServer(Net networkManager) : base(networkManager) { }
 

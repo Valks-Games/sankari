@@ -64,9 +64,9 @@ public class Net
         });
     }
 
-    public void Update()
+    public async Task Update()
     {
-        godotCmds.Update();
+        await godotCmds.Update();
     }
 
     public async void StartClient(string ip, ushort port, CancellationTokenSource cts)
@@ -93,8 +93,8 @@ public class Net
         await Server.StartAsync(port, maxPlayers, cts);
     }
 
-    public bool IsMultiplayer() =>
-        Client.IsRunning || Server.IsRunning;
+    public bool IsHost() => Server.IsRunning;
+    public bool IsMultiplayer() => Client.IsRunning || Server.IsRunning;
 
     public async Task Cleanup()
     {
