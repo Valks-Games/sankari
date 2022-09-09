@@ -1,8 +1,6 @@
-I am looking for C# programmers to help peer-review my code and expand on new gameplay mechanics like moving platforms, new enemies and player abilities.
+This project is using the latest stable Godot Mono (C#) 3.x version.
 
-If you need help understanding something, please just ask me on Discord (valk#9904) for help.
-
-> ⚠️ Please talk to me whenever you want to work on something, this way I can tell you if others are working on it or if I do not want you to work on that specific thing right now.
+> ⚠️ Please talk to me (Discord: valk#9904) whenever you want to work on something, this way I can tell you if others are working on it or if I do not want you to work on that specific thing right now.
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
