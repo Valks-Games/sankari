@@ -80,6 +80,14 @@ public class CPacketGameInfo : APacketClient
             Usernames = server.Players.ToDictionary(x => x.Key, x => x.Value.Username)
         }, peer);
 
+        // notify joining player of their peer id
+        server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+        {
+            ServerGameInfo = ServerGameInfo.PeerId,
+            PeerId = (byte)peer.ID
+        }, peer);
+
+        // track joining player in server player dictionary
         server.Players[(byte)peer.ID] = new DataPlayer {
             Username = Username,
             Host = Host

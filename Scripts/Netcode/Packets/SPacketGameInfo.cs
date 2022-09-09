@@ -5,7 +5,8 @@ public enum ServerGameInfo
     PlayerJoinLeave,
     PlayersOnServer,
     StartLevel,
-    MapPosition
+    MapPosition,
+    PeerId
 }
 
 /// <summary>
@@ -28,6 +29,9 @@ public class SPacketGameInfo : APacketServer
 
     // MapPosition
     public Vector2 MapPosition { get; set; }
+
+    // PeerId
+    public byte PeerId { get; set; }
 
     public override void Write(PacketWriter writer)
     {
@@ -53,6 +57,9 @@ public class SPacketGameInfo : APacketServer
                 break;
             case ServerGameInfo.MapPosition:
                 writer.Write(MapPosition);
+                break;
+            case ServerGameInfo.PeerId:
+                writer.Write((byte)PeerId);
                 break;
         }
     }
@@ -87,6 +94,9 @@ public class SPacketGameInfo : APacketServer
             case ServerGameInfo.MapPosition:
                 MapPosition = reader.ReadVector2();
                 break;
+            case ServerGameInfo.PeerId:
+                PeerId = reader.ReadByte();
+                break;
         }
     }
 
@@ -105,6 +115,9 @@ public class SPacketGameInfo : APacketServer
                 break;
             case ServerGameInfo.MapPosition:
                 HandleMapPosition();
+                break;
+            case ServerGameInfo.PeerId:
+                HandlePeerId();
                 break;
         }
     }
@@ -132,5 +145,10 @@ public class SPacketGameInfo : APacketServer
     private void HandleMapPosition() 
     {
         GameManager.Map.SetPosition(MapPosition);
+    }
+
+    private void HandlePeerId()
+    {
+        GameManager.Net.Client.PeerId = PeerId;
     }
 }

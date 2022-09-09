@@ -6,6 +6,7 @@ public class GameClient : ENetClient
 {
     public bool TryingToConnect { get; set; }
     public string Username { get; set; }
+    public byte PeerId { get; set; }
 
     public GameClient(Net networkManager, GodotCommands godotCmds) : base(networkManager)
     {
