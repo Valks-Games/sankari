@@ -3,6 +3,7 @@ namespace Sankari;
 public class LevelScene : Node
 {
     public Camera Camera;
+    public Dictionary<byte, OtherPlayer> OtherPlayers = new();
 
     public void PreInit()
     {
@@ -15,6 +16,24 @@ public class LevelScene : Node
         Camera = GetNode<Camera>("Camera");
 
         CreateLevelBounds();
+
+        if (GameManager.Net.IsMultiplayer())
+        {
+            // TODO: Spawn other players
+            var players = GameManager.UIPlayerList.Players;
+            
+            foreach (var player in players)
+            {
+                if (player.Key == GameManager.Net.Client.PeerId)
+                    continue;
+
+                var otherPlayer = Prefabs.OtherPlayer.Instance<OtherPlayer>();
+
+                OtherPlayers.Add(player.Key, otherPlayer);
+
+                AddChild(otherPlayer);
+            }
+        }
     }
 
     private void UpdateCheckpoints()
