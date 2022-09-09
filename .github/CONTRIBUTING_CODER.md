@@ -8,6 +8,8 @@ This project is using the latest stable version of [Godot Mono (C#)](https://god
 Attaching vscode debugger to Godot can be done when debugging singleplayer code, however when debugging multiplayer code this can prove to be difficult because the server / client threads constantly need to be running and if their interrupted by breakpoints for more than a set duration then the server and client will timeout.
 
 **How to attach vscode debugger to Godot**  
+> ⚠️ I recently tried to create a `launch.json` file using the steps described below but it only generated a json with version and empty configurations array. Something seems wrong here.
+
 In vscode if not done so already, click `create a launch.json file` button and click for `C# Godot` in the debugger tab. If you do not see the `C# Godot` option then you do not have all the Godot extensions installed for VScode. Please refer to the setup guide for VSCode below if this is the case. Next, within Godot go to `Project > Project Settings > Mono > Debugger Agent` and enable `Wait For Debugger` option. Then attach VSCode debugger to Godot, set one or more breakpoints and launch Godot game to start debugging.
 
 **How to debug multiplayer code**  
