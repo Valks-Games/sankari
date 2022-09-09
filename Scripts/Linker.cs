@@ -26,6 +26,12 @@ public class Linker : Node
         await gameManager.Update();
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (Input.IsActionJustPressed("console"))
+            ConsoleManager.ToggleVisibility();
+    }
+
     /*public override void _Input(InputEvent @event)
     {
         if (@event is InputEventKey inputEventKey)

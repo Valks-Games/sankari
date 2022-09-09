@@ -9,9 +9,26 @@ public class CommandDebug : Command
 
     public override void Run(string[] args)
     {
-        // debug command
-        // do debug stuff here
-        if (args.Length == 0)
+        if (args.Length == 0) 
+        {
+            Logger.Log("Please specify an argument");
             return;
+        }
+
+        if (args[0] == "peerid") 
+        {
+            Logger.Log(GameManager.Net.Client.PeerId);
+        }
+
+        if (args[0] == "players")
+        {
+            if (!GameManager.Net.Server.IsRunning) 
+            {
+                Logger.Log("Server is not running on this client");
+                return;
+            }
+
+            Logger.Log(GameManager.Net.Server.Players.PrintFull());
+        }
     }
 }

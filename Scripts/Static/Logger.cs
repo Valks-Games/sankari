@@ -55,17 +55,20 @@ public static class Logger
         switch (result.Opcode)
         {
             case LoggerOpcode.Message:
+                GameManager.Console.AddMessage((string)result.Data);
                 Print((string)result.Data, result.Color);
                 Console.ResetColor();
                 break;
 
             case LoggerOpcode.Exception:
+                GameManager.Console.AddMessage((string)result.Data);
                 PrintErr((string)result.Data, result.Color);
                 Console.ResetColor();
                 break;
 
             case LoggerOpcode.Debug:
                 var data = (LogMessageDebug)result.Data;
+                GameManager.Console.AddMessage((string)result.Data);
                 Print(data.Message, result.Color);
                 if (data.Trace)
                 {
