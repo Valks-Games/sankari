@@ -7,6 +7,8 @@ public class LevelScene : Node
 
     public void PreInit()
     {
+        GameManager.LevelScene = this;
+
         var player = GetNode<Player>("Player");
         player.PreInit(this);
     }

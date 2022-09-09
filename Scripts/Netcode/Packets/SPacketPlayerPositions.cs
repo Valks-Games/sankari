@@ -30,9 +30,12 @@ public class SPacketPlayerPositions : APacketServer
 
     public override async Task Handle()
     {
+        if (GameManager.LevelScene == null) // TEMPORARY
+            return;
+
         foreach (var player in PlayerPositions)
         {
-            // need a way of accessing LevelScene.cs to update OtherPlayer player positions
+            GameManager.LevelScene.OtherPlayers[player.Key].Position = player.Value;
         }
 
         await Task.FromResult(0);
