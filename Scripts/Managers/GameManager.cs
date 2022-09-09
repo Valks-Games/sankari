@@ -22,7 +22,7 @@ public class GameManager
     public static TransitionManager Transition { get; private set; }
     public static LevelManager Level { get; private set; }
     public static LevelUIManager LevelUI { get; private set; }
-    //public static LevelScene LevelScene { get; set; }
+    public static LevelScene LevelScene { get; set; }
     public static UIPlayerList UIPlayerList { get; private set; }
     public static UIMapMenu UIMapMenu { get; private set; }
     public static Map Map { get; private set; }

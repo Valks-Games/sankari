@@ -7,14 +7,13 @@ public class LevelScene : Node
 
     public void PreInit()
     {
-        //GameManager.LevelScene = this;
-
         var player = GetNode<Player>("Player");
         player.PreInit(this);
     }
 
     public override void _Ready()
     {
+        GameManager.LevelScene = this;
         Camera = GetNode<Camera>("Camera");
 
         CreateLevelBounds();

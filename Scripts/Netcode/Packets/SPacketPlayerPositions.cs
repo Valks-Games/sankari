@@ -30,10 +30,18 @@ public class SPacketPlayerPositions : APacketServer
 
     public override async Task Handle()
     {
-        /*foreach (var player in PlayerPositions)
+        if (GameManager.LevelScene == null)
+            return;
+
+        foreach (var player in PlayerPositions)
         {
+            if (GameManager.Net.Client.PeerId == player.Key)
+                continue;
+
+            Logger.Log(player.Value);
+
             GameManager.LevelScene.OtherPlayers[player.Key].Position = player.Value;
-        }*/
+        }
 
         await Task.FromResult(0);
     }
