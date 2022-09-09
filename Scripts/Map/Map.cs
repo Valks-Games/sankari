@@ -63,33 +63,61 @@ public class Map : Node
         if (GameManager.UIMapMenu.Visible)
             return;
 
-        CheckMove("map_move_left", new Vector2(-16, 0));
-        CheckMove("map_move_right", new Vector2(16, 0));
-        CheckMove("map_move_up", new Vector2(0, -16));
-        CheckMove("map_move_down", new Vector2(0, 16));
+        var net = GameManager.Net;
+
+        if (net.IsMultiplayer()) 
+        {
+            if (net.IsHost()) // only the host can move around on the map
+            {
+                HandleMovement();
+            }
+        }
+        else 
+        {
+            // singleplayer
+            HandleMovement();
+        }
 
         if (Input.IsActionJustPressed("map_action") && !loadingLevel)
         {
             if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared")
             {
-                loadingLevel = true;
-
-                var net = GameManager.Net;
-
-                if (net.IsMultiplayer() && net.IsHost())
+                if (net.IsMultiplayer())
                 {
-                    net.Server.SendToOtherPlayers(net.Server.HostId, ServerPacketOpcode.GameInfo, new SPacketGameInfo
+                    // only the host can start levels
+                    if (net.IsHost())
                     {
-                        ServerGameInfo = ServerGameInfo.StartLevel,
-                        LevelName = GameManager.Level.CurrentLevel
-                    });
-                }
+                        loadingLevel = true;
 
-                await GameManager.Level.LoadLevel();
+                        net.Server.SendToOtherPlayers(net.Server.HostId, ServerPacketOpcode.GameInfo, new SPacketGameInfo
+                        {
+                            ServerGameInfo = ServerGameInfo.StartLevel,
+                            LevelName = GameManager.Level.CurrentLevel
+                        });
+
+                        await GameManager.Level.LoadLevel();
+                    }
+                }
+                else 
+                {
+                    // singleplayer
+                    loadingLevel = true;
+                    await GameManager.Level.LoadLevel();
+                }
 
                 PrevPlayerMapIconPosition = playerIcon.Position;
             }
         }
+    }
+
+    private void HandleMovement()
+    {
+        var moveOffset = 16;
+
+        CheckMove("map_move_left", new Vector2(-moveOffset, 0));
+        CheckMove("map_move_right", new Vector2(moveOffset, 0));
+        CheckMove("map_move_up", new Vector2(0, -moveOffset));
+        CheckMove("map_move_down", new Vector2(0, moveOffset));
     }
 
     private void CheckMove(string inputAction, Vector2 moveOffset)
