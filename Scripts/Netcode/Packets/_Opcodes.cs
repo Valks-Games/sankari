@@ -10,7 +10,8 @@ public enum ClientPacketOpcode
 // Sent to Game Client
 public enum ServerPacketOpcode
 {
-    GameInfo
+    GameInfo,
+    PlayerPositions
 }
 
 public enum DisconnectOpcode

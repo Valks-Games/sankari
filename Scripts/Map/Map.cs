@@ -95,6 +95,8 @@ public class Map : Node
                             LevelName = GameManager.Level.CurrentLevel
                         });
 
+                        net.Server.LevelUpdateLoop.Start();
+
                         await GameManager.Level.LoadLevel();
                     }
                 }

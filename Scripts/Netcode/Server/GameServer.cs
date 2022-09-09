@@ -7,10 +7,25 @@ using Event = ENet.Event;
 public class GameServer : ENetServer
 {
     public Dictionary<byte, DataPlayer> Players = new();
-    public DataLobby Lobby { get; set; }
     public uint HostId { get; set; }
+    public STimer LevelUpdateLoop { get; private set; }
 
-    public GameServer(Net networkManager) : base(networkManager) { }
+    public GameServer(Net networkManager) : base(networkManager) 
+    { 
+        LevelUpdateLoop = new STimer(500, () => 
+        {
+            foreach (var player in Players)
+            {
+                var playerPositions = new Dictionary<byte, DataPlayer>(Players).ToDictionary(x => x.Key, x => x.Value.Position);
+                playerPositions.Remove(player.Key);
+
+                SendToOtherPlayers((uint)player.Key, ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions 
+                {
+                    PlayerPositions = playerPositions
+                });
+            }
+        }, false);
+    }
 
     public Dictionary<byte, DataPlayer> GetOtherPlayers(byte id)
     {
