@@ -5,17 +5,13 @@ This project is using the latest stable version of [Godot Mono (C#)](https://god
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
 ### Debugging
-Attaching vscode debugger to Godot can be done when debugging singleplayer code, however when debugging multiplayer code this can prove to be difficult because the server / client threads constantly need to be running and if their interrupted by breakpoints for more than a set duration then the server and client will timeout.
-
-**How to attach vscode debugger to Godot**  
 > ⚠️ I recently tried to create a `launch.json` file using the steps described below but it only generated a json with version and empty configurations array. Something seems wrong here.
 
 In vscode if not done so already, click `create a launch.json file` button and click for `C# Godot` in the debugger tab. If you do not see the `C# Godot` option then you do not have all the Godot extensions installed for VScode. Please refer to the setup guide for VSCode below if this is the case. Next, within Godot go to `Project > Project Settings > Mono > Debugger Agent` and enable `Wait For Debugger` option. Then attach VSCode debugger to Godot, set one or more breakpoints and launch Godot game to start debugging.
 
-**How to debug multiplayer code**  
-You can still use vscode debugger to debug your code, just note that you will only be able to debug one breakpoint then you will need to restart the entire game as the server and client will timeout.
+Please always use `Logger.Log()` over `GD.Print()` as the logger uses a thread safe approach removing the possibility of game crashes due to console text clashing agaisnt each other.
 
-Please always use `Logger.Log()` over `GD.Print()` as the logger uses a thread safe approach removing the possibility of game crashes due to console text conflicts / overflow.
+There is a in-game console you can bring up with `F12`. Type `help` to view a list of all the commands. You can program any of these commands within their respective scripts. Most notably the `debug` command is the go-to for debugging and brings a far superior approach as suppose to adding a log statement and loading up the game just to see this one print statement.
 
 ### Threads
 This game makes use of 3 threads (Godot, Server, Client). Do not directly access public variables or methods from these threads to other threads. If you want to communicate between threads please make use of the appropriate `ConcurrentQueue<T>` channels. Violating thread safety can lead to frequent random game crashes with usually no errors in console making these types of issues extremely hard to track down when they start acting up.
