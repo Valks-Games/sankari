@@ -68,7 +68,7 @@ public static class Logger
 
             case LoggerOpcode.Debug:
                 var data = (LogMessageDebug)result.Data;
-                GameManager.Console.AddMessage((string)result.Data);
+                GameManager.Console.AddMessage(data.Message);
                 Print(data.Message, result.Color);
                 if (data.Trace)
                 {
