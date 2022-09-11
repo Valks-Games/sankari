@@ -3,6 +3,7 @@
     <TargetFramework>net472</TargetFramework>
     <LangVersion>10</LangVersion>
     <RootNamespace>SuperMarioBrosLikeGame</RootNamespace>
+    <NoWarn>IDE0051;IDE1006;IDE0060;IDE0052;IDE0059;IDE0017;IDE0019;IDE0034;IDE1006;</NoWarn> <!--Annoying IDE warnings-->
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" /> <!--This is used because net472 does not have System.Text.Json-->
