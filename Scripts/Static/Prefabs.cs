@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Prefabs 
+public static class Prefabs
 {
     public readonly static PackedScene Map = LoadPrefab("Map");
     public readonly static PackedScene CannonBall = LoadPrefab("Enemies/CannonBall");
