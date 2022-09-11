@@ -53,7 +53,7 @@ public static class Logger
     public static bool StillWorking() => _messages.Count > 0;
 
     /// <summary>
-    /// Dequeues a LogMessage and Logs it
+    /// Dequeues a Requested Message and Logs it
     /// </summary>
     public static void Update()
     {
@@ -67,34 +67,31 @@ public static class Logger
                 Print(result.Data.Message, result.Color);
                 Console.ResetColor();
                 break;
-            case LoggerOpcode.Exception:
-                if (result.Data is LogMessageTrace)
-                {
-                    // Normally, we would use  ...is LogMessageTrace data,
-                    // but scoping affects the other switch statements
-                    var data = result.Data as LogMessageTrace;
-                    GameManager.Console.AddMessage(data.Message);
-                    PrintErr(data.Message, result.Color);
-                    if (data.ShowTrace)
-                    {
-                        PrintErr(data.TracePath, ConsoleColor.DarkGray);
-                    }
-                    Console.ResetColor();
-                }
-                break;
-            case LoggerOpcode.Debug:
-                if (result.Data is LogMessageTrace)
-                {
-                    var data = result.Data as LogMessageTrace;
-                    GameManager.Console.AddMessage(data.Message);
-                    Print(data.Message, result.Color);
-                    if (data.ShowTrace)
-                    {
-                        Print(data.TracePath, ConsoleColor.DarkGray);
-                    }
-                    Console.ResetColor();
-                }
 
+            case LoggerOpcode.Exception:
+                GameManager.Console.AddMessage(result.Data.Message);
+                PrintErr(result.Data.Message, result.Color);
+                if (result.Data is LogMessageTrace exceptionData)
+                {
+                    if (exceptionData.ShowTrace)
+                    {
+                        PrintErr(exceptionData.TracePath, ConsoleColor.DarkGray);
+                    }
+                }
+                Console.ResetColor();
+                break;
+
+            case LoggerOpcode.Debug:
+                GameManager.Console.AddMessage(result.Data.Message);
+                Print(result.Data.Message, result.Color);
+                if (result.Data is LogMessageTrace debugData)
+                {
+                    if (debugData.ShowTrace)
+                    {
+                        Print(debugData.TracePath, ConsoleColor.DarkGray);
+                    }
+                }
+                Console.ResetColor();
                 break;
         }
     }
