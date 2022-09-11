@@ -24,9 +24,8 @@ public static class Logger
         string hint = default,
         ConsoleColor color = ConsoleColor.Red,
         [CallerFilePath] string filePath = default,
-        [CallerMemberName] string memberName = default,
         [CallerLineNumber] int lineNumber = 0
-    ) => LogDetailed(LoggerOpcode.Exception, $@"[Error] {(string.IsNullOrWhiteSpace(hint) ? "" : $"'{hint}' ")}{e.Message}\n{e.StackTrace}", color, true, filePath, memberName, lineNumber);
+    ) => LogDetailed(LoggerOpcode.Exception, $@"[Error] {(string.IsNullOrWhiteSpace(hint) ? "" : $"'{hint}' ")}{e.Message}\n{e.StackTrace}", color, true, filePath, lineNumber);
 
     /// <summary>
     /// Logs a debug message that optionally contains trace information
@@ -37,9 +36,8 @@ public static class Logger
         ConsoleColor color = ConsoleColor.Magenta,
         bool trace = true,
         [CallerFilePath] string filePath = default,
-        [CallerMemberName] string memberName = default,
         [CallerLineNumber] int lineNumber = 0
-    ) => LogDetailed(LoggerOpcode.Debug, $"[Debug] {message}", color, trace, filePath, memberName, lineNumber);
+    ) => LogDetailed(LoggerOpcode.Debug, $"[Debug] {message}", color, trace, filePath, lineNumber);
 
     public static void LogMs(Action code)
     {
@@ -98,8 +96,8 @@ public static class Logger
     /// <summary>
     /// Logs a message that may contain trace information
     /// </summary>
-    private static void LogDetailed(LoggerOpcode opcode, string message, ConsoleColor color, bool trace, string filePath, string memberName, int lineNumber) =>
-            _messages.Enqueue(new LogInfo(opcode, new LogMessageTrace(message, trace, $"  at {filePath.Substring(filePath.IndexOf("Scripts\\"))}:{memberName}:{lineNumber}"), color));
+    private static void LogDetailed(LoggerOpcode opcode, string message, ConsoleColor color, bool trace, string filePath, int lineNumber) =>
+            _messages.Enqueue(new LogInfo(opcode, new LogMessageTrace(message, trace, $"  at {filePath.Substring(filePath.IndexOf("Scripts\\"))}:{lineNumber}"), color));
 
     private static void Print(object v, ConsoleColor color)
     {
