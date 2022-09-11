@@ -41,9 +41,9 @@ public class Player : KinematicBody2D
     // raycasts
     private Node2D parentWallChecksLeft;
     private Node2D parentWallChecksRight;
-    private List<RayCast2D> rayCast2DWallChecksLeft = new();
-    private List<RayCast2D> rayCast2DWallChecksRight = new();
-    private List<RayCast2D> rayCast2DGroundChecks = new();
+    private readonly List<RayCast2D> rayCast2DWallChecksLeft = new();
+    private readonly List<RayCast2D> rayCast2DWallChecksRight = new();
+    private readonly List<RayCast2D> rayCast2DGroundChecks = new();
     private Node2D parentGroundChecks;
 
     // animation
@@ -115,7 +115,7 @@ public class Player : KinematicBody2D
         // on a wall and falling
         if (wallDir != 0 && inWallJumpArea)
         {
-            animatedSprite.FlipH = wallDir == 1 ? true : false;
+            animatedSprite.FlipH = wallDir == 1;
 
             if (IsFalling())
             {
@@ -165,7 +165,7 @@ public class Player : KinematicBody2D
         else
             gravity = GRAVITY_AIR;
 
-        animatedSprite.FlipH = moveDir.x < 0 ? true : false;
+        animatedSprite.FlipH = moveDir.x < 0;
 
         if (IsOnGround())
         {

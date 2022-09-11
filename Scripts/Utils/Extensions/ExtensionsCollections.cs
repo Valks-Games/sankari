@@ -23,6 +23,7 @@ public static class CollectionExtensions
 
         Logger.LogWarning($"'{caller}' tried to add duplicate key '{key}' to dictionary\n" +
                             $"   at {path} line:{lineNumber}");
+
         return true;
 
     }

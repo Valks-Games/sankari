@@ -8,7 +8,7 @@ public class LevelManager
 
     public string CurrentLevel { get; set; }
 
-    private Node nodeLevel;
+    private readonly Node nodeLevel;
 
     public LevelManager(Node nodeLevel)
     {

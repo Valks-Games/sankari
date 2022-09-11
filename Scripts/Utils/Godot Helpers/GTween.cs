@@ -2,8 +2,8 @@ namespace Sankari;
 
 public class GTween 
 {
-    private Tween tween;
-    private Node target;
+    private readonly Tween tween;
+    private readonly Node target;
 
     /// <summary>
     /// Should the tween animation loop? Note that if Repeat is set to false than the values set in InterpolateProperty

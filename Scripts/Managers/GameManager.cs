@@ -55,9 +55,10 @@ public class GameManager
         Net = new Net();
 
         LevelUI.Hide();
+        
     }
 
-    public async Task Update() 
+    public async Task Update()
     {
         await Net.Update();
     }
@@ -66,11 +67,11 @@ public class GameManager
 
     public static void LoadMap()
     {
-        GameManager.LevelUI.Show();
+        LevelUI.Show();
 
         // weird place to put this but its whatever right now
         Map = (Map)Prefabs.Map.Instance(); 
-        
+
         map.CallDeferred("add_child", Map); // need to wait for the engine because we are dealing with areas with is physics related
         Audio.PlayMusic("map_grassy");
     }

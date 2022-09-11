@@ -4,7 +4,7 @@ namespace Sankari.Netcode;
 
 public class ServerPacket : GamePacket
 {
-    public Peer[] Peers { get; private set; }
+    public Peer[] Peers { get; }
 
     public ServerPacket(byte opcode, PacketFlags packetFlags, APacket writable = null, params Peer[] peers)
     {

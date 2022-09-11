@@ -4,7 +4,7 @@ namespace Sankari;
 
 public class GTimer
 {
-    private readonly Timer timer = new Timer();
+    private readonly Timer timer = new();
 
     public float TimeLeft 
     { 

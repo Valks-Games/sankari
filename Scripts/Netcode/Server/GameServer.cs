@@ -8,7 +8,7 @@ public class GameServer : ENetServer
 {
     public Dictionary<byte, DataPlayer> Players = new();
     public uint HostId { get; set; }
-    public STimer LevelUpdateLoop { get; private set; }
+    public STimer LevelUpdateLoop { get; }
 
     public GameServer(Net networkManager) : base(networkManager) 
     { 

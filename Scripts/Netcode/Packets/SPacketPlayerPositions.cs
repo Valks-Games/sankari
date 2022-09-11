@@ -12,6 +12,7 @@ public class SPacketPlayerPositions : APacketServer
             writer.Write((byte)player.Key);
             writer.Write(player.Value);
         }
+        
     }
 
     public override void Read(PacketReader reader)
@@ -33,7 +34,7 @@ public class SPacketPlayerPositions : APacketServer
         if (GameManager.LevelScene == null)
             return;
 
-        foreach (var player in PlayerPositions)
+        /*foreach (var player in PlayerPositions)
         {
             if (GameManager.Net.Client.PeerId == player.Key)
                 continue;
@@ -41,7 +42,7 @@ public class SPacketPlayerPositions : APacketServer
             Logger.Log(player.Value);
 
             GameManager.LevelScene.OtherPlayers[player.Key].Position = player.Value;
-        }
+        }*/
 
         await Task.FromResult(0);
     }

@@ -2,11 +2,11 @@ namespace Sankari;
 
 public class Audio
 {
-    private Dictionary<string, AudioStream> sfx = new();
-    private Dictionary<string, AudioStream> music = new();
+    private readonly Dictionary<string, AudioStream> sfx = new();
+    private readonly Dictionary<string, AudioStream> music = new();
 
-    private GAudioStreamPlayer sfxPlayer;
-    private GAudioStreamPlayer musicPlayer;
+    private readonly GAudioStreamPlayer sfxPlayer;
+    private readonly GAudioStreamPlayer musicPlayer;
     private float lastPitch;
 
     public Audio(GAudioStreamPlayer sfxPlayer, GAudioStreamPlayer musicPlayer)

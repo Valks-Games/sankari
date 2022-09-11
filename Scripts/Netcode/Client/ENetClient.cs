@@ -35,7 +35,7 @@ public abstract class ENetClient
         {
             if (IsRunning)
             {
-                Logger.Log($"Client is running already");
+                Logger.Log("Client is running already");
                 return;
             }
 

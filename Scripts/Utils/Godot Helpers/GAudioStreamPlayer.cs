@@ -2,7 +2,7 @@ namespace Sankari;
 
 public class GAudioStreamPlayer 
 {
-    private AudioStreamPlayer audioStreamPlayer;
+    private readonly AudioStreamPlayer audioStreamPlayer;
 
     /// <summary>
     /// The volume ranging from a value of 0 to 100

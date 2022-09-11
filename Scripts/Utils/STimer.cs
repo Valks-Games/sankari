@@ -6,7 +6,7 @@ using Object = System.Object;
 
 public class STimer : IDisposable
 {
-    private Timer Timer { get; set; }
+    private Timer Timer { get; }
 
     public STimer(double delayMs, Action action, bool enabled = true, bool autoreset = true)
     {

@@ -2,26 +2,26 @@ namespace Sankari;
 
 public class Tokens
 {
-    private Dictionary<string, CancellationTokenSource> _cts = new();
+    private readonly Dictionary<string, CancellationTokenSource> cts = new();
 
     public CancellationTokenSource Create(string name, int timeout = 0)
     {
         Cancel(name);
-        _cts[name] = new CancellationTokenSource();
-        if (timeout > 0) _cts[name].CancelAfter(timeout);
-        return _cts[name];
+        cts[name] = new CancellationTokenSource();
+        if (timeout > 0) cts[name].CancelAfter(timeout);
+        return cts[name];
     }
 
     public bool Cancelled(string name) =>
-        _cts.ContainsKey(name) && _cts[name].IsCancellationRequested;
+        cts.ContainsKey(name) && cts[name].IsCancellationRequested;
 
     public void Cancel(string name)
     {
-        if (_cts.ContainsKey(name))
+        if (cts.ContainsKey(name))
         {
             try
             {
-                _cts[name].Cancel();
+                cts[name].Cancel();
             }
             catch (ObjectDisposedException)
             {
@@ -30,7 +30,7 @@ public class Tokens
         }
     }
 
-    public void Cleanup() => _cts.Values.ForEach(x =>
+    public void Cleanup() => cts.Values.ForEach(x =>
     {
         x.Cancel();
         x.Dispose();

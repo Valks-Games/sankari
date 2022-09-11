@@ -2,8 +2,8 @@ namespace Sankari;
 
 public class Popups
 {
-    private Queue<WindowDialog> _queue = new();
-    private Linker linker;
+    private readonly Queue<WindowDialog> queue = new();
+    private readonly Linker linker;
 
     public Popups(Linker linker)
     {
@@ -44,10 +44,10 @@ public class Popups
 
     public void Next()
     {
-        _queue.Dequeue();
-        if (_queue.Count == 0)
+        queue.Dequeue();
+        if (queue.Count == 0)
             return;
-        var popup = _queue.Peek();
+        var popup = queue.Peek();
         popup.PopupCentered();
     }
 
@@ -55,9 +55,9 @@ public class Popups
     {
         linker.CanvasLayer.AddChild(popup);
 
-        if (_queue.Count == 0)
+        if (queue.Count == 0)
             popup.PopupCentered(popup.RectMinSize);
 
-        _queue.Enqueue(popup);
+        queue.Enqueue(popup);
     }
 }

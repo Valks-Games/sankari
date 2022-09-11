@@ -72,7 +72,7 @@ public class LevelScene : Node
         CreateCollider
         (
             new Vector2((Camera.LimitLeft + Camera.LimitRight) / 2, Camera.LimitTop - colliderThickness),
-            new Vector2((Mathf.Abs(Camera.LimitLeft) + Mathf.Abs(Camera.LimitRight) / 2), colliderThickness)
+            new Vector2(Mathf.Abs(Camera.LimitLeft) + (Mathf.Abs(Camera.LimitRight) / 2), colliderThickness)
         );
     }
 

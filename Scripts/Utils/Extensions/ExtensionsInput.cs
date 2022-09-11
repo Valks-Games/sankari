@@ -2,8 +2,8 @@ namespace Sankari;
 
 public static class ExtensionsInput
 {
-    private static Dictionary<ulong, string> _prevTexts = new();
-    private static Dictionary<ulong, int> _prevNums = new();
+    private static readonly Dictionary<ulong, string> _prevTexts = new();
+    private static readonly Dictionary<ulong, int> _prevNums = new();
 
     public static string Filter(this LineEdit lineEdit, Func<string, bool> filter)
     {
