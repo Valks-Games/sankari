@@ -4,37 +4,38 @@ public static class Logger
 {
     private static readonly ConcurrentQueue<LogInfo> _messages = new();
 
-    public static void Log(object message, ConsoleColor color = ConsoleColor.Gray) => 
-        _messages.Enqueue(new LogInfo(LoggerOpcode.Message, $"{message}", color));
+    public static void Log(object message, ConsoleColor color = ConsoleColor.Gray) =>
+        _messages.Enqueue(new LogInfo(LoggerOpcode.Message, new LogMessage($"{message}"), color));
 
-    public static void LogWarning(object message, ConsoleColor color = ConsoleColor.Yellow) => 
+    public static void LogWarning(object message, ConsoleColor color = ConsoleColor.Yellow) =>
         Log($"[Warning] {message}", color);
 
-    public static void LogTodo(object message, ConsoleColor color = ConsoleColor.White) => 
+    public static void LogTodo(object message, ConsoleColor color = ConsoleColor.White) =>
         Log($"[Todo] {message}", color);
 
-    public static void LogErr(Exception e, string hint = "", ConsoleColor color = ConsoleColor.Red) => 
-        _messages.Enqueue
-            (new LogInfo(
-                LoggerOpcode.Exception, 
-                $"[Error] {(string.IsNullOrWhiteSpace(hint) ? "" : $"'{hint}' ")}{e.Message}\n{e.StackTrace}", 
-                color
-            ));
-    
+    /// <summary>
+    /// Logs an exception with trace information. Optionally allows logging a human readable hint
+    /// </summary>
+    public static void LogErr
+    (
+        Exception e,
+        string hint = default,
+        ConsoleColor color = ConsoleColor.Red,
+        [CallerFilePath] string filePath = default,
+        [CallerLineNumber] int lineNumber = 0
+    ) => LogDetailed(LoggerOpcode.Exception, $@"[Error] {(string.IsNullOrWhiteSpace(hint) ? "" : $"'{hint}' ")}{e.Message}\n{e.StackTrace}", color, true, filePath, lineNumber);
+
+    /// <summary>
+    /// Logs a debug message that optionally contains trace information
+    /// </summary>
     public static void LogDebug
     (
-        object message, 
-        ConsoleColor color = ConsoleColor.Magenta, 
-        bool trace = true, 
-        [CallerFilePath] string filePath = "", 
+        object message,
+        ConsoleColor color = ConsoleColor.Magenta,
+        bool trace = true,
+        [CallerFilePath] string filePath = default,
         [CallerLineNumber] int lineNumber = 0
-    ) => 
-        _messages.Enqueue
-        (new LogInfo(
-            LoggerOpcode.Debug, 
-            new LogMessageDebug($"[Debug] {message}", trace, $"   at {filePath.Substring(filePath.IndexOf("Scripts\\"))} line:{lineNumber}"), 
-            color
-        ));
+    ) => LogDetailed(LoggerOpcode.Debug, $"[Debug] {message}", color, trace, filePath, lineNumber);
 
     public static void LogMs(Action code)
     {
@@ -47,6 +48,9 @@ public static class Logger
 
     public static bool StillWorking() => _messages.Count > 0;
 
+    /// <summary>
+    /// Dequeues a Requested Message and Logs it
+    /// </summary>
     public static void Update()
     {
         if (!_messages.TryDequeue(out LogInfo result))
@@ -55,29 +59,43 @@ public static class Logger
         switch (result.Opcode)
         {
             case LoggerOpcode.Message:
-                GameManager.Console.AddMessage((string)result.Data);
-                Print((string)result.Data, result.Color);
+                GameManager.Console.AddMessage(result.Data.Message);
+                Print(result.Data.Message, result.Color);
                 Console.ResetColor();
                 break;
 
             case LoggerOpcode.Exception:
-                GameManager.Console.AddMessage((string)result.Data);
-                PrintErr((string)result.Data, result.Color);
+                GameManager.Console.AddMessage(result.Data.Message);
+                PrintErr(result.Data.Message, result.Color);
+                if (result.Data is LogMessageTrace exceptionData)
+                {
+                    if (exceptionData.ShowTrace)
+                    {
+                        PrintErr(exceptionData.TracePath, ConsoleColor.DarkGray);
+                    }
+                }
                 Console.ResetColor();
                 break;
 
             case LoggerOpcode.Debug:
-                var data = (LogMessageDebug)result.Data;
-                GameManager.Console.AddMessage(data.Message);
-                Print(data.Message, result.Color);
-                if (data.Trace)
+                GameManager.Console.AddMessage(result.Data.Message);
+                Print(result.Data.Message, result.Color);
+                if (result.Data is LogMessageTrace debugData)
                 {
-                    Print(data.TracePath, ConsoleColor.DarkGray);
+                    if (debugData.ShowTrace)
+                    {
+                        Print(debugData.TracePath, ConsoleColor.DarkGray);
+                    }
                 }
                 Console.ResetColor();
                 break;
         }
     }
+    /// <summary>
+    /// Logs a message that may contain trace information
+    /// </summary>
+    private static void LogDetailed(LoggerOpcode opcode, string message, ConsoleColor color, bool trace, string filePath, int lineNumber) =>
+            _messages.Enqueue(new LogInfo(opcode, new LogMessageTrace(message, trace, $"  at {filePath.Substring(filePath.IndexOf("Scripts\\"))}:{lineNumber}"), color));
 
     private static void Print(object v, ConsoleColor color)
     {
@@ -95,10 +113,10 @@ public static class Logger
 public class LogInfo
 {
     public LoggerOpcode Opcode { get; set; }
-    public object Data { get; set; }
+    public LogMessage Data { get; set; }
     public ConsoleColor Color { get; set; }
 
-    public LogInfo(LoggerOpcode opcode, object data, ConsoleColor color = ConsoleColor.Gray)
+    public LogInfo(LoggerOpcode opcode, LogMessage data, ConsoleColor color = ConsoleColor.Gray)
     {
         Opcode = opcode;
         Data = data;
@@ -106,16 +124,22 @@ public class LogInfo
     }
 }
 
-public class LogMessageDebug
+public class LogMessage
 {
     public string Message { get; set; }
-    public bool Trace { get; set; }
+    public LogMessage(string message) => this.Message = message;
+
+}
+public class LogMessageTrace : LogMessage
+{
+    // Show the Trace Information for the Message
+    public bool ShowTrace { get; set; }
     public string TracePath { get; set; }
 
-    public LogMessageDebug(string message, bool trace = true, string tracePath = "")
+    public LogMessageTrace(string message, bool trace = true, string tracePath = default)
+    : base(message)
     {
-        Message = message;
-        Trace = trace;
+        ShowTrace = trace;
         TracePath = tracePath;
     }
 }
