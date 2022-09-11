@@ -31,8 +31,19 @@ public class SPacketPlayerPositions : APacketServer
 
     public override async Task Handle()
     {
-        if (GameManager.LevelScene == null)
+        if (GameManager.LevelScene == null) 
+        {
+            Logger.LogWarning("Level scene is null");
             return;
+        }
+
+        if (PlayerPositions.Count == 0) 
+        {
+            Logger.LogWarning("Player positions count is 0");
+            return;
+        }
+
+        GameManager.LevelScene.OtherPlayers.First().Value.Position = PlayerPositions[0];
 
         /*foreach (var player in PlayerPositions)
         {

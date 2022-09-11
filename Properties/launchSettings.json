@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Super Mario Bros Like Game": {
+      "commandName": "Project",
+      "commandLineArgs": "-e --path C:\\Users\\VALK-DESKTOP\\Documents\\Godot Projects\\Super Mario Bros Like Game"
+    }
+  }
+}

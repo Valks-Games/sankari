@@ -73,6 +73,8 @@ public class LevelManager
 
     public async Task CompleteLevel(string levelName)
     {
+        GameManager.LevelScene = null;
+
         await GameManager.Transition.AlphaToBlackAndBack();
 
         // remove level
