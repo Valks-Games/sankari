@@ -67,26 +67,20 @@ public static class Logger
             case LoggerOpcode.Exception:
                 GameManager.Console.AddMessage(result.Data.Message);
                 PrintErr(result.Data.Message, result.Color);
-                if (result.Data is LogMessageTrace exceptionData)
-                {
-                    if (exceptionData.ShowTrace)
-                    {
-                        PrintErr(exceptionData.TracePath, ConsoleColor.DarkGray);
-                    }
-                }
+
+                if (result.Data is LogMessageTrace exceptionData && exceptionData.ShowTrace)
+                    PrintErr(exceptionData.TracePath, ConsoleColor.DarkGray);
+                
                 Console.ResetColor();
                 break;
 
             case LoggerOpcode.Debug:
                 GameManager.Console.AddMessage(result.Data.Message);
                 Print(result.Data.Message, result.Color);
-                if (result.Data is LogMessageTrace debugData)
-                {
-                    if (debugData.ShowTrace)
-                    {
-                        Print(debugData.TracePath, ConsoleColor.DarkGray);
-                    }
-                }
+                
+                if (result.Data is LogMessageTrace debugData && debugData.ShowTrace)
+                    Print(debugData.TracePath, ConsoleColor.DarkGray);
+                
                 Console.ResetColor();
                 break;
         }
