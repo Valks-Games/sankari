@@ -2,6 +2,8 @@
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
+[Good First Coding Issues](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+label%3Acoding+)  
+
 ## Setup VScode to Work with Godot C#
 The built in Godot scripting editor is awful for C# scripting. VSCode is free software, I recommend you use that or JetBrains C# which is not free.
 
@@ -11,15 +13,17 @@ The built in Godot scripting editor is awful for C# scripting. VSCode is free so
     - [C# Tools for Godot](https://marketplace.visualstudio.com/items?itemName=neikeq.godot-csharp-vscode)
     - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
     - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
-3. Option extensions that are useful to have
+3. Optional extensions that are useful to have
     - [C# XML Documentation Comments](https://marketplace.visualstudio.com/items?itemName=k--kato.docomment)
     - [Editor Config](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig) (install if using Roslynator)
     - [Roslynator](https://marketplace.visualstudio.com/items?itemName=josefpihrt-vscode.roslynator)
-    - [Tokyo Night Theme](https://marketplace.visualstudio.com/items?itemName=enkia.tokyo-night) (the VSCode I always use)
+    - [Tokyo Night Theme](https://marketplace.visualstudio.com/items?itemName=enkia.tokyo-night) (the theme I always use)
     - [MoonSharp Debug](https://marketplace.visualstudio.com/items?itemName=xanathar.moonsharp-debug) (only if debugging lua)
 4. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor` or simply click the `Open Godot Editor` button bottom right popup
 5. Set `Godot > Editor > Editor Settings > Mono > Builds > Build Tool` to `dotnet CLI`
 6. Set `Godot > Editor > Editor Settings > Mono > Editor > External Editor` to your external editor (for e.g. `Visual Studio Code`)
+
+Note that you can [add these files to exclude from your file view in VSCode](https://gist.github.com/valkyrienyanko/2f9deb179e775650e2d48c7a0e798dec) (it makes the file structure on the left prettier) (I don't know where to paste this in VSCode as I manually edited this directly in the settings, if anyone figures out where please tell me!)
 
 ## Debugging
 ### VSCode Configurations
