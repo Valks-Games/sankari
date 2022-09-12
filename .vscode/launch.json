@@ -3,5 +3,73 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": []
+    "configurations": [
+        {
+            "name": "Play in Editor",
+            "type": "godot-mono",
+            "mode": "playInEditor",
+            "request": "launch"
+        },
+        {
+            "name": "Build and Launch",
+            "type": "godot-mono",
+            "request": "launch",
+            "mode": "executable",
+            "preLaunchTask": "build",
+            "executable": "C:\\Users\\VALK-DESKTOP\\Downloads\\Godot_v3.5-stable_mono_win64\\Godot_v3.5-stable_mono_win64.exe",
+            "executableArguments": [
+                "--path",
+                "${workspaceRoot}"
+            ]
+        },
+        {
+            "name": "Launch Client",
+            "type": "godot-mono",
+            "request": "launch",
+            "mode": "executable",
+            "executable": "C:\\Users\\VALK-DESKTOP\\Downloads\\Godot_v3.5-stable_mono_win64\\Godot_v3.5-stable_mono_win64.exe",
+            "executableArguments": [
+                "--path",
+                "${workspaceRoot}"
+            ]
+        },
+        {
+            "name": "Launch Server",
+            "type": "godot-mono",
+            "request": "launch",
+            "mode": "executable",
+            "executable": "C:\\Users\\VALK-DESKTOP\\Downloads\\Godot_v3.5-stable_mono_win64\\Godot_v3.5-stable_mono_win64.exe",
+            "executableArguments": [
+                "--path",
+                "${workspaceRoot}"
+            ]
+        },
+        {
+            "name": "Launch (Select Scene)",
+            "type": "godot-mono",
+            "request": "launch",
+            "mode": "executable",
+            "preLaunchTask": "build",
+            "executable": "C:\\Users\\VALK-DESKTOP\\Downloads\\Godot_v3.5-stable_mono_win64\\Godot_v3.5-stable_mono_win64.exe",
+            "executableArguments": [
+                "--path",
+                "${workspaceRoot}",
+                "${command:SelectLaunchScene}"
+            ]
+        },
+        {
+            "name": "Attach",
+            "type": "godot-mono",
+            "request": "attach",
+            "address": "localhost",
+            "port": 23685
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch 2 sessions",
+            "preLaunchTask": "build",
+            "configurations": [ "Launch Server", "Launch Client"]
+        }
+    ]
 }
