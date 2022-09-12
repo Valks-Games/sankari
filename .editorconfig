@@ -21,3 +21,13 @@ dotnet_diagnostic.RCS1089.severity = none # Use ++ operator instead of assignmen
 dotnet_diagnostic.RCS1003.severity = none # Add braces to if-else (when expression spans over multiple lines)
 dotnet_diagnostic.RCS1123.severity = none # Add parentheses when necessary
 dotnet_diagnostic.RCS1221.severity = none # Use pattern matching instead of combination of 'as' operator and null check
+
+# IDE suppression preferences
+dotnet_diagnostic.IDE0051.severity = none
+dotnet_diagnostic.IDE1006.severity = none
+dotnet_diagnostic.IDE0060.severity = none
+dotnet_diagnostic.IDE0052.severity = none
+dotnet_diagnostic.IDE0059.severity = none
+dotnet_diagnostic.IDE0017.severity = none
+dotnet_diagnostic.IDE0019.severity = none
+dotnet_diagnostic.IDE0034.severity = none
