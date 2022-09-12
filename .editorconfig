@@ -1,7 +1,15 @@
 root = true
 
-[*]
-# Suppress annoying warnings
+[*.cs]
+
+# Indentation and spacing
+indent_size = 4
+indent_style = space
+tab_width = 4
+end_of_line = crlf
+insert_final_newline = true
+
+# Roslynator suppression preferences
 dotnet_diagnostic.rcs1036.severity = none # trailing white spaces
 dotnet_diagnostic.rcs1037.severity = none # blank lines
 dotnet_diagnostic.RCS1163.severity = none # unused parameter
@@ -12,6 +20,4 @@ dotnet_diagnostic.RCS1001.severity = none # Add braces to foreach statement (whe
 dotnet_diagnostic.RCS1089.severity = none # Use ++ operator instead of assignment
 dotnet_diagnostic.RCS1003.severity = none # Add braces to if-else (when expression spans over multiple lines)
 dotnet_diagnostic.RCS1123.severity = none # Add parentheses when necessary
-
-# Suppressed because soft casts look more readable than hard casts
 dotnet_diagnostic.RCS1221.severity = none # Use pattern matching instead of combination of 'as' operator and null check
