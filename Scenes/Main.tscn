@@ -231,6 +231,7 @@ margin_right = 93.0
 margin_bottom = 7.0
 
 [node name="UIMapMenu" type="MarginContainer" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -246,9 +247,9 @@ NodePathOnlineUsername = NodePath("PanelContainer/Margin/VBox/VBox/Online Userna
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UIMapMenu"]
 margin_left = 362.0
-margin_top = 160.0
+margin_top = 175.0
 margin_right = 662.0
-margin_bottom = 440.0
+margin_bottom = 425.0
 rect_min_size = Vector2( 300, 250 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
