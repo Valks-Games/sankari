@@ -22,7 +22,7 @@ public class GameManager
     public static TransitionManager Transition { get; private set; }
     public static LevelManager Level { get; private set; }
     public static LevelUIManager LevelUI { get; private set; }
-    public static LevelScene LevelScene { get; set; }
+    public static LevelScene LevelScene { get; set; } // odd ball
     public static UIPlayerList UIPlayerList { get; private set; }
     public static UIMapMenu UIMapMenu { get; private set; }
     public static Map Map { get; private set; }
@@ -32,15 +32,15 @@ public class GameManager
     public static Tokens Tokens { get; private set; }
     public static Net Net { get; private set; }
     public static Notifications Notifications { get; private set; }
+    public static UIMenu Menu { get; private set; }
 
     private static Node map;
-    private static UIMenu menu;
 
     public GameManager(Linker linker) 
     {
         Linker = linker;
         map = linker.GetNode<Node>("Map");
-        menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
+        Menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
         
         Audio = new Audio(new GAudioStreamPlayer(linker), new GAudioStreamPlayer(linker));
         Transition = linker.GetNode<TransitionManager>(linker.NodePathTransition);
@@ -55,7 +55,6 @@ public class GameManager
         Net = new Net();
 
         LevelUI.Hide();
-        
     }
 
     public async Task Update()
@@ -63,7 +62,7 @@ public class GameManager
         await Net.Update();
     }
 
-    public static void ShowMenu() => menu.Show();
+    public static void ShowMenu() => Menu.Show();
 
     public static void LoadMap()
     {

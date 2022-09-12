@@ -2,6 +2,8 @@ namespace Sankari;
 
 public class Linker : Node
 {
+    [Export] public bool PressPlayOnLaunch;
+    [Export] public bool AutoHostJoin;
     [Export] public readonly NodePath NodePathTransition;
 
     public CanvasLayer CanvasLayer { get; private set; }
@@ -11,13 +13,32 @@ public class Linker : Node
 
     private GameManager gameManager;
     
-    public override void _Ready()
+    public override async void _Ready()
     {
         CanvasLayer = GetNode<CanvasLayer>("CanvasLayer");
         ConsoleManager = CanvasLayer.GetNode<ConsoleManager>("PanelContainer/Console");
         UIPlayerList = CanvasLayer.GetNode<UIPlayerList>("Player List");
         UIMapMenu = CanvasLayer.GetNode<UIMapMenu>("UIMapMenu");
         gameManager = new GameManager(this);
+
+        if (PressPlayOnLaunch)
+            GameManager.Menu.PressPlay();
+
+        if (AutoHostJoin)
+        {
+            if (OS.HasFeature("standalone"))
+            {
+                // running in an exported build
+                GameManager.UIMapMenu.OnlineUsername = "OtherClient";
+                GameManager.UIMapMenu.Join();
+            }
+            else 
+            {
+                // running in the editor
+                GameManager.UIMapMenu.OnlineUsername = "ImHost";
+                await GameManager.UIMapMenu.HostGame();
+            }
+        }
     }
 
     public override async void _Process(float delta)

@@ -8,8 +8,8 @@ public class UIMapMenu : Control
 
     public Button BtnJoin { get; private set; }
     public bool IsHost { get; private set; }
-    public string OnlineUsername { get; private set; } = "";
-    public string HostPassword { get; private set; } = "";
+    public string OnlineUsername { get; set; } = "";
+    public string HostPassword { get; set; } = "";
 
     private Control controlHost;
     private LineEdit lineEditHostPort;
@@ -27,7 +27,6 @@ public class UIMapMenu : Control
 
     private string joinIP = "";
     private string joinPassword = "";
-
 
     public override void _Ready()
     {
@@ -54,10 +53,7 @@ public class UIMapMenu : Control
         Hide();
     }
 
-    private bool InvalidOnlineUsername() 
-    {
-        return string.IsNullOrWhiteSpace(OnlineUsername);
-    }
+    private bool InvalidOnlineUsername() => string.IsNullOrWhiteSpace(OnlineUsername);
 
     // host
     private void _on_Host_pressed() 
@@ -88,21 +84,26 @@ public class UIMapMenu : Control
         }
         else 
         {
-            var ctsServer = GameManager.Tokens.Create("server_running");
-            var ctsClient = GameManager.Tokens.Create("client_running");
-
-            var net = GameManager.Net;
-
-            IsHost = true;
-
-            net.StartServer(hostPort, 10, ctsServer);
-            net.StartClient("127.0.0.1", hostPort, ctsClient); // TODO: Get external IP automatically
-
-            while (!net.Server.HasSomeoneConnected)
-                await Task.Delay(1);
-
-            btnHostServerToggle.Text = "Close World to Other Players";
+            await HostGame("127.0.0.1", hostPort, 10);
         }
+    }
+
+    public async Task HostGame(string ip = "127.0.0.1", ushort port = 25565, int maxPlayers = 10)
+    {
+        var ctsServer = GameManager.Tokens.Create("server_running");
+        var ctsClient = GameManager.Tokens.Create("client_running");
+
+        var net = GameManager.Net;
+
+        IsHost = true;
+
+        net.StartServer(hostPort, maxPlayers, ctsServer);
+        net.StartClient(ip, port, ctsClient); // TODO: Get external IP automatically
+
+        while (!net.Server.HasSomeoneConnected)
+            await Task.Delay(1);
+
+        btnHostServerToggle.Text = "Close World to Other Players";
     }
 
     // join
@@ -156,13 +157,18 @@ public class UIMapMenu : Control
             return;
         }
 
+        Join(address, portNum);
+    }
+
+    public void Join(string ip = "127.0.0.1", ushort port = 25565)
+    {
         IsHost = false;
 
-        net.Client.TryingToConnect = true;
+        GameManager.Net.Client.TryingToConnect = true;
         BtnJoin.Disabled = true;
         BtnJoin.Text = "Searching for world...";
         var ctsClient = GameManager.Tokens.Create("client_running");
-        net.StartClient(address, portNum, ctsClient);
+        GameManager.Net.StartClient(ip, port, ctsClient);
     }
 
     // game

@@ -4,9 +4,15 @@ public class UIMenu : Control
 {
     private void _on_Play_pressed() 
     {
+        PressPlay();
+    }
+
+    public void PressPlay()
+    {
         Hide();
         GameManager.LoadMap();
     }
+
     //private async void _on_Options_pressed() => await _managers.ManagerScene.ChangeScene(GameScene.Options);
     //private async void _on_Mods_pressed() => await _managers.ManagerScene.ChangeScene(GameScene.Mods);
     //private async void _on_Credits_pressed() => await _managers.ManagerScene.ChangeScene(GameScene.Credits);
