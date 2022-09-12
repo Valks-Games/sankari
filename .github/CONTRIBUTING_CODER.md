@@ -11,7 +11,7 @@ The built in Godot scripting editor is awful for C# scripting. VSCode is free so
     - [C# Tools for Godot](https://marketplace.visualstudio.com/items?itemName=neikeq.godot-csharp-vscode)
     - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
     - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
-3. Option extensions that are useful to have
+3. Optional extensions that are useful to have
     - [C# XML Documentation Comments](https://marketplace.visualstudio.com/items?itemName=k--kato.docomment)
     - [Editor Config](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig) (install if using Roslynator)
     - [Roslynator](https://marketplace.visualstudio.com/items?itemName=josefpihrt-vscode.roslynator)
