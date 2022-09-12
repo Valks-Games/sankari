@@ -21,6 +21,8 @@ The built in Godot scripting editor is awful for C# scripting. VSCode is free so
 5. Set `Godot > Editor > Editor Settings > Mono > Builds > Build Tool` to `dotnet CLI`
 6. Set `Godot > Editor > Editor Settings > Mono > Editor > External Editor` to your external editor (for e.g. `Visual Studio Code`)
 
+Note that you can [add these files to exclude from your file view in VSCode](https://gist.github.com/valkyrienyanko/2f9deb179e775650e2d48c7a0e798dec) (it makes the file structure on the left prettier) (I don't know where to paste this in VSCode as I manually edited this directly in the settings, if anyone figures out where please tell me!)
+
 ## Debugging
 ### VSCode Configurations
 1. Under `.vscode/` [add launch.json and tasks.json files](https://gist.github.com/valkyrienyanko/45723ed058e175eef2428f7c3230dccb) and replace all instances of `<GODOT_PATH>` with the path to the Godot executable
