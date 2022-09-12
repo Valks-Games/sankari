@@ -18,6 +18,8 @@ The built in Godot scripting editor is awful for C# scripting. VSCode is free so
     - [Tokyo Night Theme](https://marketplace.visualstudio.com/items?itemName=enkia.tokyo-night) (the VSCode I always use)
     - [MoonSharp Debug](https://marketplace.visualstudio.com/items?itemName=xanathar.moonsharp-debug) (only if debugging lua)
 4. Launch Godot through VSCode by hitting `F1` to open up VSCode command and run `godot tools: open workspace with godot editor` or simply click the `Open Godot Editor` button bottom right popup
+5. Set `Godot > Editor > Editor Settings > Mono > Builds > Build Tool` to `dotnet CLI`
+6. Set `Godot > Editor > Editor Settings > Mono > Editor > External Editor` to your external editor (for e.g. `Visual Studio Code`)
 
 ## Debugging
 ### VSCode Configurations
