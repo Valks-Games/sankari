@@ -1,3 +1,6 @@
+# See https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/code-style-rule-options
+
+# Change to false if config should affect directories above
 root = true
 
 [*.cs]
