@@ -1,4 +1,4 @@
-# User-defined ignores
+# VSCode-specific ignores
 .vscode/*.json
 
 # Godot-specific ignores
@@ -9,3 +9,6 @@ export_presets.cfg
 # Mono-specific ignores
 .mono/
 data_*/
+
+# VS-specific ignores
+.vs/
