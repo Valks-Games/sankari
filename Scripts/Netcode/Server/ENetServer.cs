@@ -95,6 +95,42 @@ public abstract class ENetServer
     public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags, Peer peer, params Peer[] peers) => 
         outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(peer, peers)));
 
+    // Same methods below but instead of the params being of type Peer, they are of type byte
+
+    /// <summary>
+    /// Send an opcode to peer(s)
+    /// </summary>
+    public void Send(ServerPacketOpcode opcode, byte peerId, params byte[] peerIds) =>
+        outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, null, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
+
+    /// <summary>
+    /// Send an opcode to peer(s) with data
+    /// </summary>
+    public void Send(ServerPacketOpcode opcode, APacket data, byte peerId, params byte[] peerIds) =>
+        outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, data, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
+
+    /// <summary>
+    /// Send an opcode to peer(s) and specify how the packet is sent
+    /// </summary>
+    public void Send(ServerPacketOpcode opcode, PacketFlags flags, byte peerId, params byte[] peerIds) =>
+        outgoing.Enqueue(new ServerPacket((byte)opcode, flags, null, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
+
+    /// <summary>
+    /// Send an opcode to peer(s) with data and specify how the packet is sent
+    /// </summary>
+    public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags, byte peerId, params byte[] peerIds) => 
+        outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
+
+    private Peer[] ConvertPeerIdsToPeers(byte[] peerIds) 
+    {
+        var peers = new Peer[peerIds.Length];
+        
+        for (int i = 0; i < peerIds.Length; i++)
+            peers[i] = Peers[peerIds[i]];
+
+        return peers;
+    }   
+
     protected Peer[] GetOtherPeers(uint id)
     {
         var otherPeers = new Dictionary<uint, Peer>(Peers);

@@ -32,7 +32,7 @@ public class GameServer : ENetServer
                 Send(ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions 
                 {
                     PlayerPositions = playerPositions
-                }, Peers[player.Key]);
+                }, player.Key);
             }
         }, false);
     }
