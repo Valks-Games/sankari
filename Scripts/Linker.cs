@@ -8,7 +8,7 @@ public class Linker : Node
     [Export] public readonly NodePath NodePathTransition;
 
     public CanvasLayer CanvasLayer { get; private set; }
-    public ConsoleManager ConsoleManager { get; private set; }
+    public UIConsoleManager ConsoleManager { get; private set; }
     public UIPlayerList UIPlayerList { get; private set; }
     public UIMapMenu UIMapMenu { get; private set; }
 
@@ -17,7 +17,7 @@ public class Linker : Node
     public override async void _Ready()
     {
         CanvasLayer = GetNode<CanvasLayer>("CanvasLayer");
-        ConsoleManager = CanvasLayer.GetNode<ConsoleManager>("PanelContainer/Console");
+        ConsoleManager = CanvasLayer.GetNode<UIConsoleManager>("PanelContainer/Console");
         UIPlayerList = CanvasLayer.GetNode<UIPlayerList>("Player List");
         UIMapMenu = CanvasLayer.GetNode<UIMapMenu>("UIMapMenu");
         gameManager = new GameManager(this);

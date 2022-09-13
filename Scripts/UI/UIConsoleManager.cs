@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class ConsoleManager : Control
+public class UIConsoleManager : Control
 {
     private TextEdit ConsoleLogs;
     private LineEdit ConsoleInput;

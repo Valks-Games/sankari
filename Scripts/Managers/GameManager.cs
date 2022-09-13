@@ -26,7 +26,7 @@ public class GameManager
     public static UIPlayerList UIPlayerList { get; private set; }
     public static UIMapMenu UIMapMenu { get; private set; }
     public static Map Map { get; private set; }
-    public static ConsoleManager Console { get; private set; }
+    public static UIConsoleManager Console { get; private set; }
     public static Audio Audio { get; private set; }
     public static Popups Popups { get; private set; }
     public static Tokens Tokens { get; private set; }

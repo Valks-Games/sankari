@@ -7,7 +7,7 @@
 [ext_resource path="res://Sprites/Level/Coins/Full Coins.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/Roboto/Roboto-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=7]
-[ext_resource path="res://Scripts/Managers/ConsoleManager.cs" type="Script" id=8]
+[ext_resource path="res://Scripts/UI/UIConsoleManager.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/UI/UIPlayerList.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/UI/UIMapMenu.cs" type="Script" id=10]
 
