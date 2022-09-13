@@ -14,8 +14,8 @@ public class GameServer : ENetServer
     { 
         LevelUpdateLoop = new STimer(NetIntervals.HEARTBEAT, () => 
         {
-            // ImHost needs to only see OtherClient position
-            // OtherClient needs to only see ImHost position
+            // ImHost needs to only see OtherClient position (and all other client positions)
+            // OtherClient needs to only see ImHost position (and all other client positions)
 
             // Lets say 'player' = ImHost
             foreach (var player in Players)
