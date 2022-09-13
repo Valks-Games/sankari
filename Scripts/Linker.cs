@@ -32,12 +32,14 @@ public class Linker : Node
                 if (OS.HasFeature("standalone"))
                 {
                     // running in an exported build
+                    OS.SetWindowTitle("OtherClient");
                     GameManager.UIMapMenu.OnlineUsername = "OtherClient";
                     GameManager.UIMapMenu.Join();
                 }
                 else 
                 {
                     // running in the editor
+                    OS.SetWindowTitle("ImHost");
                     GameManager.UIMapMenu.OnlineUsername = "ImHost";
                     await GameManager.UIMapMenu.HostGame();
                 }
