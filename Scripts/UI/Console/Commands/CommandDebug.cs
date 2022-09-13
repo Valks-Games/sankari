@@ -1,6 +1,3 @@
-using Sankari.Netcode.Client;
-using Sankari.Netcode.Server;
-
 namespace Sankari;
 
 public class CommandDebug : Command
