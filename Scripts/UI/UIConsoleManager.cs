@@ -2,6 +2,8 @@ namespace Sankari;
 
 public class UIConsoleManager : Control
 {
+    public bool ScrollToBottom { get; set; }
+
     private TextEdit ConsoleLogs;
     private LineEdit ConsoleInput;
 
@@ -17,18 +19,21 @@ public class UIConsoleManager : Control
     public void AddMessage(string message)
     {
         ConsoleLogs.Text += $"{message}\n";
-        ScrollToBottom();
+        ScrollDown();
     }
 
     public void ToggleVisibility()
     {
         Visible = !Visible;
         ConsoleInput.GrabFocus();
-        ScrollToBottom();
+        ScrollDown();
     }
 
-    private void ScrollToBottom() =>
-        ConsoleLogs.ScrollVertical = Mathf.Inf;
+    private void ScrollDown() 
+    {
+        if (ScrollToBottom)
+            ConsoleLogs.ScrollVertical = Mathf.Inf;
+    }
 
     private void _on_Console_Input_text_entered(string text)
     {

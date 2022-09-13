@@ -37,6 +37,11 @@ public class CommandDebug : Command
 
             Logger.Log(GameManager.Net.Server.Players.PrintFull());
         };
+
+        commands["scroll"] = () => 
+        {
+            GameManager.Console.ScrollToBottom = !GameManager.Console.ScrollToBottom;
+        };
     }
 
     public override void Run(string[] args)
