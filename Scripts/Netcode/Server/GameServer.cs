@@ -10,16 +10,15 @@ public class GameServer : ENetServer
     public uint HostId { get; set; }
     public STimer LevelUpdateLoop { get; }
 
-    public GameServer(Net networkManager) : base(networkManager) 
-    { 
-        LevelUpdateLoop = new STimer(500, () => 
+    public GameServer(Net networkManager) : base(networkManager)
+    {
+        LevelUpdateLoop = new STimer(500, () =>
         {
             foreach (var player in Players)
             {
                 var playerPositions = new Dictionary<byte, DataPlayer>(Players).ToDictionary(x => x.Key, x => x.Value.Position);
-                playerPositions.Remove(player.Key);
 
-                SendToOtherPlayers((uint)player.Key, ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions 
+                SendToOtherPlayers((uint)player.Key, ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions
                 {
                     PlayerPositions = playerPositions
                 });
@@ -151,7 +150,7 @@ public class GameServer : ENetServer
     {
         var username = Players[(byte)netEvent.Peer.ID].Username;
 
-        SendToOtherPlayers(netEvent.Peer.ID, ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+        SendToOtherPlayers(netEvent.Peer.ID, ServerPacketOpcode.GameInfo, new SPacketGameInfo
         {
             ServerGameInfo = ServerGameInfo.PlayerJoinLeave,
             Username = username,

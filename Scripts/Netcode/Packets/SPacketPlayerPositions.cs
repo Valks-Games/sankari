@@ -7,12 +7,12 @@ public class SPacketPlayerPositions : APacketServer
     public override void Write(PacketWriter writer)
     {
         writer.Write((byte)PlayerPositions.Count);
-        foreach (var player in PlayerPositions) 
+        foreach (var player in PlayerPositions)
         {
             writer.Write((byte)player.Key);
             writer.Write(player.Value);
         }
-        
+
     }
 
     public override void Read(PacketReader reader)
@@ -20,7 +20,7 @@ public class SPacketPlayerPositions : APacketServer
         PlayerPositions = new Dictionary<byte, Vector2>();
 
         var playerCount = reader.ReadByte();
-        for (int i = 0; i < playerCount; i++) 
+        for (int i = 0; i < playerCount; i++)
         {
             var key = reader.ReadByte();
             var value = reader.ReadVector2();
@@ -31,19 +31,30 @@ public class SPacketPlayerPositions : APacketServer
 
     public override async Task Handle()
     {
-        if (GameManager.LevelScene == null) 
+        if (GameManager.LevelScene == null)
         {
             Logger.LogWarning("Level scene is null");
             return;
         }
 
-        if (PlayerPositions.Count == 0) 
+        if (PlayerPositions.Count == 0)
         {
             Logger.LogWarning("Player positions count is 0");
             return;
         }
 
-        GameManager.LevelScene.OtherPlayers.First().Value.Position = PlayerPositions[0];
+        PlayerPositions.ForEach((pair) =>
+        {
+            var playerId = pair.Key;
+            var playerPosition = pair.Value;
+            var otherPlayers = GameManager.LevelScene.OtherPlayers;
+            otherPlayers.TryGetValue(playerId, out OtherPlayer otherPlayer);
+            if (otherPlayer != null && playerPosition != null && playerId != GameManager.Net.Client.PeerId)
+            {
+                otherPlayer.Position = playerPosition;
+            }
+
+        });
 
         /*foreach (var player in PlayerPositions)
         {
