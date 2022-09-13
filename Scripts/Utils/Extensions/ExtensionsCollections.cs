@@ -1,11 +1,35 @@
 namespace Sankari;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Reflection;
+
+class IgnorePropsResolver : DefaultContractResolver
+{
+    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+    {
+        JsonProperty prop = base.CreateProperty(member, memberSerialization);
+
+        if (prop.PropertyType == typeof(Godot.Object))
+        {
+            prop.Ignored = true;
+        }
+        return prop;
+    }
+}
+
 public static class CollectionExtensions
 {
     public static string Print<T>(this IEnumerable<T> value, bool newLine = true) =>
         value != null ? string.Join(newLine ? "\n" : ", ", value) : null;
 
-    public static string PrintFull(this object v) => Newtonsoft.Json.JsonConvert.SerializeObject(v, Newtonsoft.Json.Formatting.Indented);
+    public static string PrintFull(this object v) =>
+        JsonConvert.SerializeObject(v, Formatting.Indented, new JsonSerializerSettings 
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            ContractResolver = new IgnorePropsResolver()
+        });
+        
 
     public static void ForEach<T>(this IEnumerable<T> value, Action<T> action)
     {
