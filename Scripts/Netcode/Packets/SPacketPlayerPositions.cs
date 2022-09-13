@@ -43,17 +43,15 @@ public class SPacketPlayerPositions : APacketServer
             return;
         }
 
-        GameManager.LevelScene.OtherPlayers.First().Value.Position = PlayerPositions[0];
-
-        /*foreach (var player in PlayerPositions)
+        foreach (var player in PlayerPositions)
         {
-            if (GameManager.Net.Client.PeerId == player.Key)
-                continue;
+            var playerId = player.Key;
+            var playerPos = player.Value;
 
-            Logger.Log(player.Value);
-
-            GameManager.LevelScene.OtherPlayers[player.Key].Position = player.Value;
-        }*/
+            // other client
+            // id 1 not present in dictionary
+            GameManager.LevelScene.OtherPlayers[playerId].Position = playerPos;
+        }
 
         await Task.FromResult(0);
     }
