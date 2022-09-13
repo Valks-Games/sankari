@@ -29,13 +29,14 @@ Note that you can [add these files to exclude from your file view in VSCode](htt
 1. Under `.vscode/` [add launch.json and tasks.json files](https://gist.github.com/valkyrienyanko/45723ed058e175eef2428f7c3230dccb) and replace all instances of `<GODOT_PATH>` with the path to the Godot executable
 2. Enable `Wait For Debugger` option in `Godot > Project > Project Settings > Mono > Debugger Agent`
 3. Use the `attach` VSCode configuration, set one or more breakpoints and launch Godot game to start debugging
-4. You can also use the `Launch 2 sessions` configuration when debugging multiplayer code (this is not the best solution and you may opt for manually launching the game through 2 cmd windows)
 
 ### In-Game Console
 There is a in-game console you can bring up with `F12`. Type `help` to view a list of all the commands. You can program any of these commands within their respective scripts located under `res://Scripts/UI/Console/Commands`. Feel free to add new commands as well.
 
 ### Note About Logging
 Please always use `Logger.Log()` over `GD.Print()` as the logger uses a thread safe approach removing the possibility of random game crashes
+
+Try making use of `Print()` and `PrintFull()`. For example `Logger.Log(myArray.Print())` and `Logger.Log(this.PrintFull())`, try it out!
 
 ## Working with Git
 ### Setup GitHub Fork
