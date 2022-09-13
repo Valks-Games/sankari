@@ -46,12 +46,12 @@ public class Linker : Node
                 if (OS.HasFeature("standalone"))
                 {
                     // running in an exported build
-                    await SetupHost();
+                    SetupOtherClient();
                 }
                 else 
                 {
                     // running in the editor
-                    SetupOtherClient();
+                    await SetupHost();
                 }
             }
         }

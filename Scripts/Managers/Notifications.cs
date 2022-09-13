@@ -8,7 +8,8 @@ public enum Event
     OnJoypadButtonInput,
     OnSceneChanged,
     OnGameClientStopped,
-    OnGameClientConnected
+    OnGameClientConnected,
+    OnLevelLoaded
 }
 
 public class Notifications

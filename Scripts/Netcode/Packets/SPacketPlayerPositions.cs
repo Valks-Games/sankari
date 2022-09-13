@@ -37,9 +37,9 @@ public class SPacketPlayerPositions : APacketServer
             return;
         }
 
-        if (PlayerPositions.Count == 0) 
+        if (!GameManager.LevelScene.LevelSceneReady) 
         {
-            Logger.LogWarning("Player positions count is 0");
+            Logger.LogWarning("Level scene is not ready");
             return;
         }
 

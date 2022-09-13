@@ -4,6 +4,7 @@ public class LevelScene : Node
 {
     public Camera Camera;
     public Dictionary<byte, OtherPlayer> OtherPlayers = new();
+    public bool LevelSceneReady;
 
     public void PreInit()
     {
@@ -22,6 +23,8 @@ public class LevelScene : Node
         {
             // TODO: Spawn other players
             var players = GameManager.UIPlayerList.Players;
+
+            GD.Print(players.PrintFull());
             
             foreach (var player in players)
             {
@@ -35,6 +38,8 @@ public class LevelScene : Node
                 AddChild(otherPlayer);
             }
         }
+
+        LevelSceneReady = true;
     }
 
     private void UpdateCheckpoints()
