@@ -12,3 +12,4 @@ data_*/
 
 # VS-specific ignores
 .vs/
+.vscode/
