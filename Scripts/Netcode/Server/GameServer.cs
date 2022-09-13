@@ -85,6 +85,21 @@ public class GameServer : ENetServer
     /// <summary>
     /// This method is not thread safe
     /// </summary>
+    public void SendToEveryoneButHost(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable) 
+    {
+        var otherPeers = GetOtherPeers(HostId);
+        if (otherPeers.Length == 0)
+            return;
+
+        if (data == null)
+            Send(opcode, flags, default(Peer), otherPeers);
+        else
+            Send(opcode, data, flags, default(Peer), otherPeers);
+    }
+
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public void SendToOtherPeers(uint id, ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
         var otherPeers = GetOtherPeers(id);
