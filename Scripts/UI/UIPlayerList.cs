@@ -11,6 +11,19 @@ public class UIPlayerList : Control
         Hide();
     }
 
+    public void SetupListeners() 
+    {
+        GameManager.Notifications.AddListener(this, Event.OnGameClientLeft, (args) => 
+        {
+            RemovePlayer((byte)args[0]);
+        });
+
+        GameManager.Notifications.AddListener(this, Event.OnGameClientJoined, (args) => 
+        {
+            AddPlayer((byte)args[0], (string)args[1]);
+        });
+    }
+
     public void AddPlayer(byte id, string name)
     {
         AddLabel(name);

@@ -10,15 +10,13 @@ public enum Event
     OnGameClientStopped,
     OnGameClientConnected,
     OnLevelLoaded,
-    OnGameClientLeft
+    OnGameClientLeft,
+    OnGameClientJoined
 }
 
 public class Notifications
 {
     private Dictionary<Event, List<Listener>> listeners = new();
-
-    public void AddListener(Event eventType, Action<object[]> action) =>
-        AddListener(GameManager.Linker, eventType, action);
 
     public void AddListener(Node sender, Event eventType, Action<object[]> action)
     {
@@ -27,9 +25,6 @@ public class Notifications
 
         listeners[eventType].Add(new Listener(sender, action));
     }
-
-    public void RemoveListener(Event eventType) =>
-        RemoveListener(GameManager.Linker, eventType);
 
     public void RemoveListener(Node sender, Event eventType)
     {
