@@ -20,12 +20,13 @@ public class LevelScene : Node
 
         if (GameManager.Net.IsMultiplayer())
         {
-            // Should we really be getting the players from UIPlayerList
-            // Shouldn't we be getting the player list directly from the server?
             var players = GameManager.UIPlayerList.Players;
             
             foreach (var player in players)
             {
+                if (player.Key == GameManager.Net.Client.PeerId)
+                    continue;
+
                 var otherPlayer = Prefabs.OtherPlayer.Instance<OtherPlayer>();
 
                 OtherPlayers.Add(player.Key, otherPlayer);
