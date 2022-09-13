@@ -14,11 +14,20 @@ public class GameServer : ENetServer
     { 
         LevelUpdateLoop = new STimer(NetIntervals.HEARTBEAT, () => 
         {
+            // ImHost needs to only see OtherClient position
+            // OtherClient needs to only see ImHost position
+
+            // Lets say 'player' = ImHost
             foreach (var player in Players)
             {
+                // [ImHost, OtherClient]
                 var playerPositions = new Dictionary<byte, DataPlayer>(Players).ToDictionary(x => x.Key, x => x.Value.Position);
+                
+                // Remove ImHost from the list of player positions
+                // [OtherClient]
                 playerPositions.Remove(player.Key);
 
+                // Send OtherClient position to everyone but ImHost
                 SendToOtherPlayers((uint)player.Key, ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions 
                 {
                     PlayerPositions = playerPositions
