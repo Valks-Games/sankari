@@ -14,15 +14,12 @@ public class GameServer : ENetServer
     {
         LevelUpdateLoop = new STimer(500, () =>
         {
-            foreach (var player in Players)
-            {
-                var playerPositions = new Dictionary<byte, DataPlayer>(Players).ToDictionary(x => x.Key, x => x.Value.Position);
+            var playerPositions = new Dictionary<byte, DataPlayer>(Players).ToDictionary(x => x.Key, x => x.Value.Position);
 
-                SendToOtherPlayers((uint)player.Key, ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions
-                {
-                    PlayerPositions = playerPositions
-                });
-            }
+            SendToAllPlayers(ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions
+            {
+                PlayerPositions = playerPositions
+            });
         }, false);
     }
 
