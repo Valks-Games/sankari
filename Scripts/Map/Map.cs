@@ -60,7 +60,7 @@ public class Map : Node
         if (Input.IsActionJustPressed("ui_cancel"))
             GameManager.UIMapMenu.Visible = !GameManager.UIMapMenu.Visible;
 
-        if (GameManager.UIMapMenu.Visible)
+        if (GameManager.UIMapMenu.Visible || GameManager.Console.Visible)
             return;
 
         var net = GameManager.Net;
