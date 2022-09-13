@@ -34,6 +34,13 @@ public class LevelScene : Node
                 AddChild(otherPlayer);
             }
         }
+
+        GameManager.Notifications.AddListener(this, Event.OnGameClientLeft, (args) => 
+        {
+            var id = (byte)args[0];
+            OtherPlayers[id].QueueFree();
+            OtherPlayers.Remove(id);
+        });
     }
 
     private void UpdateCheckpoints()

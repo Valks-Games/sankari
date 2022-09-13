@@ -124,6 +124,8 @@ public class SPacketGameInfo : APacketServer
 
     private void HandlePlayerJoinLeave()
     {
+        GameManager.Notifications.Notify(Event.OnGameClientLeft, Id);
+
         if (Joining)
             GameManager.UIPlayerList.AddPlayer(Id, Username);
         else
