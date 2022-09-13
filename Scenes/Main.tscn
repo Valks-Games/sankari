@@ -73,7 +73,7 @@ font_data = ExtResource( 6 )
 [sub_resource type="StyleBoxEmpty" id=78]
 
 [sub_resource type="StyleBoxFlat" id=84]
-bg_color = Color( 0, 0, 0, 0.352941 )
+bg_color = Color( 0, 0, 0, 0.862745 )
 
 [sub_resource type="StyleBoxEmpty" id=80]
 
