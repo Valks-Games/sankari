@@ -29,19 +29,29 @@ public class Linker : Node
 
             if (AutoHostJoin)
             {
-                if (OS.HasFeature("standalone"))
+                async Task SetupHost()
                 {
-                    // running in an exported build
+                    OS.SetWindowTitle("ImHost");
+                    GameManager.UIMapMenu.OnlineUsername = "ImHost";
+                    await GameManager.UIMapMenu.HostGame();
+                }
+
+                void SetupOtherClient() 
+                {
                     OS.SetWindowTitle("OtherClient");
                     GameManager.UIMapMenu.OnlineUsername = "OtherClient";
                     GameManager.UIMapMenu.Join();
                 }
+
+                if (OS.HasFeature("standalone"))
+                {
+                    // running in an exported build
+                    await SetupHost();
+                }
                 else 
                 {
                     // running in the editor
-                    OS.SetWindowTitle("ImHost");
-                    GameManager.UIMapMenu.OnlineUsername = "ImHost";
-                    await GameManager.UIMapMenu.HostGame();
+                    SetupOtherClient();
                 }
             }
         }
