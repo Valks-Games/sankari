@@ -22,7 +22,7 @@ public abstract class ENetServer
     private long running = 0;
     private readonly Net networkManager;
 
-    public ENetServer(Net networkManager)
+    protected ENetServer(Net networkManager)
     {
         this.networkManager = networkManager;
     }

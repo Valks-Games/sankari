@@ -22,7 +22,7 @@ public abstract class ENetClient
     private int outgoingId;
     private CancellationTokenSource cancellationTokenSource = new();
 
-    public ENetClient(Net networkManager)
+    protected ENetClient(Net networkManager)
     {
         this.networkManager = networkManager;
     }
