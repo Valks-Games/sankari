@@ -28,6 +28,7 @@ public class GameServer : ENetServer
                 playerPositions.Remove(player.Key);
 
                 // Send OtherClient position to everyone but ImHost
+                // Sending OtherClient position to OtherClient
                 SendToOtherPlayers((uint)player.Key, ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions 
                 {
                     PlayerPositions = playerPositions
