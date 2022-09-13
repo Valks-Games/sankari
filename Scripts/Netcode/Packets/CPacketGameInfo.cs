@@ -105,6 +105,6 @@ public class CPacketGameInfo : APacketClient
         if (Host)
             server.HostId = peer.ID;
 
-        Logger.Log($"[Server] Player with username '{Username}' joined");
+        Logger.Log($"[Server] Player with username '{Username}' (id {peer.ID}) joined");
     }
 }
