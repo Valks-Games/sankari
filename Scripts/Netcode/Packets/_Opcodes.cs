@@ -1,5 +1,10 @@
 ﻿namespace Sankari.Netcode;
 
+public static class NetIntervals 
+{
+    public const int HEARTBEAT = 1000;
+}
+
 // Received from Game Client
 public enum ClientPacketOpcode
 {

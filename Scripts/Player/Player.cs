@@ -37,6 +37,7 @@ public class Player : KinematicBody2D
     // timers
     private GTimer timerDashCooldown;
     private GTimer timerDashDuration;
+    private GTimer timerNetSend;
 
     // raycasts
     private Node2D parentWallChecksLeft;
@@ -65,10 +66,6 @@ public class Player : KinematicBody2D
     // msc
     private Viewport tree;
 
-    // netcode
-    private GTimer timerNetSend;
-    private const int NET_HEARTBEAT = 1000;
-
     public void PreInit(LevelScene levelScene)
     {
         this.levelScene = levelScene;
@@ -81,7 +78,7 @@ public class Player : KinematicBody2D
             Position = RespawnPosition;
         timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
         timerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DASH_DURATION, false, false);
-        timerNetSend = new GTimer(this, nameof(NetUpdate), NET_HEARTBEAT, true, GameManager.Net.IsMultiplayer());
+        timerNetSend = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, GameManager.Net.IsMultiplayer());
         parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
         parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
         parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);

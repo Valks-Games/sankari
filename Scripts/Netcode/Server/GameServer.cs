@@ -12,7 +12,7 @@ public class GameServer : ENetServer
 
     public GameServer(Net networkManager) : base(networkManager) 
     { 
-        LevelUpdateLoop = new STimer(500, () => 
+        LevelUpdateLoop = new STimer(NetIntervals.HEARTBEAT, () => 
         {
             foreach (var player in Players)
             {
