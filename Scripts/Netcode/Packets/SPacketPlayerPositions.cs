@@ -48,8 +48,11 @@ public class SPacketPlayerPositions : APacketServer
             var playerId = player.Key;
             var playerPos = player.Value;
 
-            // other client
-            // id 1 not present in dictionary
+            // Server Client Crash (id 0)
+            // "id 0 not present in dictioanry"
+
+            // Other Client Crash (id 1)
+            // "id 1 not present in dictionary"
             GameManager.LevelScene.OtherPlayers[playerId].Position = playerPos;
         }
 
