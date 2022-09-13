@@ -33,13 +33,8 @@ public class SPacketPlayerPositions : APacketServer
     {
         if (GameManager.LevelScene == null) 
         {
+            // has never been logged yet but just to be safe you know. will remove in future if not needed.
             Logger.LogWarning("Level scene is null");
-            return;
-        }
-
-        if (!GameManager.LevelScene.LevelSceneReady) 
-        {
-            Logger.LogWarning("Level scene is not ready");
             return;
         }
 

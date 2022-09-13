@@ -4,7 +4,6 @@ public class LevelScene : Node
 {
     public Camera Camera;
     public Dictionary<byte, OtherPlayer> OtherPlayers = new();
-    public bool LevelSceneReady;
 
     public void PreInit()
     {
@@ -34,8 +33,6 @@ public class LevelScene : Node
                 AddChild(otherPlayer);
             }
         }
-
-        LevelSceneReady = true;
     }
 
     private void UpdateCheckpoints()
