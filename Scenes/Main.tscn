@@ -199,11 +199,12 @@ custom_styles/panel = SubResource( 78 )
 visible = false
 margin_right = 1024.0
 margin_bottom = 600.0
+custom_constants/separation = 0
 script = ExtResource( 8 )
 
 [node name="Console Logs" type="TextEdit" parent="CanvasLayer/PanelContainer/Console"]
 margin_right = 1024.0
-margin_bottom = 580.0
+margin_bottom = 584.0
 size_flags_vertical = 3
 theme = ExtResource( 7 )
 custom_styles/read_only = SubResource( 84 )
