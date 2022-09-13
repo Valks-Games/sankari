@@ -65,6 +65,10 @@ public class Player : KinematicBody2D
     // msc
     private Viewport tree;
 
+    // netcode
+    private GTimer timerNetSend;
+    private const int NET_HEARTBEAT = 1000;
+
     public void PreInit(LevelScene levelScene)
     {
         this.levelScene = levelScene;
@@ -77,6 +81,7 @@ public class Player : KinematicBody2D
             Position = RespawnPosition;
         timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
         timerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DASH_DURATION, false, false);
+        timerNetSend = new GTimer(this, nameof(NetUpdate), NET_HEARTBEAT, true, GameManager.Net.IsMultiplayer());
         parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
         parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
         parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
@@ -98,6 +103,14 @@ public class Player : KinematicBody2D
 
         UpdateMoveDirection();
         HandleMovement(delta);
+    }
+
+    private void NetUpdate() 
+    {
+        GameManager.Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition 
+        {
+            Position = Position
+        });
     }
 
     private void HandleMovement(float delta)
@@ -218,16 +231,6 @@ public class Player : KinematicBody2D
         }
 
         velocity = MoveAndSlide(velocity, Vector2.Up);
-
-        var net = GameManager.Net;
-
-        if (net.IsMultiplayer())
-        {
-            net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition 
-            {
-                Position = Position
-            });
-        }
     }
 
     private void Jump()
