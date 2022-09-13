@@ -30,6 +30,7 @@ public class Player : KinematicBody2D
     private LevelScene levelScene;
 
     // movement
+    private Vector2 prevNetPos;
     private Vector2 moveDir;
     private Vector2 velocity;
     private bool haltPlayerLogic;
@@ -104,10 +105,13 @@ public class Player : KinematicBody2D
 
     private void NetUpdate() 
     {
-        GameManager.Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition 
-        {
-            Position = Position
-        });
+        if (Position != prevNetPos)
+            GameManager.Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition 
+            {
+                Position = Position
+            });
+
+        prevNetPos = Position;
     }
 
     private void HandleMovement(float delta)
