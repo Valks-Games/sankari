@@ -10,10 +10,26 @@ class IgnorePropsResolver : DefaultContractResolver
     {
         JsonProperty prop = base.CreateProperty(member, memberSerialization);
 
-        if (prop.PropertyType == typeof(Godot.Object))
+        var ignoredProps = new Type[] 
         {
-            prop.Ignored = true;
+            typeof(Godot.Object),
+            typeof(NodePath)
+        };
+
+        var ignored = false;
+
+        foreach (var ignoredProp in ignoredProps)
+        {
+            if (prop.PropertyType == ignoredProp || prop.PropertyType.IsSubclassOf(ignoredProp)) 
+            {
+                prop.Ignored = true;
+                ignored = true;
+            }
         }
+
+        if (!ignored)
+            GD.Print(prop);
+
         return prop;
     }
 }
