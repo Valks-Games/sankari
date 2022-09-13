@@ -6,11 +6,21 @@ using Event = ENet.Event;
 
 public abstract class ENetClient
 {
+    /// <summary>
+    /// This property is not thread safe
+    /// </summary>
     public static readonly Dictionary<ServerPacketOpcode, APacketServer> HandlePacket = ReflectionUtils.LoadInstances<ServerPacketOpcode, APacketServer>("SPacket");
 
-    // thread safe props
+    /// <summary>
+    /// This property is thread safe
+    /// </summary>
     public bool IsConnected => Interlocked.Read(ref connected) == 1;
+
+    /// <summary>
+    /// This property is thread safe
+    /// </summary>
     public bool IsRunning => Interlocked.Read(ref running) == 1;
+
     private readonly ConcurrentQueue<ENetClientCmd> enetCmds = new();
     private readonly ConcurrentDictionary<int, ClientPacket> outgoing = new();
 
@@ -27,8 +37,14 @@ public abstract class ENetClient
         this.networkManager = networkManager;
     }
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public async void Start(string ip, ushort port) => await StartAsync(ip, port, cancellationTokenSource);
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public async Task StartAsync(string ip, ushort port, CancellationTokenSource cts)
     {
         try
@@ -51,8 +67,14 @@ public abstract class ENetClient
         }
     }
 
+    /// <summary>
+    /// This method is thread safe
+    /// </summary>
     public void Stop() => enetCmds.Enqueue(new ENetClientCmd(ENetClientOpcode.Disconnect));
 
+    /// <summary>
+    /// This method is thread safe
+    /// </summary>
     public async Task StopAsync()
     {
         Stop();
@@ -61,6 +83,9 @@ public abstract class ENetClient
             await Task.Delay(1);
     }
 
+    /// <summary>
+    /// This method is thread safe
+    /// </summary>
     public void Send(ClientPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
         outgoingId++;
@@ -70,6 +95,9 @@ public abstract class ENetClient
             Logger.LogWarning($"Failed to add {opcode} to Outgoing queue because of duplicate key");
     }
 
+    /// <summary>
+    /// This method is thread safe
+    /// </summary>
     public async Task SendAsync(ClientPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
         Send(opcode, data, flags);

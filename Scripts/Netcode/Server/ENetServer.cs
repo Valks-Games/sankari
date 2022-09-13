@@ -8,10 +8,22 @@ public abstract class ENetServer
 {
     protected static readonly Dictionary<ClientPacketOpcode, APacketClient> HandlePacket = ReflectionUtils.LoadInstances<ClientPacketOpcode, APacketClient>("CPacket");
 
-    // thread safe props
+    /// <summary>
+    /// This property is thread safe
+    /// </summary>
     public bool HasSomeoneConnected => Interlocked.Read(ref someoneConnected) == 1;
+
+    /// <summary>
+    /// This property is thread safe
+    /// </summary>
     public bool IsRunning => Interlocked.Read(ref running) == 1;
+
+    /// <summary>
+    /// This property is thread safe
+    /// </summary>
     public readonly ConcurrentQueue<ENetServerCmd> ENetCmds = new();
+    //
+
     private readonly ConcurrentQueue<ServerPacket> outgoing = new();
 
     protected readonly Dictionary<uint, Peer> Peers = new();
@@ -27,6 +39,9 @@ public abstract class ENetServer
         this.networkManager = networkManager;
     }
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public async Task StartAsync(ushort port, int maxClients, CancellationTokenSource cts)
     {
         try
@@ -49,19 +64,32 @@ public abstract class ENetServer
         }
     }
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public void KickAll(DisconnectOpcode opcode)
     {
         Peers.Values.ForEach(peer => peer.DisconnectNow((uint)opcode));
         Peers.Clear();
     }
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public void Kick(uint id, DisconnectOpcode opcode)
     {
         Peers[id].DisconnectNow((uint)opcode);
         Peers.Remove(id);
     }
 
+    /// <summary>
+    /// This method is thread safe
+    /// </summary>
     public void Stop() => ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.Stop));
+
+    /// <summary>
+    /// This method is thread safe
+    /// </summary>
     public async Task StopAsync()
     {
         Stop();
@@ -69,28 +97,32 @@ public abstract class ENetServer
         while (IsRunning)
             await Task.Delay(1);
     }
+
+    /// <summary>
+    /// This method is thread safe
+    /// </summary>
     public void Restart() => ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.Restart));
     
     /// <summary>
-    /// Send an opcode to peer(s)
+    /// Send an opcode to peer(s) (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, Peer peer, params Peer[] peers) =>
         outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, null, JoinPeers(peer, peers)));
 
     /// <summary>
-    /// Send an opcode to peer(s) with data
+    /// Send an opcode to peer(s) with data (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, APacket data, Peer peer, params Peer[] peers) =>
         outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, data, JoinPeers(peer, peers)));
 
     /// <summary>
-    /// Send an opcode to peer(s) and specify how the packet is sent
+    /// Send an opcode to peer(s) and specify how the packet is sent (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, PacketFlags flags, Peer peer, params Peer[] peers) => 
         outgoing.Enqueue(new ServerPacket((byte)opcode, flags, null, JoinPeers(peer, peers)));
 
     /// <summary>
-    /// Send an opcode to peer(s) with data and specify how the packet is sent
+    /// Send an opcode to peer(s) with data and specify how the packet is sent (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags, Peer peer, params Peer[] peers) => 
         outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(peer, peers)));
@@ -98,25 +130,25 @@ public abstract class ENetServer
     // Same methods below but instead of the params being of type Peer, they are of type byte
 
     /// <summary>
-    /// Send an opcode to peer(s)
+    /// Send an opcode to peer(s) (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, byte peerId, params byte[] peerIds) =>
         outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, null, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
 
     /// <summary>
-    /// Send an opcode to peer(s) with data
+    /// Send an opcode to peer(s) with data (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, APacket data, byte peerId, params byte[] peerIds) =>
         outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, data, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
 
     /// <summary>
-    /// Send an opcode to peer(s) and specify how the packet is sent
+    /// Send an opcode to peer(s) and specify how the packet is sent (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, PacketFlags flags, byte peerId, params byte[] peerIds) =>
         outgoing.Enqueue(new ServerPacket((byte)opcode, flags, null, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
 
     /// <summary>
-    /// Send an opcode to peer(s) with data and specify how the packet is sent
+    /// Send an opcode to peer(s) with data and specify how the packet is sent (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags, byte peerId, params byte[] peerIds) => 
         outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));

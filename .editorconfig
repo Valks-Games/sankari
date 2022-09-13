@@ -26,6 +26,8 @@ dotnet_diagnostic.RCS1123.severity = none # Add parentheses when necessary
 dotnet_diagnostic.RCS1221.severity = none # Use pattern matching instead of combination of 'as' operator and null check
 dotnet_diagnostic.RCS1021.severity = none # Use expression-bodied lambda
 dotnet_diagnostic.RCS1124.severity = none # Inline local variable
+dotnet_diagnostic.RCS1138.severity = none # Add summary to documentation comment
+
 
 # IDE suppression preferences
 dotnet_diagnostic.IDE0051.severity = none # Remove unused private member

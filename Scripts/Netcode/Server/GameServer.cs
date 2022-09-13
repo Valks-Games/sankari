@@ -6,8 +6,19 @@ using Event = ENet.Event;
 
 public class GameServer : ENetServer
 {
+    /// <summary>
+    /// This property is not thread safe
+    /// </summary>
     public Dictionary<byte, DataPlayer> Players = new();
+
+    /// <summary>
+    /// This property is not thread safe
+    /// </summary>
     public uint HostId { get; set; }
+
+    /// <summary>
+    /// This property is not thread safe
+    /// </summary>
     public STimer LevelUpdateLoop { get; }
 
     public GameServer(Net networkManager) : base(networkManager) 
@@ -38,6 +49,9 @@ public class GameServer : ENetServer
         }, false);
     }
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public Dictionary<byte, DataPlayer> GetOtherPlayers(byte id)
     {
         var otherPlayers = new Dictionary<byte, DataPlayer>(Players);
@@ -45,10 +59,19 @@ public class GameServer : ENetServer
         return otherPlayers;
     }
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public Peer[] GetOtherPlayerPeers(uint id) => Players.Keys.Where(x => x != id).Select(x => Peers[x]).ToArray();
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public Peer[] GetAllPlayerPeers() => Players.Keys.Select(x => Peers[x]).ToArray();
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public void SendToAllPlayers(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
         var allPlayers = GetAllPlayerPeers();
@@ -59,6 +82,9 @@ public class GameServer : ENetServer
             Send(opcode, data, flags, default(Peer), allPlayers);
     }
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public void SendToOtherPeers(uint id, ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
         var otherPeers = GetOtherPeers(id);
@@ -71,6 +97,9 @@ public class GameServer : ENetServer
             Send(opcode, data, flags, default(Peer), otherPeers);
     }
 
+    /// <summary>
+    /// This method is not thread safe
+    /// </summary>
     public void SendToOtherPlayers(uint id, ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
         var otherPlayers = GetOtherPlayerPeers(id);
@@ -180,5 +209,8 @@ public class GameServer : ENetServer
         Log("Server stopped");
     }
 
+    /// <summary>
+    /// This method is thread safe
+    /// </summary>
     public void Log(object obj) => Logger.Log($"[Server] {obj}", ConsoleColor.Green);
 }

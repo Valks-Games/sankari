@@ -4,8 +4,19 @@ using Event = ENet.Event;
 
 public class GameClient : ENetClient
 {
+    /// <summary>
+    /// This property is not thread safe
+    /// </summary>
     public bool TryingToConnect { get; set; }
+
+    /// <summary>
+    /// This property is not thread safe
+    /// </summary>
     public string Username { get; set; }
+
+    /// <summary>
+    /// This property is not thread safe
+    /// </summary>
     public byte PeerId { get; set; }
 
     public GameClient(Net networkManager, GodotCommands godotCmds) : base(networkManager)
