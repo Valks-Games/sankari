@@ -11,7 +11,8 @@ public enum Event
     OnGameClientConnected,
     OnLevelLoaded,
     OnGameClientLeft,
-    OnGameClientJoined
+    OnGameClientJoined,
+    OnReceivePlayersFromServer
 }
 
 public class Notifications

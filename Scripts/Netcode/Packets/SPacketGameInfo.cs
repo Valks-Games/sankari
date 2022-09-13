@@ -132,8 +132,7 @@ public class SPacketGameInfo : APacketServer
 
     private void HandlePlayersOnServer() 
     {
-        foreach (var player in Usernames)
-            GameManager.UIPlayerList.AddPlayer(player.Key, player.Value);
+        GameManager.Notifications.Notify(Event.OnReceivePlayersFromServer, Usernames);
     }
 
     private async Task HandleStartLevel()

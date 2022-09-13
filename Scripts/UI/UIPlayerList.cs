@@ -22,6 +22,14 @@ public class UIPlayerList : Control
         {
             AddPlayer((byte)args[0], (string)args[1]);
         });
+
+        GameManager.Notifications.AddListener(this, Event.OnReceivePlayersFromServer, (args) => 
+        {
+            var usernames = (Dictionary<byte, string>)args[0];
+
+            foreach (var player in usernames)
+                AddPlayer(player.Key, player.Value);
+        });
     }
 
     public void AddPlayer(byte id, string name)
