@@ -1,6 +1,6 @@
 namespace Sankari.Netcode;
 
-public enum ClientGameInfo 
+public enum ClientGameInfo
 {
     PlayerJoin
 }
@@ -56,7 +56,7 @@ public class CPacketGameInfo : APacketClient
         this.peer = peer;
         this.server = GameManager.Net.Server;
 
-        switch (ClientGameInfo) 
+        switch (ClientGameInfo)
         {
             case ClientGameInfo.PlayerJoin:
                 HandlePlayerJoin();
@@ -66,35 +66,46 @@ public class CPacketGameInfo : APacketClient
 
     private void HandlePlayerJoin()
     {
-        if (server.Players.ContainsKey((byte)peer.ID)) 
+        if (server.Players.ContainsKey((byte)peer.ID))
         {
             server.Kick(peer.ID, DisconnectOpcode.Kicked);
             Logger.LogWarning($"[Server] Player with username '{Username}' tried to join but they are on the server already so they were kicked");
             return;
         }
 
-        // notify joining player of all players in the server
-        server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+        if (!Host)
         {
-            ServerGameInfo = ServerGameInfo.PlayersOnServer,
-            Usernames = server.Players.ToDictionary(x => x.Key, x => x.Value.Username)
-        }, peer);
+            // notify joining player of all players in the server
+            server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo
+            {
+                ServerGameInfo = ServerGameInfo.PlayersOnServer,
+                Usernames = server.Players.ToDictionary(x => x.Key, x => x.Value.Username)
+            }, peer);
 
-        // notify joining player of their peer id
-        server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo 
-        {
-            ServerGameInfo = ServerGameInfo.PeerId,
-            PeerId = (byte)peer.ID
-        }, peer);
+            // notify joining player of their peer id
+            server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo
+            {
+                ServerGameInfo = ServerGameInfo.PeerId,
+                PeerId = (byte)peer.ID
+            }, peer);
+
+            // notify joining player of current map position
+            server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo
+            {
+                ServerGameInfo = ServerGameInfo.MapPosition,
+                MapPosition = GameManager.Map.CurMapPos
+            }, peer);
+        }
 
         // track joining player in server player dictionary
-        server.Players[(byte)peer.ID] = new DataPlayer {
+        server.Players[(byte)peer.ID] = new DataPlayer
+        {
             Username = Username,
             Host = Host
         };
 
         // notify other players that this player has joined
-        server.SendToAllPlayers(ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+        server.SendToAllPlayers(ServerPacketOpcode.GameInfo, new SPacketGameInfo
         {
             ServerGameInfo = ServerGameInfo.PlayerJoinLeave,
             Username = Username,

@@ -37,7 +37,7 @@ public class Net
 
         var mapScript = GameManager.UIMapMenu;
 
-        GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientStopped, (args) => 
+        GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientStopped, (args) =>
         {
             GameManager.Net.Client.TryingToConnect = false;
             mapScript.BtnJoin.Disabled = false;
@@ -46,9 +46,10 @@ public class Net
             GameManager.UIPlayerList.RemoveAllPlayers();
         });
 
-        GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientConnected, (args) => 
+        GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientConnected, (args) =>
         {
-            GameManager.Net.Client.Send(ClientPacketOpcode.GameInfo, new CPacketGameInfo {
+            GameManager.Net.Client.Send(ClientPacketOpcode.GameInfo, new CPacketGameInfo
+            {
                 ClientGameInfo = ClientGameInfo.PlayerJoin,
                 Username = mapScript.OnlineUsername,
                 Host = mapScript.IsHost,

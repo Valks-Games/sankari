@@ -14,6 +14,8 @@ public class Map : Node
     [Export] protected readonly NodePath NodePathPlayerIcon;
     [Export] protected readonly NodePath NodePathUIMapMenuScript;
 
+    public Vector2 CurMapPos => playerIcon.Position;
+
     private TileMap tileMapLevelIcons, tileMapTerrain;
     private Node levels;
 
