@@ -29,10 +29,11 @@ public class GameServer : ENetServer
 
                 // Send OtherClient position to everyone but ImHost
                 // Sending OtherClient position (and every other position) to ImHost
-                Send(ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions 
-                {
-                    PlayerPositions = playerPositions
-                }, player.Key);
+                if (playerPositions.Count != 0)
+                    Send(ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions 
+                    {
+                        PlayerPositions = playerPositions
+                    }, player.Key);
             }
         }, false);
     }
