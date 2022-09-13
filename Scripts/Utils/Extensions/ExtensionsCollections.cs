@@ -4,48 +4,18 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
-class IgnorePropsResolver : DefaultContractResolver
-{
-    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-    {
-        JsonProperty prop = base.CreateProperty(member, memberSerialization);
-
-        var ignoredProps = new Type[] 
-        {
-            typeof(Godot.Object),
-            typeof(NodePath)
-        };
-
-        var ignored = false;
-
-        foreach (var ignoredProp in ignoredProps)
-        {
-            if (prop.PropertyType == ignoredProp || prop.PropertyType.IsSubclassOf(ignoredProp)) 
-            {
-                prop.Ignored = true;
-                ignored = true;
-            }
-        }
-
-        if (!ignored)
-            GD.Print(prop);
-
-        return prop;
-    }
-}
-
 public static class CollectionExtensions
 {
     public static string Print<T>(this IEnumerable<T> value, bool newLine = true) =>
         value != null ? string.Join(newLine ? "\n" : ", ", value) : null;
 
     public static string PrintFull(this object v) =>
-        JsonConvert.SerializeObject(v, Formatting.Indented, new JsonSerializerSettings 
+        JsonConvert.SerializeObject(v, Formatting.Indented, new JsonSerializerSettings
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            ContractResolver = new IgnorePropsResolver()
+            ContractResolver = new IgnorePropsResolver() // ignore all Godot props
         });
-        
+
 
     public static void ForEach<T>(this IEnumerable<T> value, Action<T> action)
     {
@@ -65,7 +35,6 @@ public static class CollectionExtensions
                             $"   at {path} line:{lineNumber}");
 
         return true;
-
     }
 
     public static bool DoesNotHave<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key,
@@ -79,6 +48,31 @@ public static class CollectionExtensions
         Logger.LogWarning($"'{caller}' tried to access non-existent key '{key}' from dictionary\n" +
                             $"   at {path} line:{lineNumber}");
         return true;
+    }
 
+    private class IgnorePropsResolver : DefaultContractResolver
+    {
+        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+        {
+            var prop = base.CreateProperty(member, memberSerialization);
+
+            var ignoredProps = new Type[]
+            {
+                typeof(Godot.Object),
+                typeof(Node),
+                typeof(NodePath)
+            };
+
+            foreach (var ignoredProp in ignoredProps) 
+            {
+                if (ignoredProp.GetProperties().Contains(member))
+                    prop.Ignored = true;
+
+                if (prop.PropertyType == ignoredProp || prop.PropertyType.IsSubclassOf(ignoredProp))
+                    prop.Ignored = true;
+            }
+
+            return prop;
+        }
     }
 }

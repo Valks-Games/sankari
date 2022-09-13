@@ -16,8 +16,6 @@ public class Linker : Node
     
     public override async void _Ready()
     {
-        GD.Print(this.PrintFull());
-
         CanvasLayer = GetNode<CanvasLayer>("CanvasLayer");
         ConsoleManager = CanvasLayer.GetNode<UIConsoleManager>("PanelContainer/Console");
         UIPlayerList = CanvasLayer.GetNode<UIPlayerList>("Player List");
