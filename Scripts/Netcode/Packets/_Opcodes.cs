@@ -2,7 +2,7 @@
 
 public static class NetIntervals 
 {
-    public const int HEARTBEAT = 1000;
+    public const int HEARTBEAT = 75;
 }
 
 // Received from Game Client
