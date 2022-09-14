@@ -52,7 +52,7 @@ public class GameServer : ENetServer
     /// <summary>
     /// This method is not thread safe
     /// </summary>
-    public Dictionary<byte, DataPlayer> GetOtherPlayers(byte id)
+    private Dictionary<byte, DataPlayer> GetOtherPlayers(byte id)
     {
         var otherPlayers = new Dictionary<byte, DataPlayer>(Players);
         otherPlayers.Remove(id);
@@ -62,12 +62,12 @@ public class GameServer : ENetServer
     /// <summary>
     /// This method is not thread safe
     /// </summary>
-    public Peer[] GetOtherPlayerPeers(uint id) => Players.Keys.Where(x => x != id).Select(x => Peers[x]).ToArray();
+    private Peer[] GetOtherPlayerPeers(uint id) => Players.Keys.Where(x => x != id).Select(x => Peers[x]).ToArray();
 
     /// <summary>
     /// This method is not thread safe
     /// </summary>
-    public Peer[] GetAllPlayerPeers() => Players.Keys.Select(x => Peers[x]).ToArray();
+    private Peer[] GetAllPlayerPeers() => Players.Keys.Select(x => Peers[x]).ToArray();
 
     /// <summary>
     /// This method is thread safe
