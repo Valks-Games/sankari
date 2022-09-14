@@ -24,6 +24,26 @@ public class GameClient : ENetClient
         Log("Client connecting...");
     }
 
+    protected override void ClientCmds(ENet.Peer peer)
+    {
+        while (enetCmds.TryDequeue(out ENetClientCmd cmd))
+        {
+            switch (cmd.Opcode)
+            {
+                case ENetClientOpcode.Disconnect:
+                    if (cancellationTokenSource.IsCancellationRequested)
+                    {
+                        Logger.LogWarning("Client is in the middle of stopping");
+                        break;
+                    }
+
+                    cancellationTokenSource.Cancel();
+                    peer.Disconnect(0);
+                    break;
+            }
+        }
+    }
+
     protected override void Receive(PacketReader reader)
     {
         godotCmds.Enqueue(GodotOpcode.ENetPacket, new PacketInfo(reader, this));

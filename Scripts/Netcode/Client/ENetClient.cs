@@ -21,7 +21,7 @@ public abstract class ENetClient
     /// </summary>
     public bool IsRunning => Interlocked.Read(ref running) == 1;
 
-    private readonly ConcurrentQueue<ENetClientCmd> enetCmds = new();
+    protected readonly ConcurrentQueue<ENetClientCmd> enetCmds = new();
     private readonly ConcurrentDictionary<int, ClientPacket> outgoing = new();
 
     protected GodotCommands godotCmds;
@@ -30,7 +30,7 @@ public abstract class ENetClient
     private long connected;
     private long running;
     private int outgoingId;
-    private CancellationTokenSource cancellationTokenSource = new();
+    protected CancellationTokenSource cancellationTokenSource = new();
 
     protected ENetClient(Net networkManager)
     {
@@ -107,6 +107,7 @@ public abstract class ENetClient
     }
 
     protected virtual void Connecting() { }
+    protected virtual void ClientCmds(Peer peer) { }
     protected virtual void Connect(ref Event netEvent) { }
     protected virtual void Disconnect(ref Event netEvent) { }
     protected virtual void Receive(PacketReader reader) { }
@@ -139,22 +140,7 @@ public abstract class ENetClient
             var polled = false;
 
             // ENet Cmds from Godot Thread
-            while (enetCmds.TryDequeue(out ENetClientCmd cmd))
-            {
-                switch (cmd.Opcode)
-                {
-                    case ENetClientOpcode.Disconnect:
-                        if (cancellationTokenSource.IsCancellationRequested)
-                        {
-                            Logger.LogWarning("Client is in the middle of stopping");
-                            break;
-                        }
-
-                        cancellationTokenSource.Cancel();
-                        peer.Disconnect(0);
-                        break;
-                }
-            }
+            ClientCmds(peer);
 
             // Outgoing
             while (outgoing.TryRemove(outgoingId, out var clientPacket))
