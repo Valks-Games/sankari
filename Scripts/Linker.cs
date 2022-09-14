@@ -5,6 +5,11 @@ public class Linker : Node
     [Export] public bool DeveloperMode;
     [Export] public bool PressPlayOnLaunch;
     [Export] public bool AutoHostJoin;
+
+    // net
+    [Export] public ServerPacketOpcode[] IgnoreOpcodesFromServer;
+    [Export] public ClientPacketOpcode[] IgnoreOpcodesFromClient;
+
     [Export] public readonly NodePath NodePathTransition;
 
     public CanvasLayer CanvasLayer { get; private set; }

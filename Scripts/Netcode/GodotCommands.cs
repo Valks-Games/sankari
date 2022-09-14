@@ -1,6 +1,3 @@
-using Sankari.Netcode;
-using Sankari.Netcode.Client;
-
 namespace Sankari;
 
 public class GodotCommands
@@ -20,7 +17,18 @@ public class GodotCommands
                     var packetReader = packetInfo.PacketReader;
                     var opcode = (ServerPacketOpcode)packetReader.ReadByte();
 
-                    Logger.Log($"[Client] Received: {opcode}");
+                    var logOpcode = true;
+
+                    if (GameManager.Linker.IgnoreOpcodesFromServer != null)
+                        foreach (var dontLogOpcode in GameManager.Linker.IgnoreOpcodesFromServer) 
+                            if (opcode == dontLogOpcode) 
+                            {
+                                logOpcode = false;
+                                break;
+                            }
+
+                    if (logOpcode)
+                        Logger.Log($"[Client] Received: {opcode}");
 
                     // WARN: Not a thread safe way of getting HandlePacket
                     // Should not effect anything

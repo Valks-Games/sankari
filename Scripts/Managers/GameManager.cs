@@ -16,7 +16,7 @@ namespace Sankari;
 
 public class GameManager
 {
-    public static Node Linker { get; private set; }
+    public static Linker Linker { get; private set; }
 
     // managers
     public static TransitionManager Transition { get; private set; }

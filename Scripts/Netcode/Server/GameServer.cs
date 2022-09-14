@@ -21,9 +21,9 @@ public class GameServer : ENetServer
     /// </summary>
     public STimer LevelUpdateLoop { get; }
 
-    public GameServer(Net networkManager) : base(networkManager) 
-    { 
-        LevelUpdateLoop = new STimer(NetIntervals.HEARTBEAT, () => 
+    public GameServer(Net networkManager) : base(networkManager)
+    {
+        LevelUpdateLoop = new STimer(NetIntervals.HEARTBEAT, () =>
         {
             // ImHost needs to only see OtherClient position (and all other client positions)
             // OtherClient needs to only see ImHost position (and all other client positions)
@@ -33,7 +33,7 @@ public class GameServer : ENetServer
             {
                 // [ImHost, OtherClient]
                 var playerPositions = new Dictionary<byte, DataPlayer>(Players).ToDictionary(x => x.Key, x => x.Value.Position);
-                
+
                 // Remove ImHost from the list of player positions
                 // [OtherClient]
                 playerPositions.Remove(player.Key);
@@ -41,7 +41,7 @@ public class GameServer : ENetServer
                 // Send OtherClient position to everyone but ImHost
                 // Sending OtherClient position (and every other position) to ImHost
                 if (playerPositions.Count != 0)
-                    Send(ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions 
+                    Send(ServerPacketOpcode.PlayerPositions, new SPacketPlayerPositions
                     {
                         PlayerPositions = playerPositions
                     }, player.Key);
@@ -74,7 +74,7 @@ public class GameServer : ENetServer
     /// </summary>
     public void SendToAllPlayers(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
-        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend 
+        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend
         {
             ENetSendType = ENetSendType.Everyone,
             ServerPacketOpcode = opcode,
@@ -86,9 +86,9 @@ public class GameServer : ENetServer
     /// <summary>
     /// This method is thread safe
     /// </summary>
-    public void SendToEveryoneButHost(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable) 
+    public void SendToEveryoneButHost(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
-        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend 
+        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend
         {
             ENetSendType = ENetSendType.EveryoneExcludingHost,
             ServerPacketOpcode = opcode,
@@ -102,7 +102,7 @@ public class GameServer : ENetServer
     /// </summary>
     public void SendToOtherPlayers(uint id, ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
-        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend 
+        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend
         {
             ENetSendType = ENetSendType.EveryoneExcludingSomeone,
             ExcludedPeerId = id,
@@ -148,7 +148,7 @@ public class GameServer : ENetServer
                     var data = enetSendData.PacketData;
                     var flags = enetSendData.PacketFlags;
 
-                    switch (enetSendData.ENetSendType) 
+                    switch (enetSendData.ENetSendType)
                     {
                         case ENetSendType.Everyone:
 
@@ -205,7 +205,18 @@ public class GameServer : ENetServer
 
     protected override void Received(Peer peer, PacketReader packetReader, ClientPacketOpcode opcode)
     {
-        Log($"Received: {opcode}");
+        var logOpcode = true;
+
+        if (GameManager.Linker.IgnoreOpcodesFromClient != null)
+            foreach (var dontLogOpcode in GameManager.Linker.IgnoreOpcodesFromClient)
+                if (opcode == dontLogOpcode)
+                {
+                    logOpcode = false;
+                    break;
+                }
+
+        if (logOpcode)
+            Log($"Received: {opcode}");
 
         if (!HandlePacket.ContainsKey(opcode))
         {
@@ -240,7 +251,7 @@ public class GameServer : ENetServer
     {
         var username = Players[(byte)netEvent.Peer.ID].Username;
 
-        SendToOtherPlayers(netEvent.Peer.ID, ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+        SendToOtherPlayers(netEvent.Peer.ID, ServerPacketOpcode.GameInfo, new SPacketGameInfo
         {
             ServerGameInfo = ServerGameInfo.PlayerJoinLeave,
             Username = username,

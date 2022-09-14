@@ -87,6 +87,8 @@ script = ExtResource( 2 )
 DeveloperMode = true
 PressPlayOnLaunch = true
 AutoHostJoin = true
+IgnoreOpcodesFromServer = [ 1 ]
+IgnoreOpcodesFromClient = [ 1 ]
 NodePathTransition = NodePath("CanvasLayer/Transition")
 
 [node name="Map" type="Node2D" parent="."]
