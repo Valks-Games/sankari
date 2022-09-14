@@ -91,7 +91,7 @@ public class Map : Node
                     {
                         loadingLevel = true;
 
-                        net.Server.SendToOtherPlayers(net.Server.HostId, ServerPacketOpcode.GameInfo, new SPacketGameInfo
+                        net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
                         {
                             ServerGameInfo = ServerGameInfo.StartLevel,
                             LevelName = GameManager.Level.CurrentLevel
@@ -153,7 +153,7 @@ public class Map : Node
 
             if (net.IsMultiplayer() && net.IsHost())
             {
-                net.Server.SendToOtherPlayers(net.Server.HostId, ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+                net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo 
                 {
                     ServerGameInfo = ServerGameInfo.MapPosition,
                     MapPosition = nextPos

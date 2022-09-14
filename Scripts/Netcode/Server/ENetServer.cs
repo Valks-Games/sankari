@@ -328,5 +328,22 @@ public class ENetServerCmd
 public enum ENetServerOpcode
 {
     Stop,
-    Restart
+    Restart,
+    SendPackets
+}
+
+public class ENetSend
+{
+    public ENetSendType ENetSendType { get; set; }
+    public uint ExcludedPeerId { get; set; }
+    public ServerPacketOpcode ServerPacketOpcode { get; set; }
+    public APacket PacketData { get; set; }
+    public PacketFlags PacketFlags { get; set; } = PacketFlags.Reliable;
+}
+
+public enum ENetSendType 
+{
+    Everyone,
+    EveryoneExcludingHost,
+    EveryoneExcludingSomeone
 }

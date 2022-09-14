@@ -28,7 +28,6 @@ dotnet_diagnostic.RCS1021.severity = none # Use expression-bodied lambda
 dotnet_diagnostic.RCS1124.severity = none # Inline local variable
 dotnet_diagnostic.RCS1138.severity = none # Add summary to documentation comment
 
-
 # IDE suppression preferences
 dotnet_diagnostic.IDE0051.severity = none # Remove unused private member
 dotnet_diagnostic.IDE1006.severity = none # Naming rule violation: These words must begin with upper case characters

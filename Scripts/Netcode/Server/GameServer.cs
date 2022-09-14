@@ -70,61 +70,46 @@ public class GameServer : ENetServer
     public Peer[] GetAllPlayerPeers() => Players.Keys.Select(x => Peers[x]).ToArray();
 
     /// <summary>
-    /// This method is not thread safe
+    /// This method is thread safe
     /// </summary>
     public void SendToAllPlayers(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
-        var allPlayers = GetAllPlayerPeers();
-
-        if (data == null)
-            Send(opcode, flags, default(Peer), allPlayers);
-        else
-            Send(opcode, data, flags, default(Peer), allPlayers);
+        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend 
+        {
+            ENetSendType = ENetSendType.Everyone,
+            ServerPacketOpcode = opcode,
+            PacketData = data,
+            PacketFlags = flags
+        }));
     }
 
     /// <summary>
-    /// This method is not thread safe
+    /// This method is thread safe
     /// </summary>
     public void SendToEveryoneButHost(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable) 
     {
-        var otherPeers = GetOtherPeers(HostId);
-        if (otherPeers.Length == 0)
-            return;
-
-        if (data == null)
-            Send(opcode, flags, default(Peer), otherPeers);
-        else
-            Send(opcode, data, flags, default(Peer), otherPeers);
+        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend 
+        {
+            ENetSendType = ENetSendType.EveryoneExcludingHost,
+            ServerPacketOpcode = opcode,
+            PacketData = data,
+            PacketFlags = flags
+        }));
     }
 
     /// <summary>
-    /// This method is not thread safe
-    /// </summary>
-    public void SendToOtherPeers(uint id, ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
-    {
-        var otherPeers = GetOtherPeers(id);
-        if (otherPeers.Length == 0)
-            return;
-
-        if (data == null)
-            Send(opcode, flags, default(Peer), otherPeers);
-        else
-            Send(opcode, data, flags, default(Peer), otherPeers);
-    }
-
-    /// <summary>
-    /// This method is not thread safe
+    /// This method is thread safe
     /// </summary>
     public void SendToOtherPlayers(uint id, ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
-        var otherPlayers = GetOtherPlayerPeers(id);
-        if (otherPlayers.Length == 0)
-            return;
-
-        if (data == null)
-            Send(opcode, flags, default(Peer), otherPlayers);
-        else
-            Send(opcode, data, flags, default(Peer), otherPlayers);
+        ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend 
+        {
+            ENetSendType = ENetSendType.EveryoneExcludingSomeone,
+            ExcludedPeerId = id,
+            ServerPacketOpcode = opcode,
+            PacketData = data,
+            PacketFlags = flags
+        }));
     }
 
     protected override void ServerCmds()
@@ -154,6 +139,55 @@ public class GameServer : ENetServer
                     KickAll(DisconnectOpcode.Restarting);
                     CancellationTokenSource.Cancel();
                     queueRestart = true;
+                    break;
+
+                case ENetServerOpcode.SendPackets:
+                    var enetSendData = (ENetSend)cmd.Data;
+
+                    var opcode = enetSendData.ServerPacketOpcode;
+                    var data = enetSendData.PacketData;
+                    var flags = enetSendData.PacketFlags;
+
+                    switch (enetSendData.ENetSendType) 
+                    {
+                        case ENetSendType.Everyone:
+
+                            var allPlayers = GetAllPlayerPeers();
+
+                            if (data == null)
+                                Send(opcode, flags, default(Peer), allPlayers);
+                            else
+                                Send(opcode, data, flags, default(Peer), allPlayers);
+
+                            break;
+
+                        case ENetSendType.EveryoneExcludingHost:
+
+                            var otherPeers = GetOtherPeers(HostId);
+                            if (otherPeers.Length == 0)
+                                return;
+
+                            if (data == null)
+                                Send(opcode, flags, default(Peer), otherPeers);
+                            else
+                                Send(opcode, data, flags, default(Peer), otherPeers);
+
+                            break;
+
+                        case ENetSendType.EveryoneExcludingSomeone:
+
+                            var otherPlayers = GetOtherPlayerPeers(enetSendData.ExcludedPeerId);
+                            if (otherPlayers.Length == 0)
+                                return;
+
+                            if (data == null)
+                                Send(opcode, flags, default(Peer), otherPlayers);
+                            else
+                                Send(opcode, data, flags, default(Peer), otherPlayers);
+
+                            break;
+                    }
+
                     break;
             }
         }
