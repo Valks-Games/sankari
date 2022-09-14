@@ -148,6 +148,8 @@ public class SPacketGameInfo : APacketServer
 
     private void HandlePeerId()
     {
+        // is it really thread safe to pass a godot thread variable (PeerId) in a action to the client thread?
+        // at least it's being executed in order now via the queue
         GameManager.Net.Client.ExecuteCode((client) => client.PeerId = PeerId);
     }
 }
