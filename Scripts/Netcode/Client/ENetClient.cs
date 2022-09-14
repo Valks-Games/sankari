@@ -106,6 +106,13 @@ public abstract class ENetClient
             await Task.Delay(1);
     }
 
+    /// <summary>
+    /// Thread safe way of executing client code from other threads.  
+    /// Do not bring non-client vars over to the client thread. 
+    /// Only work with variables that are in the clients thread. 
+    /// </summary>
+    public void ExecuteCode(Action<GameClient> action) => enetCmds.Enqueue(new ENetClientCmd(ENetClientOpcode.ExecuteCode, action));
+
     protected virtual void Connecting() { }
     protected virtual void ClientCmds(Peer peer) { }
     protected virtual void Connect(ref Event netEvent) { }
@@ -236,5 +243,6 @@ public class ENetClientCmd
 
 public enum ENetClientOpcode
 {
-    Disconnect
+    Disconnect,
+    ExecuteCode
 }

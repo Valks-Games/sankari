@@ -24,6 +24,8 @@ public class LevelScene : Node
             
             foreach (var player in players)
             {
+                // WARN: Should not access Client.PeerId directly from another thread
+                // Should not effect anything because this is only executed players.Count times once
                 if (player.Key == GameManager.Net.Client.PeerId)
                     continue;
 

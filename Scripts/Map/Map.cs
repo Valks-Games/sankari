@@ -97,6 +97,7 @@ public class Map : Node
                             LevelName = GameManager.Level.CurrentLevel
                         });
 
+                        // WARN: Not a thread safe way of doing this
                         net.Server.LevelUpdateLoop.Start();
 
                         await GameManager.Level.LoadLevel();

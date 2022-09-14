@@ -40,6 +40,11 @@ public class GameClient : ENetClient
                     cancellationTokenSource.Cancel();
                     peer.Disconnect(0);
                     break;
+
+                case ENetClientOpcode.ExecuteCode:
+                    var action = (Action<GameClient>)cmd.Data;
+                    action(this);
+                    break;
             }
         }
     }

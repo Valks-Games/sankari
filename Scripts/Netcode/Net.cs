@@ -39,7 +39,7 @@ public class Net
 
         GameManager.Notifications.AddListener(GameManager.Linker, Event.OnGameClientStopped, (args) =>
         {
-            GameManager.Net.Client.TryingToConnect = false;
+            GameManager.Net.Client.ExecuteCode((client) => client.TryingToConnect = false);
             mapScript.BtnJoin.Disabled = false;
             mapScript.BtnJoin.Text = "Join World";
 
@@ -56,7 +56,7 @@ public class Net
                 Password = mapScript.HostPassword
             });
 
-            GameManager.Net.Client.TryingToConnect = false;
+            GameManager.Net.Client.ExecuteCode((client) => client.TryingToConnect = false);
             mapScript.BtnJoin.Disabled = true;
             mapScript.BtnJoin.Text = "Connected";
         });

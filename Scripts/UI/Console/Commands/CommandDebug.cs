@@ -24,6 +24,7 @@ public class CommandDebug : Command
                 return;
             }
 
+            // WARN: Not a thread safe way to get peerId
             Logger.Log(GameManager.Net.Client.PeerId);
         };
 
@@ -35,6 +36,7 @@ public class CommandDebug : Command
                 return;
             }
 
+            // WARN: Not a thread safe way to get Players
             Logger.Log(GameManager.Net.Server.Players.PrintFull());
         };
 

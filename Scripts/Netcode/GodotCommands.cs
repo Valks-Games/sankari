@@ -22,6 +22,8 @@ public class GodotCommands
 
                     Logger.Log($"[Client] Received: {opcode}");
 
+                    // WARN: Not a thread safe way of getting HandlePacket
+                    // Should not effect anything
                     var handlePacket = ENetClient.HandlePacket[opcode];
                     handlePacket.Read(packetReader);
 

@@ -129,6 +129,8 @@ public class UIMapMenu : Control
 
         var net = GameManager.Net;
 
+        // WARN: Not thread safe to access net.Client.TryingToConnect directly from another thread
+        // Note: This should not cause any problems
         if (net.Client.TryingToConnect || net.Client.IsConnected) 
             return;
 
@@ -164,7 +166,7 @@ public class UIMapMenu : Control
     {
         IsHost = false;
 
-        GameManager.Net.Client.TryingToConnect = true;
+        GameManager.Net.Client.ExecuteCode((client) => client.TryingToConnect = true);
         BtnJoin.Disabled = true;
         BtnJoin.Text = "Searching for world...";
         var ctsClient = GameManager.Tokens.Create("client_running");

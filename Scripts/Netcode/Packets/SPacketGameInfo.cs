@@ -148,6 +148,6 @@ public class SPacketGameInfo : APacketServer
 
     private void HandlePeerId()
     {
-        GameManager.Net.Client.PeerId = PeerId;
+        GameManager.Net.Client.ExecuteCode((client) => client.PeerId = PeerId);
     }
 }
