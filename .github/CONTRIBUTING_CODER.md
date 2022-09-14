@@ -4,6 +4,8 @@
 
 [Good First Coding Issues](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+label%3Acoding+)  
 
+## [Read this if you are coming from Unity](https://github.com/Valks-Games/sankari/blob/main/.github/UNITY_GODOT.md)
+
 ## Setup VScode to Work with Godot C#
 The built in Godot scripting editor is awful for C# scripting. VSCode is free software, I recommend you use that or JetBrains C# which is not free.
 
