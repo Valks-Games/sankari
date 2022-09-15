@@ -11,6 +11,8 @@ public class GameServer : ENetServer
     /// </summary>
     public Dictionary<byte, DataPlayer> Players = new();
 
+    private Dictionary<Guid, Func<Peer, APacket, bool>> PacketCallbacks = new();
+
     /// <summary>
     /// This property is not thread safe
     /// </summary>
@@ -86,7 +88,7 @@ public class GameServer : ENetServer
     /// <summary>
     /// This method is thread safe
     /// </summary>
-    public void SendToEveryoneButHost(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
+    public void SendToEveryoneButHost(ServerPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable, Action callback = default)
     {
         ENetCmds.Enqueue(new ENetServerCmd(ENetServerOpcode.SendPackets, new ENetSend
         {
@@ -95,6 +97,14 @@ public class GameServer : ENetServer
             PacketData = data,
             PacketFlags = flags
         }));
+
+        if (callback != default && data is ITrackablePacket trackablePacket)
+        {
+            var hash = new HashSet<uint>();
+            GetOtherPeers(HostId).ForEach((peer) => hash.Add(peer.ID));
+            var handler = new TrackablePacketHandler(hash, callback);
+            PacketCallbacks.Add(trackablePacket.UniqueId, handler.OnResponse);
+        }
     }
 
     /// <summary>
@@ -234,7 +244,18 @@ public class GameServer : ENetServer
             Logger.LogWarning($"[Server] Received malformed opcode: {opcode} {e.Message} (Ignoring)");
             return;
         }
+
         handlePacket.Handle(peer);
+        if (handlePacket is ITrackablePacket packet)
+        {
+            if (PacketCallbacks.TryGetValue(packet.UniqueId, out Func<Peer, APacket, bool> callback))
+            {
+                if (callback(peer, handlePacket))
+                {
+                    PacketCallbacks.Remove(packet.UniqueId);
+                }
+            }
+        }
     }
 
     protected override void Disconnect(ref Event netEvent)

@@ -1,3 +1,6 @@
+using System.Runtime.InteropServices;
+using ENet;
+
 namespace Sankari;
 
 public class Map : Node
@@ -95,12 +98,13 @@ public class Map : Node
                         {
                             ServerGameInfo = ServerGameInfo.StartLevel,
                             LevelName = GameManager.Level.CurrentLevel
-                        });
+                        }, callback: () => net.Server.LevelUpdateLoop.Start());
 
                         await GameManager.Level.LoadLevel();
 
                         // WARN: Not a thread safe way of doing this
-                        net.Server.LevelUpdateLoop.Start();
+                        // Wait for other players to load
+
                     }
                 }
                 else

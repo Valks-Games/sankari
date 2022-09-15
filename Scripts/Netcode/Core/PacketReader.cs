@@ -55,6 +55,7 @@ public class PacketReader : IDisposable
         if (t == typeof(ulong)) return ReadULong();
         if (t == typeof(byte[])) return ReadBytes();
         if (t == typeof(Vector2)) return ReadVector2();
+        if (t == typeof(Guid)) return new Guid(ReadBytes());
 
         if (t.IsGenericType)
         {

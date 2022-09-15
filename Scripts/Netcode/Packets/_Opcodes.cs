@@ -1,6 +1,6 @@
 ﻿namespace Sankari.Netcode;
 
-public static class NetIntervals 
+public static class NetIntervals
 {
     public const int HEARTBEAT = 75;
 }
@@ -9,7 +9,8 @@ public static class NetIntervals
 public enum ClientPacketOpcode
 {
     GameInfo,
-    PlayerPosition
+    PlayerPosition,
+    LevelLoaded
 }
 
 // Sent to Game Client

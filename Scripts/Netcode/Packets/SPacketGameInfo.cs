@@ -1,5 +1,8 @@
 namespace Sankari;
 
+/// <summary>
+/// Packet messages for type?
+/// </summary>
 public enum ServerGameInfo
 {
     PlayerJoinLeave,
@@ -8,11 +11,15 @@ public enum ServerGameInfo
     MapPosition,
     PeerId
 }
+interface ITrackablePacket
+{
+    public Guid UniqueId { get; set; }
+}
 
 /// <summary>
 /// Tell a client that this person is playing with us.
 /// </summary>
-public class SPacketGameInfo : APacketServer
+public class SPacketGameInfo : APacketServer, ITrackablePacket
 {
     public ServerGameInfo ServerGameInfo { get; set; }
 
@@ -26,12 +33,18 @@ public class SPacketGameInfo : APacketServer
 
     // StartLevel
     public string LevelName { get; set; }
+    public Guid UniqueId { get; set; }
 
     // MapPosition
     public Vector2 MapPosition { get; set; }
 
     // PeerId
     public byte PeerId { get; set; }
+
+    public SPacketGameInfo() : base()
+    {
+        UniqueId = Guid.NewGuid();
+    }
 
     public override void Write(PacketWriter writer)
     {
@@ -46,7 +59,7 @@ public class SPacketGameInfo : APacketServer
                 break;
             case ServerGameInfo.PlayersOnServer:
                 writer.Write((byte)Usernames.Count);
-                foreach (var player in Usernames) 
+                foreach (var player in Usernames)
                 {
                     writer.Write((byte)player.Key);
                     writer.Write(player.Value);
@@ -54,6 +67,8 @@ public class SPacketGameInfo : APacketServer
                 break;
             case ServerGameInfo.StartLevel:
                 writer.Write(LevelName);
+                Logger.Log("sending " + UniqueId.ToString());
+                writer.Write(UniqueId.ToByteArray());
                 break;
             case ServerGameInfo.MapPosition:
                 writer.Write(MapPosition);
@@ -80,7 +95,7 @@ public class SPacketGameInfo : APacketServer
             case ServerGameInfo.PlayersOnServer:
                 var length = reader.ReadByte();
                 Usernames = new Dictionary<byte, string>();
-                for (int i = 0; i < length; i++) 
+                for (int i = 0; i < length; i++)
                 {
                     var key = reader.ReadByte();
                     var value = reader.ReadString();
@@ -90,6 +105,7 @@ public class SPacketGameInfo : APacketServer
                 break;
             case ServerGameInfo.StartLevel:
                 LevelName = reader.ReadString();
+                UniqueId = reader.Read<Guid>();
                 break;
             case ServerGameInfo.MapPosition:
                 MapPosition = reader.ReadVector2();
@@ -130,7 +146,7 @@ public class SPacketGameInfo : APacketServer
             GameManager.Notifications.Notify(Event.OnGameClientLeft, Id);
     }
 
-    private void HandlePlayersOnServer() 
+    private void HandlePlayersOnServer()
     {
         GameManager.Notifications.Notify(Event.OnReceivePlayersFromServer, Usernames);
     }
@@ -139,9 +155,10 @@ public class SPacketGameInfo : APacketServer
     {
         GameManager.Level.CurrentLevel = LevelName;
         await GameManager.Level.LoadLevel();
+        GameManager.Net.Client.Send(ClientPacketOpcode.LevelLoaded, new CPacketLevelLoaded() { UniqueId = UniqueId });
     }
 
-    private void HandleMapPosition() 
+    private void HandleMapPosition()
     {
         GameManager.Map.SetPosition(MapPosition);
     }
