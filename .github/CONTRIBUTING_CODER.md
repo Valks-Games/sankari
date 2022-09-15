@@ -1,5 +1,7 @@
 > ⚠️ Please talk to valk#9904 through Discord whenever you want to work on something, this way I can tell you if others are working on it or if I do not want you to work on that specific thing right now.
 
+> ℹ️ If you comment on an issue in GitHub I can assign you to that issue. 
+
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
 [Good First Coding Issues](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+label%3Acoding+)  
@@ -77,4 +79,4 @@ This game makes use of 3 threads (Godot, Server, Client). Do not directly access
 ## Exporting the Game
 > ⚠️ Do not forget to put `enet.dll` beside the games exported executable or all multiplayer functions will not work
 
-> ⚠️ To suppress the rcedit warning download [rcedit](https://github.com/electron/rcedit/releases) and link the executable to `Godot > Editor > Editor Settings > Export > Windows > Rcedit`
+> ℹ️ To suppress the rcedit warning download [rcedit](https://github.com/electron/rcedit/releases) and link the executable to `Godot > Editor > Editor Settings > Export > Windows > Rcedit`
