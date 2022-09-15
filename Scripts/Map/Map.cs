@@ -67,14 +67,14 @@ public class Map : Node
 
         var net = GameManager.Net;
 
-        if (net.IsMultiplayer()) 
+        if (net.IsMultiplayer())
         {
             if (net.IsHost()) // only the host can move around on the map
             {
                 HandleMovement();
             }
         }
-        else 
+        else
         {
             // singleplayer
             HandleMovement();
@@ -103,7 +103,7 @@ public class Map : Node
                         await GameManager.Level.LoadLevel();
                     }
                 }
-                else 
+                else
                 {
                     // singleplayer
                     loadingLevel = true;
@@ -154,7 +154,7 @@ public class Map : Node
 
             if (net.IsMultiplayer() && net.IsHost())
             {
-                net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo 
+                net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
                 {
                     ServerGameInfo = ServerGameInfo.MapPosition,
                     MapPosition = nextPos
