@@ -82,7 +82,7 @@ public static class ExtensionsInput
             _prevNums[id] = int.Parse(spliced);
 
             lineEdit.Text = spliced;
-            lineEdit.CaretPosition = spliced.Length;
+            lineEdit.CaretColumn = spliced.Length;
             return _prevNums[id];
         }
 
@@ -105,12 +105,12 @@ public static class ExtensionsInput
     private static void ChangeLineEditText(this LineEdit lineEdit, string text)
     {
         lineEdit.Text = text;
-        lineEdit.CaretPosition = text.Length;
+        lineEdit.CaretColumn = text.Length;
     }
 
     private static void ChangeTextEditText(this TextEdit textEdit, string text)
     {
         textEdit.Text = text;
-        //textEdit.CaretPosition = text.Length;
+        //textEdit.CaretColumn = text.Length;
     }
 }

@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/Level/MovingPlatform.cs" type="Script" id=1]
-[ext_resource path="res://Sprites/Level/Platform.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Level/Platform.png" type="Texture2D" id=2]
 
 [sub_resource type="RectangleShape2D" id=25]
 extents = Vector2( 64, 4 )
 
-[node name="KinematicBody2D" type="KinematicBody2D" groups=["Platform"]]
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Platform"]]
 motion/sync_to_physics = true
 script = ExtResource( 1 )
 
@@ -14,8 +14,8 @@ script = ExtResource( 1 )
 shape = SubResource( 25 )
 one_way_collision = true
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource( 2 )
 
-[node name="Target" type="Position2D" parent="."]
+[node name="Target" type="Marker2D" parent="."]
 position = Vector2( 197, 0 )

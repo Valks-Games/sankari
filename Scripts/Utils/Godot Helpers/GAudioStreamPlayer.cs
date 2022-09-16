@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class GAudioStreamPlayer 
+public partial class GAudioStreamPlayer 
 {
     private readonly AudioStreamPlayer audioStreamPlayer;
 

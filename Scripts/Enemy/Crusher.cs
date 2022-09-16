@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Crusher : Node, IEnemy
+public partial class Crusher : Node, IEnemy
 {
     
 

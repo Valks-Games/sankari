@@ -1,6 +1,6 @@
 namespace Sankari.Netcode;
 
-public class CPacketPlayerPosition : APacketClient
+public partial class CPacketPlayerPosition : APacketClient
 {
     public Vector2 Position { get; set; }
 

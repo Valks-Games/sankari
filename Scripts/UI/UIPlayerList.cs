@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class UIPlayerList : Control
+public partial class UIPlayerList : Control
 {
     public Dictionary<byte, string> Players = new();
     private Control controlPlayerList;
@@ -58,7 +58,7 @@ public class UIPlayerList : Control
     private void AddLabel(string text)
     {
         var label = new Label();
-        label.Align = Label.AlignEnum.Center;
+        label.HorizontalAlignment = HorizontalAlignment.Center;
         label.Text = text;
         label.Name = text;
         controlPlayerList.AddChild(label);

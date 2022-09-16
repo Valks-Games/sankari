@@ -1,10 +1,10 @@
 namespace Sankari;
 
-public class UIMapMenu : Control
+public partial class UIMapMenu : Control
 {
-    [Export] protected readonly NodePath NodePathHost;
-    [Export] protected readonly NodePath NodePathJoin;
-    [Export] protected readonly NodePath NodePathOnlineUsername;
+    [Export] protected  NodePath NodePathHost;
+    [Export] protected  NodePath NodePathJoin;
+    [Export] protected  NodePath NodePathOnlineUsername;
 
     public Button BtnJoin { get; private set; }
     public bool IsHost { get; private set; }
@@ -39,7 +39,7 @@ public class UIMapMenu : Control
 
         lineEditJoinIp = controlJoin.GetNode<LineEdit>("IP");
         lineEditJoinPassword = controlJoin.GetNode<LineEdit>("Join Password");
-        BtnJoin = controlJoin.GetNode<Button>("Join World");
+        BtnJoin = controlJoin.GetNode<Button>("Join World3D");
 
         lineEditOnlineUsername = GetNode<LineEdit>(NodePathOnlineUsername);
         OnlineUsername = lineEditOnlineUsername.Text;
@@ -80,7 +80,7 @@ public class UIMapMenu : Control
             GameManager.Net.Server.Stop();
             GameManager.Net.Client.Stop();
 
-            btnHostServerToggle.Text = "Open World to Other Players";
+            btnHostServerToggle.Text = "Open World3D to Other Players";
         }
         else 
         {
@@ -103,7 +103,7 @@ public class UIMapMenu : Control
         while (!net.Server.HasSomeoneConnected)
             await Task.Delay(1);
 
-        btnHostServerToggle.Text = "Close World to Other Players";
+        btnHostServerToggle.Text = "Close World3D to Other Players";
     }
 
     // join

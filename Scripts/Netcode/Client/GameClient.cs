@@ -2,7 +2,7 @@ namespace Sankari.Netcode.Client;
 
 using Event = ENet.Event;
 
-public class GameClient : ENetClient
+public partial class GameClient : ENetClient
 {
     /// <summary>
     /// This property is not thread safe

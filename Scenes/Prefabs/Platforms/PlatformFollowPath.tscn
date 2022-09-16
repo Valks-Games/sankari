@@ -1,11 +1,11 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Sprites/Level/Platform.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Level/Platform.png" type="Texture2D" id=1]
 [ext_resource path="res://Scripts/Level/PlatformFollowPath.cs" type="Script" id=2]
 
 [sub_resource type="Curve2D" id=28]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, -20.3446, -10.944, 20.3446, 10.944, 30, -32, -29.8856, -4.77046, 29.8856, 4.77046, 56, 39, -28.9034, 9.96185, 28.9034, -9.96185, 79, -32, 0, 0, 0, 0, 125, 0 )
+"points": PackedVector2Array( 0, 0, 0, 0, 0, 0, -20.3446, -10.944, 20.3446, 10.944, 30, -32, -29.8856, -4.77046, 29.8856, 4.77046, 56, 39, -28.9034, 9.96185, 28.9034, -9.96185, 79, -32, 0, 0, 0, 0, 125, 0 )
 }
 
 [sub_resource type="RectangleShape2D" id=30]
@@ -14,7 +14,7 @@ extents = Vector2( 16, 1.5 )
 [sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 16, 1 )
 
-[node name="FollowPath" type="KinematicBody2D" groups=["Platform"]]
+[node name="FollowPath" type="CharacterBody2D" groups=["Platform"]]
 script = ExtResource( 2 )
 
 [node name="Path2D" type="Path2D" parent="."]
@@ -24,7 +24,7 @@ curve = SubResource( 28 )
 rotation = -0.834539
 rotate = false
 
-[node name="Sprite" type="Sprite" parent="Path2D/PathFollow2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D"]
 rotation = 0.834539
 texture = ExtResource( 1 )
 

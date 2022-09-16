@@ -1,8 +1,8 @@
 namespace Sankari;
 
-public class PopupMessage : WindowDialog
+public partial class PopupMessage : Window
 {
-    [Export] protected readonly NodePath NodePathMessage;
+    [Export] protected  NodePath NodePathMessage;
 
     private string _message;
     private string _title;
@@ -18,7 +18,7 @@ public class PopupMessage : WindowDialog
 
     public override void _Ready()
     {
-        WindowTitle = _title;
+        Title = _title;
         GetNode<Label>(NodePathMessage).Text = _message;
     }
 

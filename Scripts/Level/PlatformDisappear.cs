@@ -1,12 +1,12 @@
 namespace Sankari;
 
-public class PlatformDisappear : APlatform
+public partial class PlatformDisappear : APlatform
 {
     [Export] public int DurationFlash1 = 2000;
     [Export] public int DurationFlash2 = 2000;
     [Export] public int DurationReappear = 3000;
 
-    private Sprite sprite;
+    private Sprite2D sprite;
     private ShaderMaterial shaderMaterial;
     private float time;
     private bool playerOnPlatform;
@@ -19,15 +19,16 @@ public class PlatformDisappear : APlatform
     {
         Init();
 
-        sprite = GetNode<Sprite>("Sprite");
+        sprite = GetNode<Sprite2D>("Sprite2D");
         shaderMaterial = (sprite.Material as ShaderMaterial);
         timerFlash1 = new GTimer(this, nameof(OnTimerFlash1Up), DurationFlash1, false, false);
         timerFlash2 = new GTimer(this, nameof(OnTimerFlash2Up), DurationFlash2, false, false);
         timerReappear = new GTimer(this, nameof(OnTimerReappear), DurationReappear, false, false);
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(double d)
     {
+        var delta = (float)d;
         time += delta;
 
         if (playerOnPlatform) 
@@ -40,7 +41,7 @@ public class PlatformDisappear : APlatform
             
     }
 
-    private void SetWhiteProgress(float v) => shaderMaterial.SetShaderParam("white_progress", v);
+    private void SetWhiteProgress(float v) => shaderMaterial.SetShaderParameter("white_progress", v);
 
     private bool AreaIsPlayer(Area2D area) => area.GetParent() is Player;
 

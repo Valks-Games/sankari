@@ -1,8 +1,8 @@
 namespace Sankari;
 
-public class Popups
+public partial class Popups
 {
-    private readonly Queue<WindowDialog> queue = new();
+    private readonly Queue<Window> queue = new();
     private readonly Linker linker;
 
     public Popups(Linker linker)
@@ -12,7 +12,7 @@ public class Popups
 
     public void SpawnMessage(string message, string title = "")
     {
-        var popup = Prefabs.PopupMessage.Instance<PopupMessage>();
+        var popup = Prefabs.PopupMessage.Instantiate<PopupMessage>();
         popup.PreInit(this, message, title);
 
         Spawn(popup);
@@ -20,7 +20,7 @@ public class Popups
 
     public void SpawnError(Exception exception, string title = "")
     {
-        var popup = Prefabs.PopupError.Instance<PopupError>();
+        var popup = Prefabs.PopupError.Instantiate<PopupError>();
         popup.PreInit(this, exception, title);
 
         Spawn(popup);
@@ -28,7 +28,7 @@ public class Popups
 
     public void SpawnLineEdit(Action<LineEdit> onTextChanged, Action<string> onHide, string title = "", int maxLength = 50, string text = "")
     {
-        var popup = Prefabs.PopupLineEdit.Instance<PopupLineEdit>();
+        var popup = Prefabs.PopupLineEdit.Instantiate<PopupLineEdit>();
         popup.PreInit(this, onTextChanged, onHide, maxLength, title, text);
 
         Spawn(popup);
@@ -36,7 +36,7 @@ public class Popups
 
     /*public void SpawnCreateLobby()
     {
-        var popup = Prefabs.PopupCreateLobby.Instance<PopupCreateLobby>();
+        var popup = Prefabs.PopupCreateLobby.Instantiate<PopupCreateLobby>();
         popup.PreInit(this);
 
         Spawn(popup);
@@ -51,12 +51,12 @@ public class Popups
         popup.PopupCentered();
     }
 
-    private void Spawn(WindowDialog popup)
+    private void Spawn(Window popup)
     {
         linker.CanvasLayer.AddChild(popup);
 
         if (queue.Count == 0)
-            popup.PopupCentered(popup.RectMinSize);
+            popup.PopupCentered(popup.MinSize);
 
         queue.Enqueue(popup);
     }

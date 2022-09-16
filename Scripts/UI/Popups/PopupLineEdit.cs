@@ -1,8 +1,8 @@
 namespace Sankari;
 
-public class PopupLineEdit : WindowDialog
+public partial class PopupLineEdit : Window
 {
-    [Export] protected readonly NodePath NodePathLineEdit;
+    [Export] protected  NodePath NodePathLineEdit;
     private LineEdit _lineEdit;
 
     private string _title;
@@ -26,7 +26,7 @@ public class PopupLineEdit : WindowDialog
     {
         _lineEdit = GetNode<LineEdit>(NodePathLineEdit);
         _lineEdit.MaxLength = _maxLength;
-        WindowTitle = _title;
+        Title = _title;
         _lineEdit.Text = _text;
     }
 

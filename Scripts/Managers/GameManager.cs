@@ -69,7 +69,7 @@ public class GameManager
         LevelUI.Show();
 
         // weird place to put this but its whatever right now
-        Map = (Map)Prefabs.Map.Instance(); 
+        Map = (Map)Prefabs.Map.Instantiate(); 
 
         map.CallDeferred("add_child", Map); // need to wait for the engine because we are dealing with areas with is physics related
         Audio.PlayMusic("map_grassy");

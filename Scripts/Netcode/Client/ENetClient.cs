@@ -217,7 +217,7 @@ public abstract class ENetClient
     }
 }
 
-public class PacketInfo
+public partial class PacketInfo
 {
     public PacketReader PacketReader { get; set; }
     public GameClient GameClient { get; set; }
@@ -229,7 +229,7 @@ public class PacketInfo
     }
 }
 
-public class ENetClientCmd
+public partial class ENetClientCmd
 {
     public ENetClientOpcode Opcode { get; set; }
     public object Data { get; set; }

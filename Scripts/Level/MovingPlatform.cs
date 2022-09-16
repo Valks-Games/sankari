@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class MovingPlatform : APlatform
+public partial class MovingPlatform : APlatform
 {
     [Export] public int Duration = 3;
     [Export] public int StartDelay = 0;
@@ -16,8 +16,8 @@ public class MovingPlatform : APlatform
         await tween.AnimatePlatform
         (
             Position, 
-            GetNode<Position2D>("Target").GlobalPosition, 
-            GetNode<Sprite>("Sprite").GetRect().Size.x,
+            GetNode<Marker2D>("Target").GlobalPosition, 
+            GetNode<Sprite2D>("Sprite2D").GetRect().Size.x,
             Duration, 
             StartDelay, 
             TransitionType, 

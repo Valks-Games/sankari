@@ -12,7 +12,7 @@ public enum ServerGameInfo
 /// <summary>
 /// Tell a client that this person is playing with us.
 /// </summary>
-public class SPacketGameInfo : APacketServer
+public partial class SPacketGameInfo : APacketServer
 {
     public ServerGameInfo ServerGameInfo { get; set; }
 

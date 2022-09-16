@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class UIConsoleManager : Control
+public partial class UIConsoleManager : Control
 {
     public bool ScrollToBottom { get; set; } = true;
 

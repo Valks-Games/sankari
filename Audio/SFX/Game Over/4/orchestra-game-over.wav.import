@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/orchestra-game-over.wav-0fbb38b08c9f4c69142805689b55fbdf.sample"
+type="AudioStreamWAV"
+uid="uid://c10dgk5tt1oma"
+path="res://.godot/imported/orchestra-game-over.wav-0fbb38b08c9f4c69142805689b55fbdf.sample"
 
 [deps]
 
 source_file="res://Audio/SFX/Game Over/4/orchestra-game-over.wav"
-dest_files=[ "res://.import/orchestra-game-over.wav-0fbb38b08c9f4c69142805689b55fbdf.sample" ]
+dest_files=["res://.godot/imported/orchestra-game-over.wav-0fbb38b08c9f4c69142805689b55fbdf.sample"]
 
 [params]
 

@@ -104,7 +104,7 @@ public static class Logger
     }
 }
 
-public class LogInfo
+public partial class LogInfo
 {
     public LoggerOpcode Opcode { get; set; }
     public LogMessage Data { get; set; }
@@ -118,13 +118,13 @@ public class LogInfo
     }
 }
 
-public class LogMessage
+public partial class LogMessage
 {
     public string Message { get; set; }
     public LogMessage(string message) => this.Message = message;
 
 }
-public class LogMessageTrace : LogMessage
+public partial class LogMessageTrace : LogMessage
 {
     // Show the Trace Information for the Message
     public bool ShowTrace { get; set; }

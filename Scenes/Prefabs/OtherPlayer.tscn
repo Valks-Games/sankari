@@ -3,7 +3,7 @@
 [ext_resource path="res://Sprites/Sprite Frames/Player.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Scripts/Player/OtherPlayer.cs" type="Script" id=2]
 
-[node name="OtherPlayer" type="AnimatedSprite"]
+[node name="OtherPlayer" type="AnimatedSprite2D"]
 scale = Vector2( 2, 2 )
 frames = ExtResource( 1 )
 animation = "idle"

@@ -1,6 +1,6 @@
 namespace Sankari.Netcode.Client;
 
-public class DummyClient : ENetClient
+public partial class DummyClient : ENetClient
 {
     public DummyClient(Net networkManager) : base(networkManager)
     { }

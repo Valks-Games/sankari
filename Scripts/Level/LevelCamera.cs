@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Camera : Camera2D
+public partial class LevelCamera : Camera2D
 {
     private Player player;
 
@@ -9,7 +9,7 @@ public class Camera : Camera2D
         player = GetNode<Player>("../Player");
     }
 
-    public override void _Process(float delta)
+    public override void _Process(double delta)
     {
         Position = Player.Instance.Position;
     }

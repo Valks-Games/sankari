@@ -1,6 +1,6 @@
 namespace Sankari.Netcode;
 
-public class Net
+public partial class Net
 {
     public DateTime PingSent { get; set; }
     public DisconnectOpcode DisconnectOpcode { get; set; }
@@ -38,7 +38,7 @@ public class Net
         {
             GameManager.Net.Client.ExecuteCode((client) => client.TryingToConnect = false);
             mapScript.BtnJoin.Disabled = false;
-            mapScript.BtnJoin.Text = "Join World";
+            mapScript.BtnJoin.Text = "Join World3D";
 
             GameManager.UIPlayerList.RemoveAllPlayers();
         });

@@ -1,5 +1,3 @@
-
-
 namespace Sankari.Netcode
 {
     public class DataTransform

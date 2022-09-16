@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Bottom : Node
+public partial class Bottom : Node
 {
     private void _on_Bottom_area_entered(Area2D area) 
     {

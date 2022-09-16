@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/musical-game-over.wav-f1dea68b2d6e7e503307319aec19f540.sample"
+type="AudioStreamWAV"
+uid="uid://dxcb5n6nrp2y2"
+path="res://.godot/imported/musical-game-over.wav-f1dea68b2d6e7e503307319aec19f540.sample"
 
 [deps]
 
 source_file="res://Audio/SFX/Game Over/3/musical-game-over.wav"
-dest_files=[ "res://.import/musical-game-over.wav-f1dea68b2d6e7e503307319aec19f540.sample" ]
+dest_files=["res://.godot/imported/musical-game-over.wav-f1dea68b2d6e7e503307319aec19f540.sample"]
 
 [params]
 

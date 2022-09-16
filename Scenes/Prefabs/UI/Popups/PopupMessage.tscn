@@ -3,12 +3,12 @@
 [ext_resource path="res://Themes/Main.tres" type="Theme" id=1]
 [ext_resource path="res://Scripts/UI/Popups/PopupMessage.cs" type="Script" id=2]
 
-[node name="UIPopupMessage" type="WindowDialog"]
+[node name="UIPopupMessage" type="Window"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -524.0
-margin_bottom = -400.0
-rect_min_size = Vector2( 500, 200 )
+offset_right = -524.0
+offset_bottom = -400.0
+minimum_size = Vector2( 500, 200 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource( 1 )
@@ -20,24 +20,24 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
-margin_left = 237.0
-margin_top = 164.0
-margin_right = 262.0
-margin_bottom = 199.0
+offset_left = 237.0
+offset_top = 164.0
+offset_right = 262.0
+offset_bottom = 199.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
-custom_constants/margin_bottom = 10
+custom_constants/offset_bottom = 10
 
 [node name="Ok" type="Button" parent="PanelContainer/MarginContainer"]
-margin_right = 25.0
-margin_bottom = 25.0
+offset_right = 25.0
+offset_bottom = 25.0
 text = "Ok"
 
 [node name="Message" type="Label" parent="PanelContainer"]
-margin_left = 1.0
-margin_top = 79.0
-margin_right = 499.0
-margin_bottom = 120.0
+offset_left = 1.0
+offset_top = 79.0
+offset_right = 499.0
+offset_bottom = 120.0
 text = "A very long message that spans for an eternity. What will happen to this message and where will it go?"
 align = 1
 autowrap = true

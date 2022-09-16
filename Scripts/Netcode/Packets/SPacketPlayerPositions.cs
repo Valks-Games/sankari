@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class SPacketPlayerPositions : APacketServer
+public partial class SPacketPlayerPositions : APacketServer
 {
     public Dictionary<byte, Vector2> PlayerPositions { get; set; }
 

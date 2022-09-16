@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Slime : KinematicBody2D, IEnemy
+public partial class Slime : CharacterBody2D, IEnemy
 {
     private const float gravity = 250f;
     private Vector2 velocity;
@@ -14,8 +14,9 @@ public class Slime : KinematicBody2D, IEnemy
         jumpTimer = new GTimer(this, nameof(OnJumpTimer), 2000);
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(double d)
     {
+        var delta = (float)d;
         velocity.y += delta * gravity;
 
         if (IsOnFloor() && !jumping)
@@ -35,7 +36,7 @@ public class Slime : KinematicBody2D, IEnemy
                 movingForward = !movingForward;
         }
 
-        MoveAndSlide(velocity, new Vector2(0, -1));
+        MoveAndSlide();
     }
 
     private void OnJumpTimer()

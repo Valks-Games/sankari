@@ -313,7 +313,7 @@ public abstract class ENetServer
     }
 }
 
-public class ENetServerCmd
+public partial class ENetServerCmd
 {
     public ENetServerOpcode Opcode { get; set; }
     public object Data { get; set; }
@@ -332,7 +332,7 @@ public enum ENetServerOpcode
     SendPackets
 }
 
-public class ENetSend
+public partial class ENetSend
 {
     public ENetSendType ENetSendType { get; set; }
     public uint ExcludedPeerId { get; set; }

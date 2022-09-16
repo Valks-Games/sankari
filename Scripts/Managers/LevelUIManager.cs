@@ -1,13 +1,13 @@
 namespace Sankari;
 
-public class LevelUIManager : Control
+public partial class LevelUIManager : Control
 {
-    [Export] protected readonly NodePath NodePathCoinSprite;
-    [Export] protected readonly NodePath NodePathLabelCoins;
-    [Export] protected readonly NodePath NodePathControlLives;
-    [Export] protected readonly NodePath NodePathLabelLives;
+    [Export] protected  NodePath NodePathCoinSprite;
+    [Export] protected  NodePath NodePathLabelCoins;
+    [Export] protected  NodePath NodePathControlLives;
+    [Export] protected  NodePath NodePathLabelLives;
 
-    private AnimatedSprite coinSprite;
+    private AnimatedSprite2D coinSprite;
     private Label labelCoins;
     private Label labelLives;
     private Control controlLives;
@@ -21,7 +21,7 @@ public class LevelUIManager : Control
     {
         labelCoins = GetNode<Label>(NodePathLabelCoins);
         labelLives = GetNode<Label>(NodePathLabelLives);
-        coinSprite = GetNode<AnimatedSprite>(NodePathCoinSprite);
+        coinSprite = GetNode<AnimatedSprite2D>(NodePathCoinSprite);
         controlLives = GetNode<Control>(NodePathControlLives);
         tween = new GTween(controlLives);
         coinSprite.Playing = true;

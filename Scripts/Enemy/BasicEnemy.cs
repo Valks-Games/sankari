@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
+public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 {
     [Export] public float Speed = 40;
     [Export] public bool Active = true;
@@ -11,7 +11,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
     private const float gravity = 30000f;
     private bool movingForward;
     
-    private AnimatedSprite animatedSprite;
+    private AnimatedSprite2D animatedSprite;
 
     private RayCast2D rayCastWallLeft;
     private RayCast2D rayCastWallRight;
@@ -25,7 +25,7 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
 
     public override void _Ready()
     {
-        animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         Activate();
 
         rayCastWallLeft = PrepareRaycast("Wall Checks/Left");
@@ -59,8 +59,9 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
         }
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(double d)
     {
+        var delta = (float)d;
         var velocity = new Vector2(0, 0);
 
         velocity.y += delta * gravity; // delta needed here because it's an application of acceleration
@@ -86,13 +87,13 @@ public class BasicEnemy : KinematicBody2D, IEnemy, IEntity
                 ChangeDirection();
         }
 
-        MoveAndSlide(velocity, Vector2.Up); // move and slide handles delta automatically (delta needed because moving over position between frames)
+        MoveAndSlide(); // move and slide handles delta automatically (delta needed because moving over position between frames)
     }
 
     public void Activate() 
     {
         SetPhysicsProcess(true);
-        animatedSprite.Frame = (int)GD.RandRange(0, animatedSprite.Frames.GetFrameCount("default"));
+        animatedSprite.Frame = GD.RandRange(0, animatedSprite.Frames.GetFrameCount("default"));
         animatedSprite.SpeedScale = 1 + (Speed * 0.002f);
         animatedSprite.Play();
     }

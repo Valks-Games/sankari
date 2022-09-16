@@ -1,10 +1,10 @@
 namespace Sankari;
 
-public class Player : KinematicBody2D
+public partial class Player : CharacterBody2D
 {
-    [Export] protected readonly NodePath NodePathRayCast2DWallChecksLeft;
-    [Export] protected readonly NodePath NodePathRayCast2DWallChecksRight;
-    [Export] protected readonly NodePath NodePathRayCast2DGroundChecks;
+    [Export] protected  NodePath NodePathRayCast2DWallChecksLeft;
+    [Export] protected  NodePath NodePathRayCast2DWallChecksRight;
+    [Export] protected  NodePath NodePathRayCast2DGroundChecks;
 
     public static Vector2 RespawnPosition { get; set; }
     public static bool HasTouchedCheckpoint { get; set; }
@@ -49,7 +49,7 @@ public class Player : KinematicBody2D
     private Node2D parentGroundChecks;
 
     // animation
-    private AnimatedSprite animatedSprite;
+    private AnimatedSprite2D animatedSprite;
     private GTween dieTween;
 
     // wall
@@ -65,7 +65,7 @@ public class Player : KinematicBody2D
     private bool currentlyDashing;
 
     // msc
-    private Viewport tree;
+    private Window tree;
 
     public void PreInit(LevelScene levelScene)
     {
@@ -83,7 +83,7 @@ public class Player : KinematicBody2D
         parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
         parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
         parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
-        animatedSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         dieTween = new GTween(this);
         tree = GetTree().Root;
 
@@ -94,8 +94,9 @@ public class Player : KinematicBody2D
         animatedSprite.Play("idle");
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(double d)
     {
+        var delta = (float)d;
         if (haltPlayerLogic)
             return;
 
@@ -231,7 +232,7 @@ public class Player : KinematicBody2D
             velocity.y = Mathf.Clamp(velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
         }
 
-        velocity = MoveAndSlide(velocity, Vector2.Up);
+        MoveAndSlide();
     }
 
     private void Jump()
@@ -259,7 +260,7 @@ public class Player : KinematicBody2D
 
     private void DoDashStuff()
     {
-        var sprite = Prefabs.PlayerDashTrace.Instance<Sprite>();
+        var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
         sprite.Texture = animatedSprite.Frames.GetFrame(animatedSprite.Animation, animatedSprite.Frame);
         sprite.GlobalPosition = GlobalPosition;
         sprite.Scale = new Vector2(2f, 2f);
@@ -393,7 +394,7 @@ public class Player : KinematicBody2D
     public void Died()
     {
         animatedSprite.Stop();
-        levelScene.Camera.StopFollowingPlayer();
+        levelScene.camera.StopFollowingPlayer();
 
         var dieStartPos = Position.y;
 
@@ -450,7 +451,7 @@ public class Player : KinematicBody2D
         GameManager.Transition.BlackToAlpha();
         haltPlayerLogic = false;
         GameManager.Level.LoadLevelFast();
-        levelScene.Camera.StartFollowingPlayer();
+        levelScene.camera.StartFollowingPlayer();
     }
 
     private void OnDashReady() => dashReady = true;

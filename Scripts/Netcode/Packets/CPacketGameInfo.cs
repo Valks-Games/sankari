@@ -9,7 +9,7 @@ public enum ClientGameInfo
 /// Tell server that we joined the server as a new player. 
 /// Also send another packet to inform everyone else playing with us that we are playing.
 /// </summary>
-public class CPacketGameInfo : APacketClient
+public partial class CPacketGameInfo : APacketClient
 {
     public ClientGameInfo ClientGameInfo { get; set; }
 

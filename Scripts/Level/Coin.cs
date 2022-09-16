@@ -1,11 +1,11 @@
 namespace Sankari;
 
-public class Coin : AnimatedSprite
+public partial class Coin : AnimatedSprite2D
 {
     public override void _Ready()
     {
         Playing = true;
-        Frame = (int)GD.RandRange(0, Frames.GetFrameCount("default"));
+        Frame = GD.RandRange(0, Frames.GetFrameCount("default"));
     }
 
     private void _on_Area_area_entered(Area2D area)

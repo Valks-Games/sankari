@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Sprites/Level/Checkpoint/flag_uncaptured.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/Level/Checkpoint/flag_captured.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Level/Checkpoint/flag_uncaptured.png" type="Texture2D" id=1]
+[ext_resource path="res://Sprites/Level/Checkpoint/flag_captured.png" type="Texture2D" id=2]
 [ext_resource path="res://Scripts/Level/Checkpoint.cs" type="Script" id=3]
 
 [sub_resource type="AtlasTexture" id=2]
@@ -39,7 +39,7 @@ extents = Vector2( 20, 56 )
 [node name="Checkpoint" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2( -32, -64 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 6 )

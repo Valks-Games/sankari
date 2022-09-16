@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class GodotCommands
+public partial class GodotCommands
 {
     private readonly ConcurrentQueue<GodotCmd> _godotCmdQueue = new();
 
@@ -19,13 +19,14 @@ public class GodotCommands
 
                     var logOpcode = true;
 
-                    if (GameManager.Linker.IgnoreOpcodesFromServer != null)
+                    // TODO: Convert to Godot4
+                    /*if (GameManager.Linker.IgnoreOpcodesFromServer != null)
                         foreach (var dontLogOpcode in GameManager.Linker.IgnoreOpcodesFromServer) 
                             if (opcode == dontLogOpcode) 
                             {
                                 logOpcode = false;
                                 break;
-                            }
+                            }*/
 
                     if (logOpcode)
                         Logger.Log($"[Client] Received: {opcode}");
@@ -55,7 +56,7 @@ public class GodotCommands
     }
 }
 
-public class GodotCmd
+public partial class GodotCmd
 {
     public GodotOpcode Opcode { get; set; }
     public object Data { get; set; }
@@ -73,17 +74,17 @@ public enum GodotOpcode
     SpawnPopupMessage,
     SpawnPopupError,
     NetEvent,
-    ChangeScene,
+    ChangeSceneToFile,
     Disconnect
 }
 
-public class GodotCmdPopupMessage
+public partial class GodotCmdPopupMessage
 {
     public string Title { get; set; }
     public string Message { get; set; }
 }
 
-public class GodotCmdPopupError
+public partial class GodotCmdPopupError
 {
     public string Title { get; set; }
     public Exception Exception { get; set; }

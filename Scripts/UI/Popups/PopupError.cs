@@ -1,8 +1,8 @@
 namespace Sankari;
 
-public class PopupError : WindowDialog
+public partial class PopupError : Window
 {
-    [Export] protected readonly NodePath NodePathError;
+    [Export] protected  NodePath NodePathError;
 
     private string _message;
     private string _title;
@@ -18,7 +18,7 @@ public class PopupError : WindowDialog
 
     public override void _Ready()
     {
-        WindowTitle = _title;
+        Title = _title;
         GetNode<TextEdit>(NodePathError).Text = _message;
     }
 

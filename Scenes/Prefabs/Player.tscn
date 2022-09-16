@@ -1,23 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://de2xum4gjflrh"]
 
-[ext_resource path="res://Sprites/Sprite Frames/Player.tres" type="SpriteFrames" id=1]
-[ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=2]
+[ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="2"]
+[ext_resource type="SpriteFrames" uid="uid://di3nq5eobjvgk" path="res://Sprites/Sprite Frames/Player.tres" id="2_pdwy7"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 16 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(20, 32)
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 16 )
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(20, 32)
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="CharacterBody2D"]
 z_index = 1
-script = ExtResource( 2 )
+script = ExtResource("2")
 NodePathRayCast2DWallChecksLeft = NodePath("Raycasts/Wall Checks/Left")
 NodePathRayCast2DWallChecksRight = NodePath("Raycasts/Wall Checks/Right")
 NodePathRayCast2DGroundChecks = NodePath("Raycasts/Ground Checks")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource("1")
 
 [node name="Raycasts" type="Node2D" parent="."]
 
@@ -26,53 +26,43 @@ shape = SubResource( 1 )
 [node name="Left" type="Node2D" parent="Raycasts/Wall Checks"]
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
-position = Vector2( -10, -12 )
-enabled = true
-cast_to = Vector2( -1, 0 )
+position = Vector2(-10, -12)
+target_position = Vector2(-4, 0)
 
 [node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
-position = Vector2( -10, 3 )
-enabled = true
-cast_to = Vector2( -1, 0 )
+position = Vector2(-10, 3)
+target_position = Vector2(-4, 0)
 
 [node name="Right" type="Node2D" parent="Raycasts/Wall Checks"]
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
-position = Vector2( 10, -12 )
-enabled = true
-cast_to = Vector2( 1, 0 )
+position = Vector2(10, -12)
+target_position = Vector2(4, 0)
 
 [node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
-position = Vector2( 10, 3 )
-enabled = true
-cast_to = Vector2( 1, 0 )
+position = Vector2(10, 3)
+target_position = Vector2(4, 0)
 
 [node name="Ground Checks" type="Node2D" parent="Raycasts"]
 
 [node name="Left" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2( -9, 16 )
-enabled = true
-cast_to = Vector2( 0, 8 )
+position = Vector2(-9, 16)
 
 [node name="Middle" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2( 0.5, 16 )
-enabled = true
-cast_to = Vector2( 0, 8 )
+position = Vector2(0.5, 16)
 
 [node name="Right" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2( 9, 16 )
-enabled = true
-cast_to = Vector2( 0, 8 )
+position = Vector2(9, 16)
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 2, 2 )
-frames = ExtResource( 1 )
-animation = "idle"
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+frames = ExtResource("2_pdwy7")
+animation = &"idle"
 
-[node name="Area" type="Area2D" parent="." groups=["Player"]]
+[node name="Area3D" type="Area2D" parent="." groups=["Player"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area"]
-shape = SubResource( 2 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area3D"]
+shape = SubResource("2")
 
-[connection signal="area_entered" from="Area" to="." method="_on_Player_Area_area_entered"]
-[connection signal="area_exited" from="Area" to="." method="_on_Area_area_exited"]
+[connection signal="area_entered" from="Area3D" to="." method="_on_Player_Area_area_entered"]
+[connection signal="area_exited" from="Area3D" to="." method="_on_Area_area_exited"]

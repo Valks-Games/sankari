@@ -1,4 +1,4 @@
-﻿namespace Sankari.Netcode;
+namespace Sankari.Netcode;
 
 public static class NetIntervals 
 {

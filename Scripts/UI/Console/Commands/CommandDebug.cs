@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class CommandDebug : Command
+public partial class CommandDebug : Command
 {
     private readonly Dictionary<string, Action> commands = new();
 

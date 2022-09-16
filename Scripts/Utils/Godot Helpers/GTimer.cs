@@ -2,11 +2,11 @@ using Timer = Godot.Timer;
 
 namespace Sankari;
 
-public class GTimer
+public partial class GTimer
 {
     private readonly Timer timer = new();
 
-    public float TimeLeft 
+    public double TimeLeft 
     { 
         get { return timer.TimeLeft; } 
     }
@@ -14,7 +14,7 @@ public class GTimer
     public GTimer(Node target, string methodName, int delayMs = 1000, bool loop = true, bool autoStart = true)
     {
         Init(target, delayMs, loop, autoStart);
-        timer.Connect("timeout", target, methodName);
+        timer.Connect("timeout",new Callable(target,methodName));
     }
 
     private void Init(Node target, int delayMs, bool loop, bool autoStart)

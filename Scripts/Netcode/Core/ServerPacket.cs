@@ -2,7 +2,7 @@ using ENet;
 
 namespace Sankari.Netcode;
 
-public class ServerPacket : GamePacket
+public partial class ServerPacket : GamePacket
 {
     public Peer[] Peers { get; }
 

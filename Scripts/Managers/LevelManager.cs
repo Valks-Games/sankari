@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class LevelManager
+public partial class LevelManager
 {
     public Dictionary<string, Level> Levels = new();
 
@@ -55,14 +55,14 @@ public class LevelManager
 
         // load level
         var scenePath = $"res://Scenes/Levels/{CurrentLevel}.tscn";
-        if (!new File().FileExists(scenePath))
+        if (!File.FileExists(scenePath))
         {
             Logger.LogWarning("Level has not been made yet!");
             return;
         }
 
         var levelPacked = ResourceLoader.Load<PackedScene>(scenePath);
-        var level = (LevelScene)levelPacked.Instance();
+        var level = (LevelScene)levelPacked.Instantiate();
         level.PreInit();
         nodeLevel.AddChild(level);
 
@@ -94,7 +94,7 @@ public class LevelManager
     }
 }
 
-public class Level 
+public partial class Level 
 {
     public string Name { get; set; }
     public string Music { get; set; }

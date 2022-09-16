@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class PlatformFollowPath : APlatform
+public partial class PlatformFollowPath : APlatform
 {
     //[Export] public float Speed = 10f;
 
@@ -15,9 +15,9 @@ public class PlatformFollowPath : APlatform
         collision = GetNode<CollisionShape2D>("CollisionShape2D");
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(double delta)
     {
-        path.Offset += delta * 20;
+        path.Progress += (float)delta * 20;
         collision.Position = path.Position;
     }
 }

@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class GodotFileManager
+public partial class GodotFileManager
 {
     public string GetProjectPath() => OS.HasFeature("standalone")
         ? System.IO.Directory.GetParent(OS.GetExecutablePath())!.FullName
@@ -34,7 +34,7 @@ public class GodotFileManager
             return false;
         }
 
-        dir.ListDirBegin(true);
+        dir.ListDirBegin();
         var fileName = dir.GetNext();
 
         while (fileName != "")

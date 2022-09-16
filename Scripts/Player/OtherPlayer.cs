@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class OtherPlayer : AnimatedSprite
+public partial class OtherPlayer : AnimatedSprite2D
 {
     public override void _Ready()
     {

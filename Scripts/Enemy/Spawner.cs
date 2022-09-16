@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Spawner : Position2D, IEntity
+public partial class Spawner : Marker2D, IEntity
 {
     [Export] public EnemyType EnemyType;
     [Export] public int RespawnInterval = 1000;
@@ -21,7 +21,7 @@ public class Spawner : Position2D, IEntity
         switch (EnemyType)
         {
             case EnemyType.BasicEnemy:
-                var enemy = Prefabs.BasicEnemy.Instance<BasicEnemy>();
+                var enemy = Prefabs.BasicEnemy.Instantiate<BasicEnemy>();
                 enemy.DontCollideWithWall = true;
                 enemy.FallOffCliff = true;
                 enemy.Position = GlobalPosition;

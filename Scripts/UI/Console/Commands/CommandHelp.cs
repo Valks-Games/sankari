@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace Sankari;
 
-public class CommandHelp : Command
+public partial class CommandHelp : Command
 {
     private static readonly List<string> CommandNames = Assembly.GetExecutingAssembly()
             .GetTypes()

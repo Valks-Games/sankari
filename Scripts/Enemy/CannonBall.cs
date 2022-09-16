@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class CannonBall : RigidBody2D
+public partial class CannonBall : RigidBody2D
 {
     private GTimer timer;
 

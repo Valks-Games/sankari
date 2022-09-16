@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class Trigger : Node
+public partial class Trigger : Node
 {
     [Export] public string[] Entities; // the entities this trigger effects
     [Export] public TriggerAction Action; // the action that this trigger will execute when activated
@@ -8,7 +8,7 @@ public class Trigger : Node
     [Export] public bool OnlyExecuteOnce;
     [Export] public BasicEnemy BasicEnemy;
 
-    [Export] protected readonly NodePath NodePathEntities;
+    [Export] protected  NodePath NodePathEntities;
 
     private Area2D area2D;
     private Node entities;
@@ -17,7 +17,7 @@ public class Trigger : Node
     {
         area2D = GetParent<Area2D>();
         entities = GetNode<Node>(NodePathEntities);
-        area2D.Connect("area_entered", this, nameof(OnAreaEntered));
+        area2D.Connect("area_entered",new Callable(this,nameof(OnAreaEntered)));
     }
 
     private void OnAreaEntered(Area2D area)

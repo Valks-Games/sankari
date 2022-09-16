@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public class PlayerDashTrace : Sprite
+public partial class PlayerDashTrace : Sprite2D
 {
     private GTimer timer;
 

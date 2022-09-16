@@ -15,10 +15,10 @@ script = ExtResource( 1 )
 shape = SubResource( 24 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = -7.0
-margin_top = -10.0
-margin_right = 7.0
-margin_bottom = 10.0
+offset_left = -7.0
+offset_top = -10.0
+offset_right = 7.0
+offset_bottom = 10.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Area2D" type="Area2D" parent="."]

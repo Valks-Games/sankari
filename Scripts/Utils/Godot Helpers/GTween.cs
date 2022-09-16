@@ -1,41 +1,30 @@
 namespace Sankari;
 
-public class GTween 
+public partial class GTween 
 {
     private readonly Tween tween;
     private readonly Node target;
 
-    /// <summary>
-    /// Should the tween animation loop? Note that if Repeat is set to false than the values set in InterpolateProperty
-    /// will be wiped when the animation finishes.
-    /// </summary>
-    public bool Repeat
-    {
-        get { return tween.Repeat; }
-        set { tween.Repeat = value; }
-    }
-
     public GTween(Node target)
     {
-        tween = new Tween();
-        tween.ProcessPriority = (int)Tween.TweenProcessMode.Physics;
         this.target = target;
-        this.target.AddChild(tween);
+        tween = this.target.GetTree().CreateTween();
+        tween.Stop();
     }
 
     /// <summary>
     /// Hover over the property in the editor to get the string value of that property.
     /// </summary>
-    public bool InterpolateProperty
+    public void InterpolateProperty
     (
         NodePath property, 
         object initialValue, 
-        object finalValue, 
+        Godot.Variant finalValue, 
         float duration, 
         float delay = 0,
         Tween.TransitionType transType = Tween.TransitionType.Cubic, 
         Tween.EaseType easeType = Tween.EaseType.InOut
-    ) => tween.InterpolateProperty(target, property, initialValue, finalValue, duration, transType, easeType, delay);
+    ) => tween.TweenProperty(target, property, finalValue, duration);
 
     public async Task AnimatePlatform
     (
@@ -48,25 +37,24 @@ public class GTween
         Tween.EaseType easeType = Tween.EaseType.InOut
     ) 
     {
-        tween.Repeat = true;
+        // tween.Repeat = true; // TODO: Godot 4 conversion
         InterpolateProperty("position", initialValue, finalValue, duration, 0, transType, easeType);
         InterpolateProperty("position", finalValue, initialValue, duration, duration, transType, easeType);
         await Task.Delay(startDelay * 1000);
         Start();
     }
 
-    public void IsActive() => tween.IsActive();
-    public void Start() => tween.Start();
-    public void Pause() => tween.StopAll();
-    public void Resume() => tween.ResumeAll();
+    //public void IsActive() => tween.IsActive(); // TODO: Godot 4 conversion
+    public void Start() => tween.Play();
+    public void Pause() => tween.Stop();
 
     /// <summary>
     /// The name of the method passed must have Object @object, NodePath nodePath params
     /// </summary>
-    public void OnCompleted(string method) => tween.Connect("tween_completed", target, method);
+    public void OnCompleted(string method) => tween.Connect("tween_completed",new Callable(target,method));
 
     /// <summary>
     /// Emitted when all the animations in the tween have been completed.
     /// </summary>
-    public void OnAllCompleted(string method) => tween.Connect("tween_all_completed", target, method);
+    public void OnAllCompleted(string method) => tween.Connect("tween_all_completed",new Callable(target,method));
 }
