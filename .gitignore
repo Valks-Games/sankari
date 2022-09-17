@@ -13,3 +13,4 @@ data_*/
 
 # VS-specific ignores
 .vs/
+Properties/
