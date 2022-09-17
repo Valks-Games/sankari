@@ -135,9 +135,8 @@ public partial class Map : Node
             var currPos = playerIcon.Position;
             var nextPos = currPos + moveOffset;
 
-            // TODO GODOT 4 CONVERSION
-            //if (tileMapTerrain.GetTileName(nextPos) != "path")
-            //    return;
+            if (tileMapTerrain.GetTileName(nextPos) != "Path")
+                return;
 
             //var tileIdLevelOffset = GetCurrentTileId(tileMapLevelIcons, nextPos);
             //var tileIdLevelCurr = GetCurrentTileId(tileMapLevelIcons, currPos);

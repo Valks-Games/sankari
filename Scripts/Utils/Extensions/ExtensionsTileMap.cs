@@ -17,8 +17,22 @@ public static class ExtensionsTileMap
         //tileMap.CollisionMask = result;
     }
 
-    public static string GetTileName(this TileMap tilemap, Vector2 pos) => "";
-        //tilemap.TileSet.GetName(tilemap.GetCurrentTileId(pos)); // TODO: Godot 4 conversion
+    public static string GetTileName(this TileMap tilemap, Vector2 pos, int layer = 0)
+    {
+        if (!tilemap.TileExists(pos))
+            return "";
+
+        var tileData = tilemap.GetCellTileData(layer, tilemap.LocalToMap(pos));
+
+        if (tileData == null)
+            return "";
+
+        var data = tileData.GetCustomData("Name");
+
+        return data.AsString();
+    }
+
+    public static bool TileExists(this TileMap tilemap, Vector2 pos, int layer = 0) => tilemap.GetCellSourceId(layer, tilemap.LocalToMap(pos)) != -1;
 
     private static int GetCurrentTileId(this TileMap tilemap, Vector2 pos)
     {

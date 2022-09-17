@@ -1,8 +1,11 @@
 {
   "profiles": {
-    "Super Mario Bros Like Game": {
-      "commandName": "Project",
-      "commandLineArgs": "-e --path C:\\Users\\VALK-DESKTOP\\Documents\\Godot Projects\\Super Mario Bros Like Game"
+    "Profile 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\VALK-DESKTOP\\Downloads\\Godot_v4.0-beta1_mono_win64\\Godot_v4.0-beta1_mono_win64.exe",
+      "commandLineArgs": "--path .",
+      "workingDirectory": ".",
+      "nativeDebugging": true
     }
   }
 }
