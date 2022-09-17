@@ -23,6 +23,8 @@
 }
 ```
 
+> ℹ️ Format an entire document with `CTRL + K + D`
+
 > ℹ️ Note that you can alternatively use VSCode but it [requires more setup](https://github.com/Valks-Games/sankari/blob/main/.github/VSCODE_SETUP.md)
 
 ## Coding
