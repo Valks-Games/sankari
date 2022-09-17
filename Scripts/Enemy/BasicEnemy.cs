@@ -87,6 +87,8 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
                 ChangeDirection();
         }
 
+		Velocity = velocity;
+
         MoveAndSlide(); // move and slide handles delta automatically (delta needed because moving over position between frames)
     }
 
