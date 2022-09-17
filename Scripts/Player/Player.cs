@@ -406,23 +406,15 @@ public partial class Player : CharacterBody2D
         dieTween.InterpolateProperty
         (
             "position:y",
-            dieStartPos,
             dieStartPos - 80,
-            0.75f,
-            0,
-            Tween.TransitionType.Quint,
-            Tween.EaseType.Out
+            0.75f
         );
 
         dieTween.InterpolateProperty
         (
             "position:y",
-            dieStartPos - 80,
             dieStartPos + 600,
-            1f,
-            0.75f,
-            Tween.TransitionType.Circ,
-            Tween.EaseType.In
+            1f
         );
 
         // animate rotation
@@ -430,9 +422,7 @@ public partial class Player : CharacterBody2D
         (
             "rotation_degrees",
             0,
-            160,
-            2f,
-            0.25f
+            160
         );
 
         dieTween.Start();

@@ -18,13 +18,9 @@ public partial class GTween
     public void InterpolateProperty
     (
         NodePath property, 
-        object initialValue, 
-        object finalValue, 
-        float duration, 
-        float delay = 0,
-        Tween.TransitionType transType = Tween.TransitionType.Cubic, 
-        Tween.EaseType easeType = Tween.EaseType.InOut
-    ) => tween.TweenProperty(target, property, (Variant)finalValue, duration);
+        Variant finalValue, 
+        float duration
+    ) => tween.TweenProperty(target, property, finalValue, duration);
 
     public async Task AnimatePlatform
     (
@@ -38,8 +34,8 @@ public partial class GTween
     ) 
     {
         // tween.Repeat = true; // TODO: Godot 4 conversion
-        InterpolateProperty("position", initialValue, finalValue, duration, 0, transType, easeType);
-        InterpolateProperty("position", finalValue, initialValue, duration, duration, transType, easeType);
+        InterpolateProperty("position", finalValue, duration);
+        InterpolateProperty("position", initialValue, duration);
         await Task.Delay(startDelay * 1000);
         Start();
     }

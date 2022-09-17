@@ -38,7 +38,7 @@ public partial class LevelUIManager : Control
 
     public async Task HideLivesTransition() 
     {
-        tween.InterpolateProperty("modulate", new Color(1, 1, 1, 1), new Color(1, 1, 1, 0), 2);
+        tween.InterpolateProperty("modulate", new Color(1, 1, 1, 0), 2);
         tween.Start();
         await Task.Delay(2000);
     }
