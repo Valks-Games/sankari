@@ -8,7 +8,26 @@
 
 ## [Read this if you are coming from Unity](https://github.com/Valks-Games/sankari/blob/main/.github/UNITY_GODOT.md)
 
-## Setup VScode to Work with Godot C#
+## VS2022
+1. Make sure you have the latest installation of VS2022
+2. Set `Godot > Editor > Editor Settings > Mono > Editor > External Editor` to `Visual Studio`
+3. To get debugging working with Godot, create a new folder next to `project.godot` called `Properties` and within that folder create a new JSON file with the following contents
+
+```json
+{
+  "profiles": {
+    "Profile 1": {
+      "commandName": "Executable",
+      "executablePath": "<REPLACE_WITH_PATH_TO_YOUR_GODOT_EXECUTABLE>",
+      "commandLineArgs": "--path .",
+      "workingDirectory": ".",
+      "nativeDebugging": true
+    }
+  }
+}
+```
+
+## VSCode
 The built in Godot scripting editor is awful for C# scripting. VSCode is free software, I recommend you use that or JetBrains C# which is not free.
 
 1. Install [VSCode](https://code.visualstudio.com) (or [VSCodium](https://github.com/VSCodium/vscodium) which is VSCode without the built-in telemetry)
@@ -28,12 +47,12 @@ The built in Godot scripting editor is awful for C# scripting. VSCode is free so
 
 Note that you can [add these files to exclude from your file view in VSCode](https://gist.github.com/valkyrienyanko/2f9deb179e775650e2d48c7a0e798dec) (it makes the file structure on the left prettier) (I don't know where to paste this in VSCode as I manually edited this directly in the settings, if anyone figures out where please tell me!)
 
-## Debugging
 ### VSCode Configurations
 1. Under `.vscode/` [add launch.json and tasks.json files](https://gist.github.com/valkyrienyanko/45723ed058e175eef2428f7c3230dccb) and replace all instances of `<GODOT_PATH>` with the path to the Godot executable
 2. Enable `Wait For Debugger` option in `Godot > Project > Project Settings > Mono > Debugger Agent`
 3. Use the `attach` VSCode configuration, set one or more breakpoints and launch Godot game to start debugging
 
+## Notes
 ### In-Game Console
 There is a in-game console you can bring up with `F12`. Type `help` to view a list of all the commands. You can program any of these commands within their respective scripts located under `res://Scripts/UI/Console/Commands`. Feel free to add new commands as well.
 
