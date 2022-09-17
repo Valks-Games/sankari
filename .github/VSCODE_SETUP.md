@@ -7,7 +7,7 @@ The built in Godot scripting editor is awful for C# scripting. VSCode is free so
     - [C# Tools for Godot](https://marketplace.visualstudio.com/items?itemName=neikeq.godot-csharp-vscode)
     - [godot-tools](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-tools)
     - [Mono Debug](https://marketplace.visualstudio.com/items?itemName=ms-vscode.mono-debug)
-    - [Editor Config](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig) *(not required but enforces projects indentation settings among other things)*
+    - [Editor Config](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig) *(not required but enforces projects indentation settings among other things) (you can use this [.editorconfig](https://gist.github.com/valkyrienyanko/e9564c067e57500af86ce5c273f7e131) I made specifically for VSCode with C#, it is different than the .editorconfig which currently exists in the repo which is for VS)*
 3. Optional extensions that are useful to have
     - [C# XML Documentation Comments](https://marketplace.visualstudio.com/items?itemName=k--kato.docomment)
     - [Roslynator](https://marketplace.visualstudio.com/items?itemName=josefpihrt-vscode.roslynator)
