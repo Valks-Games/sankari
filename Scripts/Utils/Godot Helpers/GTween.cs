@@ -19,12 +19,12 @@ public partial class GTween
     (
         NodePath property, 
         object initialValue, 
-        Godot.Variant finalValue, 
+        object finalValue, 
         float duration, 
         float delay = 0,
         Tween.TransitionType transType = Tween.TransitionType.Cubic, 
         Tween.EaseType easeType = Tween.EaseType.InOut
-    ) => tween.TweenProperty(target, property, finalValue, duration);
+    ) => tween.TweenProperty(target, property, (Variant)finalValue, duration);
 
     public async Task AnimatePlatform
     (
