@@ -4,11 +4,7 @@
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
-[Good First Coding Issues](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+label%3Acoding+)  
-
-## [Read this if you are coming from Unity](https://github.com/Valks-Games/sankari/blob/main/.github/UNITY_GODOT.md)
-
-## VS2022
+## Setup VS2022 to work with Godot C#
 1. Make sure you have the latest installation of VS2022
 2. Set `Godot > Editor > Editor Settings > Mono > Editor > External Editor` to `Visual Studio`
 3. To get debugging working with Godot, create a new folder next to `project.godot` called `Properties` and within that folder create a new JSON file with the following contents
@@ -27,11 +23,8 @@
 }
 ```
 
-## Notes
-### In-Game Console
-There is a in-game console you can bring up with `F12`. Type `help` to view a list of all the commands. You can program any of these commands within their respective scripts located under `res://Scripts/UI/Console/Commands`. Feel free to add new commands as well.
+There is also a in-game console you can bring up with `F12`. Type `help` to view a list of all the commands. You can program any of these commands within their respective scripts located under `res://Scripts/UI/Console/Commands`.
 
-### Note About Logging
 Please always use `Logger.Log()` over `GD.Print()` as the logger uses a thread safe approach removing the possibility of random game crashes
 
 Try making use of `Print()` and `PrintFull()`. For example `Logger.Log(myArray.Print())` and `Logger.Log(this.PrintFull())`, try it out!
