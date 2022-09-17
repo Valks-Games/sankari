@@ -1,5 +1,7 @@
 > ⚠️ Please talk to valk#9904 through Discord whenever you want to work on something, this way I can tell you if others are working on it or if I do not want you to work on that specific thing right now.
 
+> ⚠️ Currently everything is being migrated to `godot4` branch!
+
 > ℹ️ If you comment on an issue in GitHub I can assign you to that issue. 
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
