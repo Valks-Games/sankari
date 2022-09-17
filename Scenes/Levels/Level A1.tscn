@@ -8,9 +8,9 @@
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://br8tt26pexrre" path="res://Sprites/Tilesets/Grass/grass_dirt_16.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://w64koklfslbm" path="res://Sprites/Level/Parallax Backgrounds/Grass/5_clouds.png" id="11"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Camera.tscn" id="12"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Coin.tscn" id="13"]
 [ext_resource type="Texture2D" uid="uid://fw8npcofwl40" path="res://Sprites/Level/Parallax Backgrounds/Grass/3_trees.png" id="14"]
+[ext_resource type="Script" path="res://Scripts/Level/LevelCamera.cs" id="14_1qxvw"]
 [ext_resource type="Texture2D" uid="uid://da35q1i260s8q" path="res://Sprites/Level/Parallax Backgrounds/Grass/2_trees.png" id="15"]
 [ext_resource type="Texture2D" uid="uid://vg4rwpcnjqwo" path="res://Sprites/Level/Parallax Backgrounds/Grass/1_trees.png" id="16"]
 [ext_resource type="Script" path="res://Scripts/Level/Trigger.cs" id="21"]
@@ -836,11 +836,13 @@ script = ExtResource("7")
 position = Vector2(4632, 1152)
 shape = SubResource("5")
 
-[node name="Camera" parent="." instance=ExtResource("12")]
-zoom = Vector2(0.8, 0.8)
-limit_left = -128
-limit_top = -1131
-limit_right = 9575
-limit_bottom = 721
+[node name="Camera" type="Camera2D" parent="."]
+current = true
+limit_left = -8
+limit_top = -1138
+limit_right = 9368
+limit_bottom = 651
+editor_draw_limits = true
+script = ExtResource("14_1qxvw")
 
 [connection signal="area_entered" from="Bottom" to="Bottom" method="_on_Bottom_area_entered"]
