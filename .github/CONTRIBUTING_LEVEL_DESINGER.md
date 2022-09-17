@@ -1,7 +1,5 @@
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/level%20designer?color=black&label=Level%20Designer)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22level+designer%22)
 
-[Good First Level Designer Issues](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+label%3A%22level+designer%22)  
-
 ### Ideas for Levels that have not been done yet
 - Climb the mountain
 - Go into the volcano (level starts at top, always going down) (tileset for this needs to be done first)
