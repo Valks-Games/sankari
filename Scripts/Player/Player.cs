@@ -92,6 +92,8 @@ public partial class Player : CharacterBody2D
         PrepareRaycasts(parentGroundChecks, rayCast2DGroundChecks);
 
         animatedSprite.Play("idle");
+
+		UpDirection = Vector2.Up;
     }
 
     public override void _PhysicsProcess(double d)
@@ -232,6 +234,8 @@ public partial class Player : CharacterBody2D
             velocity.y = Mathf.Clamp(velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
         }
 
+		Velocity = velocity;
+
         MoveAndSlide();
     }
 
@@ -348,7 +352,7 @@ public partial class Player : CharacterBody2D
         return false;
     }
 
-    private bool IsFalling() => velocity.y > 0;
+    private bool IsFalling() => Velocity.y > 0;
 
     private void UpdateMoveDirection()
     {
