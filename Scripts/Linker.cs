@@ -46,16 +46,16 @@ public partial class Linker : Node
 				if (OS.HasFeature("standalone"))
 				{
 					// running in an exported build
-					//OS.SetWindowTitle("OtherClient"); // TODO: Godot 4 conversion
-					//GameManager.UIMapMenu.OnlineUsername = "OtherClient";
-					//GameManager.UIMapMenu.Join();
+					DisplayServer.WindowSetTitle("OtherClient");
+					GameManager.UIMapMenu.OnlineUsername = "OtherClient";
+					GameManager.UIMapMenu.Join();
 				}
-				else 
+				else
 				{
 					// running in the editor
-					//OS.SetWindowTitle("ImHost"); // TODO: Godot 4 conversion
-					//GameManager.UIMapMenu.OnlineUsername = "ImHost";
-					//await GameManager.UIMapMenu.HostGame();
+					DisplayServer.WindowSetTitle("ImHost");
+					GameManager.UIMapMenu.OnlineUsername = "ImHost";
+					await GameManager.UIMapMenu.HostGame();
 				}
 			}
 		}
