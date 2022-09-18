@@ -101,15 +101,15 @@ public partial class Player : CharacterBody2D
 		if (HasTouchedCheckpoint)
 			Position = RespawnPosition;
 
-		TimerDashCooldown = new GTimer(this, nameof(OnDashReady), DashCooldown, false, false);
-		TimerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DashDuration, false, false);
-		TimerNetSend = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, GameManager.Net.IsMultiplayer());
-		ParentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
-		ParentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
+		TimerDashCooldown     = new GTimer(this, nameof(OnDashReady), DashCooldown, false, false);
+		TimerDashDuration     = new GTimer(this, nameof(OnDashDurationDone), DashDuration, false, false);
+		TimerNetSend          = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, GameManager.Net.IsMultiplayer());
+		ParentGroundChecks    = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
+		ParentWallChecksLeft  = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
 		ParentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
-		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		DieTween = new GTween(this);
-		Tree = GetTree().Root;
+		AnimatedSprite        = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		DieTween              = new GTween(this);
+		Tree                  = GetTree().Root;
 
 		PrepareRaycasts(ParentWallChecksLeft, RayCast2DWallChecksLeft);
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
@@ -118,11 +118,15 @@ public partial class Player : CharacterBody2D
 		AnimatedSprite.Play("idle");
 
 		UpDirection = Vector2.Up;
+
+		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
+		FloorStopOnSlope = false;   // players should slide on slopes
 	}
 
 	public override void _PhysicsProcess(double d)
 	{
 		var delta = (float)d;
+
 		if (HaltPlayerLogic)
 			return;
 
@@ -143,14 +147,13 @@ public partial class Player : CharacterBody2D
 
 	private void HandleMovement(float delta)
 	{
-		var inputJump = Input.IsActionJustPressed("player_jump");
-		var inputUp = Input.IsActionPressed("player_move_up");
-		var inputDown = Input.IsActionPressed("player_move_down");
+		var inputJump     = Input.IsActionJustPressed("player_jump");
+		var inputUp       = Input.IsActionPressed("player_move_up");
+		var inputDown     = Input.IsActionPressed("player_move_down");
 		var inputFastFall = Input.IsActionPressed("player_fast_fall");
-		var inputDash = Input.IsActionJustPressed("player_dash");
-		var inputSprint = Input.IsActionPressed("player_sprint");
+		var inputDash     = Input.IsActionJustPressed("player_dash");
+		var inputSprint   = Input.IsActionPressed("player_sprint");
 
-		var gravity = GravityAir;
 		WallDir = UpdateWallDirection();
 
 		// on a wall and falling
@@ -161,8 +164,8 @@ public partial class Player : CharacterBody2D
 			if (IsFalling())
 			{
 				velocityPlayer.y = 0;
-				gravity = GravityWall;
 
+				// fast fall
 				if (inputDown)
 					velocityPlayer.y += 50;
 
@@ -200,11 +203,8 @@ public partial class Player : CharacterBody2D
 
 		if (CurrentlyDashing)
 		{
-			gravity = 0;
 			DoDashStuff();
 		}
-		else
-			gravity = GravityAir;
 
 		AnimatedSprite.FlipH = MoveDir.x < 0;
 
@@ -224,7 +224,7 @@ public partial class Player : CharacterBody2D
 			if (inputJump)
 			{
 				Jump();
-				velocityPlayer.y = 0;
+				velocityPlayer.y = 0; // reset vertical velocity before jumping
 				velocityPlayer.y -= JumpForce;
 			}
 		}
@@ -240,7 +240,7 @@ public partial class Player : CharacterBody2D
 			AnimatedSprite.Play("jump_fall");
 
 		// apply gravity
-		velocityPlayer.y += gravity * delta;
+		velocityPlayer.y += GravityAir * delta;
 
 		if (!CurrentlyDashing)
 		{
@@ -258,7 +258,7 @@ public partial class Player : CharacterBody2D
 			velocityPlayer.y = Mathf.Clamp(velocityPlayer.y, -SpeedMaxAir, SpeedMaxAir);
 		}
 
-		base.Velocity = velocityPlayer;
+		Velocity = velocityPlayer;
 
 		MoveAndSlide();
 	}
