@@ -2,9 +2,10 @@ namespace Sankari;
 
 public partial class Linker : Node
 {
-	[Export] public bool DeveloperMode;
-	[Export] public bool PressPlayOnLaunch;
-	[Export] public bool AutoHostJoin;
+	[Export] public bool DeveloperMode { get; set; }
+	[Export] public bool InstantlyLoadLevel1 { get; set; }
+	[Export] public bool PressPlayOnLaunch { get; set; }
+	[Export] public bool AutoHostJoin { get; set; }
 
 	// net
 	//[Export] public ServerPacketOpcode[] IgnoreOpcodesFromServer; // TODO: Convert to Godot4
@@ -32,6 +33,13 @@ public partial class Linker : Node
 		{
 			if (PressPlayOnLaunch)
 				GameManager.Menu.PressPlay();
+
+			if (InstantlyLoadLevel1)
+			{
+				GameManager.Menu.Hide();
+				GameManager.Level.CurrentLevel = "Level A1";
+				await GameManager.Level.LoadLevel();
+			}
 
 			if (AutoHostJoin)
 			{

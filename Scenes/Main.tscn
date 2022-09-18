@@ -62,6 +62,7 @@ frame_3/duration = 1.0
 [node name="Main" type="Node2D"]
 script = ExtResource("2")
 DeveloperMode = true
+InstantlyLoadLevel1 = true
 NodePathTransition = NodePath("CanvasLayer/Transition")
 
 [node name="Map" type="Node2D" parent="."]
@@ -329,7 +330,7 @@ theme = ExtResource("7")
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Level UI/PanelContainer"]
 offset_left = 1.0
 offset_top = 1.0
-offset_right = 163.0
+offset_right = 52.0
 offset_bottom = 30.0
 
 [node name="Coin Sprite2D" type="AnimatedSprite2D" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
@@ -353,7 +354,7 @@ text = "0"
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
 offset_left = 42.0
-offset_right = 162.0
+offset_right = 43.0
 offset_bottom = 29.0
 texture = SubResource("AnimatedTexture_tp2od")
 
