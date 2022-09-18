@@ -2,21 +2,21 @@ namespace Sankari;
 
 public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 {
-    [Export] public float Speed = 40;
-    [Export] public bool Active = true;
-    [Export] public bool StartWalkingRight;
-    [Export] public bool DontCollideWithWall;
-    [Export] public bool FallOffCliff;
+    [Export] public float Speed { get; set; } = 40;
+    [Export] public bool Active { get; set; } = true;
+    [Export] public bool StartWalkingRight { get; set; }
+    [Export] public bool DontCollideWithWall { get; set; }
+    [Export] public bool FallOffCliff { get; set; }
 
-    private const float gravity = 30000f;
-    private bool movingForward;
+    private float Gravity { get; set; } = 30000f;
+    private bool MovingForward { get; set; }
     
-    private AnimatedSprite2D animatedSprite;
+    private AnimatedSprite2D AnimatedSprite { get; set; }
 
-    private RayCast2D rayCastWallLeft;
-    private RayCast2D rayCastWallRight;
-    private RayCast2D rayCastCliffLeft;
-    private RayCast2D rayCastCliffRight;
+    private RayCast2D RayCastWallLeft { get; set; }
+    private RayCast2D RayCastWallRight { get; set; }
+    private RayCast2D RayCastCliffLeft { get; set; }
+    private RayCast2D RayCastCliffRight { get; set; }
 
     public void PreInit(Player player)
     {
@@ -25,38 +25,40 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 
     public override void _Ready()
     {
-        animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         Activate();
 
-        rayCastWallLeft = PrepareRaycast("Wall Checks/Left");
-        rayCastWallRight = PrepareRaycast("Wall Checks/Right");
-        rayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
-        rayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
+        RayCastWallLeft = PrepareRaycast("Wall Checks/Left");
+        RayCastWallRight = PrepareRaycast("Wall Checks/Right");
+        RayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
+        RayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
 
         if (FallOffCliff) 
         {
-            rayCastCliffLeft.Enabled = false;
-            rayCastCliffRight.Enabled = false;
+            RayCastCliffLeft.Enabled = false;
+            RayCastCliffRight.Enabled = false;
         }
 
         if (DontCollideWithWall)
         {
-            rayCastWallLeft.Enabled = false;
-            rayCastWallRight.Enabled = false;
+            RayCastWallLeft.Enabled = false;
+            RayCastWallRight.Enabled = false;
         }
 
         if (StartWalkingRight)
         {
-            movingForward = !movingForward;
-            animatedSprite.FlipH = true;
+            MovingForward = !MovingForward;
+            AnimatedSprite.FlipH = true;
         }
 
         if (!Active) 
         {
-            animatedSprite.Stop();
-            animatedSprite.Frame = 0;
+            AnimatedSprite.Stop();
+            AnimatedSprite.Frame = 0;
             SetPhysicsProcess(false);
         }
+
+		FloorStopOnSlope = false;
     }
 
     public override void _PhysicsProcess(double d)
@@ -64,26 +66,26 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
         var delta = (float)d;
         var velocity = new Vector2(0, 0);
 
-        velocity.y += delta * gravity; // delta needed here because it's an application of acceleration
+        velocity.y += delta * Gravity; // delta needed here because it's an application of acceleration
 
-        if (movingForward)
+        if (MovingForward)
         {
             velocity.x += Speed;
 
-            if (!DontCollideWithWall && IsRaycastColliding(rayCastWallRight))
+            if (!DontCollideWithWall && IsRaycastColliding(RayCastWallRight))
                 ChangeDirection();
 
-            if (!FallOffCliff && !IsRaycastColliding(rayCastCliffRight))
+            if (!FallOffCliff && !IsRaycastColliding(RayCastCliffRight))
                 ChangeDirection();
         }
         else
         {
             velocity.x -= Speed;
 
-            if (!DontCollideWithWall && IsRaycastColliding(rayCastWallLeft))
+            if (!DontCollideWithWall && IsRaycastColliding(RayCastWallLeft))
                 ChangeDirection();
 
-            if (!FallOffCliff && !IsRaycastColliding(rayCastCliffLeft))
+            if (!FallOffCliff && !IsRaycastColliding(RayCastCliffLeft))
                 ChangeDirection();
         }
 
@@ -95,15 +97,15 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
     public void Activate() 
     {
         SetPhysicsProcess(true);
-        animatedSprite.Frame = GD.RandRange(0, animatedSprite.Frames.GetFrameCount("default"));
-        animatedSprite.SpeedScale = 1 + (Speed * 0.002f);
-        animatedSprite.Play();
+        AnimatedSprite.Frame = GD.RandRange(0, AnimatedSprite.Frames.GetFrameCount("default"));
+        AnimatedSprite.SpeedScale = 1 + (Speed * 0.002f);
+        AnimatedSprite.Play();
     }
 
     public void Deactivate() 
     {
         SetPhysicsProcess(false);
-        animatedSprite.Stop();
+        AnimatedSprite.Stop();
     }
 
     public void Destroy()
@@ -113,8 +115,8 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 
     private void ChangeDirection()
     {
-        movingForward = !movingForward;
-        animatedSprite.FlipH = !animatedSprite.FlipH;
+        MovingForward = !MovingForward;
+        AnimatedSprite.FlipH = !AnimatedSprite.FlipH;
     }
 
     private RayCast2D PrepareRaycast(string path)
