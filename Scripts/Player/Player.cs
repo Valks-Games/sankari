@@ -2,487 +2,513 @@ namespace Sankari;
 
 public partial class Player : CharacterBody2D
 {
-    [Export] protected  NodePath NodePathRayCast2DWallChecksLeft;
-    [Export] protected  NodePath NodePathRayCast2DWallChecksRight;
-    [Export] protected  NodePath NodePathRayCast2DGroundChecks;
+	[Export] protected NodePath NodePathRayCast2DWallChecksLeft { get; set; }
+	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
+	[Export] protected NodePath NodePathRayCast2DGroundChecks { get; set; }
 
-    public static Vector2 RespawnPosition { get; set; }
-    public static bool HasTouchedCheckpoint { get; set; }
-    public static Player Instance;
+	public static Vector2 RespawnPosition { get; set; }
+	public static bool HasTouchedCheckpoint { get; set; }
+	public static Player Instance { get; set; }
 
-    private const int UNIVERSAL_FORCE_MODIFIER = 4;
-    private const int SPEED_GROUND = 15 * UNIVERSAL_FORCE_MODIFIER;
-    private const int SPEED_AIR = 4 * UNIVERSAL_FORCE_MODIFIER;
-    private const int SPEED_MAX_GROUND = 75 * UNIVERSAL_FORCE_MODIFIER;
-    private const int SPEED_MAX_GROUND_SPRINT = 100 * UNIVERSAL_FORCE_MODIFIER;
-    private const int SPEED_MAX_AIR = 225 * UNIVERSAL_FORCE_MODIFIER;
-    private const int SPEED_DASH_VERTICAL = 100 * UNIVERSAL_FORCE_MODIFIER;
-    private const int SPEED_DASH_HORIZONTAL = 150 * UNIVERSAL_FORCE_MODIFIER;
-    private const int GRAVITY_AIR = 350 * UNIVERSAL_FORCE_MODIFIER;
-    private const int GRAVITY_WALL = 750 * UNIVERSAL_FORCE_MODIFIER;
-    private const int JUMP_FORCE = 150 * UNIVERSAL_FORCE_MODIFIER;
-    private const int JUMP_FORCE_WALL_VERT = 150 * UNIVERSAL_FORCE_MODIFIER;
-    private const int JUMP_FORCE_WALL_HORZ = 75 * UNIVERSAL_FORCE_MODIFIER;
-    private const int DASH_COOLDOWN = 350;
-    private const int DASH_DURATION = 200;
+	private int UniversalForceModifier { get; set; }
+	private int SpeedGround { get; set; }
+	private int SpeedAir { get; set; }
+	private int SpeedMaxGround { get; set; }
+	private int SpeedMaxGroundSprint { get; set; }
+	private int SpeedMaxAir { get; set; }
+	private int SpeedDashVertical { get; set; }
+	private int SpeedDashHorizontal { get; set; }
+	private int GravityAir { get; set; }
+	private int GravityWall { get; set; }
+	private int JumpForce { get; set; }
+	private int JumpForceWallVert { get; set; }
+	private int JumpForceWallHorz { get; set; }
+	private int DashCooldown { get; set; }
+	private int DashDuration { get; set; }
 
-    // dependecy injcetion
-    private LevelScene levelScene;
+	// dependecy injcetion
+	private LevelScene LevelScene { get; set; }
 
-    // movement
-    private Vector2 prevNetPos;
-    private Vector2 moveDir;
-    private Vector2 velocity;
-    private bool haltPlayerLogic;
+	// movement
+	private Vector2 PrevNetPos { get; set; }
+	private Vector2 MoveDir { get; set; }
 
-    // timers
-    private GTimer timerDashCooldown;
-    private GTimer timerDashDuration;
-    private GTimer timerNetSend;
+	private bool HaltPlayerLogic { get; set; }
 
-    // raycasts
-    private Node2D parentWallChecksLeft;
-    private Node2D parentWallChecksRight;
-    private readonly List<RayCast2D> rayCast2DWallChecksLeft = new();
-    private readonly List<RayCast2D> rayCast2DWallChecksRight = new();
-    private readonly List<RayCast2D> rayCast2DGroundChecks = new();
-    private Node2D parentGroundChecks;
+	// timers
+	private GTimer TimerDashCooldown { get; set; }
+	private GTimer TimerDashDuration { get; set; }
+	private GTimer TimerNetSend { get; set; }
 
-    // animation
-    private AnimatedSprite2D animatedSprite;
-    private GTween dieTween;
+	// raycasts
+	private Node2D ParentWallChecksLeft { get; set; }
+	private Node2D ParentWallChecksRight { get; set; }
+	private List<RayCast2D> RayCast2DWallChecksLeft { get; } = new();
+	private List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
+	private List<RayCast2D> RayCast2DGroundChecks { get; } = new();
+	private Node2D ParentGroundChecks { get; set; }
 
-    // wall
-    private bool inWallJumpArea;
-    private int wallDir;
+	// animation
+	private AnimatedSprite2D AnimatedSprite { get; set; }
+	private GTween DieTween { get; set; }
 
-    // dash
-    private Vector2 dashDir;
-    private const int MAX_DASHES = 1;
-    private int dashCount;
-    private bool horizontalDash;
-    private bool dashReady = true;
-    private bool currentlyDashing;
+	// wall
+	private bool InWallJumpArea { get; set; }
+	private int WallDir { get; set; }
 
-    // msc
-    private Window tree;
+	// dash
+	private Vector2 DashDir { get; set; }
+	private int MaxDashes { get; set; } = 1;
+	private int DashCount { get; set; }
+	private bool HorizontalDash { get; set; }
+	private bool DashReady { get; set; } = true;
+	private bool CurrentlyDashing { get; set; }
 
-    public void PreInit(LevelScene levelScene)
-    {
-        this.levelScene = levelScene;
-    }
+	// msc
+	private Window Tree { get; set; }
 
-    public override void _Ready()
-    {
-        Instance = this;
-        if (HasTouchedCheckpoint)
-            Position = RespawnPosition;
-        timerDashCooldown = new GTimer(this, nameof(OnDashReady), DASH_COOLDOWN, false, false);
-        timerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DASH_DURATION, false, false);
-        timerNetSend = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, GameManager.Net.IsMultiplayer());
-        parentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
-        parentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
-        parentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
-        animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        dieTween = new GTween(this);
-        tree = GetTree().Root;
+	// fields
+	private Vector2 velocityPlayer;
 
-        PrepareRaycasts(parentWallChecksLeft, rayCast2DWallChecksLeft);
-        PrepareRaycasts(parentWallChecksRight, rayCast2DWallChecksRight);
-        PrepareRaycasts(parentGroundChecks, rayCast2DGroundChecks);
+	public void PreInit(LevelScene levelScene)
+	{
+		this.LevelScene = levelScene;
+	}
 
-        animatedSprite.Play("idle");
+	public Player()
+	{
+		UniversalForceModifier = 4;
+		SpeedGround            = 15 * UniversalForceModifier;
+		SpeedAir               = 4 * UniversalForceModifier;
+		SpeedMaxGround         = 75 * UniversalForceModifier;
+		SpeedMaxGroundSprint   = 100 * UniversalForceModifier;
+		SpeedMaxAir            = 225 * UniversalForceModifier;
+		SpeedDashVertical      = 100 * UniversalForceModifier;
+		SpeedDashHorizontal    = 150 * UniversalForceModifier;
+		GravityAir             = 350 * UniversalForceModifier;
+		GravityWall            = 750 * UniversalForceModifier;
+		JumpForce              = 150 * UniversalForceModifier;
+		JumpForceWallVert      = 150 * UniversalForceModifier;
+		JumpForceWallHorz      = 75 * UniversalForceModifier;
+		DashCooldown           = 350;
+		DashDuration           = 200;
+	}
+
+	public override void _Ready()
+	{
+		Instance = this;
+
+		if (HasTouchedCheckpoint)
+			Position = RespawnPosition;
+
+		TimerDashCooldown = new GTimer(this, nameof(OnDashReady), DashCooldown, false, false);
+		TimerDashDuration = new GTimer(this, nameof(OnDashDurationDone), DashDuration, false, false);
+		TimerNetSend = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, GameManager.Net.IsMultiplayer());
+		ParentGroundChecks = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
+		ParentWallChecksLeft = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
+		ParentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
+		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		DieTween = new GTween(this);
+		Tree = GetTree().Root;
+
+		PrepareRaycasts(ParentWallChecksLeft, RayCast2DWallChecksLeft);
+		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
+		PrepareRaycasts(ParentGroundChecks, RayCast2DGroundChecks);
+
+		AnimatedSprite.Play("idle");
 
 		UpDirection = Vector2.Up;
-    }
-
-    public override void _PhysicsProcess(double d)
-    {
-        var delta = (float)d;
-        if (haltPlayerLogic)
-            return;
-
-        UpdateMoveDirection();
-        HandleMovement(delta);
-    }
-
-    private void NetUpdate() 
-    {
-        if (Position != prevNetPos)
-            GameManager.Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition 
-            {
-                Position = Position
-            });
-
-        prevNetPos = Position;
-    }
-
-    private void HandleMovement(float delta)
-    {
-        var inputJump = Input.IsActionJustPressed("player_jump");
-        var inputUp = Input.IsActionPressed("player_move_up");
-        var inputDown = Input.IsActionPressed("player_move_down");
-        var inputFastFall = Input.IsActionPressed("player_fast_fall");
-        var inputDash = Input.IsActionJustPressed("player_dash");
-        var inputSprint = Input.IsActionPressed("player_sprint");
-
-        var gravity = GRAVITY_AIR;
-        wallDir = UpdateWallDirection();
-
-        // on a wall and falling
-        if (wallDir != 0 && inWallJumpArea)
-        {
-            animatedSprite.FlipH = wallDir == 1;
-
-            if (IsFalling())
-            {
-                velocity.y = 0;
-                gravity = GRAVITY_WALL;
-
-                if (inputDown)
-                    velocity.y += 50;
-
-                // wall jump
-                if (inputJump)
-                {
-                    Jump();
-                    velocity.x += -JUMP_FORCE_WALL_HORZ * wallDir;
-                    velocity.y -= JUMP_FORCE_WALL_VERT;
-                }
-            }
-        }
-        else
-        {
-            animatedSprite.FlipH = false;
-        }
-
-        CheckIfCanGoUnderPlatform(inputDown);
-
-        // dash
-        if (inputDash && dashReady && !currentlyDashing && dashCount != MAX_DASHES && !IsOnGround())
-        {
-            dashDir = GetDashDirection(inputUp, inputDown);
-
-            if (dashDir != Vector2.Zero)
-            {
-                dashCount++;
-                GameManager.Audio.PlaySFX("dash");
-                dashReady = false;
-                currentlyDashing = true;
-                timerDashDuration.Start();
-                timerDashCooldown.Start();
-            }
-        }
-
-        if (currentlyDashing)
-        {
-            gravity = 0;
-            DoDashStuff();
-        }
-        else
-            gravity = GRAVITY_AIR;
-
-        animatedSprite.FlipH = moveDir.x < 0;
-
-        if (IsOnGround())
-        {
-            dashCount = 0;
-
-            if (moveDir.x != 0)
-                animatedSprite.Play("walk");
-            else
-                animatedSprite.Play("idle");
-
-            velocity.x += moveDir.x * SPEED_GROUND;
-
-            HorzDampening(20);
-
-            if (inputJump)
-            {
-                Jump();
-                velocity.y = 0;
-                velocity.y -= JUMP_FORCE;
-            }
-        }
-        else
-        {
-            velocity.x += moveDir.x * SPEED_AIR;
-
-            if (inputFastFall)
-                velocity.y += 10;
-        }
-
-        if (IsFalling())
-            animatedSprite.Play("jump_fall");
-
-        // apply gravity
-        velocity.y += gravity * delta;
-
-        if (!currentlyDashing)
-        {
-            if (IsOnGround() && inputSprint)
-            {
-                animatedSprite.SpeedScale = 1.5f;
-                velocity.x = Mathf.Clamp(velocity.x, -SPEED_MAX_GROUND_SPRINT, SPEED_MAX_GROUND_SPRINT);
-            }
-            else 
-            {
-                animatedSprite.SpeedScale = 1;
-                velocity.x = Mathf.Clamp(velocity.x, -SPEED_MAX_GROUND, SPEED_MAX_GROUND);
-            }
-
-            velocity.y = Mathf.Clamp(velocity.y, -SPEED_MAX_AIR, SPEED_MAX_AIR);
-        }
-
-		Velocity = velocity;
-
-        MoveAndSlide();
-    }
-
-    private void Jump()
-    {
-        animatedSprite.Play("jump_start");
-        GameManager.Audio.PlaySFX("player_jump", 80);
-    }
-
-    private async void CheckIfCanGoUnderPlatform(bool inputDown)
-    {
-        var collision = rayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
-
-        if (collision != null && collision is TileMap)
-        {
-            var tilemap = collision as TileMap;
-
-            if (inputDown && tilemap.IsInGroup("Platform"))
-            {
-                tilemap.EnableLayers(2);
-                await Task.Delay(1000);
-                tilemap.EnableLayers(1, 2);
-            }
-        }
-    }
-
-    private void DoDashStuff()
-    {
-        var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
-        sprite.Texture = animatedSprite.Frames.GetFrame(animatedSprite.Animation, animatedSprite.Frame);
-        sprite.GlobalPosition = GlobalPosition;
-        sprite.Scale = new Vector2(2f, 2f);
-        sprite.FlipH = animatedSprite.FlipH;
-        //sprite.FlipH = wallDir == 1 ? true : false;
-        tree.AddChild(sprite);
-
-        var dashSpeed = SPEED_DASH_VERTICAL;
-
-        if (horizontalDash)
-            dashSpeed = SPEED_DASH_HORIZONTAL;
-
-        velocity = dashDir * dashSpeed;
-    }
-
-    private Vector2 GetDashDirection(bool inputUp, bool inputDown)
-    {
-        if (inputDown && moveDir.x < 0)
-        {
-            return new Vector2(-1, 1);
-        }
-        else if (inputDown && moveDir.x == 0)
-        {
-            horizontalDash = false;
-            return new Vector2(0, 1);
-        }
-        else if (inputDown && moveDir.x > 0)
-        {
-            return new Vector2(1, 1);
-        }
-        else if (inputUp && moveDir.x < 0)
-        {
-            horizontalDash = false;
-            return new Vector2(-1, -1);
-        }
-        else if (inputUp && moveDir.x > 0)
-        {
-            horizontalDash = false;
-            return new Vector2(1, -1);
-        }
-        else if (inputUp)
-        {
-            horizontalDash = false;
-            return new Vector2(0, -1);
-        }
-        else if (moveDir.x < 0)
-        {
-            horizontalDash = true;
-            return new Vector2(-1, 0);
-        }
-        else if (moveDir.x > 0)
-        {
-            horizontalDash = true;
-            return new Vector2(1, 0);
-        }
-
-        return Vector2.Zero;
-    }
-
-    private void HorzDampening(int dampening)
-    {
-        // deadzone has to be bigger than dampening value or the player ghost slide effect will occur
-        int deadzone = (int)(dampening * 1.5f);
-
-        if (velocity.x >= -deadzone && velocity.x <= deadzone)
-        {
-            velocity.x = 0;
-        }
-        else if (velocity.x > deadzone)
-        {
-            velocity.x -= dampening;
-        }
-        else if (velocity.x < deadzone)
-        {
-            velocity.x += dampening;
-        }
-    }
-
-    private bool IsOnGround()
-    {
-        foreach (var raycast in rayCast2DGroundChecks)
-            if (raycast.IsColliding())
-                return true;
-
-        return false;
-    }
-
-    private bool IsFalling() => Velocity.y > 0;
-
-    private void UpdateMoveDirection()
-    {
-        moveDir.x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
-        moveDir.y = Input.IsActionPressed("player_jump") ? 1 : 0;
-    }
-
-    private int UpdateWallDirection()
-    {
-        var left = IsTouchingWallLeft();
-        var right = IsTouchingWallRight();
-
-        return -Convert.ToInt32(left) + Convert.ToInt32(right);
-    }
-
-    private bool IsTouchingWallLeft()
-    {
-        foreach (var raycast in rayCast2DWallChecksLeft)
-            if (raycast.IsColliding())
-                return true;
-
-        return false;
-    }
-
-    private bool IsTouchingWallRight()
-    {
-        foreach (var raycast in rayCast2DWallChecksRight)
-            if (raycast.IsColliding())
-                return true;
-
-        return false;
-    }
-
-    private void PrepareRaycasts(Node parent, List<RayCast2D> list)
-    {
-        foreach (RayCast2D raycast in parent.GetChildren())
-        {
-            raycast.AddException(this);
-            list.Add(raycast);
-        }
-    }
-
-    public void Died()
-    {
-        animatedSprite.Stop();
-        levelScene.camera.StopFollowingPlayer();
-
-        var dieStartPos = Position.y;
-
-        // animate y position
-        dieTween.InterpolateProperty
-        (
-            "position:y",
-            dieStartPos - 80,
-            0.75f
-        );
-
-        dieTween.InterpolateProperty
-        (
-            "position:y",
-            dieStartPos + 600,
-            1f
-        );
-
-        // animate rotation
-        dieTween.InterpolateProperty
-        (
-            "rotation_degrees",
-            0,
-            160
-        );
-
-        dieTween.Start();
-        haltPlayerLogic = true;
-        GameManager.Audio.StopMusic();
-        GameManager.Audio.PlaySFX("game_over_1");
-        dieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
-    }
-
-    private async void OnDieTweenCompleted()
-    {
-        await GameManager.Transition.AlphaToBlack();
-        await Task.Delay(1000);
-        GameManager.LevelUI.ShowLives();
-        await Task.Delay(1750);
-        GameManager.LevelUI.RemoveLife();
-        await Task.Delay(1000);
-        await GameManager.LevelUI.HideLivesTransition();
-        await Task.Delay(250);
-        GameManager.Transition.BlackToAlpha();
-        haltPlayerLogic = false;
-        GameManager.Level.LoadLevelFast();
-        levelScene.camera.StartFollowingPlayer();
-    }
-
-    private void OnDashReady() => dashReady = true;
-    private void OnDashDurationDone() => currentlyDashing = false;
-
-    private async void _on_Player_Area_area_entered(Area2D area)
-    {
-        if (haltPlayerLogic)
-            return;
-
-        if (area.IsInGroup("Killzone"))
-        {
-            Died();
-            return;
-        }
-
-        if (area.IsInGroup("Level Finish"))
-        {
-            haltPlayerLogic = true;
-            await GameManager.Level.CompleteLevel(GameManager.Level.CurrentLevel);
-            haltPlayerLogic = false;
-            return;
-        }
-
-        if (area.IsInGroup("Enemy"))
-        {
-            Died();
-            return;
-        }
-
-        if (area.IsInGroup("WallJumpArea"))
-            inWallJumpArea = true;
-    }
-
-    private void _on_Area_area_exited(Area2D area)
-    {
-        if (area.IsInGroup("WallJumpArea"))
-            inWallJumpArea = false;
-    }
+	}
+
+	public override void _PhysicsProcess(double d)
+	{
+		var delta = (float)d;
+		if (HaltPlayerLogic)
+			return;
+
+		UpdateMoveDirection();
+		HandleMovement(delta);
+	}
+
+	private void NetUpdate()
+	{
+		if (Position != PrevNetPos)
+			GameManager.Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition
+			{
+				Position = Position
+			});
+
+		PrevNetPos = Position;
+	}
+
+	private void HandleMovement(float delta)
+	{
+		var inputJump = Input.IsActionJustPressed("player_jump");
+		var inputUp = Input.IsActionPressed("player_move_up");
+		var inputDown = Input.IsActionPressed("player_move_down");
+		var inputFastFall = Input.IsActionPressed("player_fast_fall");
+		var inputDash = Input.IsActionJustPressed("player_dash");
+		var inputSprint = Input.IsActionPressed("player_sprint");
+
+		var gravity = GravityAir;
+		WallDir = UpdateWallDirection();
+
+		// on a wall and falling
+		if (WallDir != 0 && InWallJumpArea)
+		{
+			AnimatedSprite.FlipH = WallDir == 1;
+
+			if (IsFalling())
+			{
+				velocityPlayer.y = 0;
+				gravity = GravityWall;
+
+				if (inputDown)
+					velocityPlayer.y += 50;
+
+				// wall jump
+				if (inputJump)
+				{
+					Jump();
+					velocityPlayer.x += -JumpForceWallHorz * WallDir;
+					velocityPlayer.y -= JumpForceWallVert;
+				}
+			}
+		}
+		else
+		{
+			AnimatedSprite.FlipH = false;
+		}
+
+		CheckIfCanGoUnderPlatform(inputDown);
+
+		// dash
+		if (inputDash && DashReady && !CurrentlyDashing && DashCount != MaxDashes && !IsOnGround())
+		{
+			DashDir = GetDashDirection(inputUp, inputDown);
+
+			if (DashDir != Vector2.Zero)
+			{
+				DashCount++;
+				GameManager.Audio.PlaySFX("dash");
+				DashReady = false;
+				CurrentlyDashing = true;
+				TimerDashDuration.Start();
+				TimerDashCooldown.Start();
+			}
+		}
+
+		if (CurrentlyDashing)
+		{
+			gravity = 0;
+			DoDashStuff();
+		}
+		else
+			gravity = GravityAir;
+
+		AnimatedSprite.FlipH = MoveDir.x < 0;
+
+		if (IsOnGround())
+		{
+			DashCount = 0;
+
+			if (MoveDir.x != 0)
+				AnimatedSprite.Play("walk");
+			else
+				AnimatedSprite.Play("idle");
+
+			velocityPlayer.x += MoveDir.x * SpeedGround;
+
+			HorzDampening(20);
+
+			if (inputJump)
+			{
+				Jump();
+				velocityPlayer.y = 0;
+				velocityPlayer.y -= JumpForce;
+			}
+		}
+		else
+		{
+			velocityPlayer.x += MoveDir.x * SpeedAir;
+
+			if (inputFastFall)
+				velocityPlayer.y += 10;
+		}
+
+		if (IsFalling())
+			AnimatedSprite.Play("jump_fall");
+
+		// apply gravity
+		velocityPlayer.y += gravity * delta;
+
+		if (!CurrentlyDashing)
+		{
+			if (IsOnGround() && inputSprint)
+			{
+				AnimatedSprite.SpeedScale = 1.5f;
+				velocityPlayer.x = Mathf.Clamp(velocityPlayer.x, -SpeedMaxGroundSprint, SpeedMaxGroundSprint);
+			}
+			else
+			{
+				AnimatedSprite.SpeedScale = 1;
+				velocityPlayer.x = Mathf.Clamp(velocityPlayer.x, -SpeedMaxGround, SpeedMaxGround);
+			}
+
+			velocityPlayer.y = Mathf.Clamp(velocityPlayer.y, -SpeedMaxAir, SpeedMaxAir);
+		}
+
+		base.Velocity = velocityPlayer;
+
+		MoveAndSlide();
+	}
+
+	private void Jump()
+	{
+		AnimatedSprite.Play("jump_start");
+		GameManager.Audio.PlaySFX("player_jump", 80);
+	}
+
+	private async void CheckIfCanGoUnderPlatform(bool inputDown)
+	{
+		var collision = RayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
+
+		if (collision != null && collision is TileMap)
+		{
+			var tilemap = collision as TileMap;
+
+			if (inputDown && tilemap.IsInGroup("Platform"))
+			{
+				tilemap.EnableLayers(2);
+				await Task.Delay(1000);
+				tilemap.EnableLayers(1, 2);
+			}
+		}
+	}
+
+	private void DoDashStuff()
+	{
+		var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
+		sprite.Texture = AnimatedSprite.Frames.GetFrame(AnimatedSprite.Animation, AnimatedSprite.Frame);
+		sprite.GlobalPosition = GlobalPosition;
+		sprite.Scale = new Vector2(2f, 2f);
+		sprite.FlipH = AnimatedSprite.FlipH;
+		//sprite.FlipH = wallDir == 1 ? true : false;
+		Tree.AddChild(sprite);
+
+		var dashSpeed = SpeedDashVertical;
+
+		if (HorizontalDash)
+			dashSpeed = SpeedDashHorizontal;
+
+		velocityPlayer = DashDir * dashSpeed;
+	}
+
+	private Vector2 GetDashDirection(bool inputUp, bool inputDown)
+	{
+		if (inputDown && MoveDir.x < 0)
+		{
+			return new Vector2(-1, 1);
+		}
+		else if (inputDown && MoveDir.x == 0)
+		{
+			HorizontalDash = false;
+			return new Vector2(0, 1);
+		}
+		else if (inputDown && MoveDir.x > 0)
+		{
+			return new Vector2(1, 1);
+		}
+		else if (inputUp && MoveDir.x < 0)
+		{
+			HorizontalDash = false;
+			return new Vector2(-1, -1);
+		}
+		else if (inputUp && MoveDir.x > 0)
+		{
+			HorizontalDash = false;
+			return new Vector2(1, -1);
+		}
+		else if (inputUp)
+		{
+			HorizontalDash = false;
+			return new Vector2(0, -1);
+		}
+		else if (MoveDir.x < 0)
+		{
+			HorizontalDash = true;
+			return new Vector2(-1, 0);
+		}
+		else if (MoveDir.x > 0)
+		{
+			HorizontalDash = true;
+			return new Vector2(1, 0);
+		}
+
+		return Vector2.Zero;
+	}
+
+	private void HorzDampening(int dampening)
+	{
+		// deadzone has to be bigger than dampening value or the player ghost slide effect will occur
+		int deadzone = (int)(dampening * 1.5f);
+
+		if (velocityPlayer.x >= -deadzone && velocityPlayer.x <= deadzone)
+		{
+			velocityPlayer.x = 0;
+		}
+		else if (velocityPlayer.x > deadzone)
+		{
+			velocityPlayer.x -= dampening;
+		}
+		else if (velocityPlayer.x < deadzone)
+		{
+			velocityPlayer.x += dampening;
+		}
+	}
+
+	private bool IsOnGround()
+	{
+		foreach (var raycast in RayCast2DGroundChecks)
+			if (raycast.IsColliding())
+				return true;
+
+		return false;
+	}
+
+	private bool IsFalling() => base.Velocity.y > 0;
+
+	private void UpdateMoveDirection()
+	{
+		var x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
+		var y = Input.IsActionPressed("player_jump") ? 1 : 0;
+
+		MoveDir = new Vector2(x, y);
+	}
+
+	private int UpdateWallDirection()
+	{
+		var left = IsTouchingWallLeft();
+		var right = IsTouchingWallRight();
+
+		return -Convert.ToInt32(left) + Convert.ToInt32(right);
+	}
+
+	private bool IsTouchingWallLeft()
+	{
+		foreach (var raycast in RayCast2DWallChecksLeft)
+			if (raycast.IsColliding())
+				return true;
+
+		return false;
+	}
+
+	private bool IsTouchingWallRight()
+	{
+		foreach (var raycast in RayCast2DWallChecksRight)
+			if (raycast.IsColliding())
+				return true;
+
+		return false;
+	}
+
+	private void PrepareRaycasts(Node parent, List<RayCast2D> list)
+	{
+		foreach (RayCast2D raycast in parent.GetChildren())
+		{
+			raycast.AddException(this);
+			list.Add(raycast);
+		}
+	}
+
+	public void Died()
+	{
+		AnimatedSprite.Stop();
+		LevelScene.camera.StopFollowingPlayer();
+
+		var dieStartPos = Position.y;
+
+		// animate y position
+		DieTween.InterpolateProperty
+		(
+			"position:y",
+			dieStartPos - 80,
+			0.75f
+		);
+
+		DieTween.InterpolateProperty
+		(
+			"position:y",
+			dieStartPos + 600,
+			1f
+		);
+
+		// animate rotation
+		DieTween.InterpolateProperty
+		(
+			"rotation_degrees",
+			0,
+			160
+		);
+
+		DieTween.Start();
+		HaltPlayerLogic = true;
+		GameManager.Audio.StopMusic();
+		GameManager.Audio.PlaySFX("game_over_1");
+		DieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
+	}
+
+	private async void OnDieTweenCompleted()
+	{
+		await GameManager.Transition.AlphaToBlack();
+		await Task.Delay(1000);
+		GameManager.LevelUI.ShowLives();
+		await Task.Delay(1750);
+		GameManager.LevelUI.RemoveLife();
+		await Task.Delay(1000);
+		await GameManager.LevelUI.HideLivesTransition();
+		await Task.Delay(250);
+		GameManager.Transition.BlackToAlpha();
+		HaltPlayerLogic = false;
+		GameManager.Level.LoadLevelFast();
+		LevelScene.camera.StartFollowingPlayer();
+	}
+
+	private void OnDashReady() => DashReady = true;
+	private void OnDashDurationDone() => CurrentlyDashing = false;
+
+	private async void _on_Player_Area_area_entered(Area2D area)
+	{
+		if (HaltPlayerLogic)
+			return;
+
+		if (area.IsInGroup("Killzone"))
+		{
+			Died();
+			return;
+		}
+
+		if (area.IsInGroup("Level Finish"))
+		{
+			HaltPlayerLogic = true;
+			await GameManager.Level.CompleteLevel(GameManager.Level.CurrentLevel);
+			HaltPlayerLogic = false;
+			return;
+		}
+
+		if (area.IsInGroup("Enemy"))
+		{
+			Died();
+			return;
+		}
+
+		if (area.IsInGroup("WallJumpArea"))
+			InWallJumpArea = true;
+	}
+
+	private void _on_Area_area_exited(Area2D area)
+	{
+		if (area.IsInGroup("WallJumpArea"))
+			InWallJumpArea = false;
+	}
 }
