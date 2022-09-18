@@ -25,8 +25,6 @@
 }
 ```
 
-> ℹ️ Format an entire document with `CTRL + K + D`
-
 > ℹ️ VSCode can alterinatively be used but it [requires more setup](https://github.com/Valks-Games/sankari/blob/main/.github/VSCODE_SETUP.md) and debugging is very tedious
 
 ## Coding
