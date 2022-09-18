@@ -446,7 +446,7 @@ public partial class Player : CharacterBody2D
 		// animate rotation
 		DieTween.InterpolateProperty
 		(
-			"rotation_degrees",
+			"rotation",
 			0,
 			160
 		);
@@ -455,11 +455,13 @@ public partial class Player : CharacterBody2D
 		HaltPlayerLogic = true;
 		GameManager.Audio.StopMusic();
 		GameManager.Audio.PlaySFX("game_over_1");
-		DieTween.OnAllCompleted(nameof(OnDieTweenCompleted));
+
+		DieTween.Callback(() => OnDieTweenCompleted());
 	}
 
 	private async void OnDieTweenCompleted()
 	{
+		Logger.Log("WE ARE HERE");
 		await GameManager.Transition.AlphaToBlack();
 		await Task.Delay(1000);
 		GameManager.LevelUI.ShowLives();

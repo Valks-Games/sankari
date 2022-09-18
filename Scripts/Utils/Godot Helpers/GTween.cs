@@ -12,6 +12,8 @@ public class GTween
         Tween.Stop();
     }
 
+	public void Callback(Action action) => Tween.TweenCallback(action);
+
     /// <summary>
     /// Hover over the property in the editor to get the string value of that property.
     /// </summary>
@@ -43,14 +45,4 @@ public class GTween
     //public void IsActive() => tween.IsActive(); // TODO: Godot 4 conversion
     public void Start() => Tween.Play();
     public void Pause() => Tween.Stop();
-
-    /// <summary>
-    /// The name of the method passed must have Object @object, NodePath nodePath params
-    /// </summary>
-    public void OnCompleted(string method) => Tween.Connect("tween_completed",new Callable(Target,method));
-
-    /// <summary>
-    /// Emitted when all the animations in the tween have been completed.
-    /// </summary>
-    public void OnAllCompleted(string method) => Tween.Connect("tween_all_completed",new Callable(Target,method));
 }
