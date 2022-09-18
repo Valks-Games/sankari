@@ -2,7 +2,7 @@ namespace Sankari.Netcode.Client;
 
 using Event = ENet.Event;
 
-public partial class GameClient : ENetClient
+public class GameClient : ENetClient
 {
     /// <summary>
     /// This property is not thread safe
@@ -16,7 +16,7 @@ public partial class GameClient : ENetClient
 
     public GameClient(Net networkManager, GodotCommands godotCmds) : base(networkManager)
     {
-        base.godotCmds = godotCmds;
+        GodotCmds = godotCmds;
     }
 
     protected override void Connecting()
@@ -26,18 +26,18 @@ public partial class GameClient : ENetClient
 
     protected override void ClientCmds(ENet.Peer peer)
     {
-        while (enetCmds.TryDequeue(out ENetClientCmd cmd))
+        while (EnetCmds.TryDequeue(out ENetClientCmd cmd))
         {
             switch (cmd.Opcode)
             {
                 case ENetClientOpcode.Disconnect:
-                    if (cancellationTokenSource.IsCancellationRequested)
+                    if (CancellationTokenSource.IsCancellationRequested)
                     {
                         Logger.LogWarning("Client is in the middle of stopping");
                         break;
                     }
 
-                    cancellationTokenSource.Cancel();
+                    CancellationTokenSource.Cancel();
                     peer.Disconnect(0);
                     break;
 
@@ -51,12 +51,12 @@ public partial class GameClient : ENetClient
 
     protected override void Receive(PacketReader reader)
     {
-        godotCmds.Enqueue(GodotOpcode.ENetPacket, new PacketInfo(reader, this));
+        GodotCmds.Enqueue(GodotOpcode.ENetPacket, new PacketInfo(reader, this));
     }
 
     protected override void Connect(ref Event netEvent)
     {
-        godotCmds.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientConnected);
+        GodotCmds.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientConnected);
         Log("Client connected");
     }
 
@@ -67,7 +67,7 @@ public partial class GameClient : ENetClient
 
     protected override void Stopped()
     {
-        godotCmds.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientStopped);
+        GodotCmds.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientStopped);
         Log("Client stopped");
     }
 

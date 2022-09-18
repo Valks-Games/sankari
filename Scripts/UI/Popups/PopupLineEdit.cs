@@ -2,40 +2,40 @@ namespace Sankari;
 
 public partial class PopupLineEdit : Window
 {
-    [Export] protected  NodePath NodePathLineEdit;
-    private LineEdit _lineEdit;
+    [Export] protected NodePath NodePathLineEdit { get; set; }
+    private LineEdit LineEdit { get; set; }
 
-    private string _title;
-    private Popups _popupManager;
-    private Action<LineEdit> _onTextChanged;
-    private Action<string> _onHide;
-    private int _maxLength;
-    private string _text;
+    private string PopupTitle { get; set; }
+    private Popups PopupManager { get; set; }
+    private Action<LineEdit> OnTextChanged { get; set; }
+    private Action<string> OnHide { get; set; }
+    private int MaxLength { get; set; }
+    private string Text { get; set; }
 
     public void PreInit(Popups popupManager, Action<LineEdit> onTextChanged, Action<string> onHide, int maxLength = 50, string title = "", string text = "")
     {
-        _popupManager = popupManager;
-        _title = title;
-        _onTextChanged = onTextChanged;
-        _onHide = onHide;
-        _maxLength = maxLength;
-        _text = text;
+        PopupManager = popupManager;
+        PopupTitle = title;
+        OnTextChanged = onTextChanged;
+        OnHide = onHide;
+        MaxLength = maxLength;
+        Text = text;
     }
 
     public override void _Ready()
     {
-        _lineEdit = GetNode<LineEdit>(NodePathLineEdit);
-        _lineEdit.MaxLength = _maxLength;
-        Title = _title;
-        _lineEdit.Text = _text;
+        LineEdit = GetNode<LineEdit>(NodePathLineEdit);
+        LineEdit.MaxLength = MaxLength;
+        base.Title = PopupTitle;
+        LineEdit.Text = Text;
     }
 
-    private void _on_LineEdit_text_changed(string newText) => _onTextChanged(_lineEdit);
+    private void _on_LineEdit_text_changed(string newText) => OnTextChanged(LineEdit);
 
     private void _on_PopupLineEdit_popup_hide()
     {
-        _onHide(_lineEdit.Text);
-        _popupManager.Next();
+        OnHide(LineEdit.Text);
+        PopupManager.Next();
         QueueFree();
     }
 

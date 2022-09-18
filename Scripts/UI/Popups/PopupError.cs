@@ -2,29 +2,29 @@ namespace Sankari;
 
 public partial class PopupError : Window
 {
-    [Export] protected  NodePath NodePathError;
+    [Export] protected NodePath NodePathError { get; set; }
 
-    private string _message;
-    private string _title;
-    private Popups _popupManager;
+    private string Message { get; set; }
+    private string PopupTitle { get; set; }
+    private Popups PopupManager { get; set; }
 
     public void PreInit(Popups popupManager, Exception exception, string title = "")
     {
-        _popupManager = popupManager;
-        _message = exception.StackTrace;
+        PopupManager = popupManager;
+        Message = exception.StackTrace;
 
-        _title = !string.IsNullOrWhiteSpace(title) ? title : exception.Message;
+        PopupTitle = !string.IsNullOrWhiteSpace(title) ? title : exception.Message;
     }
 
     public override void _Ready()
     {
-        Title = _title;
-        GetNode<TextEdit>(NodePathError).Text = _message;
+        base.Title = PopupTitle;
+        GetNode<TextEdit>(NodePathError).Text = Message;
     }
 
     private void _on_UIPopupError_popup_hide()
     {
-        _popupManager.Next();
+        PopupManager.Next();
         QueueFree();
     }
 

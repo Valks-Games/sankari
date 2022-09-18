@@ -4,7 +4,7 @@ namespace Sankari;
 
 public partial class CommandHelp : Command
 {
-    private static readonly List<string> CommandNames = Assembly.GetExecutingAssembly()
+    private static List<string> CommandNames { get; } = Assembly.GetExecutingAssembly()
             .GetTypes()
             .Where(x => typeof(Command).IsAssignableFrom(x) && !x.IsAbstract)
             .Select(Activator.CreateInstance).Cast<Command>()

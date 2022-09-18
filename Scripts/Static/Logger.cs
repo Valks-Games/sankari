@@ -2,10 +2,10 @@ namespace Sankari;
 
 public static class Logger
 {
-    private static readonly ConcurrentQueue<LogInfo> _messages = new();
+    private static ConcurrentQueue<LogInfo> Messages { get; } = new();
 
     public static void Log(object message, ConsoleColor color = ConsoleColor.Gray) =>
-        _messages.Enqueue(new LogInfo(LoggerOpcode.Message, new LogMessage($"{message}"), color));
+        Messages.Enqueue(new LogInfo(LoggerOpcode.Message, new LogMessage($"{message}"), color));
 
     public static void LogWarning(object message, ConsoleColor color = ConsoleColor.Yellow) =>
         Log($"[Warning] {message}", color);
@@ -46,14 +46,14 @@ public static class Logger
         Log($"Took {watch.ElapsedMilliseconds} ms", ConsoleColor.DarkGray);
     }
 
-    public static bool StillWorking() => _messages.Count > 0;
+    public static bool StillWorking() => Messages.Count > 0;
 
     /// <summary>
     /// Dequeues a Requested Message and Logs it
     /// </summary>
     public static void Update()
     {
-        if (!_messages.TryDequeue(out LogInfo result))
+        if (!Messages.TryDequeue(out LogInfo result))
             return;
 
         switch (result.Opcode)
@@ -89,7 +89,7 @@ public static class Logger
     /// Logs a message that may contain trace information
     /// </summary>
     private static void LogDetailed(LoggerOpcode opcode, string message, ConsoleColor color, bool trace, string filePath, int lineNumber) =>
-            _messages.Enqueue(new LogInfo(opcode, new LogMessageTrace(message, trace, $"  at {filePath.Substring(filePath.IndexOf("Scripts\\"))}:{lineNumber}"), color));
+            Messages.Enqueue(new LogInfo(opcode, new LogMessageTrace(message, trace, $"  at {filePath.Substring(filePath.IndexOf("Scripts\\"))}:{lineNumber}"), color));
 
     private static void Print(object v, ConsoleColor color)
     {

@@ -1,6 +1,6 @@
 namespace Sankari.Netcode;
 
-public partial class Net
+public class Net
 {
     public DateTime PingSent { get; set; }
     public DisconnectOpcode DisconnectOpcode { get; set; }
@@ -8,13 +8,13 @@ public partial class Net
     public GameServer Server { get; set; }
     public bool EnetInitialized { get; }
 
-    private readonly GodotCommands godotCmds;
+    private GodotCommands GodotCmds { get; }
 
     public Net()
     {
-        godotCmds = new GodotCommands();
+        GodotCmds = new GodotCommands();
 
-        Client = new GameClient(this, godotCmds);
+        Client = new GameClient(this, GodotCmds);
         Server = new GameServer(this);
 
         try
@@ -61,7 +61,7 @@ public partial class Net
 
     public async Task Update()
     {
-        await godotCmds.Update();
+        await GodotCmds.Update();
     }
 
     public async void StartClient(string ip, ushort port, CancellationTokenSource cts)
@@ -72,7 +72,7 @@ public partial class Net
             return;
         }
 
-        Client = new GameClient(this, godotCmds);
+        Client = new GameClient(this, GodotCmds);
         await Client.StartAsync(ip, port, cts);
     }
 

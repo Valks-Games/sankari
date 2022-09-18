@@ -2,8 +2,8 @@ namespace Sankari;
 
 public static class ExtensionsInput
 {
-    private static readonly Dictionary<ulong, string> _prevTexts = new();
-    private static readonly Dictionary<ulong, int> _prevNums = new();
+    private static Dictionary<ulong, string> PrevTexts { get; } = new();
+    private static Dictionary<ulong, int> PrevNums { get; } = new();
 
     public static string Filter(this LineEdit lineEdit, Func<string, bool> filter)
     {
@@ -11,21 +11,21 @@ public static class ExtensionsInput
         var id = lineEdit.GetInstanceId();
 
         if (string.IsNullOrWhiteSpace(text))
-            return _prevTexts.ContainsKey(id) ? _prevTexts[id] : null;
+            return PrevTexts.ContainsKey(id) ? PrevTexts[id] : null;
 
         if (!filter(text))
         {
-            if (!_prevTexts.ContainsKey(id))
+            if (!PrevTexts.ContainsKey(id))
             {
                 lineEdit.ChangeLineEditText("");
                 return null;
             }
 
-            lineEdit.ChangeLineEditText(_prevTexts[id]);
-            return _prevTexts[id];
+            lineEdit.ChangeLineEditText(PrevTexts[id]);
+            return PrevTexts[id];
         }
 
-        _prevTexts[id] = text;
+        PrevTexts[id] = text;
         return text;
     }
 
@@ -35,21 +35,21 @@ public static class ExtensionsInput
         var id = textEdit.GetInstanceId();
 
         if (string.IsNullOrWhiteSpace(text))
-            return _prevTexts.ContainsKey(id) ? _prevTexts[id] : null;
+            return PrevTexts.ContainsKey(id) ? PrevTexts[id] : null;
 
         if (!filter(text))
         {
-            if (!_prevTexts.ContainsKey(id))
+            if (!PrevTexts.ContainsKey(id))
             {
                 textEdit.ChangeTextEditText("");
                 return null;
             }
 
-            textEdit.ChangeTextEditText(_prevTexts[id]);
-            return _prevTexts[id];
+            textEdit.ChangeTextEditText(PrevTexts[id]);
+            return PrevTexts[id];
         }
 
-        _prevTexts[id] = text;
+        PrevTexts[id] = text;
         return text;
     }
 
@@ -66,24 +66,24 @@ public static class ExtensionsInput
 
         if (!int.TryParse(text.Trim(), out int numAttempts))
         {
-            if (!_prevNums.ContainsKey(id))
+            if (!PrevNums.ContainsKey(id))
             {
                 lineEdit.ChangeLineEditText("");
                 return minRange - 1;
             }
 
-            lineEdit.ChangeLineEditText($"{_prevNums[id]}");
-            return _prevNums[id];
+            lineEdit.ChangeLineEditText($"{PrevNums[id]}");
+            return PrevNums[id];
         }
 
         if (text.Length > maxRange.ToString().Length && numAttempts <= maxRange)
         {
             var spliced = text.Remove(text.Length - 1);
-            _prevNums[id] = int.Parse(spliced);
+            PrevNums[id] = int.Parse(spliced);
 
             lineEdit.Text = spliced;
             lineEdit.CaretColumn = spliced.Length;
-            return _prevNums[id];
+            return PrevNums[id];
         }
 
         if (numAttempts > maxRange)
@@ -98,7 +98,7 @@ public static class ExtensionsInput
             lineEdit.ChangeLineEditText($"{minRange}");
         }
 
-        _prevNums[id] = numAttempts;
+        PrevNums[id] = numAttempts;
         return numAttempts;
     }
 

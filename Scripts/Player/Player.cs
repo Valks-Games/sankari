@@ -424,7 +424,7 @@ public partial class Player : CharacterBody2D
 	public void Died()
 	{
 		AnimatedSprite.Stop();
-		LevelScene.camera.StopFollowingPlayer();
+		LevelScene.Camera.StopFollowingPlayer();
 
 		var dieStartPos = Position.y;
 
@@ -471,7 +471,7 @@ public partial class Player : CharacterBody2D
 		GameManager.Transition.BlackToAlpha();
 		HaltPlayerLogic = false;
 		GameManager.Level.LoadLevelFast();
-		LevelScene.camera.StartFollowingPlayer();
+		LevelScene.Camera.StartFollowingPlayer();
 	}
 
 	private void OnDashReady() => DashReady = true;

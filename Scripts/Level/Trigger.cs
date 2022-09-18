@@ -2,22 +2,22 @@ namespace Sankari;
 
 public partial class Trigger : Node
 {
-    [Export] public string[] Entities; // the entities this trigger effects
-    [Export] public TriggerAction Action; // the action that this trigger will execute when activated
-    [Export] public EntityType AllowedEntities; // only these entities will activate this trigger
-    [Export] public bool OnlyExecuteOnce;
-    [Export] public BasicEnemy BasicEnemy;
+    [Export] public string[] Entities { get; set; } // the entities this trigger effects
+    [Export] public TriggerAction Action { get; set; } // the action that this trigger will execute when activated
+    [Export] public EntityType AllowedEntities { get; set; } // only these entities will activate this trigger
+    [Export] public bool OnlyExecuteOnce { get; set; }
+    [Export] public BasicEnemy BasicEnemy { get; set; }
 
-    [Export] protected  NodePath NodePathEntities;
+    [Export] protected NodePath NodePathEntities { get; set; }
 
-    private Area2D area2D;
-    private Node entities;
+    private Area2D Area2D { get; set; }
+    private Node NodeEntities { get; set; }
 
     public override void _Ready()
     {
-        area2D = GetParent<Area2D>();
-        entities = GetNode<Node>(NodePathEntities);
-        area2D.Connect("area_entered",new Callable(this,nameof(OnAreaEntered)));
+        Area2D = GetParent<Area2D>();
+        NodeEntities = GetNode<Node>(NodePathEntities);
+        Area2D.Connect("area_entered",new Callable(this,nameof(OnAreaEntered)));
     }
 
     private void OnAreaEntered(Area2D area)
@@ -27,7 +27,7 @@ public partial class Trigger : Node
 
         foreach (var entityName in Entities)
         {
-            var entity = entities.GetNodeOrNull(entityName) as IEntity;
+            var entity = NodeEntities.GetNodeOrNull(entityName) as IEntity;
 
             if (entity == null)
                 continue;
@@ -48,8 +48,8 @@ public partial class Trigger : Node
 
         if (OnlyExecuteOnce) 
         {
-            area2D.SetDeferred("monitoring", false);
-            area2D.SetDeferred("monitorable", false);
+            Area2D.SetDeferred("monitoring", false);
+            Area2D.SetDeferred("monitorable", false);
         }
     }
 }

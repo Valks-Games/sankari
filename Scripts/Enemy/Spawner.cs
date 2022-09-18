@@ -2,18 +2,18 @@ namespace Sankari;
 
 public partial class Spawner : Marker2D, IEntity
 {
-    [Export] public EnemyType EnemyType;
-    [Export] public int RespawnInterval = 1000;
+    [Export] public EnemyType EnemyType { get; set; }
+    [Export] public int RespawnInterval { get; set; } = 1000;
 
-    private GTimer timer;
+    private GTimer Timer { get; set; }
 
     public override void _Ready()
     {
-        timer = new GTimer(this, nameof(OnTimer), RespawnInterval, true, false);
+        Timer = new GTimer(this, nameof(OnTimer), RespawnInterval, true, false);
     }
 
-    public void Activate() => timer.Start();
-    public void Deactivate() => timer.Stop();
+    public void Activate() => Timer.Start();
+    public void Deactivate() => Timer.Stop();
     public void Destroy() => QueueFree();
 
     private void OnTimer()

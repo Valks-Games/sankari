@@ -15,36 +15,36 @@ public enum Event
     OnReceivePlayersFromServer
 }
 
-public partial class Notifications
+public class Notifications
 {
-    private Dictionary<Event, List<AudioListener3D>> listeners = new();
+    private Dictionary<Event, List<AudioListener3D>> Listeners { get; set; } = new();
 
     public void AddListener(Node sender, Event eventType, Action<object[]> action)
     {
-        if (!listeners.ContainsKey(eventType))
-            listeners.Add(eventType, new List<AudioListener3D>());
+        if (!Listeners.ContainsKey(eventType))
+            Listeners.Add(eventType, new List<AudioListener3D>());
 
-        listeners[eventType].Add(new AudioListener3D(sender, action));
+        Listeners[eventType].Add(new AudioListener3D(sender, action));
     }
 
     public void RemoveListener(Node sender, Event eventType)
     {
-        if (!listeners.ContainsKey(eventType))
+        if (!Listeners.ContainsKey(eventType))
             throw new InvalidOperationException($"Tried to remove listener of event type '{eventType}' from an event type that has not even been defined yet");
 
-        foreach (var pair in listeners)
+        foreach (var pair in Listeners)
             for (int i = pair.Value.Count - 1; i >= 0; i--)
                 if (sender.GetInstanceId() == pair.Value[i].Sender.GetInstanceId())
                     pair.Value.RemoveAt(i);
     }
 
-    public void RemoveAllListeners() => listeners.Clear();
+    public void RemoveAllListeners() => Listeners.Clear();
 
     public void RemoveInvalidListeners()
     {
         var tempListeners = new Dictionary<Event, List<AudioListener3D>>();
 
-        foreach (var pair in listeners)
+        foreach (var pair in Listeners)
         {
             for (int i = pair.Value.Count - 1; i >= 0; i--)
             {
@@ -56,15 +56,15 @@ public partial class Notifications
                 tempListeners.Add(pair.Key, pair.Value);
         }
 
-        listeners = new(tempListeners);
+        Listeners = new(tempListeners);
     }
 
     public void Notify(Event eventType, params object[] args)
     {
-        if (!listeners.ContainsKey(eventType))
+        if (!Listeners.ContainsKey(eventType))
             return;
 
-        foreach (var listener in listeners[eventType].ToList()) // if ToList() is not here then issue #137 will occur
+        foreach (var listener in Listeners[eventType].ToList()) // if ToList() is not here then issue #137 will occur
             listener.Action(args);
     }
 

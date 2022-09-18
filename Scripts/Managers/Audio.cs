@@ -2,19 +2,19 @@ namespace Sankari;
 
 public partial class Audio
 {
-    private readonly Dictionary<string, AudioStream> sfx = new();
-    private readonly Dictionary<string, AudioStream> music = new();
+    private Dictionary<string, AudioStream> Sfx { get; } = new();
+    private Dictionary<string, AudioStream> Music { get; } = new();
 
-    private readonly GAudioStreamPlayer sfxPlayer;
-    private readonly GAudioStreamPlayer musicPlayer;
-    private float lastPitch;
+    private GAudioStreamPlayer SfxPlayer { get; }
+    private GAudioStreamPlayer MusicPlayer { get; }
+    private float LastPitch { get; set; }
 
     public Audio(GAudioStreamPlayer sfxPlayer, GAudioStreamPlayer musicPlayer)
     {
-        this.sfxPlayer = sfxPlayer;
-        this.musicPlayer = musicPlayer;
-        this.musicPlayer.Volume = 100;
-        this.sfxPlayer.Volume = 80;
+        SfxPlayer = sfxPlayer;
+        MusicPlayer = musicPlayer;
+        MusicPlayer.Volume = 100;
+        SfxPlayer.Volume = 80;
 
         LoadSoundEffects();
         LoadSoundTracks();
@@ -43,23 +43,23 @@ public partial class Audio
 
     public void PlaySFX(string name, int volume = 100)
     {
-        sfxPlayer.Volume = volume;
-        sfxPlayer.Stream = sfx[name];
+        SfxPlayer.Volume = volume;
+        SfxPlayer.Stream = Sfx[name];
 
         var rng = new RandomNumberGenerator();
         rng.Randomize();
         var pitchScale = rng.RandfRange(0.8f, 1.2f);
 
-        while (Mathf.Abs(pitchScale - lastPitch) < 0.1f)
+        while (Mathf.Abs(pitchScale - LastPitch) < 0.1f)
         {
             rng.Randomize();
             pitchScale = rng.RandfRange(0.8f, 1.2f);
         }
 
-        lastPitch = pitchScale;
+        LastPitch = pitchScale;
 
-        sfxPlayer.Pitch = pitchScale;
-        sfxPlayer.Play();
+        SfxPlayer.Pitch = pitchScale;
+        SfxPlayer.Play();
     }
 
     public void PlayMusic(string name, float pitch = 1)
@@ -70,23 +70,23 @@ public partial class Audio
             return;
         }
 
-        if (!music.ContainsKey(name))
+        if (!Music.ContainsKey(name))
         {
             Logger.LogWarning($"The music track for '{name}' does not exist");
         }
 
-        musicPlayer.Stream = music[name];
-        musicPlayer.Pitch = pitch;
-        musicPlayer.Play();
+        MusicPlayer.Stream = Music[name];
+        MusicPlayer.Pitch = pitch;
+        MusicPlayer.Play();
     }
 
-    public void StopMusic() => musicPlayer.Stop();
+    public void StopMusic() => MusicPlayer.Stop();
 
     /// <summary>
     /// Values range from 0 to 100
     /// </summary>
-    public void SetSFXVolume(int v) => sfxPlayer.Volume = v;
+    public void SetSFXVolume(int v) => SfxPlayer.Volume = v;
 
-    private void LoadSFX(string name, string path) => sfx[name] = ResourceLoader.Load<AudioStream>($"res://Audio/SFX/{path}");
-    private void LoadMusic(string name, string path) => music[name] = ResourceLoader.Load<AudioStream>($"res://Audio/Music/{path}");
+    private void LoadSFX(string name, string path) => Sfx[name] = ResourceLoader.Load<AudioStream>($"res://Audio/SFX/{path}");
+    private void LoadMusic(string name, string path) => Music[name] = ResourceLoader.Load<AudioStream>($"res://Audio/Music/{path}");
 }

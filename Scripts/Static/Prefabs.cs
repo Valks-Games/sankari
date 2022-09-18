@@ -2,14 +2,14 @@ namespace Sankari;
 
 public static class Prefabs
 {
-    public readonly static PackedScene Map = LoadPrefab("Map");
-    public readonly static PackedScene CannonBall = LoadPrefab("Enemies/CannonBall");
-    public readonly static PackedScene PlayerDashTrace = LoadPrefab("PlayerDashTrace");
-    public readonly static PackedScene BasicEnemy = LoadPrefab("Enemies/BasicEnemy");
-    public readonly static PackedScene PopupMessage = LoadPrefab("UI/Popups/PopupMessage");
-    public readonly static PackedScene PopupError = LoadPrefab("UI/Popups/PopupError");
-    public readonly static PackedScene PopupLineEdit = LoadPrefab("UI/Popups/PopupLineEdit");
-    public readonly static PackedScene OtherPlayer = LoadPrefab("OtherPlayer");
+    public static PackedScene Map { get; }             = LoadPrefab("Map");
+    public static PackedScene CannonBall { get; }      = LoadPrefab("Enemies/CannonBall");
+    public static PackedScene PlayerDashTrace { get; } = LoadPrefab("PlayerDashTrace");
+    public static PackedScene BasicEnemy { get; }      = LoadPrefab("Enemies/BasicEnemy");
+    public static PackedScene PopupMessage { get; }    = LoadPrefab("UI/Popups/PopupMessage");
+    public static PackedScene PopupError { get; }      = LoadPrefab("UI/Popups/PopupError");
+    public static PackedScene PopupLineEdit { get; }   = LoadPrefab("UI/Popups/PopupLineEdit");
+    public static PackedScene OtherPlayer { get; }     = LoadPrefab("OtherPlayer");
 
     private static PackedScene LoadPrefab(string path) => ResourceLoader.Load<PackedScene>($"res://Scenes/Prefabs/{path}.tscn");
 }

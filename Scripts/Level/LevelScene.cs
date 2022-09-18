@@ -2,8 +2,8 @@ namespace Sankari;
 
 public partial class LevelScene : Node
 {
-    public LevelCamera camera;
-    public Dictionary<byte, OtherPlayer> OtherPlayers = new();
+    public LevelCamera Camera { get; set; }
+    public Dictionary<byte, OtherPlayer> OtherPlayers { get; set; } = new();
 
     public void PreInit()
     {
@@ -14,7 +14,7 @@ public partial class LevelScene : Node
     public override void _Ready()
     {
         GameManager.LevelScene = this;
-        camera = GetNode<LevelCamera>("Camera");
+        Camera = GetNode<LevelCamera>("Camera");
 
         CreateLevelBounds();
 
@@ -65,22 +65,22 @@ public partial class LevelScene : Node
         // left
         CreateCollider
         (
-            new Vector2(camera.LimitLeft - colliderThickness, (camera.LimitTop + camera.LimitBottom) / 2),
-            new Vector2(colliderThickness, (Mathf.Abs(camera.LimitTop) + Mathf.Abs(camera.LimitBottom)) / 2)
+            new Vector2(Camera.LimitLeft - colliderThickness, (Camera.LimitTop + Camera.LimitBottom) / 2),
+            new Vector2(colliderThickness, (Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom)) / 2)
         );
 
         // right
         CreateCollider
         (
-            new Vector2(camera.LimitRight + colliderThickness, (camera.LimitTop + camera.LimitBottom) / 2),
-            new Vector2(colliderThickness, (Mathf.Abs(camera.LimitTop) + Mathf.Abs(camera.LimitBottom)) / 2)
+            new Vector2(Camera.LimitRight + colliderThickness, (Camera.LimitTop + Camera.LimitBottom) / 2),
+            new Vector2(colliderThickness, (Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom)) / 2)
         );
 
         // top
         CreateCollider
         (
-            new Vector2((camera.LimitLeft + camera.LimitRight) / 2, camera.LimitTop - colliderThickness),
-            new Vector2(Mathf.Abs(camera.LimitLeft) + (Mathf.Abs(camera.LimitRight) / 2), colliderThickness)
+            new Vector2((Camera.LimitLeft + Camera.LimitRight) / 2, Camera.LimitTop - colliderThickness),
+            new Vector2(Mathf.Abs(Camera.LimitLeft) + (Mathf.Abs(Camera.LimitRight) / 2), colliderThickness)
         );
     }
 

@@ -1,14 +1,14 @@
 namespace Sankari;
 
-public partial class GodotCommands
+public class GodotCommands
 {
-    private readonly ConcurrentQueue<GodotCmd> _godotCmdQueue = new();
+    private ConcurrentQueue<GodotCmd> GodotCmdQueue { get; } = new();
 
-    public void Enqueue(GodotOpcode opcode, object data = null) => _godotCmdQueue.Enqueue(new GodotCmd(opcode, data));
+    public void Enqueue(GodotOpcode opcode, object data = null) => GodotCmdQueue.Enqueue(new GodotCmd(opcode, data));
 
     public async Task Update()
     {
-        if (_godotCmdQueue.TryDequeue(out var cmd))
+        if (GodotCmdQueue.TryDequeue(out var cmd))
         {
             switch (cmd.Opcode)
             {
@@ -56,7 +56,7 @@ public partial class GodotCommands
     }
 }
 
-public partial class GodotCmd
+public class GodotCmd
 {
     public GodotOpcode Opcode { get; set; }
     public object Data { get; set; }
@@ -78,13 +78,13 @@ public enum GodotOpcode
     Disconnect
 }
 
-public partial class GodotCmdPopupMessage
+public class GodotCmdPopupMessage
 {
     public string Title { get; set; }
     public string Message { get; set; }
 }
 
-public partial class GodotCmdPopupError
+public class GodotCmdPopupError
 {
     public string Title { get; set; }
     public Exception Exception { get; set; }

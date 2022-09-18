@@ -2,21 +2,21 @@ namespace Sankari;
 
 public partial class CommandDebug : Command
 {
-    private readonly Dictionary<string, Action> commands = new();
+    private Dictionary<string, Action> Commands { get; } = new();
 
     public CommandDebug() 
     {
         Aliases = new[] { "x" };
 
-        commands["help"] = () => 
+        Commands["help"] = () => 
         {
             Logger.Log("List of commands:");
             
-            foreach (var cmd in commands.Keys)
+            foreach (var cmd in Commands.Keys)
                 Logger.Log(cmd);
         };
 
-        commands["peerid"] = () => 
+        Commands["peerid"] = () => 
         {
             if (!GameManager.Net.Client.IsRunning)
             {
@@ -28,7 +28,7 @@ public partial class CommandDebug : Command
             Logger.Log(GameManager.Net.Client.PeerId);
         };
 
-        commands["players"] = () => 
+        Commands["players"] = () => 
         {
             if (!GameManager.Net.Server.IsRunning)
             {
@@ -40,7 +40,7 @@ public partial class CommandDebug : Command
             Logger.Log(GameManager.Net.Server.Players.PrintFull());
         };
 
-        commands["scroll"] = () => 
+        Commands["scroll"] = () => 
         {
             GameManager.Console.ScrollToBottom = !GameManager.Console.ScrollToBottom;
         };
@@ -54,6 +54,6 @@ public partial class CommandDebug : Command
             return;
         }
 
-        commands[args[0]]();
+        Commands[args[0]]();
     }
 }

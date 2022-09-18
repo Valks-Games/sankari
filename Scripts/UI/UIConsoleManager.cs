@@ -4,12 +4,12 @@ public partial class UIConsoleManager : Control
 {
     public bool ScrollToBottom { get; set; } = true;
 
-    private TextEdit ConsoleLogs;
-    private LineEdit ConsoleInput;
+    private TextEdit ConsoleLogs { get; set; }
+    private LineEdit ConsoleInput { get; set; }
 
-    private readonly Dictionary<int, string> commandHistory = new();
-    private int commandHistoryIndex;
-    private int commandHistoryNav;
+    private Dictionary<int, string> CommandHistory { get; } = new();
+    private int CommandHistoryIndex { get; set; }
+    private int CommandHistoryNav { get; set; }
 
     public override void _Ready()
     {
@@ -41,35 +41,35 @@ public partial class UIConsoleManager : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (!Visible || commandHistory.Count == 0)
+        if (!Visible || CommandHistory.Count == 0)
             return;
 
         if (Input.IsActionJustPressed("ui_up")) 
         {
-            commandHistoryNav--;
+            CommandHistoryNav--;
 
-            if (!commandHistory.ContainsKey(commandHistoryNav)) 
-                commandHistoryNav++;
+            if (!CommandHistory.ContainsKey(CommandHistoryNav)) 
+                CommandHistoryNav++;
 
-            ConsoleInput.Text = commandHistory[commandHistoryNav];
+            ConsoleInput.Text = CommandHistory[CommandHistoryNav];
 
             // if deferred is not use then something else will override these settings
             ConsoleInput.CallDeferred("grab_focus");
-            ConsoleInput.CallDeferred("set", "caret_position", commandHistory[commandHistoryNav].Length);
+            ConsoleInput.CallDeferred("set", "caret_position", CommandHistory[CommandHistoryNav].Length);
         }
 
         if (Input.IsActionJustPressed("ui_down"))
         {
-            commandHistoryNav++;
+            CommandHistoryNav++;
 
-            if (!commandHistory.ContainsKey(commandHistoryNav)) 
-                commandHistoryNav--;
+            if (!CommandHistory.ContainsKey(CommandHistoryNav)) 
+                CommandHistoryNav--;
 
-            ConsoleInput.Text = commandHistory[commandHistoryNav];
+            ConsoleInput.Text = CommandHistory[CommandHistoryNav];
 
             // if deferred is not use then something else will override these settings
             ConsoleInput.CallDeferred("grab_focus");
-            ConsoleInput.CallDeferred("set", "caret_position", commandHistory[commandHistoryNav].Length);
+            ConsoleInput.CallDeferred("set", "caret_position", CommandHistory[CommandHistoryNav].Length);
         }
     }
 
@@ -88,8 +88,8 @@ public partial class UIConsoleManager : Control
             var cmdArgs = inputArr.Skip(1).ToArray();
 
             command.Run(cmdArgs);
-            commandHistory.Add(commandHistoryIndex++, $"{cmd}{(cmdArgs.Length == 0 ? "" : " ")}{string.Join(" ", cmdArgs)}");
-            commandHistoryNav = commandHistoryIndex;
+            CommandHistory.Add(CommandHistoryIndex++, $"{cmd}{(cmdArgs.Length == 0 ? "" : " ")}{string.Join(" ", cmdArgs)}");
+            CommandHistoryNav = CommandHistoryIndex;
         }
         else
             Logger.Log($"The command '{cmd}' does not exist");

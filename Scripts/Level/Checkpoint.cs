@@ -2,17 +2,17 @@ namespace Sankari;
 
 public partial class Checkpoint : Node2D
 {
-    private AnimatedSprite2D animatedSprite;
+    private AnimatedSprite2D AnimatedSprite { get; set; }
 
     public override void _Ready()
     {
-        animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
     }
 
     private void Capture()
     {
-        animatedSprite.Animation = "captured";
-        animatedSprite.Play();
+        AnimatedSprite.Animation = "captured";
+        AnimatedSprite.Play();
     }
 
     private void _on_Area2D_area_entered(Area2D area) 

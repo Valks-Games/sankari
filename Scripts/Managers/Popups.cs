@@ -2,12 +2,12 @@ namespace Sankari;
 
 public partial class Popups
 {
-    private readonly Queue<Window> queue = new();
-    private readonly Linker linker;
+    private Queue<Window> Queue { get; } = new();
+    private Linker Linker { get; }
 
     public Popups(Linker linker)
     {
-       this.linker = linker;
+       Linker = linker;
     }
 
     public void SpawnMessage(string message, string title = "")
@@ -44,20 +44,20 @@ public partial class Popups
 
     public void Next()
     {
-        queue.Dequeue();
-        if (queue.Count == 0)
+        Queue.Dequeue();
+        if (Queue.Count == 0)
             return;
-        var popup = queue.Peek();
+        var popup = Queue.Peek();
         popup.PopupCentered();
     }
 
     private void Spawn(Window popup)
     {
-        linker.CanvasLayer.AddChild(popup);
+        Linker.CanvasLayer.AddChild(popup);
 
-        if (queue.Count == 0)
+        if (Queue.Count == 0)
             popup.PopupCentered(popup.MinSize);
 
-        queue.Enqueue(popup);
+        Queue.Enqueue(popup);
     }
 }

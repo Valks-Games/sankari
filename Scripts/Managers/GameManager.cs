@@ -34,12 +34,12 @@ public class GameManager
     public static Notifications Notifications { get; private set; }
     public static UIMenu Menu { get; private set; }
 
-    private static Node map;
+    private static Node NodeMap { get; set; }
 
     public GameManager(Linker linker) 
     {
         Linker = linker;
-        map = linker.GetNode<Node>("Map");
+        NodeMap = linker.GetNode<Node>("Map");
         Menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
         
         Audio = new Audio(new GAudioStreamPlayer(linker), new GAudioStreamPlayer(linker));
@@ -71,9 +71,9 @@ public class GameManager
         // weird place to put this but its whatever right now
         Map = (Map)Prefabs.Map.Instantiate(); 
 
-        map.CallDeferred("add_child", Map); // need to wait for the engine because we are dealing with areas with is physics related
+        NodeMap.CallDeferred("add_child", Map); // need to wait for the engine because we are dealing with areas with is physics related
         Audio.PlayMusic("map_grassy");
     }
 
-    public static void DestroyMap() => map.QueueFreeChildren();
+    public static void DestroyMap() => NodeMap.QueueFreeChildren();
 }

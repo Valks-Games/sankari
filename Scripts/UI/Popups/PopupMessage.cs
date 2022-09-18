@@ -2,29 +2,29 @@ namespace Sankari;
 
 public partial class PopupMessage : Window
 {
-    [Export] protected  NodePath NodePathMessage;
+    [Export] protected NodePath NodePathMessage { get; set; }
 
-    private string _message;
-    private string _title;
-    private Popups _popupManager;
+    private string Message { get; set; }
+    private string PopupTitle { get; set; }
+    private Popups PopupManager { get; set; }
 
     public void PreInit(Popups popupManager, string message, string title = "")
     {
-        _popupManager = popupManager;
-        _message = message;
+        PopupManager = popupManager;
+        Message = message;
 
-        _title = !string.IsNullOrWhiteSpace(title) ? title : "";
+        PopupTitle = !string.IsNullOrWhiteSpace(title) ? title : "";
     }
 
     public override void _Ready()
     {
-        Title = _title;
-        GetNode<Label>(NodePathMessage).Text = _message;
+        Title = PopupTitle;
+        GetNode<Label>(NodePathMessage).Text = Message;
     }
 
     private void _on_UIPopupMessage_popup_hide()
     {
-        _popupManager.Next();
+        PopupManager.Next();
         QueueFree();
     }
 

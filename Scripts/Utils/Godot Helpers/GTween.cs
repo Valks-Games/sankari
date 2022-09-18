@@ -1,15 +1,15 @@
 namespace Sankari;
 
-public partial class GTween 
+public class GTween 
 {
-    private readonly Tween tween;
-    private readonly Node target;
+    private Tween Tween { get; }
+    private Node Target { get; }
 
     public GTween(Node target)
     {
-        this.target = target;
-        tween = this.target.GetTree().CreateTween();
-        tween.Stop();
+        this.Target = target;
+        Tween = this.Target.GetTree().CreateTween();
+        Tween.Stop();
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public partial class GTween
         NodePath property, 
         Variant finalValue, 
         float duration
-    ) => tween.TweenProperty(target, property, finalValue, duration);
+    ) => Tween.TweenProperty(Target, property, finalValue, duration);
 
     public async Task AnimatePlatform
     (
@@ -41,16 +41,16 @@ public partial class GTween
     }
 
     //public void IsActive() => tween.IsActive(); // TODO: Godot 4 conversion
-    public void Start() => tween.Play();
-    public void Pause() => tween.Stop();
+    public void Start() => Tween.Play();
+    public void Pause() => Tween.Stop();
 
     /// <summary>
     /// The name of the method passed must have Object @object, NodePath nodePath params
     /// </summary>
-    public void OnCompleted(string method) => tween.Connect("tween_completed",new Callable(target,method));
+    public void OnCompleted(string method) => Tween.Connect("tween_completed",new Callable(Target,method));
 
     /// <summary>
     /// Emitted when all the animations in the tween have been completed.
     /// </summary>
-    public void OnAllCompleted(string method) => tween.Connect("tween_all_completed",new Callable(target,method));
+    public void OnAllCompleted(string method) => Tween.Connect("tween_all_completed",new Callable(Target,method));
 }

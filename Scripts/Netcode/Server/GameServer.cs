@@ -4,7 +4,7 @@ namespace Sankari.Netcode.Server;
 
 using Event = ENet.Event;
 
-public partial class GameServer : ENetServer
+public class GameServer : ENetServer
 {
     /// <summary>
     /// This property is not thread safe
@@ -138,7 +138,7 @@ public partial class GameServer : ENetServer
 
                     KickAll(DisconnectOpcode.Restarting);
                     CancellationTokenSource.Cancel();
-                    queueRestart = true;
+                    QueueRestart = true;
                     break;
 
                 case ENetServerOpcode.SendPackets:

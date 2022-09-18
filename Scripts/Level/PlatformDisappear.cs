@@ -2,60 +2,60 @@ namespace Sankari;
 
 public partial class PlatformDisappear : APlatform
 {
-    [Export] public int DurationFlash1 = 2000;
-    [Export] public int DurationFlash2 = 2000;
-    [Export] public int DurationReappear = 3000;
+    [Export] public int DurationFlash1 { get; set; } = 2000;
+    [Export] public int DurationFlash2 { get; set; } = 2000;
+    [Export] public int DurationReappear { get; set; } = 3000;
 
-    private Sprite2D sprite;
-    private ShaderMaterial shaderMaterial;
-    private float time;
-    private bool playerOnPlatform;
-    private bool phase2;
-    private GTimer timerFlash1;
-    private GTimer timerFlash2;
-    private GTimer timerReappear;
+    private Sprite2D Sprite { get; set; }
+    private ShaderMaterial ShaderMaterial { get; set; }
+    private float Time { get; set; }
+    private bool PlayerOnPlatform { get; set; }
+    private bool Phase2 { get; set; }
+    private GTimer TimerFlash1 { get; set; }
+    private GTimer TimerFlash2 { get; set; }
+    private GTimer TimerReappear { get; set; }
 
     public override void _Ready()
     {
         Init();
 
-        sprite = GetNode<Sprite2D>("Sprite2D");
-        shaderMaterial = (sprite.Material as ShaderMaterial);
-        timerFlash1 = new GTimer(this, nameof(OnTimerFlash1Up), DurationFlash1, false, false);
-        timerFlash2 = new GTimer(this, nameof(OnTimerFlash2Up), DurationFlash2, false, false);
-        timerReappear = new GTimer(this, nameof(OnTimerReappear), DurationReappear, false, false);
+        Sprite = GetNode<Sprite2D>("Sprite2D");
+        ShaderMaterial = (Sprite.Material as ShaderMaterial);
+        TimerFlash1 = new GTimer(this, nameof(OnTimerFlash1Up), DurationFlash1, false, false);
+        TimerFlash2 = new GTimer(this, nameof(OnTimerFlash2Up), DurationFlash2, false, false);
+        TimerReappear = new GTimer(this, nameof(OnTimerReappear), DurationReappear, false, false);
     }
 
     public override void _PhysicsProcess(double d)
     {
         var delta = (float)d;
-        time += delta;
+        Time += delta;
 
-        if (playerOnPlatform) 
+        if (PlayerOnPlatform) 
         {
-            if (!phase2)
-                SetWhiteProgress(time.Pulse(2));
+            if (!Phase2)
+                SetWhiteProgress(Time.Pulse(2));
             else
-                SetWhiteProgress(time.Pulse(4));
+                SetWhiteProgress(Time.Pulse(4));
         }
             
     }
 
-    private void SetWhiteProgress(float v) => shaderMaterial.SetShaderParameter("white_progress", v);
+    private void SetWhiteProgress(float v) => ShaderMaterial.SetShaderParameter("white_progress", v);
 
     private bool AreaIsPlayer(Area2D area) => area.GetParent() is Player;
 
     private void OnTimerFlash1Up()
     {
-        phase2 = true;
-        timerFlash2.Start();
+        Phase2 = true;
+        TimerFlash2.Start();
     }
 
     private void OnTimerFlash2Up() 
     {
         Visible = false;
         Collision.Disabled = true;
-        timerReappear.Start();
+        TimerReappear.Start();
     }
 
     private void OnTimerReappear()
@@ -69,8 +69,8 @@ public partial class PlatformDisappear : APlatform
     {
         if (AreaIsPlayer(area))
         {
-            playerOnPlatform = true;
-            timerFlash1.Start();
+            PlayerOnPlatform = true;
+            TimerFlash1.Start();
         }
     }
 
@@ -79,10 +79,10 @@ public partial class PlatformDisappear : APlatform
         if (AreaIsPlayer(area))
         {
             SetWhiteProgress(0);
-            playerOnPlatform = false;
-            phase2 = false;
-            timerFlash1.Stop();
-            timerFlash2.Stop();
+            PlayerOnPlatform = false;
+            Phase2 = false;
+            TimerFlash1.Stop();
+            TimerFlash2.Stop();
         }
     }
 }

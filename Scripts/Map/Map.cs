@@ -4,48 +4,49 @@ public partial class Map : Node
 {
 	public static bool HasMapLoadedBefore { get; private set; }
 	public static Vector2 PrevPlayerMapIconPosition { get; set; }
-	private static Sprite2D playerIcon;
+	private static Sprite2D PlayerIcon { get; set; }
 
-	public static void RememberPlayerPosition() => PrevPlayerMapIconPosition = playerIcon.Position;
+	public static void RememberPlayerPosition() => PrevPlayerMapIconPosition = PlayerIcon.Position;
 
-	[Export] protected  NodePath NodePathLevels;
-	[Export] protected  NodePath NodePathTileMapLevelIcons;
-	[Export] protected  NodePath NodePathTileMapTerrain;
-	[Export] protected  NodePath NodePathPlayerIcon;
-	[Export] protected  NodePath NodePathUIMapMenuScript;
+	[Export] protected NodePath NodePathLevels { get; set; }
+	[Export] protected NodePath NodePathTileMapLevelIcons { get; set; }
+	[Export] protected NodePath NodePathTileMapTerrain { get; set; }
+	[Export] protected NodePath NodePathPlayerIcon { get; set; }
+	[Export] protected NodePath NodePathUIMapMenuScript { get; set; }
 
-	public Vector2 CurMapPos => playerIcon.Position;
+	public Vector2 CurMapPos => PlayerIcon.Position;
 
-	private TileMap tileMapLevelIcons, tileMapTerrain;
-	private Node levels;
+	private TileMap TileMapLevelIcons { get; set; }
+	private TileMap TileMapTerrain { get; set; }
+	private Node Levels { get; set; }
 
-	private bool loadingLevel;
+	private bool LoadingLevel { get; set; }
 
 	public override void _Ready()
 	{
-		tileMapLevelIcons = GetNode<TileMap>(NodePathTileMapLevelIcons);
-		tileMapTerrain = GetNode<TileMap>(NodePathTileMapTerrain);
-		levels = GetNode<Node>(NodePathLevels);
-		playerIcon = GetNode<Sprite2D>(NodePathPlayerIcon);
+		TileMapLevelIcons = GetNode<TileMap>(NodePathTileMapLevelIcons);
+		TileMapTerrain = GetNode<TileMap>(NodePathTileMapTerrain);
+		Levels = GetNode<Node>(NodePathLevels);
+		PlayerIcon = GetNode<Sprite2D>(NodePathPlayerIcon);
 
 		foreach (var level in GameManager.Level.Levels.Values)
 			if (level.Completed)
-				tileMapLevelIcons.SetCell(0, (Vector2i)level.Position, 1); // remember 1 is gray circle
+				TileMapLevelIcons.SetCell(0, (Vector2i)level.Position, 1); // remember 1 is gray circle
 
 		if (HasMapLoadedBefore)
 		{
-			playerIcon.Position = PrevPlayerMapIconPosition;
+			PlayerIcon.Position = PrevPlayerMapIconPosition;
 			return;
 		}
 		else
-			PrevPlayerMapIconPosition = playerIcon.Position;
+			PrevPlayerMapIconPosition = PlayerIcon.Position;
 
 		HasMapLoadedBefore = true;
 
-		foreach (Area2D levelArea in levels.GetChildren())
+		foreach (Area2D levelArea in Levels.GetChildren())
 		{
 			var worldPos = ((CollisionShape2D)levelArea.GetChild(0)).Position;
-			var tilePos = tileMapLevelIcons.LocalToMap(worldPos);
+			var tilePos = TileMapLevelIcons.LocalToMap(worldPos);
 
 			if (!GameManager.Level.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
 				GameManager.Level.Levels.Add(levelArea.Name, new Level(levelArea.Name)
@@ -80,7 +81,7 @@ public partial class Map : Node
 			HandleMovement();
 		}
 
-		if (Input.IsActionJustPressed("map_action") && !loadingLevel)
+		if (Input.IsActionJustPressed("map_action") && !LoadingLevel)
 		{
 			// TODO GODOT 4 CONVERSION
 			//if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared")
@@ -90,7 +91,7 @@ public partial class Map : Node
 					// only the host can start levels
 					if (net.IsHost())
 					{
-						loadingLevel = true;
+						LoadingLevel = true;
 
 						net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
 						{
@@ -107,16 +108,16 @@ public partial class Map : Node
 				else
 				{
 					// singleplayer
-					loadingLevel = true;
+					LoadingLevel = true;
 					await GameManager.Level.LoadLevel();
 				}
 
-				PrevPlayerMapIconPosition = playerIcon.Position;
+				PrevPlayerMapIconPosition = PlayerIcon.Position;
 			}
 		}
 	}
 
-	public void SetPosition(Vector2 pos) => playerIcon.Position = pos;
+	public void SetPosition(Vector2 pos) => PlayerIcon.Position = pos;
 
 	private void HandleMovement()
 	{
@@ -132,10 +133,10 @@ public partial class Map : Node
 	{
 		if (Input.IsActionJustPressed(inputAction))
 		{
-			var currPos = playerIcon.Position;
+			var currPos = PlayerIcon.Position;
 			var nextPos = currPos + moveOffset;
 
-			if (tileMapTerrain.GetTileName(nextPos) != "Path")
+			if (TileMapTerrain.GetTileName(nextPos) != "Path")
 				return;
 
 			//var tileIdLevelOffset = GetCurrentTileId(tileMapLevelIcons, nextPos);
@@ -144,12 +145,12 @@ public partial class Map : Node
 			// yellow circle = 0
 			// gray circle   = 1
 
-			var nextTilePos = tileMapLevelIcons.LocalToMap(nextPos);
+			var nextTilePos = TileMapLevelIcons.LocalToMap(nextPos);
 
 			//if (levelManager.LevelPositions.ContainsKey(nextTilePos) && levelManager.LevelPositions[nextTilePos].Locked)
 			//    return;
 
-			playerIcon.Position = nextPos;
+			PlayerIcon.Position = nextPos;
 
 			var net = GameManager.Net;
 

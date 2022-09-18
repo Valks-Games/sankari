@@ -2,17 +2,17 @@ namespace Sankari;
 
 public partial class LevelManager
 {
-    public Dictionary<string, Level> Levels = new();
+    public Dictionary<string, Level> Levels { get; set; } = new();
 
-    public Dictionary<string, PackedScene> Scenes = new();
+    public Dictionary<string, PackedScene> Scenes { get; set; } = new();
 
     public string CurrentLevel { get; set; }
 
-    private readonly Node nodeLevel;
+    private Node NodeLevel { get; }
 
     public LevelManager(Node nodeLevel)
     {
-        this.nodeLevel = nodeLevel;
+        NodeLevel = nodeLevel;
         var godotFileManager = new GodotFileManager();
         godotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
         {
@@ -51,7 +51,7 @@ public partial class LevelManager
         GameManager.DestroyMap();
 
         // remove level if any
-        nodeLevel.QueueFreeChildren();
+        NodeLevel.QueueFreeChildren();
 
         // load level
         var scenePath = $"res://Scenes/Levels/{CurrentLevel}.tscn";
@@ -64,7 +64,7 @@ public partial class LevelManager
         var levelPacked = ResourceLoader.Load<PackedScene>(scenePath);
         var level = (LevelScene)levelPacked.Instantiate();
         level.PreInit();
-        nodeLevel.AddChild(level);
+        NodeLevel.AddChild(level);
 
         var curLevel = Levels[CurrentLevel];
 
@@ -80,7 +80,7 @@ public partial class LevelManager
         await GameManager.Transition.AlphaToBlackAndBack();
 
         // remove level
-        nodeLevel.QueueFreeChildren();
+        NodeLevel.QueueFreeChildren();
 
         // mark level as completed
         Levels[levelName].Completed = true;
