@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class CommandExit : Command
+public class CommandExit : Command
 {
     public CommandExit() => Aliases = new[] { "stop" };
 

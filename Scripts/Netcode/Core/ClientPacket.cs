@@ -2,7 +2,7 @@ using ENet;
 
 namespace Sankari.Netcode;
 
-public partial class ClientPacket : GamePacket
+public class ClientPacket : GamePacket
 {
     public ClientPacket(byte opcode, PacketFlags flags, APacket writable = null)
     {

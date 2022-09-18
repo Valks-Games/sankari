@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class Tokens
+public class Tokens
 {
     private Dictionary<string, CancellationTokenSource> Cts { get; } = new();
 

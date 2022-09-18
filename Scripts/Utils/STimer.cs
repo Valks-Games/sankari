@@ -4,7 +4,7 @@ using System.Timers;
 using Timer = System.Timers.Timer;
 using Object = System.Object;
 
-public partial class STimer : IDisposable
+public class STimer : IDisposable
 {
     private Timer Timer { get; }
 

@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class Popups
+public class Popups
 {
     private Queue<Window> Queue { get; } = new();
     private Linker Linker { get; }

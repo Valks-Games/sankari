@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class Audio
+public class Audio
 {
     private Dictionary<string, AudioStream> Sfx { get; } = new();
     private Dictionary<string, AudioStream> Music { get; } = new();

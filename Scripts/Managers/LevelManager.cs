@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class LevelManager
+public class LevelManager
 {
     public Dictionary<string, Level> Levels { get; set; } = new();
 
@@ -94,7 +94,7 @@ public partial class LevelManager
     }
 }
 
-public partial class Level 
+public class Level 
 {
     public string Name { get; set; }
     public string Music { get; set; }
