@@ -47,12 +47,15 @@ target_position = Vector2(4, 0)
 
 [node name="Left" type="RayCast2D" parent="Raycasts/Ground Checks"]
 position = Vector2(-9, 16)
+target_position = Vector2(0, 10)
 
 [node name="Middle" type="RayCast2D" parent="Raycasts/Ground Checks"]
-position = Vector2(0.5, 16)
+position = Vector2(0, 16)
+target_position = Vector2(0, 10)
 
 [node name="Right" type="RayCast2D" parent="Raycasts/Ground Checks"]
 position = Vector2(9, 16)
+target_position = Vector2(0, 10)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
