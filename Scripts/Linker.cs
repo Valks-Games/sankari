@@ -90,14 +90,14 @@ public partial class Linker : Node
 
 	public override async void _Notification(long what)
 	{
-		if (what == (int)NotificationWmCloseRequest)
+		if (what == NotificationWmCloseRequest)
 		{
 			GetTree().AutoAcceptQuit = false;
 			await Cleanup();
 		}
 	}
 
-	private async Task Cleanup()
+	public async Task Cleanup()
 	{
 		if (Logger.StillWorking())
 			await Task.Delay(1);
