@@ -273,10 +273,8 @@ public partial class Player : CharacterBody2D
 	{
 		var collision = RayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
 
-		if (collision != null && collision is TileMap)
+		if (collision != null && collision is TileMap tilemap)
 		{
-			var tilemap = collision as TileMap;
-
 			if (inputDown && tilemap.IsInGroup("Platform"))
 			{
 				tilemap.EnableLayers(2);
