@@ -1,3 +1,18 @@
+v0.1.25
+- Fixed pressing quit button doing nothing (https://github.com/Valks-Games/sankari/issues/132)
+- Figured out how to set the game window title (https://github.com/Valks-Games/sankari/issues/131)
+- Fixed Newtonsoft not being detected (https://github.com/Valks-Games/sankari/issues/130)
+- Figured out how to get name from individual tiles in a tileset (https://github.com/Valks-Games/sankari/issues/121)
+- Converted GTween class for Godot 4 (https://github.com/Valks-Games/sankari/issues/120)
+- Converted all scripts to Godot 4
+- Figured out how to give names to individual tiles in a tileset (https://github.com/Valks-Games/sankari/issues/119)
+- Renamed project to "Sankari" (https://github.com/Valks-Games/sankari/issues/114)
+- Added event listeners for player join leave events (https://github.com/Valks-Games/sankari/issues/113)
+- Fixed multiple violations of thread safety (https://github.com/Valks-Games/sankari/issues/112 https://github.com/Valks-Games/sankari/issues/115)
+- Added more `Send()` methods for the server (https://github.com/Valks-Games/sankari/issues/111)
+- Enhance `PrintFull()` method virtually reducing all crashes (https://github.com/Valks-Games/sankari/issues/110) 
+- Added console command history (https://github.com/Valks-Games/sankari/issues/109)
+
 v0.1.24
 - loading levels are synced with clients
 - changing map position is synced with clients
