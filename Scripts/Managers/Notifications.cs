@@ -15,11 +15,11 @@ public enum Event
     OnReceivePlayersFromServer
 }
 
-public class Notifications
+public static class Notifications
 {
-    private Dictionary<Event, List<AudioListener3D>> Listeners { get; set; } = new();
+    private static Dictionary<Event, List<AudioListener3D>> Listeners { get; set; } = new();
 
-    public void AddListener(Node sender, Event eventType, Action<object[]> action)
+    public static void AddListener(Node sender, Event eventType, Action<object[]> action)
     {
         if (!Listeners.ContainsKey(eventType))
             Listeners.Add(eventType, new List<AudioListener3D>());
@@ -27,7 +27,7 @@ public class Notifications
         Listeners[eventType].Add(new AudioListener3D(sender, action));
     }
 
-    public void RemoveListener(Node sender, Event eventType)
+    public static void RemoveListener(Node sender, Event eventType)
     {
         if (!Listeners.ContainsKey(eventType))
             throw new InvalidOperationException($"Tried to remove listener of event type '{eventType}' from an event type that has not even been defined yet");
@@ -38,9 +38,9 @@ public class Notifications
                     pair.Value.RemoveAt(i);
     }
 
-    public void RemoveAllListeners() => Listeners.Clear();
+    public static void RemoveAllListeners() => Listeners.Clear();
 
-    public void RemoveInvalidListeners()
+    public static void RemoveInvalidListeners()
     {
         var tempListeners = new Dictionary<Event, List<AudioListener3D>>();
 
@@ -59,7 +59,7 @@ public class Notifications
         Listeners = new(tempListeners);
     }
 
-    public void Notify(Event eventType, params object[] args)
+    public static void Notify(Event eventType, params object[] args)
     {
         if (!Listeners.ContainsKey(eventType))
             return;

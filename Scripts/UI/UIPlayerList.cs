@@ -13,17 +13,17 @@ public partial class UIPlayerList : Control
 
     public void SetupListeners() 
     {
-        GameManager.Notifications.AddListener(this, Event.OnGameClientLeft, (args) => 
+        Notifications.AddListener(this, Event.OnGameClientLeft, (args) => 
         {
             RemovePlayer((byte)args[0]);
         });
 
-        GameManager.Notifications.AddListener(this, Event.OnGameClientJoined, (args) => 
+        Notifications.AddListener(this, Event.OnGameClientJoined, (args) => 
         {
             AddPlayer((byte)args[0], (string)args[1]);
         });
 
-        GameManager.Notifications.AddListener(this, Event.OnReceivePlayersFromServer, (args) => 
+        Notifications.AddListener(this, Event.OnReceivePlayersFromServer, (args) => 
         {
             var usernames = (Dictionary<byte, string>)args[0];
 

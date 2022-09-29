@@ -41,7 +41,7 @@ public class GodotCommands
                     packetReader.Dispose();
                     break;
                 case GodotOpcode.NetEvent:
-                    GameManager.Notifications.Notify((Event)cmd.Data);
+                    Notifications.Notify((Event)cmd.Data);
                     break;
                 case GodotOpcode.SpawnPopupMessage:
                     var dataMessage = (GodotCmdPopupMessage)cmd.Data;

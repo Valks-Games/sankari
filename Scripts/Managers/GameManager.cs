@@ -29,7 +29,6 @@ public class GameManager
     public static Popups Popups { get; private set; }
     public static Tokens Tokens { get; private set; }
     public static Net Net { get; private set; }
-    public static Notifications Notifications { get; private set; }
     public static UIMenu Menu { get; private set; }
 
     private static Node NodeMap { get; set; }
@@ -49,7 +48,6 @@ public class GameManager
         LevelManager.Init(linker.GetNode<Node>("Level"));
         Popups = new Popups(linker);
         Tokens = new Tokens();
-        Notifications = new Notifications();
         Net = new Net();
 
         LevelUI.Hide();
