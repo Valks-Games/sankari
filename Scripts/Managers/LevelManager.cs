@@ -20,6 +20,9 @@ public class LevelManager
                 Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
         });
 
+		// test level
+		AddLevel("Test Level");
+
         AddLevel("Level A1", "grassy_1", 0.9f, false);
         AddLevel("Level A2", "grassy_2", 0.9f);
 
@@ -62,13 +65,24 @@ public class LevelManager
         }
 
         var levelPacked = ResourceLoader.Load<PackedScene>(scenePath);
-        var level = (LevelScene)levelPacked.Instantiate();
-        level.PreInit();
-        NodeLevel.AddChild(level);
 
-        var curLevel = Levels[CurrentLevel];
+		if (levelPacked.Instantiate() is LevelScene level)
+		{
+			level.PreInit();
+			NodeLevel.AddChild(level);
 
-        GameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
+			var curLevel = Levels[CurrentLevel];
+
+			GameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
+		}
+		else
+		{
+			Logger.LogWarning
+			(
+				"Level does not have LevelScene.cs script attached " +
+				"to root node. Some things may not function as expected."
+			);
+		}
     }
 
     public async Task CompleteLevel(string levelName)
@@ -112,7 +126,10 @@ public class Level
 
         var levelId = name.Split(" ")[1];
         var letter = levelId.Substring(0, 1);
-        var num = int.Parse(levelId.Substring(1));
+
+		// for example "Test Level" does not have a number in the name
+		if (!int.TryParse(levelId.Substring(1), out int num))
+			return;
         
         num += 1;
 

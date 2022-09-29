@@ -6,6 +6,7 @@ public partial class Linker : Node
 	[Export] public bool InstantlyLoadLevel1 { get; set; }
 	[Export] public bool PressPlayOnLaunch { get; set; }
 	[Export] public bool AutoHostJoin { get; set; }
+	[Export] public bool LoadTestLevel { get; set; }
 
 	// net
 	//[Export] public ServerPacketOpcode[] IgnoreOpcodesFromServer; // TODO: Convert to Godot4
@@ -38,6 +39,13 @@ public partial class Linker : Node
 			{
 				GameManager.Menu.Hide();
 				GameManager.Level.CurrentLevel = "Level A1";
+				await GameManager.Level.LoadLevel();
+			}
+
+			if (LoadTestLevel)
+			{
+				GameManager.Menu.Hide();
+				GameManager.Level.CurrentLevel = "Test Level";
 				await GameManager.Level.LoadLevel();
 			}
 

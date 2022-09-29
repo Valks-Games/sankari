@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cii878di0nq7s"]
+[gd_scene load_steps=20 format=3 uid="uid://cii878di0nq7s"]
 
 [ext_resource type="PackedScene" uid="uid://drhv6phmlcb2c" path="res://Scenes/Menu.tscn" id="1"]
 [ext_resource type="Script" path="res://Scripts/Linker.cs" id="2"]
@@ -52,17 +52,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AnimatedTexture" id="AnimatedTexture_tp2od"]
-frames = 4
-frame_0/texture = ExtResource("5")
-frame_1/duration = 1.0
-frame_2/duration = 1.0
-frame_3/duration = 1.0
-
 [node name="Main" type="Node2D"]
 script = ExtResource("2")
 DeveloperMode = true
-AutoHostJoin = true
+LoadTestLevel = true
 NodePathTransition = NodePath("CanvasLayer/Transition")
 
 [node name="Map" type="Node2D" parent="."]
@@ -330,7 +323,7 @@ theme = ExtResource("7")
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Level UI/PanelContainer"]
 offset_left = 1.0
 offset_top = 1.0
-offset_right = 163.0
+offset_right = 52.0
 offset_bottom = 30.0
 
 [node name="Coin Sprite2D" type="AnimatedSprite2D" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
@@ -351,12 +344,6 @@ offset_top = 3.0
 offset_right = 38.0
 offset_bottom = 25.0
 text = "0"
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
-offset_left = 42.0
-offset_right = 162.0
-offset_bottom = 29.0
-texture = SubResource("AnimatedTexture_tp2od")
 
 [node name="Lives" type="HBoxContainer" parent="CanvasLayer/Level UI"]
 visible = false
