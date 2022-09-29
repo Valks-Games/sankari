@@ -13,7 +13,7 @@ public partial class Coin : AnimatedSprite2D
         if (area.GetParent() is Player)
         {
             GameManager.LevelUI.AddCoins();
-            GameManager.Audio.PlaySFX("coin_pickup_1", 30);
+            Audio.PlaySFX("coin_pickup_1", 30);
             QueueFree();
         }
     }

@@ -27,7 +27,6 @@ public class GameManager
     public static UIMapMenu UIMapMenu { get; private set; }
     public static Map Map { get; private set; }
     public static UIConsoleManager Console { get; private set; }
-    public static Audio Audio { get; private set; }
     public static Popups Popups { get; private set; }
     public static Tokens Tokens { get; private set; }
     public static Net Net { get; private set; }
@@ -42,7 +41,7 @@ public class GameManager
         NodeMap = linker.GetNode<Node>("Map");
         Menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
         
-        Audio = new Audio(new GAudioStreamPlayer(linker), new GAudioStreamPlayer(linker));
+        Audio.Init(new GAudioStreamPlayer(linker), new GAudioStreamPlayer(linker));
         Transition = linker.GetNode<TransitionManager>(linker.NodePathTransition);
         Console = linker.ConsoleManager;
         LevelUI = linker.GetNode<LevelUIManager>("CanvasLayer/Level UI");

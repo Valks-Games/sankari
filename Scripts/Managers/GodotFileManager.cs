@@ -1,49 +1,56 @@
 namespace Sankari;
 
-public class GodotFileManager
+public static class GodotFileManager
 {
-    public string GetProjectPath() => OS.HasFeature("standalone")
+    public static string GetProjectPath() => OS.HasFeature("standalone")
         ? System.IO.Directory.GetParent(OS.GetExecutablePath())!.FullName
         : ProjectSettings.GlobalizePath("res://");
 
-    public string ReadFile(string path)
+    public static string ReadFile(string path)
     {
-        var file = new File();
-        var error = file.Open($"res://{path}", File.ModeFlags.Read);
-        if (error != Godot.Error.Ok)
-        {
-            Logger.LogWarning(error);
+		using var file = FileAccess.Open($"res://{path}", FileAccess.ModeFlags.Read);
+
+		var err = file.GetError();
+		if (err != Error.Ok)
+		{
+			Logger.LogWarning(err);
             return "";
-        }
-        var content = file.GetAsText();
-        file.Close();
-        return content;
+		}
+
+        return file.GetAsText();
     }
 
-    public bool LoadDir(string path, Action<Directory, string> action)
-    {
-        var dir = new Directory();
+	public static bool LoadDir(string path, Action<DirAccess, string> action)
+	{
+		path = path.Replace('\\', '/');
 
-        path = path.Replace('\\', '/');
+		var dir = DirAccess.Open($"res://{path}");
+		
+		var errOpen = DirAccess.GetOpenError();
 
-        var error = dir.Open($"res://{path}");
+		if (errOpen != Error.Ok)
+		{
+			Logger.LogWarning($"Failed to open res://{path}, Error: '{errOpen}'");
+			return false;
+		}
 
-        if (error != Error.Ok)
-        {
-            Logger.LogWarning($"Failed to open res://{path}, Error: '{error}'");
-            return false;
-        }
+		var errListDirBegin = dir.ListDirBegin();
 
-        dir.ListDirBegin();
-        var fileName = dir.GetNext();
+		if (errListDirBegin != Error.Ok)
+		{ 
+			Logger.LogWarning($"Failed to begin listing the directory, Error: '{errListDirBegin}'");
+			return false;
+		}
 
-        while (fileName != "")
-        {
-            action(dir, fileName);
-            fileName = dir.GetNext();
-        }
+		var fileName = dir.GetNext();
 
-        dir.ListDirEnd();
-        return true;
-    }
+		while (fileName != "")
+		{
+			action(dir, fileName);
+			fileName = dir.GetNext();
+		}
+
+		dir.ListDirEnd();
+		return true;
+	}
 }

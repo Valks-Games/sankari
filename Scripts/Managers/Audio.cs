@@ -1,15 +1,15 @@
 namespace Sankari;
 
-public class Audio
+public static class Audio
 {
-    private Dictionary<string, AudioStream> Sfx { get; } = new();
-    private Dictionary<string, AudioStream> Music { get; } = new();
+    private static Dictionary<string, AudioStream> Sfx { get; } = new();
+    private static Dictionary<string, AudioStream> Music { get; } = new();
 
-    private GAudioStreamPlayer SfxPlayer { get; }
-    private GAudioStreamPlayer MusicPlayer { get; }
-    private float LastPitch { get; set; }
+    private static GAudioStreamPlayer SfxPlayer { get; set; }
+    private static GAudioStreamPlayer MusicPlayer { get; set; }
+    private static float LastPitch { get; set; }
 
-    public Audio(GAudioStreamPlayer sfxPlayer, GAudioStreamPlayer musicPlayer)
+    public static void Init(GAudioStreamPlayer sfxPlayer, GAudioStreamPlayer musicPlayer)
     {
         SfxPlayer = sfxPlayer;
         MusicPlayer = musicPlayer;
@@ -20,7 +20,7 @@ public class Audio
         LoadSoundTracks();
     }
 
-    private void LoadSoundEffects()
+    private static void LoadSoundEffects()
     {
         LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav");
         LoadSFX("coin_pickup_1", "Environment/Coin Pickup/1/sfx_coin_single1.wav");
@@ -33,7 +33,7 @@ public class Audio
         LoadSFX("game_over_4", "Game Over/4/orchestra-game-over.wav");
     }
 
-    private void LoadSoundTracks()
+    private static void LoadSoundTracks()
     {
         LoadMusic("map_grassy", "Map/8bit Bossa/8bit Bossa.mp3");
         LoadMusic("grassy_1", "Level/Grassy Peaceful/Chiptune Adventures/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg");
@@ -41,7 +41,7 @@ public class Audio
         LoadMusic("ice_1", "Level/Ice/Icy_Expanse.mp3");
     }
 
-    public void PlaySFX(string name, int volume = 100)
+    public static void PlaySFX(string name, int volume = 100)
     {
         SfxPlayer.Volume = volume;
         SfxPlayer.Stream = Sfx[name];
@@ -62,7 +62,7 @@ public class Audio
         SfxPlayer.Play();
     }
 
-    public void PlayMusic(string name, float pitch = 1)
+    public static void PlayMusic(string name, float pitch = 1)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -80,13 +80,13 @@ public class Audio
         MusicPlayer.Play();
     }
 
-    public void StopMusic() => MusicPlayer.Stop();
+    public static void StopMusic() => MusicPlayer.Stop();
 
     /// <summary>
     /// Values range from 0 to 100
     /// </summary>
-    public void SetSFXVolume(int v) => SfxPlayer.Volume = v;
+    public static void SetSFXVolume(int v) => SfxPlayer.Volume = v;
 
-    private void LoadSFX(string name, string path) => Sfx[name] = ResourceLoader.Load<AudioStream>($"res://Audio/SFX/{path}");
-    private void LoadMusic(string name, string path) => Music[name] = ResourceLoader.Load<AudioStream>($"res://Audio/Music/{path}");
+    private static void LoadSFX(string name, string path) => Sfx[name] = ResourceLoader.Load<AudioStream>($"res://Audio/SFX/{path}");
+    private static void LoadMusic(string name, string path) => Music[name] = ResourceLoader.Load<AudioStream>($"res://Audio/Music/{path}");
 }
