@@ -13,8 +13,8 @@ public class LevelManager
     public LevelManager(Node nodeLevel)
     {
         NodeLevel = nodeLevel;
-        var godotFileManager = new GodotFileManager();
-		godotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
+
+		GodotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
 		{
 			if (!dir.CurrentIsDir())
 				Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");

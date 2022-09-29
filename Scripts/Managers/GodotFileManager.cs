@@ -1,12 +1,12 @@
 namespace Sankari;
 
-public class GodotFileManager
+public static class GodotFileManager
 {
-    public string GetProjectPath() => OS.HasFeature("standalone")
+    public static string GetProjectPath() => OS.HasFeature("standalone")
         ? System.IO.Directory.GetParent(OS.GetExecutablePath())!.FullName
         : ProjectSettings.GlobalizePath("res://");
 
-    public string ReadFile(string path)
+    public static string ReadFile(string path)
     {
 		using var file = FileAccess.Open($"res://{path}", FileAccess.ModeFlags.Read);
 
@@ -20,7 +20,7 @@ public class GodotFileManager
         return file.GetAsText();
     }
 
-	public bool LoadDir(string path, Action<DirAccess, string> action)
+	public static bool LoadDir(string path, Action<DirAccess, string> action)
 	{
 		path = path.Replace('\\', '/');
 
