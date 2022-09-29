@@ -1,35 +1,35 @@
 namespace Sankari;
 
-public class Popups
+public static class Popups
 {
-    private Queue<Window> Queue { get; } = new();
-    private Linker Linker { get; }
+    private static Queue<Window> Queue { get; } = new();
+    private static Linker Linker { get; set; }
 
-    public Popups(Linker linker)
+    public static void Init(Linker linker)
     {
        Linker = linker;
     }
 
-    public void SpawnMessage(string message, string title = "")
+    public static void SpawnMessage(string message, string title = "")
     {
         var popup = Prefabs.PopupMessage.Instantiate<PopupMessage>();
-        popup.PreInit(this, message, title);
+        popup.PreInit(message, title);
 
         Spawn(popup);
     }
 
-    public void SpawnError(Exception exception, string title = "")
+    public static void SpawnError(Exception exception, string title = "")
     {
         var popup = Prefabs.PopupError.Instantiate<PopupError>();
-        popup.PreInit(this, exception, title);
+        popup.PreInit(exception, title);
 
         Spawn(popup);
     }
 
-    public void SpawnLineEdit(Action<LineEdit> onTextChanged, Action<string> onHide, string title = "", int maxLength = 50, string text = "")
+    public static void SpawnLineEdit(Action<LineEdit> onTextChanged, Action<string> onHide, string title = "", int maxLength = 50, string text = "")
     {
         var popup = Prefabs.PopupLineEdit.Instantiate<PopupLineEdit>();
-        popup.PreInit(this, onTextChanged, onHide, maxLength, title, text);
+        popup.PreInit(onTextChanged, onHide, maxLength, title, text);
 
         Spawn(popup);
     }
@@ -42,7 +42,7 @@ public class Popups
         Spawn(popup);
     }*/
 
-    public void Next()
+    public static void Next()
     {
         Queue.Dequeue();
         if (Queue.Count == 0)
@@ -51,7 +51,7 @@ public class Popups
         popup.PopupCentered();
     }
 
-    private void Spawn(Window popup)
+    private static void Spawn(Window popup)
     {
         Linker.CanvasLayer.AddChild(popup);
 

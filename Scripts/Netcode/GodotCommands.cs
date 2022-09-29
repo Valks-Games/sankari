@@ -45,11 +45,11 @@ public class GodotCommands
                     break;
                 case GodotOpcode.SpawnPopupMessage:
                     var dataMessage = (GodotCmdPopupMessage)cmd.Data;
-                    GameManager.Popups.SpawnMessage(dataMessage.Message, dataMessage.Title);
+                    Popups.SpawnMessage(dataMessage.Message, dataMessage.Title);
                     break;
                 case GodotOpcode.SpawnPopupError:
                     var dataError = (GodotCmdPopupError)cmd.Data;
-                    GameManager.Popups.SpawnError(dataError.Exception, dataError.Title);
+                    Popups.SpawnError(dataError.Exception, dataError.Title);
                     break;
             }
         }

@@ -6,13 +6,10 @@ public partial class PopupError : Window
 
     private string Message { get; set; }
     private string PopupTitle { get; set; }
-    private Popups PopupManager { get; set; }
 
-    public void PreInit(Popups popupManager, Exception exception, string title = "")
+    public void PreInit(Exception exception, string title = "")
     {
-        PopupManager = popupManager;
         Message = exception.StackTrace;
-
         PopupTitle = !string.IsNullOrWhiteSpace(title) ? title : exception.Message;
     }
 
@@ -24,7 +21,7 @@ public partial class PopupError : Window
 
     private void _on_UIPopupError_popup_hide()
     {
-        PopupManager.Next();
+        Popups.Next();
         QueueFree();
     }
 

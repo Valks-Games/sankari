@@ -71,7 +71,7 @@ public partial class UIMapMenu : Control
     {
         if (InvalidOnlineUsername()) 
         {
-            GameManager.Popups.SpawnMessage("Please provide a valid online username");
+            Popups.SpawnMessage("Please provide a valid online username");
             return;
         }
 
@@ -123,7 +123,7 @@ public partial class UIMapMenu : Control
     {
         if (InvalidOnlineUsername()) 
         {
-            GameManager.Popups.SpawnMessage("Please provide a valid online username");
+            Popups.SpawnMessage("Please provide a valid online username");
             return;
         }
 
@@ -134,13 +134,11 @@ public partial class UIMapMenu : Control
         if (net.Client.TryingToConnect || net.Client.IsConnected) 
             return;
 
-        var popups = GameManager.Popups;
-
         var indexColon = JoinIP.IndexOf(":");
 
         if (indexColon == -1) 
         {
-            popups.SpawnMessage("The address is missing a port");
+            Popups.SpawnMessage("The address is missing a port");
             return;
         }
 
@@ -149,13 +147,13 @@ public partial class UIMapMenu : Control
 
         if (!address.IsAddress() || string.IsNullOrWhiteSpace(address)) 
         {
-            popups.SpawnMessage("Please enter a valid address");
+            Popups.SpawnMessage("Please enter a valid address");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(port) || !ushort.TryParse(port, out ushort portNum)) 
         {
-            popups.SpawnMessage("Please enter a valid port");
+            Popups.SpawnMessage("Please enter a valid port");
             return;
         }
 

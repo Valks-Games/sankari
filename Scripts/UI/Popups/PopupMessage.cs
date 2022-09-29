@@ -6,11 +6,9 @@ public partial class PopupMessage : Window
 
     private string Message { get; set; }
     private string PopupTitle { get; set; }
-    private Popups PopupManager { get; set; }
 
-    public void PreInit(Popups popupManager, string message, string title = "")
+    public void PreInit(string message, string title = "")
     {
-        PopupManager = popupManager;
         Message = message;
 
         PopupTitle = !string.IsNullOrWhiteSpace(title) ? title : "";
@@ -24,7 +22,7 @@ public partial class PopupMessage : Window
 
     private void _on_UIPopupMessage_popup_hide()
     {
-        PopupManager.Next();
+        Popups.Next();
         QueueFree();
     }
 

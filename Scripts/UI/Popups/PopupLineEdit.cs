@@ -6,15 +6,13 @@ public partial class PopupLineEdit : Window
     private LineEdit LineEdit { get; set; }
 
     private string PopupTitle { get; set; }
-    private Popups PopupManager { get; set; }
     private Action<LineEdit> OnTextChanged { get; set; }
     private Action<string> OnHide { get; set; }
     private int MaxLength { get; set; }
     private string Text { get; set; }
 
-    public void PreInit(Popups popupManager, Action<LineEdit> onTextChanged, Action<string> onHide, int maxLength = 50, string title = "", string text = "")
+    public void PreInit(Action<LineEdit> onTextChanged, Action<string> onHide, int maxLength = 50, string title = "", string text = "")
     {
-        PopupManager = popupManager;
         PopupTitle = title;
         OnTextChanged = onTextChanged;
         OnHide = onHide;
@@ -35,7 +33,7 @@ public partial class PopupLineEdit : Window
     private void _on_PopupLineEdit_popup_hide()
     {
         OnHide(LineEdit.Text);
-        PopupManager.Next();
+        Popups.Next();
         QueueFree();
     }
 
