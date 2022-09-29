@@ -14,11 +14,11 @@ public class LevelManager
     {
         NodeLevel = nodeLevel;
         var godotFileManager = new GodotFileManager();
-        godotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
-        {
-            if (!dir.CurrentIsDir())
-                Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
-        });
+		godotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
+		{
+			if (!dir.CurrentIsDir())
+				Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
+		});
 
 		// test level
 		AddLevel("Test Level");
@@ -60,7 +60,7 @@ public class LevelManager
 
         // load level
         var scenePath = $"res://Scenes/Levels/{CurrentLevel}.tscn";
-        if (!File.FileExists(scenePath))
+        if (!FileAccess.FileExists(scenePath))
         {
             Logger.LogWarning("Level has not been made yet!");
             return;
