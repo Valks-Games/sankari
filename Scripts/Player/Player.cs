@@ -193,7 +193,7 @@ public partial class Player : CharacterBody2D
 			if (DashDir != Vector2.Zero)
 			{
 				DashCount++;
-				GameManager.Audio.PlaySFX("dash");
+				Audio.PlaySFX("dash");
 				DashReady = false;
 				CurrentlyDashing = true;
 				TimerDashDuration.Start();
@@ -266,7 +266,7 @@ public partial class Player : CharacterBody2D
 	private void Jump()
 	{
 		AnimatedSprite.Play("jump_start");
-		GameManager.Audio.PlaySFX("player_jump", 80);
+		Audio.PlaySFX("player_jump", 80);
 	}
 
 	private async void CheckIfCanGoUnderPlatform(bool inputDown)
@@ -451,8 +451,8 @@ public partial class Player : CharacterBody2D
 
 		DieTween.Start();
 		HaltPlayerLogic = true;
-		GameManager.Audio.StopMusic();
-		GameManager.Audio.PlaySFX("game_over_1");
+		Audio.StopMusic();
+		Audio.PlaySFX("game_over_1");
 
 		DieTween.Callback(() => OnDieTweenCompleted());
 	}

@@ -75,7 +75,7 @@ public class LevelManager
 
 			var curLevel = Levels[CurrentLevel];
 
-			GameManager.Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
+			Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
 		}
 		else
 		{
