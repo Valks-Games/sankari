@@ -28,6 +28,8 @@
 > ℹ️ VSCode can alterinatively be used but it [requires more setup](https://github.com/Valks-Games/sankari/blob/main/.github/VSCODE_SETUP.md) and debugging is very tedious
 
 ## Coding
+[Documentation](https://github.com/Valks-Games/sankari/blob/main/.github/DOCUMENTATION.md)  
+
 > ⚠️ This game makes use of 3 threads (Godot, Server, Client). Do not directly access public variables or methods from these threads to other threads. If you want to communicate between threads please make use of the appropriate `ConcurrentQueue<T>` channels. Violating thread safety can lead to frequent random game crashes with usually no errors in console making these types of issues extremely hard to track down when they start acting up.
 
 > ℹ️ There is an in-game console you can bring up with `F12`. Type `help` to view a list of all the commands. You can program any of these commands within their respective scripts located under `res://Scripts/UI/Console/Commands`
