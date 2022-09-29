@@ -8,13 +8,9 @@ public static class Net
     public static GameServer Server { get; set; }
     public static bool EnetInitialized { get; set; }
 
-    private static GodotCommands GodotCmds { get; set; }
-
     public static void Init()
     {
-        GodotCmds = new GodotCommands();
-
-        Client = new GameClient(GodotCmds);
+        Client = new GameClient();
         Server = new GameServer();
 
         try
@@ -61,7 +57,7 @@ public static class Net
 
     public static async Task Update()
     {
-        await GodotCmds.Update();
+        await GodotCommands.Update();
     }
 
     public static async void StartClient(string ip, ushort port, CancellationTokenSource cts)
@@ -72,7 +68,7 @@ public static class Net
             return;
         }
 
-        Client = new GameClient(GodotCmds);
+        Client = new GameClient();
         await Client.StartAsync(ip, port, cts);
     }
 

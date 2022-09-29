@@ -1,12 +1,12 @@
 namespace Sankari;
 
-public class GodotCommands
+public static class GodotCommands
 {
-    private ConcurrentQueue<GodotCmd> GodotCmdQueue { get; } = new();
+    private static ConcurrentQueue<GodotCmd> GodotCmdQueue { get; } = new();
 
-    public void Enqueue(GodotOpcode opcode, object data = null) => GodotCmdQueue.Enqueue(new GodotCmd(opcode, data));
+    public static void Enqueue(GodotOpcode opcode, object data = null) => GodotCmdQueue.Enqueue(new GodotCmd(opcode, data));
 
-    public async Task Update()
+    public static async Task Update()
     {
         if (GodotCmdQueue.TryDequeue(out var cmd))
         {

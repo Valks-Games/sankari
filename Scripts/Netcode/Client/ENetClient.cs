@@ -24,8 +24,6 @@ public abstract class ENetClient
     protected ConcurrentQueue<ENetClientCmd> EnetCmds { get; } = new();
     private ConcurrentDictionary<int, ClientPacket> Outgoing { get; } = new();
 
-    protected GodotCommands GodotCmds { get; set; }
-
     private int OutgoingId { get; set; }
     protected CancellationTokenSource CancellationTokenSource { get; set; } = new();
 	

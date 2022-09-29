@@ -14,11 +14,6 @@ public class GameClient : ENetClient
     /// </summary>
     public byte PeerId { get; set; }
 
-    public GameClient(GodotCommands godotCmds) : base()
-    {
-        GodotCmds = godotCmds;
-    }
-
     protected override void Connecting()
     {
         Log("Client connecting...");
@@ -51,12 +46,12 @@ public class GameClient : ENetClient
 
     protected override void Receive(PacketReader reader)
     {
-        GodotCmds.Enqueue(GodotOpcode.ENetPacket, new PacketInfo(reader, this));
+        GodotCommands.Enqueue(GodotOpcode.ENetPacket, new PacketInfo(reader, this));
     }
 
     protected override void Connect(ref Event netEvent)
     {
-        GodotCmds.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientConnected);
+        GodotCommands.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientConnected);
         Log("Client connected");
     }
 
@@ -67,7 +62,7 @@ public class GameClient : ENetClient
 
     protected override void Stopped()
     {
-        GodotCmds.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientStopped);
+        GodotCommands.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientStopped);
         Log("Client stopped");
     }
 
