@@ -1021,7 +1021,7 @@ terrain_set_0/terrain_0/color = Color(1, 0, 0.0392157, 1)
 sources/2 = SubResource("TileSetAtlasSource_7ddqc")
 
 [sub_resource type="RectangleShape2D" id="135"]
-size = Vector2(73, 565)
+size = Vector2(106.5, 565)
 
 [sub_resource type="RectangleShape2D" id="270"]
 size = Vector2(95, 647)
@@ -1183,7 +1183,7 @@ NodePathEntities = NodePath("../../../Enemies")
 [node name="Activate Enemies3" type="Area2D" parent="Environment/Triggers"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Triggers/Activate Enemies3"]
-position = Vector2(4344, 300)
+position = Vector2(4242.25, 330)
 shape = SubResource("135")
 script = ExtResource("21")
 Entities = PackedStringArray("Enemy12")
