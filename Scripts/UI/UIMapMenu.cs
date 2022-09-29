@@ -75,10 +75,10 @@ public partial class UIMapMenu : Control
             return;
         }
 
-        if (GameManager.Net.Server.IsRunning)
+        if (Net.Server.IsRunning)
         {
-            GameManager.Net.Server.Stop();
-            GameManager.Net.Client.Stop();
+            Net.Server.Stop();
+            Net.Client.Stop();
 
             BtnHostServerToggle.Text = "Open World3D to Other Players";
         }
@@ -93,14 +93,12 @@ public partial class UIMapMenu : Control
         var ctsServer = Tokens.Create("server_running");
         var ctsClient = Tokens.Create("client_running");
 
-        var net = GameManager.Net;
-
         IsHost = true;
 
-        net.StartServer(HostPort, maxPlayers, ctsServer);
-        net.StartClient(ip, port, ctsClient); // TODO: Get external IP automatically
+        Net.StartServer(HostPort, maxPlayers, ctsServer);
+        Net.StartClient(ip, port, ctsClient); // TODO: Get external IP automatically
 
-        while (!net.Server.HasSomeoneConnected)
+        while (!Net.Server.HasSomeoneConnected)
             await Task.Delay(1);
 
         BtnHostServerToggle.Text = "Close World3D to Other Players";
@@ -127,11 +125,9 @@ public partial class UIMapMenu : Control
             return;
         }
 
-        var net = GameManager.Net;
-
         // WARN: Not thread safe to access net.Client.TryingToConnect directly from another thread
         // Note: This should not cause any problems
-        if (net.Client.TryingToConnect || net.Client.IsConnected) 
+        if (Net.Client.TryingToConnect || Net.Client.IsConnected) 
             return;
 
         var indexColon = JoinIP.IndexOf(":");
@@ -164,21 +160,21 @@ public partial class UIMapMenu : Control
     {
         IsHost = false;
 
-        GameManager.Net.Client.ExecuteCode((client) => client.TryingToConnect = true);
+        Net.Client.ExecuteCode((client) => client.TryingToConnect = true);
         BtnJoin.Disabled = true;
         BtnJoin.Text = "Searching for world...";
         var ctsClient = Tokens.Create("client_running");
-        GameManager.Net.StartClient(ip, port, ctsClient);
+        Net.StartClient(ip, port, ctsClient);
     }
 
     // game
     private void _on_Back_to_Main_Menu_pressed()
     {
-        if (GameManager.Net.Server.IsRunning)
-            GameManager.Net.Server.Stop();
+        if (Net.Server.IsRunning)
+            Net.Server.Stop();
 
-        if (GameManager.Net.Client.IsRunning)
-            GameManager.Net.Client.Stop();
+        if (Net.Client.IsRunning)
+            Net.Client.Stop();
 
         GameManager.LevelUI.Hide();
         Map.RememberPlayerPosition();

@@ -103,7 +103,7 @@ public partial class Player : CharacterBody2D
 
 		TimerDashCooldown     = new GTimer(this, nameof(OnDashReady), DashCooldown, false, false);
 		TimerDashDuration     = new GTimer(this, nameof(OnDashDurationDone), DashDuration, false, false);
-		TimerNetSend          = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, GameManager.Net.IsMultiplayer());
+		TimerNetSend          = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
 		ParentGroundChecks    = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
 		ParentWallChecksLeft  = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
 		ParentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
@@ -137,7 +137,7 @@ public partial class Player : CharacterBody2D
 	private void NetUpdate()
 	{
 		if (Position != PrevNetPos)
-			GameManager.Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition
+			Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition
 			{
 				Position = Position
 			});

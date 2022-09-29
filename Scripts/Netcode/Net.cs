@@ -1,21 +1,21 @@
 namespace Sankari.Netcode;
 
-public class Net
+public static class Net
 {
-    public DateTime PingSent { get; set; }
-    public DisconnectOpcode DisconnectOpcode { get; set; }
-    public GameClient Client { get; set; }
-    public GameServer Server { get; set; }
-    public bool EnetInitialized { get; }
+    public static DateTime PingSent { get; set; }
+    public static DisconnectOpcode DisconnectOpcode { get; set; }
+    public static GameClient Client { get; set; }
+    public static GameServer Server { get; set; }
+    public static bool EnetInitialized { get; set; }
 
-    private GodotCommands GodotCmds { get; }
+    private static GodotCommands GodotCmds { get; set; }
 
-    public Net()
+    public static void Init()
     {
         GodotCmds = new GodotCommands();
 
-        Client = new GameClient(this, GodotCmds);
-        Server = new GameServer(this);
+        Client = new GameClient(GodotCmds);
+        Server = new GameServer();
 
         try
         {
@@ -36,7 +36,7 @@ public class Net
 
         Notifications.AddListener(GameManager.Linker, Event.OnGameClientStopped, (args) =>
         {
-            GameManager.Net.Client.ExecuteCode((client) => client.TryingToConnect = false);
+            Client.ExecuteCode((client) => client.TryingToConnect = false);
             mapScript.BtnJoin.Disabled = false;
             mapScript.BtnJoin.Text = "Join World3D";
 
@@ -45,7 +45,7 @@ public class Net
 
         Notifications.AddListener(GameManager.Linker, Event.OnGameClientConnected, (args) =>
         {
-            GameManager.Net.Client.Send(ClientPacketOpcode.GameInfo, new CPacketGameInfo
+            Client.Send(ClientPacketOpcode.GameInfo, new CPacketGameInfo
             {
                 ClientGameInfo = ClientGameInfo.PlayerJoin,
                 Username = mapScript.OnlineUsername,
@@ -53,18 +53,18 @@ public class Net
                 Password = mapScript.HostPassword
             });
 
-            GameManager.Net.Client.ExecuteCode((client) => client.TryingToConnect = false);
+            Client.ExecuteCode((client) => client.TryingToConnect = false);
             mapScript.BtnJoin.Disabled = true;
             mapScript.BtnJoin.Text = "Connected";
         });
     }
 
-    public async Task Update()
+    public static async Task Update()
     {
         await GodotCmds.Update();
     }
 
-    public async void StartClient(string ip, ushort port, CancellationTokenSource cts)
+    public static async void StartClient(string ip, ushort port, CancellationTokenSource cts)
     {
         if (!EnetInitialized)
         {
@@ -72,11 +72,11 @@ public class Net
             return;
         }
 
-        Client = new GameClient(this, GodotCmds);
+        Client = new GameClient(GodotCmds);
         await Client.StartAsync(ip, port, cts);
     }
 
-    public async void StartServer(ushort port, int maxPlayers, CancellationTokenSource cts)
+    public static async void StartServer(ushort port, int maxPlayers, CancellationTokenSource cts)
     {
         if (!EnetInitialized)
         {
@@ -84,14 +84,14 @@ public class Net
             return;
         }
 
-        Server = new GameServer(this);
+        Server = new GameServer();
         await Server.StartAsync(port, maxPlayers, cts);
     }
 
-    public bool IsHost() => Server.IsRunning;
-    public bool IsMultiplayer() => Client.IsRunning || Server.IsRunning;
+    public static bool IsHost() => Server.IsRunning;
+    public static bool IsMultiplayer() => Client.IsRunning || Server.IsRunning;
 
-    public async Task Cleanup()
+    public static async Task Cleanup()
     {
         if (Client.IsRunning)
             await Client.StopAsync();

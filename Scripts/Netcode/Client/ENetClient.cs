@@ -25,7 +25,6 @@ public abstract class ENetClient
     private ConcurrentDictionary<int, ClientPacket> Outgoing { get; } = new();
 
     protected GodotCommands GodotCmds { get; set; }
-    protected Net NetworkManager { get; }
 
     private int OutgoingId { get; set; }
     protected CancellationTokenSource CancellationTokenSource { get; set; } = new();
@@ -33,11 +32,6 @@ public abstract class ENetClient
 	// fields
     private long connected;
     private long running;
-
-    protected ENetClient(Net networkManager)
-    {
-        NetworkManager = networkManager;
-    }
 
     /// <summary>
     /// This method is not thread safe

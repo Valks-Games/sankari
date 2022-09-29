@@ -29,17 +29,10 @@ public abstract class ENetServer
     protected readonly Dictionary<uint, Peer> Peers = new();
     protected CancellationTokenSource CancellationTokenSource { get; set; } = new();
     protected bool QueueRestart { get; set; }
-
-    private Net NetworkManager { get; }
 	
 	// fields
     private long someoneConnected = 0;
     private long running = 0;
-
-    protected ENetServer(Net networkManager)
-    {
-        NetworkManager = networkManager;
-    }
 
     /// <summary>
     /// This method is not thread safe
@@ -272,7 +265,7 @@ public abstract class ENetServer
         if (QueueRestart)
         {
             QueueRestart = false;
-            NetworkManager.StartServer(port, maxClients, CancellationTokenSource);
+            Net.StartServer(port, maxClients, CancellationTokenSource);
         }
 
         return Task.FromResult(1);

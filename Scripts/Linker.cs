@@ -113,7 +113,7 @@ public partial class Linker : Node
 
 		//ModLoader.SaveEnabled();
 		//Options.SaveOptions();
-		await GameManager.Net.Cleanup();
+		await Net.Cleanup();
 		Tokens.Cleanup();
 		GetTree().Quit();
 	}

@@ -66,11 +66,9 @@ public partial class Map : Node
 		if (GameManager.UIMapMenu.Visible || GameManager.Console.Visible)
 			return;
 
-		var net = GameManager.Net;
-
-		if (net.IsMultiplayer())
+		if (Net.IsMultiplayer())
 		{
-			if (net.IsHost()) // only the host can move around on the map
+			if (Net.IsHost()) // only the host can move around on the map
 			{
 				HandleMovement();
 			}
@@ -86,21 +84,21 @@ public partial class Map : Node
 			// TODO GODOT 4 CONVERSION
 			//if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared")
 			{
-				if (net.IsMultiplayer())
+				if (Net.IsMultiplayer())
 				{
 					// only the host can start levels
-					if (net.IsHost())
+					if (Net.IsHost())
 					{
 						LoadingLevel = true;
 
-						net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
+						Net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
 						{
 							ServerGameInfo = ServerGameInfo.StartLevel,
 							LevelName = LevelManager.CurrentLevel
 						});
 
 						// WARN: Not a thread safe way of doing this
-						net.Server.LevelUpdateLoop.Start();
+						Net.Server.LevelUpdateLoop.Start();
 
 						await LevelManager.LoadLevel();
 					}
@@ -152,11 +150,9 @@ public partial class Map : Node
 
 			PlayerIcon.Position = nextPos;
 
-			var net = GameManager.Net;
-
-			if (net.IsMultiplayer() && net.IsHost())
+			if (Net.IsMultiplayer() && Net.IsHost())
 			{
-				net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
+				Net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
 				{
 					ServerGameInfo = ServerGameInfo.MapPosition,
 					MapPosition = nextPos

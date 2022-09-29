@@ -14,7 +14,7 @@ public class GameClient : ENetClient
     /// </summary>
     public byte PeerId { get; set; }
 
-    public GameClient(Net networkManager, GodotCommands godotCmds) : base(networkManager)
+    public GameClient(GodotCommands godotCmds) : base()
     {
         GodotCmds = godotCmds;
     }

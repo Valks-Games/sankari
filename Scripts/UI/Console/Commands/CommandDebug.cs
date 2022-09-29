@@ -18,26 +18,26 @@ public class CommandDebug : Command
 
         Commands["peerid"] = () => 
         {
-            if (!GameManager.Net.Client.IsRunning)
+            if (!Net.Client.IsRunning)
             {
                 Logger.Log("Client is not running!");
                 return;
             }
 
             // WARN: Not a thread safe way to get peerId
-            Logger.Log(GameManager.Net.Client.PeerId);
+            Logger.Log(Net.Client.PeerId);
         };
 
         Commands["players"] = () => 
         {
-            if (!GameManager.Net.Server.IsRunning)
+            if (!Net.Server.IsRunning)
             {
                 Logger.Log("Server is not running on this client");
                 return;
             }
 
             // WARN: Not a thread safe way to get Players
-            Logger.Log(GameManager.Net.Server.Players.PrintFull());
+            Logger.Log(Net.Server.Players.PrintFull());
         };
 
         Commands["scroll"] = () => 

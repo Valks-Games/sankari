@@ -26,7 +26,6 @@ public class GameManager
     public static UIMapMenu UIMapMenu { get; private set; }
     public static Map Map { get; private set; }
     public static UIConsoleManager Console { get; private set; }
-    public static Net Net { get; private set; }
     public static UIMenu Menu { get; private set; }
 
     private static Node NodeMap { get; set; }
@@ -45,7 +44,7 @@ public class GameManager
         UIPlayerList = linker.UIPlayerList;
         LevelManager.Init(linker.GetNode<Node>("Level"));
         Popups.Init(linker);
-        Net = new Net();
+        Net.Init();
 
         LevelUI.Hide();
     }

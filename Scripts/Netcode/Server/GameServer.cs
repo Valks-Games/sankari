@@ -21,7 +21,7 @@ public class GameServer : ENetServer
     /// </summary>
     public STimer LevelUpdateLoop { get; }
 
-    public GameServer(Net networkManager) : base(networkManager)
+    public GameServer()
     {
         LevelUpdateLoop = new STimer(NetIntervals.HEARTBEAT, () =>
         {
