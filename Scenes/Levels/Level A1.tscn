@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Enemy/Spawner.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://de2xum4gjflrh" path="res://Scenes/Prefabs/Player.tscn" id="2"]
 [ext_resource type="Script" path="res://Scripts/Level/LevelScene.cs" id="3"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://b7c2qsddgvoyc" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="5"]
 [ext_resource type="Script" path="res://Scripts/Level/Bottom.cs" id="7"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://w64koklfslbm" path="res://Sprites/Level/Parallax Backgrounds/Grass/5_clouds.png" id="11"]
@@ -1340,7 +1340,7 @@ text = "Jump!"
 position = Vector2(3380, 584)
 
 [node name="Player" parent="." instance=ExtResource("2")]
-position = Vector2(1841, 566)
+position = Vector2(169, 568)
 
 [node name="Level Finish" type="Area2D" parent="." groups=["Level Finish"]]
 
