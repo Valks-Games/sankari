@@ -40,9 +40,11 @@ public class LevelManager
             MusicPitch = musicPitch
         });
 
-    public async Task LoadLevel()
+    public async Task LoadLevel(bool instant = false)
     {
-        await GameManager.Transition.AlphaToBlackAndBack();
+		if (!instant)
+			await GameManager.Transition.AlphaToBlackAndBack();
+
         LoadALevel();
     }
 
