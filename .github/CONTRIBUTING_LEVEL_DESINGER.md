@@ -9,6 +9,8 @@ The root node must have the `res://Scripts/Level/LevelScene.cs` script attached 
 
 All level specific assets such as coins, enemies, and the player are found in `res://Scenes/Prefabs`.
 
+Note that your level will have to be setup in the map scene as well. Instructions on this will be added eventually.
+
 ### Player
 Where ever the player is placed is where the level will start. This can be useful to test specific parts of a level by temporarily placing the player in those areas.
 
