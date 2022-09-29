@@ -39,15 +39,15 @@ public partial class Linker : Node
 			if (LoadFirstLevel)
 			{
 				GameManager.Menu.Hide();
-				GameManager.Level.CurrentLevel = "Level A1";
-				await GameManager.Level.LoadLevel(InstantlyLoadLevel);
+				LevelManager.CurrentLevel = "Level A1";
+				await LevelManager.LoadLevel(InstantlyLoadLevel);
 			}
 
 			if (LoadTestLevel)
 			{
 				GameManager.Menu.Hide();
-				GameManager.Level.CurrentLevel = "Test Level";
-				await GameManager.Level.LoadLevel(InstantlyLoadLevel);
+				LevelManager.CurrentLevel = "Test Level";
+				await LevelManager.LoadLevel(InstantlyLoadLevel);
 			}
 
 			if (AutoHostJoin)

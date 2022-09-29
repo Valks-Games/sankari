@@ -470,7 +470,7 @@ public partial class Player : CharacterBody2D
 		await Task.Delay(250);
 		GameManager.Transition.BlackToAlpha();
 		HaltPlayerLogic = false;
-		GameManager.Level.LoadLevelFast();
+		LevelManager.LoadLevelFast();
 		LevelScene.Camera.StartFollowingPlayer();
 	}
 
@@ -491,7 +491,7 @@ public partial class Player : CharacterBody2D
 		if (area.IsInGroup("Level Finish"))
 		{
 			HaltPlayerLogic = true;
-			await GameManager.Level.CompleteLevel(GameManager.Level.CurrentLevel);
+			await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
 			HaltPlayerLogic = false;
 			return;
 		}

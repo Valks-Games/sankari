@@ -137,8 +137,8 @@ public class SPacketGameInfo : APacketServer
 
     private async Task HandleStartLevel()
     {
-        GameManager.Level.CurrentLevel = LevelName;
-        await GameManager.Level.LoadLevel();
+        LevelManager.CurrentLevel = LevelName;
+        await LevelManager.LoadLevel();
     }
 
     private void HandleMapPosition() 

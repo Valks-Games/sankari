@@ -1,16 +1,16 @@
 namespace Sankari;
 
-public class LevelManager
+public static class LevelManager
 {
-    public Dictionary<string, Level> Levels { get; set; } = new();
+    public static Dictionary<string, Level> Levels { get; set; } = new();
 
-    public Dictionary<string, PackedScene> Scenes { get; set; } = new();
+    public static Dictionary<string, PackedScene> Scenes { get; set; } = new();
 
-    public string CurrentLevel { get; set; }
+    public static string CurrentLevel { get; set; }
 
-    private Node NodeLevel { get; }
+    private static Node NodeLevel { get; set; }
 
-    public LevelManager(Node nodeLevel)
+    public static void Init(Node nodeLevel)
     {
         NodeLevel = nodeLevel;
 
@@ -33,14 +33,14 @@ public class LevelManager
         AddLevel("Level C1", "", 1, false);
     }
 
-    private void AddLevel(string name, string music = "", float musicPitch = 1, bool locked = true) =>
+    private static void AddLevel(string name, string music = "", float musicPitch = 1, bool locked = true) =>
         Levels.Add(name, new Level(name) {
             Locked = locked,
             Music = music,
             MusicPitch = musicPitch
         });
 
-    public async Task LoadLevel(bool instant = false)
+    public static async Task LoadLevel(bool instant = false)
     {
 		if (!instant)
 			await GameManager.Transition.AlphaToBlackAndBack();
@@ -48,9 +48,9 @@ public class LevelManager
         LoadALevel();
     }
 
-    public void LoadLevelFast() => LoadALevel();
+    public static void LoadLevelFast() => LoadALevel();
 
-    private void LoadALevel()
+    private static void LoadALevel()
     {
         // remove map
         GameManager.DestroyMap();
@@ -87,7 +87,7 @@ public class LevelManager
 		}
     }
 
-    public async Task CompleteLevel(string levelName)
+    public static async Task CompleteLevel(string levelName)
     {
         // the level scene is no longer active, clean it up
         GameManager.Notifications.RemoveListener(GameManager.LevelScene, Event.OnGameClientLeft);

@@ -29,7 +29,7 @@ public partial class Map : Node
 		Levels = GetNode<Node>(NodePathLevels);
 		PlayerIcon = GetNode<Sprite2D>(NodePathPlayerIcon);
 
-		foreach (var level in GameManager.Level.Levels.Values)
+		foreach (var level in LevelManager.Levels.Values)
 			if (level.Completed)
 				TileMapLevelIcons.SetCell(0, (Vector2i)level.Position, 1); // remember 1 is gray circle
 
@@ -48,13 +48,13 @@ public partial class Map : Node
 			var worldPos = ((CollisionShape2D)levelArea.GetChild(0)).Position;
 			var tilePos = TileMapLevelIcons.LocalToMap(worldPos);
 
-			if (!GameManager.Level.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
-				GameManager.Level.Levels.Add(levelArea.Name, new Level(levelArea.Name)
+			if (!LevelManager.Levels.ContainsKey(levelArea.Name)) // level has not been defined in LevelManager.cs
+				LevelManager.Levels.Add(levelArea.Name, new Level(levelArea.Name)
 				{
 					Position = tilePos
 				});
 			else
-				GameManager.Level.Levels[levelArea.Name].Position = tilePos;
+				LevelManager.Levels[levelArea.Name].Position = tilePos;
 		}
 	}
 
@@ -96,20 +96,20 @@ public partial class Map : Node
 						net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
 						{
 							ServerGameInfo = ServerGameInfo.StartLevel,
-							LevelName = GameManager.Level.CurrentLevel
+							LevelName = LevelManager.CurrentLevel
 						});
 
 						// WARN: Not a thread safe way of doing this
 						net.Server.LevelUpdateLoop.Start();
 
-						await GameManager.Level.LoadLevel();
+						await LevelManager.LoadLevel();
 					}
 				}
 				else
 				{
 					// singleplayer
 					LoadingLevel = true;
-					await GameManager.Level.LoadLevel();
+					await LevelManager.LoadLevel();
 				}
 
 				PrevPlayerMapIconPosition = PlayerIcon.Position;
@@ -166,6 +166,6 @@ public partial class Map : Node
 	}
 	private void _on_Player_Area_area_entered(Area2D area)
 	{
-		GameManager.Level.CurrentLevel = area.Name;
+		LevelManager.CurrentLevel = area.Name;
 	}
 }

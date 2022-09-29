@@ -20,7 +20,6 @@ public class GameManager
 
     // managers
     public static TransitionManager Transition { get; private set; }
-    public static LevelManager Level { get; private set; }
     public static LevelUIManager LevelUI { get; private set; }
     public static LevelScene LevelScene { get; set; } // odd ball
     public static UIPlayerList UIPlayerList { get; private set; }
@@ -47,7 +46,7 @@ public class GameManager
         LevelUI = linker.GetNode<LevelUIManager>("CanvasLayer/Level UI");
         UIMapMenu = linker.UIMapMenu;
         UIPlayerList = linker.UIPlayerList;
-        Level = new LevelManager(linker.GetNode<Node>("Level"));
+        LevelManager.Init(linker.GetNode<Node>("Level"));
         Popups = new Popups(linker);
         Tokens = new Tokens();
         Notifications = new Notifications();
