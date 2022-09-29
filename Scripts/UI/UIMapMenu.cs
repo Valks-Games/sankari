@@ -90,8 +90,8 @@ public partial class UIMapMenu : Control
 
     public async Task HostGame(string ip = "127.0.0.1", ushort port = 25565, int maxPlayers = 10)
     {
-        var ctsServer = GameManager.Tokens.Create("server_running");
-        var ctsClient = GameManager.Tokens.Create("client_running");
+        var ctsServer = Tokens.Create("server_running");
+        var ctsClient = Tokens.Create("client_running");
 
         var net = GameManager.Net;
 
@@ -167,7 +167,7 @@ public partial class UIMapMenu : Control
         GameManager.Net.Client.ExecuteCode((client) => client.TryingToConnect = true);
         BtnJoin.Disabled = true;
         BtnJoin.Text = "Searching for world...";
-        var ctsClient = GameManager.Tokens.Create("client_running");
+        var ctsClient = Tokens.Create("client_running");
         GameManager.Net.StartClient(ip, port, ctsClient);
     }
 

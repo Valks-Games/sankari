@@ -1,10 +1,10 @@
 namespace Sankari;
 
-public class Tokens
+public static class Tokens
 {
-    private Dictionary<string, CancellationTokenSource> Cts { get; } = new();
+    private static Dictionary<string, CancellationTokenSource> Cts { get; } = new();
 
-    public CancellationTokenSource Create(string name, int timeout = 0)
+    public static CancellationTokenSource Create(string name, int timeout = 0)
     {
         Cancel(name);
         Cts[name] = new CancellationTokenSource();
@@ -12,10 +12,10 @@ public class Tokens
         return Cts[name];
     }
 
-    public bool Cancelled(string name) =>
+    public static bool Cancelled(string name) =>
         Cts.ContainsKey(name) && Cts[name].IsCancellationRequested;
 
-    public void Cancel(string name)
+    public static void Cancel(string name)
     {
         if (Cts.ContainsKey(name))
         {
@@ -30,7 +30,7 @@ public class Tokens
         }
     }
 
-    public void Cleanup() => Cts.Values.ForEach(x =>
+    public static void Cleanup() => Cts.Values.ForEach(x =>
     {
         x.Cancel();
         x.Dispose();
