@@ -65,7 +65,8 @@ public partial class Player : CharacterBody2D
 	private bool    CurrentlyDashing { get; set; }
 
 	// msc
-	private Window Tree { get; set; }
+	private Window Tree           { get; set; }
+	private bool   TouchedGround  { get; set; }
 
 	// fields
 	private Vector2 velocityPlayer;
@@ -210,6 +211,12 @@ public partial class Player : CharacterBody2D
 
 		if (IsOnGround())
 		{
+			if (!TouchedGround)
+			{
+				TouchedGround = true;	
+				velocityPlayer.y = 0;
+			}
+
 			DashCount = 0;
 			Logger.Log("GROUND: " + velocityPlayer.y);
 
@@ -232,6 +239,7 @@ public partial class Player : CharacterBody2D
 		else
 		{
 			// apply gravity
+			TouchedGround = false;
 			Logger.Log("AIR: " + velocityPlayer.y);
 			velocityPlayer.y += GravityAir * delta;
 
