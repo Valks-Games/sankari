@@ -35,14 +35,14 @@ public class GTween
         Tween.EaseType easeType = Tween.EaseType.InOut
     ) 
     {
-        // tween.Repeat = true; // TODO: Godot 4 conversion
+		Tween.SetLoops(); // Run forever
         InterpolateProperty("position", finalValue, duration);
         InterpolateProperty("position", initialValue, duration);
         await Task.Delay(startDelay * 1000);
         Start();
     }
 
-    //public void IsActive() => tween.IsActive(); // TODO: Godot 4 conversion
+    public void IsActive() => Tween.IsRunning();
     public void Start() => Tween.Play();
     public void Pause() => Tween.Stop();
 }
