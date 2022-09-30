@@ -28,6 +28,20 @@
 
 ### Net
 
+`PingSent` returns the last ping sent from a pong packet
+
+`DisconnectOpcode` returns the disconnect opcode recieved from the server to the client
+
+`Client` returns the client
+
+`Server` returns the server
+
+`EnetInitialized` check to see if enet is initialized
+
 `StartClient(string ip, ushort port, CancellationTokenSource cts)` start the client
 
 `StartServer(ushort port, int maxPlayers, CancellationTokenSource cts)` start the server
+
+`IsHost()` check to see if this client is the host
+
+`IsMultiplayer()` check to see if the client or the server are running
