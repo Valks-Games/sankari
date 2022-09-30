@@ -45,3 +45,15 @@
 `IsHost()` check to see if this client is the host
 
 `IsMultiplayer()` check to see if the client or the server are running
+
+### Notifications
+
+`AddListener(Node sender, Event eventType, Action<object[]> action)` add a listener to a target node of a specified event with optional arguments
+
+`RemoveListener(Node sender, Event eventType)` remove a listener from a target node
+
+`RemoveAllListeners()` remove all listeners from all nodes
+
+`RemoveInvalidListeners()` remove invalid listeners (for e.g. a scene is deinitialized but a listener wasn't removed from a node within that scene)
+
+`Notify(Event eventType, params object[] args)` notify all listeners for a specified event with optional args
