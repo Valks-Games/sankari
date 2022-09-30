@@ -1047,7 +1047,7 @@ script = ExtResource("2_h0i8n")
 script = ExtResource("3_722fj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom"]
-position = Vector2(4158, 652)
+position = Vector2(4160, 832)
 shape = SubResource("RectangleShape2D_xgde1")
 
 [connection signal="area_entered" from="Bottom" to="Bottom" method="_on_Bottom_area_entered"]

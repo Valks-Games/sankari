@@ -17,12 +17,28 @@ public class GTween
     /// <summary>
     /// Hover over the property in the editor to get the string value of that property.
     /// </summary>
-    public void InterpolateProperty
+    public PropertyTweener InterpolateProperty
     (
         NodePath property, 
         Variant finalValue, 
-        float duration
-    ) => Tween.TweenProperty(Target, property, finalValue, duration);
+        float duration,
+		float delay = 0,
+		bool parallel = false,
+		Tween.EaseType easeType = Tween.EaseType.InOut,
+		Tween.TransitionType transType = Tween.TransitionType.Quad
+    )
+	{
+		if (parallel)
+			return Tween.Parallel().TweenProperty(Target, property, finalValue, duration)
+				.SetEase(easeType)
+				.SetTrans(transType)
+				.SetDelay(delay);
+		else
+			return Tween.TweenProperty(Target, property, finalValue, duration)
+				.SetEase(easeType)
+				.SetTrans(transType)
+				.SetDelay(delay);
+	}
 
     public async Task AnimatePlatform
     (

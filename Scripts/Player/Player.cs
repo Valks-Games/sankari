@@ -419,44 +419,43 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	public async void Died()
+	public void Died()
 	{
 		HaltPlayerLogic = true;
 		AnimatedSprite.Stop();
 		LevelScene.Camera.StopFollowingPlayer();
 
 		var dieStartPos = Position.y;
+		var goUpDuration = 1.25f;
 
 		// animate y position
 		DieTween.InterpolateProperty
 		(
 			"position:y",
 			dieStartPos - 80,
-			0.75f
+			goUpDuration,
+			0 // delay
 		);
-
-		await Task.Delay(750);
-
-		Logger.Log("A");
 
 		DieTween.InterpolateProperty
 		(
 			"position:y",
-			dieStartPos + 600,
-			1f
-		);
-
-		Logger.Log("B");
+			dieStartPos + 400,
+			1.5f,
+			goUpDuration, // delay
+			true
+		)
+		.From(dieStartPos - 80);
 
 		// animate rotation
 		DieTween.InterpolateProperty
 		(
 			"rotation",
-			180,
-			1f
+			Mathf.Pi,
+			1.5f,
+			goUpDuration, // delay
+			true
 		);
-
-		Logger.Log("C");
 
 		DieTween.Start();
 		Audio.StopMusic();
@@ -467,7 +466,6 @@ public partial class Player : CharacterBody2D
 
 	private async void OnDieTweenCompleted()
 	{
-		Logger.Log("WE ARE HERE");
 		await GameManager.Transition.AlphaToBlack();
 		await Task.Delay(1000);
 		GameManager.LevelUI.ShowLives();
