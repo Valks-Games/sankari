@@ -1,4 +1,4 @@
-**Logger**
+### Logger
 
 `Logger.Log(object message, ConsoleColor color = ConsoleColor.Gray)` log a message
 
@@ -10,7 +10,9 @@
 
 `Logger.LogDebug(Exception e, string hint = default, ConsoleColor color = ConsoleColor.Red, [CallerFilePath] string filePath = default, [CallerLineNumber] int lineNumber = 0)` log a debug
 
-**Audio**  
+`Logger.LogMs(Action code)` log the time it takes to do a section of code
+
+### Audio
 
 `Audio.LoadSFX(string name, string path)` load a sound effect, for e.g. `LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav")`
 
