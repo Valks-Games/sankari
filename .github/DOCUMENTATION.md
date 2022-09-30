@@ -72,7 +72,7 @@ Class contains all the game scene prefabs, for e.g. `Prefabs.Map` returns the ma
 
 ### Tokens
 
-The Tokens class provides a way of tracking CancellationTokenSource's and allowing to cancel them at anytime.
+The Tokens class provides a way of tracking CancellationTokenSource's and allows to cancel them at anytime.
 
 `CancellationTokenSource Create(string name, int timeout = 0)` create a token with a specified timeout
 
