@@ -446,7 +446,7 @@ public partial class Player : CharacterBody2D
 		(
 			"rotation",
 			0,
-			160
+			1f
 		);
 
 		DieTween.Start();
