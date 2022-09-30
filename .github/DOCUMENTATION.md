@@ -1,3 +1,5 @@
+> ℹ️ Not all classes, methods, properties are documented here and some listed here may be out of date. The codebase is constantly changing so it's hard to keep everything documented nicely but this should help you either way.
+
 ### Logger
 
 `Log(object message, ConsoleColor color = ConsoleColor.Gray)` log a message
