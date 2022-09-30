@@ -419,8 +419,9 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	public void Died()
+	public async void Died()
 	{
+		HaltPlayerLogic = true;
 		AnimatedSprite.Stop();
 		LevelScene.Camera.StopFollowingPlayer();
 
@@ -434,6 +435,10 @@ public partial class Player : CharacterBody2D
 			0.75f
 		);
 
+		await Task.Delay(750);
+
+		Logger.Log("A");
+
 		DieTween.InterpolateProperty
 		(
 			"position:y",
@@ -441,16 +446,19 @@ public partial class Player : CharacterBody2D
 			1f
 		);
 
+		Logger.Log("B");
+
 		// animate rotation
 		DieTween.InterpolateProperty
 		(
 			"rotation",
-			0,
+			180,
 			1f
 		);
 
+		Logger.Log("C");
+
 		DieTween.Start();
-		HaltPlayerLogic = true;
 		Audio.StopMusic();
 		Audio.PlaySFX("game_over_1");
 
