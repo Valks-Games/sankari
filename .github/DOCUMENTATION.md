@@ -14,9 +14,9 @@
 
 ### Audio
 
-`LoadSFX(string name, string path)` load a sound effect, for e.g. `LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav")`
+`LoadSFX(string name, string path)` load a sound effect, for e.g. `Audio.LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav")`
 
-`LoadMusic(string name, string path)` load a music track, for e.g. `LoadMusic("ice_1", "Level/Ice/Icy_Expanse.mp3")`
+`LoadMusic(string name, string path)` load a music track, for e.g. `Audio.LoadMusic("ice_1", "Level/Ice/Icy_Expanse.mp3")`
 
 `PlayMusic(string name, float pitch = 1)` play a music track (pitch values between 0.1 and 1 are slower, values higher than 1.0 are faster)
 
