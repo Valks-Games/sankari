@@ -57,3 +57,25 @@
 `RemoveInvalidListeners()` remove invalid listeners (for e.g. a scene is deinitialized but a listener wasn't removed from a node within that scene)
 
 `Notify(Event eventType, params object[] args)` notify all listeners for a specified event with optional args
+
+### Popups
+
+`SpawnMessage(string message, string title = "")` spawn a popup with a message
+
+`SpawnError(Exception exception, string title = "")` spawn a popup with an exception
+
+`SpawnLineEdit(Action<LineEdit> onTextChanged, Action<string> onHide, string title = "", int maxLength = 50, string text = "")` spawn a popup with an input box
+
+### Prefabs
+
+Class contains all the game scene prefabs, for e.g. `Prefabs.Map` returns the map scene which is instantiated like so `Map = (Map)Prefabs.Map.Instantiate();`
+
+### Tokens
+
+The Tokens class provides a way of tracking CancellationTokenSource's and allowing to cancel them at anytime.
+
+`CancellationTokenSource Create(string name, int timeout = 0)` create a token with a specified timeout
+
+`Cancelled(string name)` check to see if a token was cancelled
+
+`Cancel(string name)` cancel a token
