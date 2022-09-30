@@ -7,8 +7,8 @@ public partial class Player : CharacterBody2D
 	[Export] protected NodePath NodePathRayCast2DGroundChecks { get; set; }
 
 	public static Vector2 RespawnPosition { get; set; }
-	public static bool HasTouchedCheckpoint { get; set; }
-	public static Player Instance { get; set; }
+	public static bool    HasTouchedCheckpoint { get; set; }
+	public static Player  Instance { get; set; }
 
 	private int UniversalForceModifier { get; set; }
 	private int SpeedGround { get; set; }
@@ -41,28 +41,28 @@ public partial class Player : CharacterBody2D
 	private GTimer TimerNetSend { get; set; }
 
 	// raycasts
-	private Node2D ParentWallChecksLeft { get; set; }
-	private Node2D ParentWallChecksRight { get; set; }
+	private Node2D          ParentWallChecksLeft { get; set; }
+	private Node2D          ParentWallChecksRight { get; set; }
 	private List<RayCast2D> RayCast2DWallChecksLeft { get; } = new();
 	private List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
 	private List<RayCast2D> RayCast2DGroundChecks { get; } = new();
-	private Node2D ParentGroundChecks { get; set; }
+	private Node2D          ParentGroundChecks { get; set; }
 
 	// animation
 	private AnimatedSprite2D AnimatedSprite { get; set; }
-	private GTween DieTween { get; set; }
+	private GTween           DieTween { get; set; }
 
 	// wall
 	private bool InWallJumpArea { get; set; }
-	private int WallDir { get; set; }
+	private int  WallDir { get; set; }
 
 	// dash
 	private Vector2 DashDir { get; set; }
-	private int MaxDashes { get; set; } = 1;
-	private int DashCount { get; set; }
-	private bool HorizontalDash { get; set; }
-	private bool DashReady { get; set; } = true;
-	private bool CurrentlyDashing { get; set; }
+	private int     MaxDashes { get; set; } = 1;
+	private int     DashCount { get; set; }
+	private bool    HorizontalDash { get; set; }
+	private bool    DashReady { get; set; } = true;
+	private bool    CurrentlyDashing { get; set; }
 
 	// msc
 	private Window Tree { get; set; }
@@ -211,6 +211,7 @@ public partial class Player : CharacterBody2D
 		if (IsOnGround())
 		{
 			DashCount = 0;
+			Logger.Log("GROUND: " + velocityPlayer.y);
 
 			if (MoveDir.x != 0)
 				AnimatedSprite.Play("walk");
@@ -230,6 +231,10 @@ public partial class Player : CharacterBody2D
 		}
 		else
 		{
+			// apply gravity
+			Logger.Log("AIR: " + velocityPlayer.y);
+			velocityPlayer.y += GravityAir * delta;
+
 			velocityPlayer.x += MoveDir.x * SpeedAir;
 
 			if (inputFastFall)
@@ -238,9 +243,6 @@ public partial class Player : CharacterBody2D
 
 		if (IsFalling())
 			AnimatedSprite.Play("jump_fall");
-
-		// apply gravity
-		velocityPlayer.y += GravityAir * delta;
 
 		if (!CurrentlyDashing)
 		{
