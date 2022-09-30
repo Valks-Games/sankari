@@ -73,7 +73,7 @@ public partial class Linker : Node
 	public override async void _Process(double delta)
 	{
 		Logger.Update();
-		await gameManager.Update();
+		await GameManager.Update();
 	}
 
 	public override void _Input(InputEvent @event)

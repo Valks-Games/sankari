@@ -52,7 +52,7 @@ public class GameManager
         LevelUI.Hide();
     }
 
-    public async Task Update()
+    public static async Task Update()
     {
         await Net.Update();
     }
