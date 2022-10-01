@@ -1,5 +1,3 @@
-using Sankari.Scripts.Player.Movement;
-
 namespace Sankari;
 
 public partial class Player : CharacterBody2D, IMoveableEntity

@@ -1,4 +1,4 @@
-﻿namespace Sankari.Scripts.Player.Movement;
+﻿namespace Sankari;
 
 public class MovementInput
 {

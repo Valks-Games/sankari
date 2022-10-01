@@ -1,6 +1,4 @@
-﻿using Sankari.Scripts.Player.Movement;
-
-namespace Sankari;
+﻿namespace Sankari;
 
 public interface IMoveableEntity
 {
