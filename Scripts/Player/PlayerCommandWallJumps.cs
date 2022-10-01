@@ -1,8 +1,10 @@
-﻿namespace Sankari;
+﻿using Sankari.Scripts.Player.Movement;
+
+namespace Sankari;
 
 public class PlayerCommandWallJumps : PlayerCommand
 {
-	public override void Update(Player player) 
+	public override void Update(Player player, MovementInput input)
 	{
 		player.WallDir = UpdateWallDirection(player);
 
@@ -16,11 +18,11 @@ public class PlayerCommandWallJumps : PlayerCommand
 				player.velocityPlayer.y = 0;
 
 				// fast fall
-				if (player.InputDown)
+				if (input.IsDown)
 					player.velocityPlayer.y += 50;
 
 				// wall jump
-				if (player.InputJump)
+				if (input.IsJump)
 				{
 					player.Jump();
 					player.velocityPlayer.x += -player.JumpForceWallHorz * player.WallDir;

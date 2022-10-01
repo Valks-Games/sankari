@@ -1,3 +1,5 @@
+using Sankari.Scripts.Player.Movement;
+
 namespace Sankari;
 
 public partial class Player : CharacterBody2D
@@ -66,16 +68,9 @@ public partial class Player : CharacterBody2D
 	// fields
 	public Vector2 velocityPlayer;
 
-	public bool InputJump     { get; private set; }
-	public bool InputUp       { get; private set; }
-	public bool InputDown     { get; private set; }
-	public bool InputFastFall { get; private set; }
-	public bool InputDash     { get; private set; }
-	public bool InputSprint   { get; private set; }
-
 	public void PreInit(LevelScene levelScene)
 	{
-		this.LevelScene = levelScene;
+		LevelScene = levelScene;
 	}
 
 	public override void _Ready()
@@ -103,6 +98,9 @@ public partial class Player : CharacterBody2D
 
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
 		FloorStopOnSlope = false;   // players should slide on slopes
+
+		foreach (var command in PlayerCommands)
+			command.Init(this);
 	}
 
 	public override void _PhysicsProcess(double d)
@@ -129,25 +127,36 @@ public partial class Player : CharacterBody2D
 
 	private void HandleMovement(float delta)
 	{
-		InputJump     = Input.IsActionJustPressed("player_jump");
-		InputUp       = Input.IsActionPressed("player_move_up");
-		InputDown     = Input.IsActionPressed("player_move_down");
-		InputFastFall = Input.IsActionPressed("player_fast_fall");
-		InputDash     = Input.IsActionJustPressed("player_dash");
-		InputSprint   = Input.IsActionPressed("player_sprint");
+		MovementInput input = MovementUtils.GetMovementInput();
 
-		CheckIfCanGoUnderPlatform(InputDown);
+		UpdateUnderPlatform(input);
 
 		foreach (var command in PlayerCommands)
-			command.Update(this);
+			command.Update(this, input);
 
+		HandleGravityState(delta, input);
+
+		foreach (var command in PlayerCommands)
+			command.LateUpdate(this, input);
+
+		Velocity = velocityPlayer;
+
+		// Finish up animiations
+		if (IsFalling())
+			AnimatedSprite.Play("jump_fall");
+
+		// Flip Sprint if we are moving negatively
 		AnimatedSprite.FlipH = MoveDir.x < 0;
+		MoveAndSlide();
+	}
 
+	private void HandleGravityState(float delta, MovementInput input)
+	{
 		if (IsOnGround())
 		{
 			if (!TouchedGround)
 			{
-				TouchedGround = true;	
+				TouchedGround = true;
 				velocityPlayer.y = 0;
 			}
 
@@ -158,9 +167,9 @@ public partial class Player : CharacterBody2D
 
 			velocityPlayer.x += MoveDir.x * SpeedGround;
 
-			HorzDampening(20);
+			velocityPlayer.x = HorzDampening(velocityPlayer.x, 20);
 
-			if (InputJump)
+			if (input.IsJump)
 			{
 				Jump();
 				velocityPlayer.y = 0; // reset vertical velocity before jumping
@@ -175,28 +184,12 @@ public partial class Player : CharacterBody2D
 
 			velocityPlayer.x += MoveDir.x * SpeedAir;
 
-			if (InputFastFall)
+			if (input.IsFastFall)
 				velocityPlayer.y += 10;
 		}
 
 		if (IsFalling())
 			AnimatedSprite.Play("jump_fall");
-
-		if (!CurrentlyDashing)
-		{
-			if (IsOnGround() && InputSprint)
-			{
-				AnimatedSprite.SpeedScale = 1.5f;
-				velocityPlayer.x = Mathf.Clamp(velocityPlayer.x, -SpeedMaxGroundSprint, SpeedMaxGroundSprint);
-			}
-			else
-			{
-				AnimatedSprite.SpeedScale = 1;
-				velocityPlayer.x = Mathf.Clamp(velocityPlayer.x, -SpeedMaxGround, SpeedMaxGround);
-			}
-
-			velocityPlayer.y = Mathf.Clamp(velocityPlayer.y, -SpeedMaxAir, SpeedMaxAir);
-		}
 
 		Velocity = velocityPlayer;
 
@@ -209,13 +202,13 @@ public partial class Player : CharacterBody2D
 		Audio.PlaySFX("player_jump", 80);
 	}
 
-	private async void CheckIfCanGoUnderPlatform(bool inputDown)
+	private async void UpdateUnderPlatform(MovementInput input)
 	{
 		var collision = RayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
 
-		if (collision != null && collision is TileMap tilemap)
+		if (collision is not null and TileMap tilemap)
 		{
-			if (inputDown && tilemap.IsInGroup("Platform"))
+			if (input.IsDown && tilemap.IsInGroup("Platform"))
 			{
 				tilemap.EnableLayers(2);
 				await Task.Delay(1000);
@@ -224,23 +217,25 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void HorzDampening(int dampening)
+	private float HorzDampening(float number, uint dampening)
 	{
 		// deadzone has to be bigger than dampening value or the player ghost slide effect will occur
 		int deadzone = (int)(dampening * 1.5f);
 
-		if (velocityPlayer.x >= -deadzone && velocityPlayer.x <= deadzone)
+		if (Mathf.Abs(number) < deadzone)
 		{
-			velocityPlayer.x = 0;
+			return 0;
 		}
-		else if (velocityPlayer.x > deadzone)
+		else if (number > deadzone)
 		{
-			velocityPlayer.x -= dampening;
+			return number - deadzone;
 		}
-		else if (velocityPlayer.x < deadzone)
+		else if (number < deadzone)
 		{
-			velocityPlayer.x += dampening;
+			return number + dampening;
 		}
+
+		return 0;
 	}
 
 	public bool IsOnGround()
