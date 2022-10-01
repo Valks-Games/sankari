@@ -4,32 +4,36 @@ namespace Sankari;
 
 public class PlayerCommandDash : PlayerCommand
 {
-	public Vector2 DashDir          { get; set; }
-	public int     MaxDashes        { get; set; } = 1;
-	public int     DashCount        { get; set; }
-	public bool    HorizontalDash   { get; set; }
-	public bool    DashReady        { get; set; } = true;
-	public bool    CurrentlyDashing { get; set; }
-	public int DashCooldown           { get; set; }	= 1400;
-	public int DashDuration           { get; set; }	= 800;
-
-	public GTimer TimerDashCooldown { get; set; }
-	public GTimer TimerDashDuration { get; set; }
-
-	public override void Init(Player player)
+	public PlayerCommandDash(IMoveableEntity entity) : base(entity)
 	{
-		TimerDashCooldown = new GTimer(player, new Callable(OnDashReady), DashCooldown, false, false);
-		TimerDashDuration = new GTimer(player, new Callable(OnDashDurationDone), DashDuration, false, false);
 	}
 
-	public override void Update(Player player, MovementInput input)
+	private Vector2 DashDir          { get; set; }
+	private int     MaxDashes        { get; set; } = 1;
+	private int     DashCount        { get; set; }
+	private bool    HorizontalDash   { get; set; }
+	private bool    DashReady        { get; set; } = true;
+	private bool    CurrentlyDashing { get; set; }
+	private int DashCooldown           { get; set; }	= 1400;
+	private int DashDuration           { get; set; }	= 800;
+
+	private GTimer TimerDashCooldown { get; set; }
+	private GTimer TimerDashDuration { get; set; }
+
+	public override void Initialize()
 	{
-		if (player.IsOnGround())
+		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false, false);
+		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false, false);
+	}
+
+	public override void Update(MovementInput input)
+	{
+		if (Entity.IsOnGround())
 			DashCount = 0;
 
-		if (input.IsDash && DashReady && !CurrentlyDashing && DashCount != MaxDashes && !player.IsOnGround())
+		if (input.IsDash && DashReady && !CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
 		{
-			DashDir = GetDashDirection(player, input, player.MoveDir);
+			DashDir = GetDashDirection(input, Entity.MoveDir);
 
 			if (DashDir != Vector2.Zero)
 			{
@@ -45,39 +49,43 @@ public class PlayerCommandDash : PlayerCommand
 		if (CurrentlyDashing)
 		{
 			var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
-			sprite.Texture = player.AnimatedSprite.Frames.GetFrame(player.AnimatedSprite.Animation, player.AnimatedSprite.Frame);
-			sprite.GlobalPosition = player.GlobalPosition;
+			sprite.Texture = Entity.AnimatedSprite.Frames.GetFrame(Entity.AnimatedSprite.Animation, Entity.AnimatedSprite.Frame);
+			sprite.GlobalPosition = Entity.GlobalPosition;
 			sprite.Scale = new Vector2(2f, 2f);
-			sprite.FlipH = player.AnimatedSprite.FlipH;
+			sprite.FlipH = Entity.AnimatedSprite.FlipH;
 			//sprite.FlipH = wallDir == 1 ? true : false;
-			player.Tree.AddChild(sprite);
+			Entity.Tree.AddChild(sprite);
 
-			var dashSpeed = player.SpeedDashVertical;
+			var dashSpeed = Entity.SpeedDashVertical;
 
 			if (HorizontalDash)
-				dashSpeed = player.SpeedDashHorizontal;
+				dashSpeed = Entity.SpeedDashHorizontal;
 
-			player.velocityPlayer = DashDir * dashSpeed;
+			Entity.Velocity = DashDir * dashSpeed;
 		}
 	}
 
-	public override void LateUpdate(Player player, MovementInput input)
+	public override void LateUpdate(MovementInput input)
 	{
-		if (player.IsOnGround() && input.IsSprint)
+		Vector2 velocity = Entity.Velocity;
+
+		if (Entity.IsOnGround() && input.IsSprint)
 		{
-			player.AnimatedSprite.SpeedScale = 1.5f;
-			player.velocityPlayer.x = Mathf.Clamp(player.velocityPlayer.x, -player.SpeedMaxGroundSprint, player.SpeedMaxGroundSprint);
+			Entity.AnimatedSprite.SpeedScale = 1.5f;
+			velocity.x = Mathf.Clamp(Entity.Velocity.x, -Entity.SpeedMaxGroundSprint, Entity.SpeedMaxGroundSprint);
 		}
 		else
 		{
-			player.AnimatedSprite.SpeedScale = 1;
-			player.velocityPlayer.x = Mathf.Clamp(player.velocityPlayer.x, -player.SpeedMaxGround, player.SpeedMaxGround);
+			Entity.AnimatedSprite.SpeedScale = 1;
+			velocity.x = Mathf.Clamp(Entity.Velocity.x, -Entity.SpeedMaxGround, Entity.SpeedMaxGround);
 		}
 
-		player.velocityPlayer.y = Mathf.Clamp(player.velocityPlayer.y, -player.SpeedMaxAir, player.SpeedMaxAir);
+		velocity.y = Mathf.Clamp(Entity.Velocity.y, -Entity.SpeedMaxAir, Entity.SpeedMaxAir);
+
+		Entity.Velocity = velocity;
 	}
 
-	private Vector2 GetDashDirection(Player player, MovementInput input, Vector2 moveDir)
+	private Vector2 GetDashDirection(MovementInput input, Vector2 moveDir)
 	{
 		// We move vertically direction we are pressing, default to down
 		float y = 0;

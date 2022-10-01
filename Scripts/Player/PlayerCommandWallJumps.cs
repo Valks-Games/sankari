@@ -4,61 +4,40 @@ namespace Sankari;
 
 public class PlayerCommandWallJumps : PlayerCommand
 {
-	public override void Update(Player player, MovementInput input)
+	public PlayerCommandWallJumps(IMoveableEntity entity) : base(entity)
 	{
-		player.WallDir = UpdateWallDirection(player);
+	}
 
+	public override void Update(MovementInput input)
+	{
+		Vector2 velocity = Entity.Velocity;
 		// on a wall and falling
-		if (player.WallDir != 0 && player.InWallJumpArea)
+		if (Entity.WallDir != 0 && Entity.InWallJumpArea)
 		{
-			player.AnimatedSprite.FlipH = player.WallDir == 1;
+			Entity.AnimatedSprite.FlipH = Entity.WallDir == 1;
 
-			if (player.IsFalling())
+			if (Entity.IsFalling())
 			{
-				player.velocityPlayer.y = 0;
+				velocity.y = 0;
 
 				// fast fall
 				if (input.IsDown)
-					player.velocityPlayer.y += 50;
+					velocity.y += 50;
 
 				// wall jump
 				if (input.IsJump)
 				{
-					player.Jump();
-					player.velocityPlayer.x += -player.JumpForceWallHorz * player.WallDir;
-					player.velocityPlayer.y -= player.JumpForceWallVert;
+					Entity.Jump();
+					velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
+					velocity.y -= Entity.JumpForceWallVert;
 				}
 			}
 		}
 		else
 		{
-			player.AnimatedSprite.FlipH = false;
+			Entity.AnimatedSprite.FlipH = false;
 		}
-	}
 
-	private int UpdateWallDirection(Player player)
-	{
-		var left = IsTouchingWallLeft(player);
-		var right = IsTouchingWallRight(player);
-
-		return -Convert.ToInt32(left) + Convert.ToInt32(right);
-	}
-
-	private bool IsTouchingWallLeft(Player player)
-	{
-		foreach (var raycast in player.RayCast2DWallChecksLeft)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
-	}
-
-	private bool IsTouchingWallRight(Player player)
-	{
-		foreach (var raycast in player.RayCast2DWallChecksRight)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
+		Entity.Velocity = velocity;
 	}
 }
