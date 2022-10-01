@@ -55,8 +55,7 @@ animations = [{
 [node name="Main" type="Node2D"]
 script = ExtResource("2")
 DeveloperMode = true
-LoadTestLevel = true
-InstantlyLoadLevel = true
+PressPlayOnLaunch = true
 NodePathTransition = NodePath("CanvasLayer/Transition")
 
 [node name="Map" type="Node2D" parent="."]
@@ -342,6 +341,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("4")
 NodePathCoinSprite = NodePath("PanelContainer/HBoxContainer/Coin Sprite2D")
 NodePathLabelCoins = NodePath("PanelContainer/HBoxContainer/Coin Value")
