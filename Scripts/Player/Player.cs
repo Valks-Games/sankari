@@ -10,21 +10,21 @@ public partial class Player : CharacterBody2D
 	public static bool    HasTouchedCheckpoint { get; set; }
 	public static Player  Instance             { get; set; }
 
-	public int UniversalForceModifier { get; set; }
-	public int SpeedGround            { get; set; }
-	public int SpeedAir               { get; set; }
-	public int SpeedMaxGround         { get; set; }
-	public int SpeedMaxGroundSprint   { get; set; }
-	public int SpeedMaxAir            { get; set; }
-	public int SpeedDashVertical      { get; set; }
-	public int SpeedDashHorizontal    { get; set; }
-	public int GravityAir             { get; set; }
-	public int GravityWall            { get; set; }
-	public int JumpForce              { get; set; }
-	public int JumpForceWallVert      { get; set; }
-	public int JumpForceWallHorz      { get; set; }
-	public int DashCooldown           { get; set; }
-	public int DashDuration           { get; set; }
+	public int UniversalForceModifier { get; set; } = 4;
+	public int SpeedGround            { get; set; } = 60;
+	public int SpeedAir               { get; set; }	= 16;
+	public int SpeedMaxGround         { get; set; }	= 300;
+	public int SpeedMaxGroundSprint   { get; set; }	= 400;
+	public int SpeedMaxAir            { get; set; }	= 900;
+	public int SpeedDashVertical      { get; set; }	= 400;
+	public int SpeedDashHorizontal    { get; set; }	= 600;
+	public int GravityAir             { get; set; }	= 1400;
+	public int GravityWall            { get; set; }	= 3000;
+	public int JumpForce              { get; set; }	= 600;
+	public int JumpForceWallVert      { get; set; }	= 600;
+	public int JumpForceWallHorz      { get; set; }	= 300;
+	public int DashCooldown           { get; set; }	= 1400;
+	public int DashDuration           { get; set; }	= 800;
 
 	// dependecy injcetion
 	public  LevelScene LevelScene { get; set; }
@@ -82,25 +82,6 @@ public partial class Player : CharacterBody2D
 	public void PreInit(LevelScene levelScene)
 	{
 		this.LevelScene = levelScene;
-	}
-
-	public Player()
-	{
-		UniversalForceModifier = 4;
-		SpeedGround            = 15 * UniversalForceModifier;
-		SpeedAir               = 4 * UniversalForceModifier;
-		SpeedMaxGround         = 75 * UniversalForceModifier;
-		SpeedMaxGroundSprint   = 100 * UniversalForceModifier;
-		SpeedMaxAir            = 225 * UniversalForceModifier;
-		SpeedDashVertical      = 100 * UniversalForceModifier;
-		SpeedDashHorizontal    = 150 * UniversalForceModifier;
-		GravityAir             = 350 * UniversalForceModifier;
-		GravityWall            = 750 * UniversalForceModifier;
-		JumpForce              = 150 * UniversalForceModifier;
-		JumpForceWallVert      = 150 * UniversalForceModifier;
-		JumpForceWallHorz      = 75 * UniversalForceModifier;
-		DashCooldown           = 350;
-		DashDuration           = 200;
 	}
 
 	public override void _Ready()
