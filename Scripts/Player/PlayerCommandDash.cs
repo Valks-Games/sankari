@@ -6,13 +6,26 @@ public class PlayerCommandDash : PlayerCommand
 	public int     MaxDashes        { get; set; } = 1;
 	public int     DashCount        { get; set; }
 	public bool    HorizontalDash   { get; set; }
+	public bool    DashReady        { get; set; } = true;
+	public bool    CurrentlyDashing { get; set; }
+	public int DashCooldown           { get; set; }	= 1400;
+	public int DashDuration           { get; set; }	= 800;
+
+	public GTimer TimerDashCooldown { get; set; }
+	public GTimer TimerDashDuration { get; set; }
+
+	public override void Init(Player player)
+	{
+		TimerDashCooldown = new GTimer(player, nameof(OnDashReady), DashCooldown, false, false);
+		TimerDashDuration = new GTimer(player, nameof(OnDashDurationDone), DashDuration, false, false);
+	}
 
 	public override void Update(Player player) 
 	{
 		if (player.IsOnGround())
 			DashCount = 0;
 
-		if (player.InputDash && player.DashReady && !player.CurrentlyDashing && DashCount != MaxDashes && !player.IsOnGround())
+		if (player.InputDash && DashReady && !CurrentlyDashing && DashCount != MaxDashes && !player.IsOnGround())
 		{
 			DashDir = GetDashDirection(player);
 
@@ -20,14 +33,14 @@ public class PlayerCommandDash : PlayerCommand
 			{
 				DashCount++;
 				Audio.PlaySFX("dash");
-				player.DashReady = false;
-				player.CurrentlyDashing = true;
-				player.TimerDashDuration.Start();
-				player.TimerDashCooldown.Start();
+				DashReady = false;
+				CurrentlyDashing = true;
+				TimerDashDuration.Start();
+				TimerDashCooldown.Start();
 			}
 		}
 
-		if (player.CurrentlyDashing)
+		if (CurrentlyDashing)
 		{
 			var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
 			sprite.Texture = player.AnimatedSprite.Frames.GetFrame(player.AnimatedSprite.Animation, player.AnimatedSprite.Frame);
@@ -89,4 +102,7 @@ public class PlayerCommandDash : PlayerCommand
 
 		return Vector2.Zero;
 	}
+
+	private void OnDashReady() => DashReady = true;
+	private void OnDashDurationDone() => CurrentlyDashing = false;
 }

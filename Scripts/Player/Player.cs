@@ -23,8 +23,6 @@ public partial class Player : CharacterBody2D
 	public int JumpForce              { get; set; }	= 600;
 	public int JumpForceWallVert      { get; set; }	= 600;
 	public int JumpForceWallHorz      { get; set; }	= 300;
-	public int DashCooldown           { get; set; }	= 1400;
-	public int DashDuration           { get; set; }	= 800;
 
 	// dependecy injcetion
 	public  LevelScene LevelScene { get; set; }
@@ -36,8 +34,6 @@ public partial class Player : CharacterBody2D
 	public  bool HaltPlayerLogic { get; set; }
 
 	// timers
-	public  GTimer TimerDashCooldown { get; set; }
-	public  GTimer TimerDashDuration { get; set; }
 	public  GTimer TimerNetSend      { get; set; }
 
 	// raycasts
@@ -57,10 +53,8 @@ public partial class Player : CharacterBody2D
 	public  int  WallDir        { get; set; }
 
 	// msc
-	public bool    DashReady        { get; set; } = true;
 	public  Window     Tree          { get; set; }
 	public  bool       TouchedGround { get; set; }
-	public bool    CurrentlyDashing { get; set; }
 	private PlayerCommandDash PlayerDash    { get; set; } = new();
 	private PlayerCommandWallJumps PlayerWallJumps { get; set; } = new();
 	private PlayerCommand[] PlayerCommands { get; set; } = new PlayerCommand[2] 
@@ -91,8 +85,6 @@ public partial class Player : CharacterBody2D
 		if (HasTouchedCheckpoint)
 			Position = RespawnPosition;
 
-		TimerDashCooldown     = new GTimer(this, nameof(OnDashReady), DashCooldown, false, false);
-		TimerDashDuration     = new GTimer(this, nameof(OnDashDurationDone), DashDuration, false, false);
 		TimerNetSend          = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
 		ParentGroundChecks    = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
 		ParentWallChecksLeft  = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
@@ -339,9 +331,6 @@ public partial class Player : CharacterBody2D
 		LevelManager.LoadLevelFast();
 		LevelScene.Camera.StartFollowingPlayer();
 	}
-
-	private void OnDashReady() => DashReady = true;
-	private void OnDashDurationDone() => CurrentlyDashing = false;
 
 	private async void _on_Player_Area_area_entered(Area2D area)
 	{

@@ -2,5 +2,6 @@
 
 public abstract class PlayerCommand
 {
-	public abstract void Update(Player player);
+	public virtual void Init(Player player) { }
+	public virtual void Update(Player player) { }
 }
