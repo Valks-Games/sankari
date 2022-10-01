@@ -55,39 +55,6 @@ public partial class UIMapMenu : Control
 
     private bool InvalidOnlineUsername() => string.IsNullOrWhiteSpace(OnlineUsername);
 
-    // host
-    private void _on_Host_pressed() 
-    {
-        ControlHost.Show();
-        ControlJoin.Hide();
-    }
-
-    private void _on_Port_text_changed(string text) =>
-        HostPort = (ushort)LineEditHostPort.FilterRange(ushort.MaxValue);
-
-    private void _on_Password_text_changed(string text) => HostPassword = text;
-
-    private async void _on_Server_Toggle_pressed() 
-    {
-        if (InvalidOnlineUsername()) 
-        {
-            Popups.SpawnMessage("Please provide a valid online username");
-            return;
-        }
-
-        if (Net.Server.IsRunning)
-        {
-            Net.Server.Stop();
-            Net.Client.Stop();
-
-            BtnHostServerToggle.Text = "Open World3D to Other Players";
-        }
-        else 
-        {
-            await HostGame("127.0.0.1", HostPort, 10);
-        }
-    }
-
     public async Task HostGame(string ip = "127.0.0.1", ushort port = 25565, int maxPlayers = 10)
     {
         var ctsServer = Tokens.Create("server_running");
@@ -102,6 +69,17 @@ public partial class UIMapMenu : Control
             await Task.Delay(1);
 
         BtnHostServerToggle.Text = "Close World3D to Other Players";
+    }
+
+	public void Join(string ip = "127.0.0.1", ushort port = 25565)
+    {
+        IsHost = false;
+
+        Net.Client.ExecuteCode((client) => client.TryingToConnect = true);
+        BtnJoin.Disabled = true;
+        BtnJoin.Text = "Searching for world...";
+        var ctsClient = Tokens.Create("client_running");
+        Net.StartClient(ip, port, ctsClient);
     }
 
     // join
@@ -156,17 +134,6 @@ public partial class UIMapMenu : Control
         Join(address, portNum);
     }
 
-    public void Join(string ip = "127.0.0.1", ushort port = 25565)
-    {
-        IsHost = false;
-
-        Net.Client.ExecuteCode((client) => client.TryingToConnect = true);
-        BtnJoin.Disabled = true;
-        BtnJoin.Text = "Searching for world...";
-        var ctsClient = Tokens.Create("client_running");
-        Net.StartClient(ip, port, ctsClient);
-    }
-
     // game
     private void _on_Back_to_Main_Menu_pressed()
     {
@@ -182,5 +149,38 @@ public partial class UIMapMenu : Control
         GameManager.ShowMenu();
 
         Hide();
+    }
+
+	// host
+    private void _on_Host_pressed() 
+    {
+        ControlHost.Show();
+        ControlJoin.Hide();
+    }
+
+    private void _on_Port_text_changed(string text) =>
+        HostPort = (ushort)LineEditHostPort.FilterRange(ushort.MaxValue);
+
+    private void _on_Password_text_changed(string text) => HostPassword = text;
+
+    private async void _on_Server_Toggle_pressed() 
+    {
+        if (InvalidOnlineUsername()) 
+        {
+            Popups.SpawnMessage("Please provide a valid online username");
+            return;
+        }
+
+        if (Net.Server.IsRunning)
+        {
+            Net.Server.Stop();
+            Net.Client.Stop();
+
+            BtnHostServerToggle.Text = "Open World3D to Other Players";
+        }
+        else 
+        {
+            await HostGame("127.0.0.1", HostPort, 10);
+        }
     }
 }
