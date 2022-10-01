@@ -17,14 +17,14 @@ public enum Event
 
 public static class Notifications
 {
-    private static Dictionary<Event, List<AudioListener3D>> Listeners { get; set; } = new();
+    private static Dictionary<Event, List<Listener>> Listeners { get; set; } = new();
 
     public static void AddListener(Node sender, Event eventType, Action<object[]> action)
     {
         if (!Listeners.ContainsKey(eventType))
-            Listeners.Add(eventType, new List<AudioListener3D>());
+            Listeners.Add(eventType, new List<Listener>());
 
-        Listeners[eventType].Add(new AudioListener3D(sender, action));
+        Listeners[eventType].Add(new Listener(sender, action));
     }
 
     public static void RemoveListener(Node sender, Event eventType)
@@ -42,7 +42,7 @@ public static class Notifications
 
     public static void RemoveInvalidListeners()
     {
-        var tempListeners = new Dictionary<Event, List<AudioListener3D>>();
+        var tempListeners = new Dictionary<Event, List<Listener>>();
 
         foreach (var pair in Listeners)
         {
@@ -68,12 +68,12 @@ public static class Notifications
             listener.Action(args);
     }
 
-    private class AudioListener3D
+    private class Listener
     {
         public Node Sender { get; set; }
         public Action<object[]> Action { get; set; }
 
-        public AudioListener3D(Node sender, Action<object[]> action)
+        public Listener(Node sender, Action<object[]> action)
         {
             Sender = sender;
             Action = action;
