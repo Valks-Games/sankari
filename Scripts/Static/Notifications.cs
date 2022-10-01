@@ -38,6 +38,12 @@ public static class Notifications
                     pair.Value.RemoveAt(i);
     }
 
+	public static void RemoveListeners(Node sender) 
+	{
+		foreach (Event eventType in Enum.GetValues(typeof(Event)))
+			RemoveListener(sender, eventType);
+	}
+
     public static void RemoveAllListeners() => Listeners.Clear();
 
     public static void RemoveInvalidListeners()
