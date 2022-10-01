@@ -21,8 +21,6 @@ public partial class UIMapMenu : Control
     private LineEdit LineEditJoinPassword { get; set; }
 
     private LineEdit LineEditOnlineUsername { get; set; }
-
-
     private ushort HostPort { get; set; }
 
     private string JoinIP { get; set; } = "";
@@ -159,7 +157,7 @@ public partial class UIMapMenu : Control
     }
 
     private void _on_Port_text_changed(string text) =>
-        HostPort = (ushort)LineEditHostPort.FilterRange(ushort.MaxValue);
+        HostPort = (ushort)LineEditHostPort.FilterRange(ushort.MaxValue, 3000);
 
     private void _on_Password_text_changed(string text) => HostPassword = text;
 

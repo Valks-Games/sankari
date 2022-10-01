@@ -64,7 +64,7 @@ public static class ExtensionsInput
         if (text == "-")
             return minRange - 1;
 
-        if (!int.TryParse(text.Trim(), out int numAttempts))
+        if (!int.TryParse(text.Trim(), out int num))
         {
             if (!PrevNums.ContainsKey(id))
             {
@@ -76,7 +76,7 @@ public static class ExtensionsInput
             return PrevNums[id];
         }
 
-        if (text.Length > maxRange.ToString().Length && numAttempts <= maxRange)
+        if (text.Length > maxRange.ToString().Length && num <= maxRange)
         {
             var spliced = text.Remove(text.Length - 1);
             PrevNums[id] = int.Parse(spliced);
@@ -86,20 +86,20 @@ public static class ExtensionsInput
             return PrevNums[id];
         }
 
-        if (numAttempts > maxRange)
+        if (num > maxRange)
         {
-            numAttempts = maxRange;
+            num = maxRange;
             lineEdit.ChangeLineEditText($"{maxRange}");
         }
 
-        if (numAttempts < minRange)
+        if (num < minRange)
         {
-            numAttempts = minRange;
+            num = minRange;
             lineEdit.ChangeLineEditText($"{minRange}");
         }
 
-        PrevNums[id] = numAttempts;
-        return numAttempts;
+        PrevNums[id] = num;
+        return num;
     }
 
     private static void ChangeLineEditText(this LineEdit lineEdit, string text)
