@@ -10,66 +10,74 @@ public partial class Player : CharacterBody2D
 	public static bool    HasTouchedCheckpoint { get; set; }
 	public static Player  Instance             { get; set; }
 
-	private int UniversalForceModifier { get; set; }
-	private int SpeedGround            { get; set; }
-	private int SpeedAir               { get; set; }
-	private int SpeedMaxGround         { get; set; }
-	private int SpeedMaxGroundSprint   { get; set; }
-	private int SpeedMaxAir            { get; set; }
-	private int SpeedDashVertical      { get; set; }
-	private int SpeedDashHorizontal    { get; set; }
-	private int GravityAir             { get; set; }
-	private int GravityWall            { get; set; }
-	private int JumpForce              { get; set; }
-	private int JumpForceWallVert      { get; set; }
-	private int JumpForceWallHorz      { get; set; }
-	private int DashCooldown           { get; set; }
-	private int DashDuration           { get; set; }
+	public int UniversalForceModifier { get; set; }
+	public int SpeedGround            { get; set; }
+	public int SpeedAir               { get; set; }
+	public int SpeedMaxGround         { get; set; }
+	public int SpeedMaxGroundSprint   { get; set; }
+	public int SpeedMaxAir            { get; set; }
+	public int SpeedDashVertical      { get; set; }
+	public int SpeedDashHorizontal    { get; set; }
+	public int GravityAir             { get; set; }
+	public int GravityWall            { get; set; }
+	public int JumpForce              { get; set; }
+	public int JumpForceWallVert      { get; set; }
+	public int JumpForceWallHorz      { get; set; }
+	public int DashCooldown           { get; set; }
+	public int DashDuration           { get; set; }
 
 	// dependecy injcetion
-	private LevelScene LevelScene { get; set; }
+	public  LevelScene LevelScene { get; set; }
 
 	// movement
-	private Vector2 PrevNetPos { get; set; }
-	private Vector2 MoveDir    { get; set; }
+	public  Vector2 PrevNetPos { get; set; }
+	public  Vector2 MoveDir    { get; set; }
 
-	private bool HaltPlayerLogic { get; set; }
+	public  bool HaltPlayerLogic { get; set; }
 
 	// timers
-	private GTimer TimerDashCooldown { get; set; }
-	private GTimer TimerDashDuration { get; set; }
-	private GTimer TimerNetSend      { get; set; }
+	public  GTimer TimerDashCooldown { get; set; }
+	public  GTimer TimerDashDuration { get; set; }
+	public  GTimer TimerNetSend      { get; set; }
 
 	// raycasts
-	private Node2D          ParentWallChecksLeft     { get; set; }
-	private Node2D          ParentWallChecksRight    { get; set; }
-	private List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
-	private List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
-	private List<RayCast2D> RayCast2DGroundChecks    { get; } = new();
-	private Node2D          ParentGroundChecks       { get; set; }
+	public  Node2D          ParentWallChecksLeft     { get; set; }
+	public  Node2D          ParentWallChecksRight    { get; set; }
+	public  List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
+	public  List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
+	public  List<RayCast2D> RayCast2DGroundChecks    { get; } = new();
+	public  Node2D          ParentGroundChecks       { get; set; }
 
 	// animation
-	private AnimatedSprite2D AnimatedSprite { get; set; }
-	private GTween           DieTween       { get; set; }
+	public AnimatedSprite2D AnimatedSprite { get; set; }
+	public GTween           DieTween       { get; set; }
 
 	// wall
-	private bool InWallJumpArea { get; set; }
-	private int  WallDir        { get; set; }
-
-	// dash
-	private Vector2 DashDir          { get; set; }
-	private int     MaxDashes        { get; set; } = 1;
-	private int     DashCount        { get; set; }
-	private bool    HorizontalDash   { get; set; }
-	private bool    DashReady        { get; set; } = true;
-	private bool    CurrentlyDashing { get; set; }
+	public  bool InWallJumpArea { get; set; }
+	public  int  WallDir        { get; set; }
 
 	// msc
-	private Window Tree           { get; set; }
-	private bool   TouchedGround  { get; set; }
+	public bool    DashReady        { get; set; } = true;
+	public  Window     Tree          { get; set; }
+	public  bool       TouchedGround { get; set; }
+	public bool    CurrentlyDashing { get; set; }
+	private PlayerCommandDash PlayerDash    { get; set; } = new();
+	private PlayerCommandWallJumps PlayerWallJumps { get; set; } = new();
+	private PlayerCommand[] PlayerCommands { get; set; } = new PlayerCommand[2] 
+	{
+		new PlayerCommandDash(),
+		new PlayerCommandWallJumps()
+	};
 
 	// fields
-	private Vector2 velocityPlayer;
+	public Vector2 velocityPlayer;
+
+	public bool InputJump     { get; private set; }
+	public bool InputUp       { get; private set; }
+	public bool InputDown     { get; private set; }
+	public bool InputFastFall { get; private set; }
+	public bool InputDash     { get; private set; }
+	public bool InputSprint   { get; private set; }
 
 	public void PreInit(LevelScene levelScene)
 	{
@@ -148,64 +156,17 @@ public partial class Player : CharacterBody2D
 
 	private void HandleMovement(float delta)
 	{
-		var inputJump     = Input.IsActionJustPressed("player_jump");
-		var inputUp       = Input.IsActionPressed("player_move_up");
-		var inputDown     = Input.IsActionPressed("player_move_down");
-		var inputFastFall = Input.IsActionPressed("player_fast_fall");
-		var inputDash     = Input.IsActionJustPressed("player_dash");
-		var inputSprint   = Input.IsActionPressed("player_sprint");
+		InputJump     = Input.IsActionJustPressed("player_jump");
+		InputUp       = Input.IsActionPressed("player_move_up");
+		InputDown     = Input.IsActionPressed("player_move_down");
+		InputFastFall = Input.IsActionPressed("player_fast_fall");
+		InputDash     = Input.IsActionJustPressed("player_dash");
+		InputSprint   = Input.IsActionPressed("player_sprint");
 
-		WallDir = UpdateWallDirection();
+		CheckIfCanGoUnderPlatform(InputDown);
 
-		// on a wall and falling
-		if (WallDir != 0 && InWallJumpArea)
-		{
-			AnimatedSprite.FlipH = WallDir == 1;
-
-			if (IsFalling())
-			{
-				velocityPlayer.y = 0;
-
-				// fast fall
-				if (inputDown)
-					velocityPlayer.y += 50;
-
-				// wall jump
-				if (inputJump)
-				{
-					Jump();
-					velocityPlayer.x += -JumpForceWallHorz * WallDir;
-					velocityPlayer.y -= JumpForceWallVert;
-				}
-			}
-		}
-		else
-		{
-			AnimatedSprite.FlipH = false;
-		}
-
-		CheckIfCanGoUnderPlatform(inputDown);
-
-		// dash
-		if (inputDash && DashReady && !CurrentlyDashing && DashCount != MaxDashes && !IsOnGround())
-		{
-			DashDir = GetDashDirection(inputUp, inputDown);
-
-			if (DashDir != Vector2.Zero)
-			{
-				DashCount++;
-				Audio.PlaySFX("dash");
-				DashReady = false;
-				CurrentlyDashing = true;
-				TimerDashDuration.Start();
-				TimerDashCooldown.Start();
-			}
-		}
-
-		if (CurrentlyDashing)
-		{
-			DoDashStuff();
-		}
+		foreach (var command in PlayerCommands)
+			command.Update(this);
 
 		AnimatedSprite.FlipH = MoveDir.x < 0;
 
@@ -217,9 +178,6 @@ public partial class Player : CharacterBody2D
 				velocityPlayer.y = 0;
 			}
 
-			DashCount = 0;
-			Logger.Log("GROUND: " + velocityPlayer.y);
-
 			if (MoveDir.x != 0)
 				AnimatedSprite.Play("walk");
 			else
@@ -229,7 +187,7 @@ public partial class Player : CharacterBody2D
 
 			HorzDampening(20);
 
-			if (inputJump)
+			if (InputJump)
 			{
 				Jump();
 				velocityPlayer.y = 0; // reset vertical velocity before jumping
@@ -240,12 +198,11 @@ public partial class Player : CharacterBody2D
 		{
 			// apply gravity
 			TouchedGround = false;
-			Logger.Log("AIR: " + velocityPlayer.y);
 			velocityPlayer.y += GravityAir * delta;
 
 			velocityPlayer.x += MoveDir.x * SpeedAir;
 
-			if (inputFastFall)
+			if (InputFastFall)
 				velocityPlayer.y += 10;
 		}
 
@@ -254,7 +211,7 @@ public partial class Player : CharacterBody2D
 
 		if (!CurrentlyDashing)
 		{
-			if (IsOnGround() && inputSprint)
+			if (IsOnGround() && InputSprint)
 			{
 				AnimatedSprite.SpeedScale = 1.5f;
 				velocityPlayer.x = Mathf.Clamp(velocityPlayer.x, -SpeedMaxGroundSprint, SpeedMaxGroundSprint);
@@ -273,7 +230,7 @@ public partial class Player : CharacterBody2D
 		MoveAndSlide();
 	}
 
-	private void Jump()
+	public void Jump()
 	{
 		AnimatedSprite.Play("jump_start");
 		Audio.PlaySFX("player_jump", 80);
@@ -292,68 +249,6 @@ public partial class Player : CharacterBody2D
 				tilemap.EnableLayers(1, 2);
 			}
 		}
-	}
-
-	private void DoDashStuff()
-	{
-		var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
-		sprite.Texture = AnimatedSprite.Frames.GetFrame(AnimatedSprite.Animation, AnimatedSprite.Frame);
-		sprite.GlobalPosition = GlobalPosition;
-		sprite.Scale = new Vector2(2f, 2f);
-		sprite.FlipH = AnimatedSprite.FlipH;
-		//sprite.FlipH = wallDir == 1 ? true : false;
-		Tree.AddChild(sprite);
-
-		var dashSpeed = SpeedDashVertical;
-
-		if (HorizontalDash)
-			dashSpeed = SpeedDashHorizontal;
-
-		velocityPlayer = DashDir * dashSpeed;
-	}
-
-	private Vector2 GetDashDirection(bool inputUp, bool inputDown)
-	{
-		if (inputDown && MoveDir.x < 0)
-		{
-			return new Vector2(-1, 1);
-		}
-		else if (inputDown && MoveDir.x == 0)
-		{
-			HorizontalDash = false;
-			return new Vector2(0, 1);
-		}
-		else if (inputDown && MoveDir.x > 0)
-		{
-			return new Vector2(1, 1);
-		}
-		else if (inputUp && MoveDir.x < 0)
-		{
-			HorizontalDash = false;
-			return new Vector2(-1, -1);
-		}
-		else if (inputUp && MoveDir.x > 0)
-		{
-			HorizontalDash = false;
-			return new Vector2(1, -1);
-		}
-		else if (inputUp)
-		{
-			HorizontalDash = false;
-			return new Vector2(0, -1);
-		}
-		else if (MoveDir.x < 0)
-		{
-			HorizontalDash = true;
-			return new Vector2(-1, 0);
-		}
-		else if (MoveDir.x > 0)
-		{
-			HorizontalDash = true;
-			return new Vector2(1, 0);
-		}
-
-		return Vector2.Zero;
 	}
 
 	private void HorzDampening(int dampening)
@@ -375,7 +270,7 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private bool IsOnGround()
+	public bool IsOnGround()
 	{
 		foreach (var raycast in RayCast2DGroundChecks)
 			if (raycast.IsColliding())
@@ -384,7 +279,7 @@ public partial class Player : CharacterBody2D
 		return false;
 	}
 
-	private bool IsFalling() => base.Velocity.y > 0;
+	public bool IsFalling() => base.Velocity.y > 0;
 
 	private void UpdateMoveDirection()
 	{
@@ -392,32 +287,6 @@ public partial class Player : CharacterBody2D
 		var y = Input.IsActionPressed("player_jump") ? 1 : 0;
 
 		MoveDir = new Vector2(x, y);
-	}
-
-	private int UpdateWallDirection()
-	{
-		var left = IsTouchingWallLeft();
-		var right = IsTouchingWallRight();
-
-		return -Convert.ToInt32(left) + Convert.ToInt32(right);
-	}
-
-	private bool IsTouchingWallLeft()
-	{
-		foreach (var raycast in RayCast2DWallChecksLeft)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
-	}
-
-	private bool IsTouchingWallRight()
-	{
-		foreach (var raycast in RayCast2DWallChecksRight)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
 	}
 
 	private void PrepareRaycasts(Node parent, List<RayCast2D> list)
