@@ -157,7 +157,7 @@ public partial class UIMapMenu : Control
     }
 
     private void _on_Port_text_changed(string text) =>
-        HostPort = (ushort)LineEditHostPort.FilterRange(ushort.MaxValue, 3000);
+        HostPort = (ushort)LineEditHostPort.FilterRange(ushort.MaxValue);
 
     private void _on_Password_text_changed(string text) => HostPassword = text;
 

@@ -53,29 +53,45 @@ public static class ExtensionsInput
         return text;
     }
 
-    public static int FilterRange(this LineEdit lineEdit, int maxRange, int minRange = 0)
+    public static int FilterRange(this LineEdit lineEdit, int maxRange)
     {
         var text = lineEdit.Text;
         var id = lineEdit.GetInstanceId();
 
+		// Ignore blank spaces
         if (string.IsNullOrWhiteSpace(text))
-            return minRange - 1;
+		{
+			lineEdit.ChangeLineEditText("");	
+            return 0;
+		}
 
-        if (text == "-")
-            return minRange - 1;
-
+		// Text is not a number
         if (!int.TryParse(text.Trim(), out int num))
         {
+			// No keys are in the dictionary for the first case, so handle this by returning 0
             if (!PrevNums.ContainsKey(id))
             {
                 lineEdit.ChangeLineEditText("");
-                return minRange - 1;
+                return 0;
             }
 
+			// Scenario #1: Text is 'a'  -> returns ""
+			// Scenario #2: Text is '1a' -> returns ""
+			if (text.Length == 1 || text.Length == 2)
+			{
+				if (!int.TryParse(text, out int number))
+				{
+					lineEdit.ChangeLineEditText("");
+					return 0;
+				}
+			}
+
+			// Text is '123', user types a letter -> returns "123"
             lineEdit.ChangeLineEditText($"{PrevNums[id]}");
             return PrevNums[id];
         }
 
+		// Not sure why this is here but I'm sure it's here for a good reason
         if (text.Length > maxRange.ToString().Length && num <= maxRange)
         {
             var spliced = text.Remove(text.Length - 1);
@@ -86,18 +102,14 @@ public static class ExtensionsInput
             return PrevNums[id];
         }
 
+		// Text is at max range, return max range text if greater than max range
         if (num > maxRange)
         {
             num = maxRange;
             lineEdit.ChangeLineEditText($"{maxRange}");
         }
 
-        if (num < minRange)
-        {
-            num = minRange;
-            lineEdit.ChangeLineEditText($"{minRange}");
-        }
-
+		// Keep track of the previous number
         PrevNums[id] = num;
         return num;
     }
