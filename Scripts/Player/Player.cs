@@ -96,8 +96,8 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		PlayerCommands = new PlayerCommand[2]
 		{
-			new PlayerCommandDash(this),
-			new PlayerCommandWallJumps(this)
+			new EntityCommandDash(this),
+			new EntityCommandWallJumps(this)
 		};
 
 		foreach (var command in PlayerCommands)

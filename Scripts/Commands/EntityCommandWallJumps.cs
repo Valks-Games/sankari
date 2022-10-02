@@ -20,11 +20,11 @@ public interface IEntityWallJumpable : IEntityMoveable
 	void Jump();
 
 }
-public class PlayerCommandWallJumps : EntityCommand<IEntityWallJumpable>
+public class EntityCommandWallJumps : EntityCommand<IEntityWallJumpable>
 {
 
 
-	public PlayerCommandWallJumps(IEntityWallJumpable entity) : base(entity)
+	public EntityCommandWallJumps(IEntityWallJumpable entity) : base(entity)
 	{
 	}
 

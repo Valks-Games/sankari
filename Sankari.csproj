@@ -15,4 +15,7 @@
       <HintPath>ENet-CSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\Commands\" />
+  </ItemGroup>
 </Project>

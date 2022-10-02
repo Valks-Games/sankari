@@ -22,9 +22,9 @@ public interface IEntityDashable : IEntityMoveable
 
 }
 
-public class PlayerCommandDash : EntityCommand<IEntityDashable>
+public class EntityCommandDash : EntityCommand<IEntityDashable>
 {
-	public PlayerCommandDash(IEntityDashable entity) : base(entity)
+	public EntityCommandDash(IEntityDashable entity) : base(entity)
 	{
 
 	}
