@@ -5,9 +5,6 @@ public interface IEntityMoveable
 	// Velocity of the entity
 	Vector2 Velocity { get; set; }
 
-	// Sprite to modify
-	AnimatedSprite2D AnimatedSprite { get; }
-
 	// Current direction the entity is moving
 	Vector2 MoveDir { get; }
 

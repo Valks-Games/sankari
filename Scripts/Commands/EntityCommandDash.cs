@@ -19,6 +19,10 @@ public interface IEntityDashable : IEntityMoveable
 	// Is the entity on the ground?
 
 	bool IsOnGround();
+	
+	// Sprite to modify
+	AnimatedSprite2D AnimatedSprite { get; }
+
 
 }
 

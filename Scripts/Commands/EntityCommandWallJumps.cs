@@ -18,6 +18,10 @@ public interface IEntityWallJumpable : IEntityMoveable
 
 	// Force the entity to jump
 	void Jump();
+	
+	// Sprite to modify
+	AnimatedSprite2D AnimatedSprite { get; }
+
 
 }
 public class EntityCommandWallJumps : EntityCommand<IEntityWallJumpable>
