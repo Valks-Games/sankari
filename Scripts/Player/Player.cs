@@ -60,7 +60,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	public GTimers Timers { get; set; }
 
-	private PlayerCommand[] PlayerCommands { get; set; }
+	private EntityCommand[] PlayerCommands { get; set; }
 
 	public void PreInit(LevelScene levelScene)
 	{
@@ -94,7 +94,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
 		FloorStopOnSlope = false;   // players should slide on slopes
 
-		PlayerCommands = new PlayerCommand[2]
+		PlayerCommands = new EntityCommand[2]
 		{
 			new EntityCommandDash(this),
 			new EntityCommandWallJumps(this)

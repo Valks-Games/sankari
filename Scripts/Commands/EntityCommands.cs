@@ -19,7 +19,7 @@ public interface IEntityMoveable
 
 }
 
-public abstract class PlayerCommand
+public abstract class EntityCommand
 {
 	/// <summary>
 	/// Called after parent entity is ready
@@ -43,7 +43,7 @@ public abstract class PlayerCommand
 
 }
 
-public abstract class EntityCommand<T> : PlayerCommand
+public abstract class EntityCommand<T> : EntityCommand
 {
 	protected T Entity { get; set; }
 
