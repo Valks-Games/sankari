@@ -1,9 +1,32 @@
 ﻿namespace Sankari;
 
-public class PlayerCommandDash : PlayerCommand
+public interface IEntityDashable : IEntityMoveable
 {
-	public PlayerCommandDash(IMoveableEntity entity) : base(entity)
+	// Max speed on the ground while sprinting
+	int SpeedMaxGroundSprint { get; }
+
+	// Max speed on the ground while walking
+	int SpeedMaxGround { get; }
+
+	// Max speed when in the air
+	int SpeedMaxAir { get; }
+
+	// Speed given when dashing vertically
+	int SpeedDashVertical { get; }
+
+	// Speed given when dashing horizontally
+	int SpeedDashHorizontal { get; }
+	// Is the entity on the ground?
+
+	bool IsOnGround();
+
+}
+
+public class PlayerCommandDash : EntityCommand<IEntityDashable>
+{
+	public PlayerCommandDash(IEntityDashable entity) : base(entity)
 	{
+
 	}
 
 	private Vector2 DashDir          { get; set; }
@@ -65,7 +88,7 @@ public class PlayerCommandDash : PlayerCommand
 
 	public override void LateUpdate(MovementInput input)
 	{
-		Vector2 velocity = Entity.Velocity;
+		var velocity = Entity.Velocity;
 
 		if (Entity.IsOnGround() && input.IsSprint)
 		{
@@ -88,31 +111,21 @@ public class PlayerCommandDash : PlayerCommand
 		// We move vertically direction we are pressing, default to down
 		float y = 0;
 		if (input.IsDown)
-		{
 			y = 1;
-		}
 		else if (input.IsUp)
-		{
 			y = -1;
-		}
 
 		// We move horizontally in the direction we are moving (Wow)
 		float x = 0;
 		if (moveDir.x != 0)
-		{
 			x = moveDir.x > 0 ? 1 : -1;
-		}
 
 		// Check if we are doing a horizontal dash. If we can't tell, we don't need to update Hortizontal Dash
 		if (input.IsUp || (input.IsDown && moveDir.x == 0))
-		{
 			// We prioritize input up for vertical dashing
 			HorizontalDash = false;
-		}
 		else if (moveDir.x != 0)
-		{
 			HorizontalDash = true;
-		}
 
 		return new Vector2(x, y);
 	}

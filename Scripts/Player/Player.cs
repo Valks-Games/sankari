@@ -1,6 +1,8 @@
 namespace Sankari;
 
-public partial class Player : CharacterBody2D, IMoveableEntity
+interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
+
+public partial class Player : CharacterBody2D, IPlayerSkills
 {
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
@@ -94,8 +96,8 @@ public partial class Player : CharacterBody2D, IMoveableEntity
 
 		PlayerCommands = new PlayerCommand[2]
 		{
-		new PlayerCommandDash(this),
-		new PlayerCommandWallJumps(this)
+			new PlayerCommandDash(this),
+			new PlayerCommandWallJumps(this)
 		};
 
 		foreach (var command in PlayerCommands)

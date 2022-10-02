@@ -1,14 +1,36 @@
 ﻿namespace Sankari;
 
-public class PlayerCommandWallJumps : PlayerCommand
+public interface IEntityWallJumpable : IEntityMoveable
 {
-	public PlayerCommandWallJumps(IMoveableEntity entity) : base(entity)
+	// Horizontal wall jump force
+	int JumpForceWallHorz { get; }
+
+	// Vertical wall jump force
+	int JumpForceWallVert { get; }
+
+	// Is entity within wall jump-able area
+	bool InWallJumpArea { get; }
+
+	// Wall direction
+	int WallDir { get; }
+	// Is the entity falling?
+	bool IsFalling();
+
+	// Force the entity to jump
+	void Jump();
+
+}
+public class PlayerCommandWallJumps : EntityCommand<IEntityWallJumpable>
+{
+
+
+	public PlayerCommandWallJumps(IEntityWallJumpable entity) : base(entity)
 	{
 	}
 
 	public override void Update(MovementInput input)
 	{
-		Vector2 velocity = Entity.Velocity;
+		var velocity = Entity.Velocity;
 		// on a wall and falling
 		if (Entity.WallDir != 0 && Entity.InWallJumpArea)
 		{
@@ -32,9 +54,7 @@ public class PlayerCommandWallJumps : PlayerCommand
 			}
 		}
 		else
-		{
 			Entity.AnimatedSprite.FlipH = false;
-		}
 
 		Entity.Velocity = velocity;
 	}
