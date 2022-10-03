@@ -26,7 +26,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 	public int JumpForceWallVert      { get; set; }	= 600;
 	public int JumpForceWallHorz      { get; set; }	= 300;
 
-	// dependecy injcetion
+	// dependency injection
 	public  LevelScene LevelScene { get; set; }
 
 	// movement
@@ -128,7 +128,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	private void HandleMovement(float delta)
 	{
-		MovementInput input = MovementUtils.GetMovementInput();
+		MovementInput input = MovementUtils.GetPlayerMovementInput();
 		WallDir = UpdateWallDirection();
 
 		UpdateUnderPlatform(input);
@@ -141,7 +141,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		foreach (var command in PlayerCommands)
 			command.LateUpdate(input);
 
-		// Finish up animiations
+		// Finish up animations
 		if (IsFalling())
 			AnimatedSprite.Play("jump_fall");
 

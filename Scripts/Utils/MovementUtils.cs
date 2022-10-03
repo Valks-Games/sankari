@@ -10,9 +10,9 @@ public class MovementInput
 	public bool IsSprint { get; set; }
 }
 
-internal class MovementUtils
+public class MovementUtils
 {
-	public static MovementInput GetMovementInput()
+	public static MovementInput GetPlayerMovementInput()
 	{
 		return new()
 		{
