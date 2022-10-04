@@ -6,9 +6,17 @@ using System.Reflection;
 
 public static class CollectionExtensions
 {
+	/// <summary>
+	/// Prints a collection in a readable format
+	/// </summary>
     public static string Print<T>(this IEnumerable<T> value, bool newLine = true) =>
         value != null ? string.Join(newLine ? "\n" : ", ", value) : null;
 
+	/// <summary>
+	/// Prints the entire object in a readable format (supports Godot properties)
+	/// If you should ever run into a problem, see the IgnorePropsResolver class to ignore more
+	/// properties.
+	/// </summary>
     public static string PrintFull(this object v) =>
         JsonConvert.SerializeObject(v, Formatting.Indented, new JsonSerializerSettings
         {
@@ -17,12 +25,18 @@ public static class CollectionExtensions
         });
 
 
+	/// <summary>
+	/// A convience method for a foreach loop at the the sacrafice of debugging support
+	/// </summary>
     public static void ForEach<T>(this IEnumerable<T> value, Action<T> action)
     {
         foreach (var element in value)
             action(element);
     }
 
+	/// <summary>
+	/// Returns true if a dictionary has a duplicate key and warns the coder
+	/// </summary>
     public static bool Duplicate<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key,
         [CallerLineNumber] int lineNumber = 0,
         [CallerMemberName] string caller = null,
@@ -37,6 +51,9 @@ public static class CollectionExtensions
         return true;
     }
 
+	/// <summary>
+	/// Returns true if a dictionary has a non-existent key and warns the coder
+	/// </summary>
     public static bool DoesNotHave<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key,
         [CallerLineNumber] int lineNumber = 0,
         [CallerMemberName] string caller = null,
@@ -47,6 +64,7 @@ public static class CollectionExtensions
 
         Logger.LogWarning($"'{caller}' tried to access non-existent key '{key}' from dictionary\n" +
                             $"   at {path} line:{lineNumber}");
+
         return true;
     }
 
@@ -60,15 +78,21 @@ public static class CollectionExtensions
 		foreach (var raycast in raycasts)
 			if (raycast.IsColliding())
 				return true;
+
 		return false;
 	}
 
+	/// <summary>
+	/// Used when doing JsonConvert.SerializeObject to ignore Godot properties
+	/// as these are massive.
+	/// </summary>
     private class IgnorePropsResolver : DefaultContractResolver
     {
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var prop = base.CreateProperty(member, memberSerialization);
 
+			// Ignored properties (prevents crashes)
             var ignoredProps = new Type[]
             {
                 typeof(Godot.Object),
