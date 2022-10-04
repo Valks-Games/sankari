@@ -1,6 +1,6 @@
 namespace Sankari;
 
-interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
+public interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
 
 public partial class Player : CharacterBody2D, IPlayerSkills
 {
