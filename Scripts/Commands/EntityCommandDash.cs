@@ -3,27 +3,26 @@
 public interface IEntityDashable : IEntityMoveable
 {
 	// Max speed on the ground while sprinting
-	int SpeedMaxGroundSprint { get; }
+	public int SpeedMaxGroundSprint { get; }
 
 	// Max speed on the ground while walking
-	int SpeedMaxGround { get; }
+	public int SpeedMaxGround { get; }
 
 	// Max speed when in the air
-	int SpeedMaxAir { get; }
+	public int SpeedMaxAir { get; }
 
 	// Speed given when dashing vertically
-	int SpeedDashVertical { get; }
+	public int SpeedDashVertical { get; }
 
 	// Speed given when dashing horizontally
-	int SpeedDashHorizontal { get; }
+	public int SpeedDashHorizontal { get; }
 	// Is the entity on the ground?
+
+	// Sprite to modify
+	public AnimatedSprite2D AnimatedSprite { get; }
 
 	bool IsOnGround();
 	
-	// Sprite to modify
-	AnimatedSprite2D AnimatedSprite { get; }
-
-
 }
 
 public class EntityCommandDash : EntityCommand<IEntityDashable>

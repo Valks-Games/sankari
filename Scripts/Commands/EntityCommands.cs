@@ -3,19 +3,19 @@
 public interface IEntityMoveable
 {
 	// Velocity of the entity
-	Vector2 Velocity { get; set; }
+	public Vector2 Velocity { get; set; }
 
 	// Current direction the entity is moving
-	Vector2 MoveDir { get; }
+	public Vector2 MoveDir { get; }
 
 	// Position in the world
-	Vector2 GlobalPosition { get; }
+	public Vector2 GlobalPosition { get; }
 
 	// Connection to the game world
-	Window Tree { get; }
+	public Window Tree { get; }
 
 	// Timers object that can be used to make timers
-	GTimers Timers { get; }
+	public GTimers Timers { get; }
 
 }
 

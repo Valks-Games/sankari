@@ -214,20 +214,12 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	private bool IsTouchingWallLeft()
 	{
-		foreach (var raycast in RayCast2DWallChecksLeft)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
+		return CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksLeft);
 	}
 
 	private bool IsTouchingWallRight()
 	{
-		foreach (var raycast in RayCast2DWallChecksRight)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
+		return CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksRight);
 	}
 
 	private async void UpdateUnderPlatform(MovementInput input)
@@ -245,22 +237,28 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		}
 	}
 
-	private float HorzDampening(float number, uint dampening)
+	/// <summary>
+	/// Dampens a speed reading towards 0
+	/// </summary>
+	/// <param name="speed">Value to dampen</param>
+	/// <param name="dampening">Value to reduce the magnitude of speed by</param>
+	/// <returns>The dampened speed</returns>
+	private float HorzDampening(float speed, uint dampening)
 	{
 		// deadzone has to be bigger than dampening value or the player ghost slide effect will occur
 		int deadzone = (int)(dampening * 1.5f);
 
-		if (Mathf.Abs(number) < deadzone)
+		if (Mathf.Abs(speed) < deadzone)
 		{
 			return 0;
 		}
-		else if (number > deadzone)
+		else if (speed > deadzone)
 		{
-			return number - deadzone;
+			return speed - deadzone;
 		}
-		else if (number < deadzone)
+		else if (speed < deadzone)
 		{
-			return number + dampening;
+			return speed + dampening;
 		}
 
 		return 0;

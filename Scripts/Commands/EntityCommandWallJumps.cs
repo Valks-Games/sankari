@@ -3,26 +3,25 @@
 public interface IEntityWallJumpable : IEntityMoveable
 {
 	// Horizontal wall jump force
-	int JumpForceWallHorz { get; }
+	public int JumpForceWallHorz { get; }
 
 	// Vertical wall jump force
-	int JumpForceWallVert { get; }
+	public int JumpForceWallVert { get; }
 
 	// Is entity within wall jump-able area
-	bool InWallJumpArea { get; }
+	public bool InWallJumpArea { get; }
 
 	// Wall direction
-	int WallDir { get; }
+	public int WallDir { get; }
+
+	// Sprite to modify
+	public AnimatedSprite2D AnimatedSprite { get; }
+
 	// Is the entity falling?
 	bool IsFalling();
 
 	// Force the entity to jump
-	void Jump();
-	
-	// Sprite to modify
-	AnimatedSprite2D AnimatedSprite { get; }
-
-
+	void Jump();	
 }
 public class EntityCommandWallJumps : EntityCommand<IEntityWallJumpable>
 {

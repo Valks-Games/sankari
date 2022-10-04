@@ -50,6 +50,19 @@ public static class CollectionExtensions
         return true;
     }
 
+	/// <summary>
+	/// Checks if any raycasts in a collection is colliding
+	/// </summary>
+	/// <param name="raycasts">Collection of raycasts to check</param>
+	/// <returns>True if any ray cast is colliding, else false</returns>
+	public static bool IsAnyRayCastColliding(List<RayCast2D> raycasts)
+	{
+		foreach (var raycast in raycasts)
+			if (raycast.IsColliding())
+				return true;
+		return false;
+	}
+
     private class IgnorePropsResolver : DefaultContractResolver
     {
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
