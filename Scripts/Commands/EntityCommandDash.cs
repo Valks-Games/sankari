@@ -96,6 +96,8 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 	{
 		var velocity = Entity.Velocity;
 
+		// None of this is dash related code, it should be somewhere else
+		// Perhaps this should be moved to something like EntityCommandMove
 		if (Entity.IsOnGround() && input.IsSprint)
 		{
 			Entity.AnimatedSprite.SpeedScale = 1.5f;
