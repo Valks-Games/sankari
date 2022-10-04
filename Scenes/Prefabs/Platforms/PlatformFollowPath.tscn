@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource path="res://Sprites/Level/Platform.png" type="Texture2D" id=1]
-[ext_resource path="res://Scripts/Level/PlatformFollowPath.cs" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://cogb6i16r14qt" path="res://Sprites/Level/Platform.png" id="1"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/PlatformFollowPath.cs" id="2"]
 
 [sub_resource type="Curve2D" id=28]
 _data = {

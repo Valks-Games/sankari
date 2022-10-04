@@ -1,18 +1,19 @@
-[gd_scene load_steps=24 format=3 uid="uid://dckfvlkatv4m7"]
+[gd_scene load_steps=24 format=3]
 
-[ext_resource type="Script" path="res://Scripts/Enemy/Spawner.cs" id="1"]
-[ext_resource type="PackedScene" uid="uid://de2xum4gjflrh" path="res://Scenes/Prefabs/Player.tscn" id="2"]
-[ext_resource type="Script" path="res://Scripts/Level/LevelScene.cs" id="3"]
-[ext_resource type="PackedScene" uid="uid://b7c2qsddgvoyc" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="5"]
-[ext_resource type="Script" path="res://Scripts/Level/Bottom.cs" id="7"]
+[ext_resource type="Script" path="res://Scripts/Entities/Enemy/Spawner.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Player.tscn" id="2"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="3"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="5"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/Bottom.cs" id="7"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://w64koklfslbm" path="res://Sprites/Level/Parallax Backgrounds/Grass/5_clouds.png" id="11"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Coin.tscn" id="13"]
 [ext_resource type="Texture2D" uid="uid://fw8npcofwl40" path="res://Sprites/Level/Parallax Backgrounds/Grass/3_trees.png" id="14"]
-[ext_resource type="Script" path="res://Scripts/Level/LevelCamera.cs" id="14_1qxvw"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="14_1qxvw"]
 [ext_resource type="Texture2D" uid="uid://da35q1i260s8q" path="res://Sprites/Level/Parallax Backgrounds/Grass/2_trees.png" id="15"]
 [ext_resource type="Texture2D" uid="uid://vg4rwpcnjqwo" path="res://Sprites/Level/Parallax Backgrounds/Grass/1_trees.png" id="16"]
-[ext_resource type="Script" path="res://Scripts/Level/Trigger.cs" id="21"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/Trigger.cs" id="21"]
+
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgodp"]
 load_path = "res://.godot/imported/grass_dirt_16.png-a4c5d3e9e447e6431aeae544ed7d9b15.ctex"

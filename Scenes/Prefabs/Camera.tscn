@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ciukn8d0mtchv"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Scripts/Level/LevelCamera.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="1"]
 
 [node name="Camera3D" type="Camera2D"]
 current = true

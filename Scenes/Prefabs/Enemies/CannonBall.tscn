@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource path="res://Scripts/Enemy/CannonBall.cs" type="Script" id=1]
+[ext_resource type="Script" path="res://Scripts/Entities/Enemy/CannonBall.cs" id="1"]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 2.0

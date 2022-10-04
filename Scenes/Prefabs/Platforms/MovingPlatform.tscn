@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource path="res://Scripts/Level/MovingPlatform.cs" type="Script" id=1]
-[ext_resource path="res://Sprites/Level/Platform.png" type="Texture2D" id=2]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/MovingPlatform.cs" id="1"]
+[ext_resource type="Texture2D" uid="uid://cogb6i16r14qt" path="res://Sprites/Level/Platform.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id=25]
 extents = Vector2( 64, 4 )

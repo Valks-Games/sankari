@@ -1,9 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://rjtqv7jg2mrl"]
+[gd_scene load_steps=12 format=3]
 
-[ext_resource type="PackedScene" uid="uid://de2xum4gjflrh" path="res://Scenes/Prefabs/Player.tscn" id="1_4f86e"]
-[ext_resource type="Script" path="res://Scripts/Level/LevelScene.cs" id="1_pxesi"]
-[ext_resource type="Script" path="res://Scripts/Level/LevelCamera.cs" id="2_h0i8n"]
-[ext_resource type="Script" path="res://Scripts/Level/Bottom.cs" id="3_722fj"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Player.tscn" id="1_4f86e"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="1_pxesi"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="2_h0i8n"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/Bottom.cs" id="3_722fj"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgodp"]
 load_path = "res://.godot/imported/grass_dirt_16.png-a4c5d3e9e447e6431aeae544ed7d9b15.ctex"
