@@ -18,7 +18,7 @@
 - Try not to squash every piece of logic into one class, if code is related to a cat put it in a cat class, don't just stuff it all in animals class
 - All abstract classes should start with a capital `A`
 
-### VSCode
+### Tab Size and Line Endings
 - Please set `Tab Size` to `4` and `End of Line Sequence` to `CRLF` *(if you do not do this then you may accidentially change every single line in the project making it extremely difficult to find what you changed and solve merge conflicts)*
 
 ### The Order of Things
