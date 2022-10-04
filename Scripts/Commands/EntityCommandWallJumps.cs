@@ -25,11 +25,7 @@ public interface IEntityWallJumpable : IEntityMoveable
 }
 public class EntityCommandWallJumps : EntityCommand<IEntityWallJumpable>
 {
-
-
-	public EntityCommandWallJumps(IEntityWallJumpable entity) : base(entity)
-	{
-	}
+	public EntityCommandWallJumps(IEntityWallJumpable entity) : base(entity) { }
 
 	public override void Update(MovementInput input)
 	{
