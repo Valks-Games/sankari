@@ -52,6 +52,9 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 
 	public override void Update(MovementInput input)
 	{
+		// Entity.IsOnGround() is called twice, in Update() and LateUpdate()
+		// Also what if IsOnGround() was called in other commands?
+		// Shouldn't IsOnGround() only be called once?
 		if (Entity.IsOnGround())
 			DashCount = 0;
 
