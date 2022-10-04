@@ -1,6 +1,8 @@
 namespace Sankari;
 
-public partial class Player : CharacterBody2D
+public interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
+
+public partial class Player : CharacterBody2D, IPlayerSkills
 {
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
@@ -24,7 +26,7 @@ public partial class Player : CharacterBody2D
 	public int JumpForceWallVert      { get; set; }	= 600;
 	public int JumpForceWallHorz      { get; set; }	= 300;
 
-	// dependecy injcetion
+	// dependency injection
 	public  LevelScene LevelScene { get; set; }
 
 	// movement
@@ -55,27 +57,14 @@ public partial class Player : CharacterBody2D
 	// msc
 	public  Window     Tree          { get; set; }
 	public  bool       TouchedGround { get; set; }
-	private PlayerCommandDash PlayerDash    { get; set; } = new();
-	private PlayerCommandWallJumps PlayerWallJumps { get; set; } = new();
-	private PlayerCommand[] PlayerCommands { get; set; } = new PlayerCommand[2] 
-	{
-		new PlayerCommandDash(),
-		new PlayerCommandWallJumps()
-	};
 
-	// fields
-	public Vector2 velocityPlayer;
+	public GTimers Timers { get; set; }
 
-	public bool InputJump     { get; private set; }
-	public bool InputUp       { get; private set; }
-	public bool InputDown     { get; private set; }
-	public bool InputFastFall { get; private set; }
-	public bool InputDash     { get; private set; }
-	public bool InputSprint   { get; private set; }
+	private EntityCommand[] PlayerCommands { get; set; }
 
 	public void PreInit(LevelScene levelScene)
 	{
-		this.LevelScene = levelScene;
+		LevelScene = levelScene;
 	}
 
 	public override void _Ready()
@@ -91,6 +80,7 @@ public partial class Player : CharacterBody2D
 		ParentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
 		AnimatedSprite        = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		DieTween              = new GTween(this);
+		Timers                = new GTimers(this);
 		Tree                  = GetTree().Root;
 
 		PrepareRaycasts(ParentWallChecksLeft, RayCast2DWallChecksLeft);
@@ -103,6 +93,15 @@ public partial class Player : CharacterBody2D
 
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
 		FloorStopOnSlope = false;   // players should slide on slopes
+
+		PlayerCommands = new EntityCommand[2]
+		{
+			new EntityCommandDash(this),
+			new EntityCommandWallJumps(this)
+		};
+
+		foreach (var command in PlayerCommands)
+			command.Initialize();
 	}
 
 	public override void _PhysicsProcess(double d)
@@ -129,26 +128,38 @@ public partial class Player : CharacterBody2D
 
 	private void HandleMovement(float delta)
 	{
-		InputJump     = Input.IsActionJustPressed("player_jump");
-		InputUp       = Input.IsActionPressed("player_move_up");
-		InputDown     = Input.IsActionPressed("player_move_down");
-		InputFastFall = Input.IsActionPressed("player_fast_fall");
-		InputDash     = Input.IsActionJustPressed("player_dash");
-		InputSprint   = Input.IsActionPressed("player_sprint");
+		MovementInput input = MovementUtils.GetPlayerMovementInput();
+		WallDir = UpdateWallDirection();
 
-		CheckIfCanGoUnderPlatform(InputDown);
+		UpdateUnderPlatform(input);
 
 		foreach (var command in PlayerCommands)
-			command.Update(this);
+			command.Update(input);
 
+		HandleGravityState(delta, input);
+
+		foreach (var command in PlayerCommands)
+			command.LateUpdate(input);
+
+		// Finish up animations
+		if (IsFalling())
+			AnimatedSprite.Play("jump_fall");
+
+		// Flip Sprint if we are moving negatively
 		AnimatedSprite.FlipH = MoveDir.x < 0;
+		MoveAndSlide();
+	}
+
+	private void HandleGravityState(float delta, MovementInput input)
+	{
+		Vector2 velocity = Velocity;
 
 		if (IsOnGround())
 		{
 			if (!TouchedGround)
 			{
-				TouchedGround = true;	
-				velocityPlayer.y = 0;
+				TouchedGround = true;
+				velocity.y = 0;
 			}
 
 			if (MoveDir.x != 0)
@@ -156,49 +167,33 @@ public partial class Player : CharacterBody2D
 			else
 				AnimatedSprite.Play("idle");
 
-			velocityPlayer.x += MoveDir.x * SpeedGround;
+			velocity.x += MoveDir.x * SpeedGround;
 
-			HorzDampening(20);
+			velocity.x = HorzDampening(velocity.x, 20);
 
-			if (InputJump)
+			if (input.IsJump)
 			{
 				Jump();
-				velocityPlayer.y = 0; // reset vertical velocity before jumping
-				velocityPlayer.y -= JumpForce;
+				velocity.y = 0; // reset vertical velocity before jumping
+				velocity.y -= JumpForce;
 			}
 		}
 		else
 		{
 			// apply gravity
 			TouchedGround = false;
-			velocityPlayer.y += GravityAir * delta;
+			velocity.y += GravityAir * delta;
 
-			velocityPlayer.x += MoveDir.x * SpeedAir;
+			velocity.x += MoveDir.x * SpeedAir;
 
-			if (InputFastFall)
-				velocityPlayer.y += 10;
+			if (input.IsFastFall)
+				velocity.y += 10;
 		}
 
 		if (IsFalling())
 			AnimatedSprite.Play("jump_fall");
 
-		if (!CurrentlyDashing)
-		{
-			if (IsOnGround() && InputSprint)
-			{
-				AnimatedSprite.SpeedScale = 1.5f;
-				velocityPlayer.x = Mathf.Clamp(velocityPlayer.x, -SpeedMaxGroundSprint, SpeedMaxGroundSprint);
-			}
-			else
-			{
-				AnimatedSprite.SpeedScale = 1;
-				velocityPlayer.x = Mathf.Clamp(velocityPlayer.x, -SpeedMaxGround, SpeedMaxGround);
-			}
-
-			velocityPlayer.y = Mathf.Clamp(velocityPlayer.y, -SpeedMaxAir, SpeedMaxAir);
-		}
-
-		Velocity = velocityPlayer;
+		Velocity = velocity;
 
 		MoveAndSlide();
 	}
@@ -209,13 +204,31 @@ public partial class Player : CharacterBody2D
 		Audio.PlaySFX("player_jump", 80);
 	}
 
-	private async void CheckIfCanGoUnderPlatform(bool inputDown)
+	private int UpdateWallDirection()
+	{
+		var left = IsTouchingWallLeft();
+		var right = IsTouchingWallRight();
+
+		return -Convert.ToInt32(left) + Convert.ToInt32(right);
+	}
+
+	private bool IsTouchingWallLeft()
+	{
+		return CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksLeft);
+	}
+
+	private bool IsTouchingWallRight()
+	{
+		return CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksRight);
+	}
+
+	private async void UpdateUnderPlatform(MovementInput input)
 	{
 		var collision = RayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
 
-		if (collision != null && collision is TileMap tilemap)
+		if (collision is TileMap tilemap)
 		{
-			if (inputDown && tilemap.IsInGroup("Platform"))
+			if (input.IsDown && tilemap.IsInGroup("Platform"))
 			{
 				tilemap.EnableLayers(2);
 				await Task.Delay(1000);
@@ -224,23 +237,31 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void HorzDampening(int dampening)
+	/// <summary>
+	/// Dampens a speed reading towards 0
+	/// </summary>
+	/// <param name="speed">Value to dampen</param>
+	/// <param name="dampening">Value to reduce the magnitude of speed by</param>
+	/// <returns>The dampened speed</returns>
+	private float HorzDampening(float speed, uint dampening)
 	{
 		// deadzone has to be bigger than dampening value or the player ghost slide effect will occur
 		int deadzone = (int)(dampening * 1.5f);
 
-		if (velocityPlayer.x >= -deadzone && velocityPlayer.x <= deadzone)
+		if (Mathf.Abs(speed) < deadzone)
 		{
-			velocityPlayer.x = 0;
+			return 0;
 		}
-		else if (velocityPlayer.x > deadzone)
+		else if (speed > deadzone)
 		{
-			velocityPlayer.x -= dampening;
+			return speed - deadzone;
 		}
-		else if (velocityPlayer.x < deadzone)
+		else if (speed < deadzone)
 		{
-			velocityPlayer.x += dampening;
+			return speed + dampening;
 		}
+
+		return 0;
 	}
 
 	public bool IsOnGround()
