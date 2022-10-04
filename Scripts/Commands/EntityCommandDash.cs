@@ -78,9 +78,9 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 			var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
 			sprite.Texture = Entity.AnimatedSprite.Frames.GetFrame(Entity.AnimatedSprite.Animation, Entity.AnimatedSprite.Frame);
 			sprite.GlobalPosition = Entity.GlobalPosition;
-			sprite.Scale = new Vector2(2f, 2f);
+			sprite.Scale = new Vector2(2f, 2f); // this is ugly
 			sprite.FlipH = Entity.AnimatedSprite.FlipH;
-			//sprite.FlipH = wallDir == 1 ? true : false;
+			//sprite.FlipH = wallDir == 1 ? true : false; // cant remember why I commented this out
 			Entity.Tree.AddChild(sprite);
 
 			var dashSpeed = Entity.SpeedDashVertical;
@@ -116,21 +116,21 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 
 	private Vector2 GetDashDirection(MovementInput input, Vector2 moveDir)
 	{
-		// We move vertically direction we are pressing, default to down
+		// Get vertical dash direction
 		float y = 0;
 		if (input.IsDown)
 			y = 1;
 		else if (input.IsUp)
 			y = -1;
 
-		// We move horizontally in the direction we are moving (Wow)
+		// Get horizontal dash direction
 		float x = 0;
 		if (moveDir.x != 0)
 			x = moveDir.x > 0 ? 1 : -1;
 
-		// Check if we are doing a horizontal dash. If we can't tell, we don't need to update Hortizontal Dash
+		// Only update horizontal dash property if input for it is received
 		if (input.IsUp || (input.IsDown && moveDir.x == 0))
-			// We prioritize input up for vertical dashing
+			// Prioritize input up for vertical dashing
 			HorizontalDash = false;
 		else if (moveDir.x != 0)
 			HorizontalDash = true;
