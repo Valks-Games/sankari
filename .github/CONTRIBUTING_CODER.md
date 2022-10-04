@@ -38,7 +38,7 @@
 
 > ℹ️ Try making use of `Print()` and `PrintFull()`. For example `Logger.Log(myArray.Print())` and `Logger.Log(this.PrintFull())`, try it out!
 
-> ℹ️ Please follow the [Projects Code Style](https://github.com/GodotModules/GodotModulesCSharp/blob/main/.github/FORMATTING_GUIDELINES.md)
+> ℹ️ Please follow the [Projects Code Style](https://github.com/Valks-Games/sankari/blob/main/.github/CODE_STYLE.md)
 
 ## Exporting the Game
 > ⚠️ Do not forget to put `enet.dll` beside the games exported executable or all multiplayer functions will not work
