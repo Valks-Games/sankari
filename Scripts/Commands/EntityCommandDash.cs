@@ -109,6 +109,15 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 		Entity.Velocity = velocity;
 	}
 
+	public override void Stop()
+	{
+		if(CurrentlyDashing)
+		{
+			TimerDashDuration.Stop();
+			CurrentlyDashing = false;
+		}
+	}
+
 	private Vector2 GetDashDirection(MovementInput input, Vector2 moveDir)
 	{
 		// We move vertically direction we are pressing, default to down

@@ -41,6 +41,11 @@ public abstract class EntityCommand
 	public virtual void LateUpdate(MovementInput input)
 	{ }
 
+	/// <summary>
+	/// Called when there's a need to prematurely stop the Movement
+	/// </summary>
+	public virtual void Stop()
+	{ }
 }
 
 public abstract class EntityCommand<T> : EntityCommand
