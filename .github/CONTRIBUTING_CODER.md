@@ -14,7 +14,7 @@
 
 **godot4**
 - Latest Godot 4 beta stable release
-- Player movement works 20% as intended (the transition to Godot 4 beta changed a lot of stuff unforunately destroying the way the player moves)
+- Player movement works 20% as intended (the transition to Godot 4 beta changed a lot of stuff unforunately destroyed the way the player moves)
 - Newer code and will be merged into `main` eventually (please put all your commits on this branch)
 - Multiplayer
 - README and CONTRIBUTING files are outdated
