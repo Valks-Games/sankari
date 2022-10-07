@@ -347,7 +347,7 @@ NodePathCoinSprite = NodePath("PanelContainer/HBoxContainer/Coin Sprite2D")
 NodePathLabelCoins = NodePath("PanelContainer/HBoxContainer/Coin Value")
 NodePathControlLives = NodePath("Lives")
 NodePathLabelLives = NodePath("Lives/Lives Value")
-NodePathHealthBar = NodePath("HBoxContainer")
+NodePathHealthBar = NodePath("Health Bar")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Level UI"]
 layout_mode = 0
@@ -408,7 +408,7 @@ offset_right = 611.0
 offset_bottom = 337.0
 text = "3"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Level UI"]
+[node name="Health Bar" type="HBoxContainer" parent="CanvasLayer/Level UI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
