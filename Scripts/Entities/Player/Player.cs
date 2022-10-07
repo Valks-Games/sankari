@@ -291,7 +291,31 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 			list.Add(raycast);
 		}
 	}
+		
+	//Checks from which side the collision occured. -1 if is on the left, 1 on the right, 0 if neither
+	public int GetCollisionSide(Area2D area)
+	{
+		if (this.GlobalPosition.x < area.GlobalPosition.x)
+			return -1;
+		else
+			if (this.GlobalPosition.x > area.GlobalPosition.x)
+				return 1;
+		return 0;
+	}
 
+	public void TakenDamage(int side, float damage)
+	{
+		if(!GameManager.LevelUI.RemoveHealth(damage))
+			Died();
+		else
+		{
+			Vector2 velocity;
+			PlayerCommands[0].Stop();
+			velocity.y = -JumpForce / 2; // division is done so as not to make y and x jumps too aggressive 
+			velocity.x = side * JumpForce / 2;
+			Velocity = velocity;
+		}
+	}
 	public void Died()
 	{
 		HaltPlayerLogic = true;
@@ -374,7 +398,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		if (area.IsInGroup("Enemy"))
 		{
-			Died();
+			TakenDamage(GetCollisionSide(area), (float)0.5);
 			return;
 		}
 
