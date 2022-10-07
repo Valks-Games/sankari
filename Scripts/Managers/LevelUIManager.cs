@@ -28,8 +28,8 @@ public partial class LevelUIManager : Control
         CoinSprite = GetNode<AnimatedSprite2D>(NodePathCoinSprite);
         ControlLives = GetNode<Control>(NodePathControlLives);
 		HealthBar = GetNode<HBoxContainer>(NodePathHealthBar);
+
 		AddHealth((float)3);
-        Tween = new GTween(ControlLives);
         CoinSprite.Playing = true;
         ControlLives.Hide();
     }
@@ -44,6 +44,7 @@ public partial class LevelUIManager : Control
 
     public async Task HideLivesTransition() 
     {
+		Tween = new GTween(ControlLives);
         Tween.InterpolateProperty("modulate", new Color(1, 1, 1, 0), 2);
         Tween.Start();
         await Task.Delay(2000);
