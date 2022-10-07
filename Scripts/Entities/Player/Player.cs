@@ -206,20 +206,10 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	private int UpdateWallDirection()
 	{
-		var left = IsTouchingWallLeft();
-		var right = IsTouchingWallRight();
+		var left = CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksLeft);
+		var right = CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksRight);
 
 		return -Convert.ToInt32(left) + Convert.ToInt32(right);
-	}
-
-	private bool IsTouchingWallLeft()
-	{
-		return CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksLeft);
-	}
-
-	private bool IsTouchingWallRight()
-	{
-		return CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksRight);
 	}
 
 	private async void UpdateUnderPlatform(MovementInput input)
@@ -249,17 +239,11 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		int deadzone = (int)(dampening * 1.5f);
 
 		if (Mathf.Abs(speed) < deadzone)
-		{
 			return 0;
-		}
 		else if (speed > deadzone)
-		{
 			return speed - deadzone;
-		}
 		else if (speed < deadzone)
-		{
 			return speed + dampening;
-		}
 
 		return 0;
 	}
@@ -300,19 +284,20 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		else
 			if (this.GlobalPosition.x > area.GlobalPosition.x)
 				return 1;
+
 		return 0;
 	}
 
 	public void TakenDamage(int side, float damage)
 	{
-		if(!GameManager.LevelUI.RemoveHealth(damage))
+		if (!GameManager.LevelUI.RemoveHealth(damage))
 			Died();
 		else
 		{
 			Vector2 velocity;
 			PlayerCommands[0].Stop();
-			velocity.y = -JumpForce / 2; // division is done so as not to make y and x jumps too aggressive 
-			velocity.x = side * JumpForce / 2;
+			velocity.y = -JumpForce * 0.5f; // make y and x jumps less aggressive 
+			velocity.x = side * JumpForce * 0.5f;
 			Velocity = velocity;
 		}
 	}
@@ -398,7 +383,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		if (area.IsInGroup("Enemy"))
 		{
-			TakenDamage(GetCollisionSide(area), (float)0.5);
+			TakenDamage(GetCollisionSide(area), 0.5f);
 			return;
 		}
 

@@ -13,7 +13,7 @@ public partial class LevelUIManager : Control
     private Label LabelCoins { get; set; }
     private Label LabelLives { get; set; }
     private Control ControlLives { get; set; }
-	private HBoxContainer HealthBar { get; set; }
+	private Control HealthBar { get; set; }
 
     private GTween Tween { get; set; }
 
@@ -117,33 +117,45 @@ public partial class LevelUIManager : Control
 	/// If is able to substract some health True otherwise False
 	/// </summary>
 	/// <param name="amount">Amount of health to substract</param>
-	public bool RemoveHealth(float amount = (float)0.5)
+	public bool RemoveHealth(float amount = 0.5f)
 	{
 		if ((Health -= amount) <= 0)
 		{
-			for (int i = HealthBar.GetChildCount() - 1; i >= 0; i--)
-				if (HealthBar.GetChild<Sprite2D>(i).Visible)
-					HealthBar.GetChild<Sprite2D>(i).Hide();
+			for (var i = HealthBar.GetChildCount() - 1; i >= 0; i--)
+			{
+				var curHeart  = HealthBar.GetChild<Sprite2D>(i);
+
+				if (curHeart.Visible)
+					curHeart.Hide();
+			}
+
 			Health = 0;
+
 			return false;
 		}
 		else
 		{
-			float c = 2*amount;
-			for(int i=HealthBar.GetChildCount()-1; i>=0 && c>0; i--)
+			var c = 2 * amount;
+
+			for (var i = HealthBar.GetChildCount() - 1; i >= 0 && c > 0; i--)
 			{
-				if(HealthBar.GetChild<Sprite2D>(i).Visible)
+				var curHeart  = HealthBar.GetChild<Sprite2D>(i);
+				var prevHeart = HealthBar.GetChild<Sprite2D>(i - 1);
+
+				if (curHeart.Visible)
 				{
 					if (i % 2 == 0)
-						HealthBar.GetChild<Sprite2D>(i).Hide();
+						curHeart.Hide();
 					else
 					{
-						HealthBar.GetChild<Sprite2D>(i).Hide();
-						HealthBar.GetChild<Sprite2D>(i - 1).Show();
+						curHeart.Hide();
+						prevHeart.Show();
 					}
+
 					c--;
 				}
 			}
+
 			return true;
 		}
 	}
