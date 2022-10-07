@@ -52,8 +52,9 @@ public partial class LevelUIManager : Control
 
     public void RemoveLife()
     {
-        if((Lives--) > 0)
-			AddHealth((float)3);
+		AddHealth((float)3);
+		Lives--;
+
         LabelLives.Text = "" + Lives;
     }
 
@@ -70,41 +71,46 @@ public partial class LevelUIManager : Control
 	public void AddHealth(float amount = 1)
 	{
 		Health += amount;
-		Texture2D textureFullHeart = GD.Load<Texture2D>("res://Sprites/icon.png");
-		Texture2D textureHalfHeart = GD.Load<Texture2D>("res://Sprites/light.png");
-		int j=0;
-		for (float i = (float)0.5; i <= amount; i += (float)0.5, j++)
+
+		var textureFullHeart = GD.Load<Texture2D>("res://Sprites/icon.png");
+		var textureHalfHeart = GD.Load<Texture2D>("res://Sprites/light.png");
+
+		var j = 0;
+
+		for (var i = 0.5f; i <= amount; i += 0.5f, j++)
 		{
-			if ((2*i)%2 == 0) //i is an int
+			if ((2 * i) % 2 == 0) // 'i' is an int
 			{
-				HealthBar.GetChild<Sprite2D>(j-1).Hide();
+				HealthBar.GetChild<Sprite2D>(j - 1).Hide();
+
 				if (HealthBar.GetChildCount() <= j)
-				{
-					Sprite2D healthSprite = new Sprite2D();
-					healthSprite = new Sprite2D();
-					healthSprite.Texture = textureFullHeart;
-					healthSprite.Scale = new Vector2((float)48 / healthSprite.Texture.GetWidth(), (float)48 / healthSprite.Texture.GetHeight());
-					healthSprite.Position = new Vector2(50 * (i - 1), 40);
-					HealthBar.AddChild(healthSprite);
-				}
-				HealthBar.GetChild<Sprite2D>(j).Show();
+					AddHealthSprite(textureFullHeart, new Vector2(50 * (i - 1), 40));
 			}
 			else
 			{
-				if(HealthBar.GetChildCount() <= j)
+				if (HealthBar.GetChildCount() <= j)
 				{
-					Sprite2D healthSprite = new Sprite2D();
-					healthSprite = new Sprite2D();
-					healthSprite.Texture = textureHalfHeart;
-					healthSprite.Scale = new Vector2((float)48 / healthSprite.Texture.GetWidth(), (float)48 / healthSprite.Texture.GetHeight());
+					AddHealthSprite(textureHalfHeart, new Vector2(50 * (int)i, 40));
+
 					HealthBar.GlobalPosition = new Vector2(HealthBar.GlobalPosition.x - 50, HealthBar.GlobalPosition.y);
 					HealthBar.Size = new Vector2(50 * ((int)i + 1), 48);
-					healthSprite.Position = new Vector2(50 * (int)i, 40);
-					HealthBar.AddChild(healthSprite);
 				}
-				HealthBar.GetChild<Sprite2D>(j).Show();
 			}
+
+			HealthBar.GetChild<Sprite2D>(j).Show();
 		}
+	}
+
+	private void AddHealthSprite(Texture2D texture, Vector2 position) 
+	{
+		var sprite = new Sprite2D() 
+		{
+			Texture = texture,
+			Scale = new Vector2((float)48 / texture.GetWidth(), (float)48 / texture.GetHeight()), // what is so special about 48 anyways?
+			Position = position
+		};
+
+		HealthBar.AddChild(sprite);
 	}
 
 	/// <summary>
