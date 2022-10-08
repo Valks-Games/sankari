@@ -16,7 +16,6 @@ public interface IEntityMoveable
 
 	// Timers object that can be used to make timers
 	public GTimers Timers { get; }
-
 }
 
 public abstract class EntityCommand
@@ -42,7 +41,13 @@ public abstract class EntityCommand
 	{ }
 
 	/// <summary>
-	/// Called when there's a need to prematurely stop the Movement
+	/// Start the command
+	/// </summary>
+	public virtual void Start()
+	{ }
+
+	/// <summary>
+	/// Stop the command
 	/// </summary>
 	public virtual void Stop()
 	{ }
@@ -56,5 +61,4 @@ public abstract class EntityCommand<T> : EntityCommand
 	{
 		Entity = entity;
 	}
-
 }

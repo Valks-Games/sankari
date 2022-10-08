@@ -16,20 +16,19 @@ public interface IEntityDashable : IEntityMoveable
 
 	// Speed given when dashing horizontally
 	public int SpeedDashHorizontal { get; }
+
 	// Is the entity on the ground?
 
 	// Sprite to modify
 	public AnimatedSprite2D AnimatedSprite { get; }
 
 	bool IsOnGround();
-	
 }
 
 public class EntityCommandDash : EntityCommand<IEntityDashable>
 {
 	public EntityCommandDash(IEntityDashable entity) : base(entity)
 	{
-
 	}
 
 	private Vector2 DashDir          { get; set; }
@@ -50,17 +49,11 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false, false);
 	}
 
-	public override void Update(MovementInput input)
+	public override void Start()
 	{
-		// Entity.IsOnGround() is called twice, in Update() and LateUpdate()
-		// Also what if IsOnGround() was called in other commands?
-		// Shouldn't IsOnGround() only be called once?
-		if (Entity.IsOnGround())
-			DashCount = 0;
-
-		if (input.IsDash && DashReady && !CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
+		if (DashReady && !CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
 		{
-			DashDir = GetDashDirection(input, Entity.MoveDir);
+			DashDir = GetDashDirection(Entity.MoveDir);
 
 			if (DashDir != Vector2.Zero)
 			{
@@ -72,6 +65,15 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 				TimerDashCooldown.Start();
 			}
 		}
+	}
+
+	public override void Update(MovementInput input)
+	{
+		// Entity.IsOnGround() is called twice, in Update() and LateUpdate() 
+		// Also what if IsOnGround() was called in other commands? 
+		// Shouldn't IsOnGround() only be called once?
+		if (Entity.IsOnGround())
+			DashCount = 0;
 
 		if (CurrentlyDashing)
 		{
@@ -116,21 +118,21 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 
 	public override void Stop()
 	{
-		if(CurrentlyDashing)
+		if (CurrentlyDashing)
 		{
 			TimerDashDuration.Stop();
 			CurrentlyDashing = false;
 		}
 	}
 
-	private Vector2 GetDashDirection(MovementInput input, Vector2 moveDir)
+	private Vector2 GetDashDirection(Vector2 moveDir)
 	{
 		// Get vertical dash direction
 		float y = 0;
-		if (input.IsDown)
-			y = 1;
-		else if (input.IsUp)
-			y = -1;
+		if (MovementUtils.IsDown(moveDir))
+			y = Vector2.Down.y;
+		else if (MovementUtils.IsUp(moveDir))
+			y = Vector2.Up.y;
 
 		// Get horizontal dash direction
 		float x = 0;
@@ -138,7 +140,7 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 			x = moveDir.x > 0 ? 1 : -1;
 
 		// Only update horizontal dash property if input for it is received
-		if (input.IsUp || (input.IsDown && moveDir.x == 0))
+		if (MovementUtils.IsUp(moveDir) || (MovementUtils.IsDown(moveDir) && moveDir.x == 0))
 			// Prioritize input up for vertical dashing
 			HorizontalDash = false;
 		else if (moveDir.x != 0)
