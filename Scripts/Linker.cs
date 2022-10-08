@@ -34,7 +34,16 @@ public partial class Linker : Node
 		if (DeveloperMode)
 		{
 			if (PressPlayOnLaunch)
-				GameManager.Menu.PressPlay();
+			{
+				if (!LoadTestLevel)
+				{
+					GameManager.Menu.PressPlay();
+				}
+				else
+				{
+					Logger.LogWarning("Will not press play on launch because 'LoadTestLevel' was enabled");
+				}
+			}
 
 			if (LoadFirstLevel)
 			{
