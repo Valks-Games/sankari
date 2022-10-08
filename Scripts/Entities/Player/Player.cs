@@ -117,12 +117,41 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	public override void _PhysicsProcess(double d)
 	{
-		var delta = (float)d;
+		var input = MovementUtils.GetPlayerMovementInput();
+
+		UpdateMoveDirection(input);
+
+		var velocity = Velocity;
+
+		var GroundAcceleration = 50;
+		var MaxGroundSpeed = 350;
+		var HorizontalDampening = 25;
+		var HorizontalDeadZone = 25;
+
+		velocity.x += MoveDir.x * GroundAcceleration;
+
+		if (velocity.x > 0)
+		{
+			velocity.x = Mathf.Min(velocity.x - HorizontalDampening, MaxGroundSpeed);
+		}
+		else
+		{
+			velocity.x = Mathf.Max(velocity.x + HorizontalDampening, -MaxGroundSpeed);
+		}
+
+		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone);
+
+		Velocity = velocity;
+
+		MoveAndSlide();
+
+		GD.Print(Velocity.x);
+		/*var delta = (float)d;
 
 		if (HaltPlayerLogic)
 			return;
 
-		HandleMovement(delta);
+		HandleMovement(delta);*/
 	}
 
 	private void NetUpdate()
@@ -186,7 +215,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 			velocity.x += MoveDir.x * SpeedGround;
 
-			velocity.x = HorzDampening(velocity.x, 20);
+			velocity.x = MoveDeadZone(velocity.x, 20);
 
 			if (input.IsJump)
 			{
@@ -244,25 +273,14 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		}
 	}
 
-	/// <summary>
-	/// Dampens a speed reading towards 0
-	/// </summary>
-	/// <param name="speed">Value to dampen</param>
-	/// <param name="dampening">Value to reduce the magnitude of speed by</param>
-	/// <returns>The dampened speed</returns>
-	private float HorzDampening(float speed, uint dampening)
+	private float MoveDeadZone(float horzVelocity, int deadzone)
 	{
-		// deadzone has to be bigger than dampening value or the player ghost slide effect will occur
-		int deadzone = (int)(dampening * 1.5f);
-
-		if (Mathf.Abs(speed) < deadzone)
+		if (MoveDir.x == 0 && horzVelocity >= -deadzone && horzVelocity <= deadzone)
+		{
 			return 0;
-		else if (speed > deadzone)
-			return speed - deadzone;
-		else if (speed < deadzone)
-			return speed + dampening;
+		}
 
-		return 0;
+		return horzVelocity;
 	}
 
 	public bool IsOnGround()
@@ -278,7 +296,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	private void UpdateMoveDirection(MovementInput input)
 	{
-		var x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
+		var x = -Convert.ToInt32(input.IsLeft) + Convert.ToInt32(input.IsRight);
 		var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
 
 		MoveDir = new Vector2(x, y);
