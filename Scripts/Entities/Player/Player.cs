@@ -304,7 +304,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		return 0;
 	}
 
-	public void TakenDamage(int side, float damage)
+	public void TakenDamage(int side, int damage)
 	{
 		if (!GameManager.LevelUI.RemoveHealth(damage))
 			Died();
@@ -400,7 +400,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		if (area.IsInGroup("Enemy"))
 		{
-			TakenDamage(GetCollisionSide(area), 0.5f);
+			TakenDamage(GetCollisionSide(area), 1);
 			return;
 		}
 
