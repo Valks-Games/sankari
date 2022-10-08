@@ -21,13 +21,14 @@ public interface IEntityWallJumpable : IEntityMoveable
 	bool IsFalling();
 
 	// Force the entity to jump
-	void Jump();	
+	void Jump();
 }
+
 public class EntityCommandWallJumps : EntityCommand<IEntityWallJumpable>
 {
 	public EntityCommandWallJumps(IEntityWallJumpable entity) : base(entity) { }
 
-	public override void Update(MovementInput input)
+	public override void Start()
 	{
 		var velocity = Entity.Velocity;
 		// on a wall and falling
@@ -40,16 +41,13 @@ public class EntityCommandWallJumps : EntityCommand<IEntityWallJumpable>
 				velocity.y = 0;
 
 				// fast fall
-				if (input.IsDown)
+				if (MovementUtils.IsDown(Entity.MoveDir))
 					velocity.y += 50;
 
 				// wall jump
-				if (input.IsJump)
-				{
-					Entity.Jump();
-					velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
-					velocity.y -= Entity.JumpForceWallVert;
-				}
+				Entity.Jump();
+				velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
+				velocity.y -= Entity.JumpForceWallVert;
 			}
 		}
 		else

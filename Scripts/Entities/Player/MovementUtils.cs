@@ -24,4 +24,22 @@ public class MovementUtils
 			IsSprint = Input.IsActionPressed("player_sprint"),
 		};
 	}
+
+	/// <summary>
+	/// Check if a given vector is pointing upwards
+	/// </summary>
+	/// <returns>True if the vector is pointing upwards</returns>
+	public static bool IsUp(Vector2 vector)
+	{
+		return vector.y < 0;
+	}
+
+	/// <summary>
+	/// Check if a given vector is pointing downwards
+	/// </summary>
+	/// <returns>True if the vector is pointing downwards</returns>
+	public static bool IsDown(Vector2 vector)
+	{
+		return vector.y > 0;
+	}
 }

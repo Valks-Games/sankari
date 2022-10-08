@@ -4,6 +4,17 @@ public interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
 
 public partial class Player : CharacterBody2D, IPlayerSkills
 {
+	private class PlayerSkills
+	{
+		public EntityCommandDash CommandDash { get; set; }
+		public EntityCommandWallJumps CommandWallJump { get; set; }
+
+		public EntityCommand[] GetCommands()
+		{
+			return new EntityCommand[2] { CommandDash, CommandWallJump };
+		}
+	}
+
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
 	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
@@ -60,7 +71,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	public GTimers Timers { get; set; }
 
-	private EntityCommand[] PlayerCommands { get; set; }
+	private PlayerSkills PlayerCommands { get; set; }
 
 	public void PreInit(LevelScene levelScene)
 	{
@@ -94,13 +105,13 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
 		FloorStopOnSlope = false;   // players should slide on slopes
 
-		PlayerCommands = new EntityCommand[2]
+		PlayerCommands = new PlayerSkills()
 		{
-			new EntityCommandDash(this),
-			new EntityCommandWallJumps(this)
+			CommandDash = new EntityCommandDash(this),
+			CommandWallJump = new EntityCommandWallJumps(this)
 		};
 
-		foreach (var command in PlayerCommands)
+		foreach (var command in PlayerCommands.GetCommands())
 			command.Initialize();
 	}
 
@@ -111,7 +122,6 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		if (HaltPlayerLogic)
 			return;
 
-		UpdateMoveDirection();
 		HandleMovement(delta);
 	}
 
@@ -129,16 +139,23 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 	private void HandleMovement(float delta)
 	{
 		MovementInput input = MovementUtils.GetPlayerMovementInput();
+
+		UpdateMoveDirection(input);
 		WallDir = UpdateWallDirection();
+
+		if (input.IsDash)
+		{
+			PlayerCommands.CommandDash.Start();
+		}
 
 		UpdateUnderPlatform(input);
 
-		foreach (var command in PlayerCommands)
+		foreach (var command in PlayerCommands.GetCommands())
 			command.Update(input);
 
 		HandleGravityState(delta, input);
 
-		foreach (var command in PlayerCommands)
+		foreach (var command in PlayerCommands.GetCommands())
 			command.LateUpdate(input);
 
 		// Finish up animations
@@ -259,10 +276,10 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	public bool IsFalling() => base.Velocity.y > 0;
 
-	private void UpdateMoveDirection()
+	private void UpdateMoveDirection(MovementInput input)
 	{
 		var x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
-		var y = Input.IsActionPressed("player_jump") ? 1 : 0;
+		var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
 
 		MoveDir = new Vector2(x, y);
 	}
@@ -275,7 +292,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 			list.Add(raycast);
 		}
 	}
-		
+
 	//Checks from which side the collision occured. -1 if is on the left, 1 on the right, 0 if neither
 	public int GetCollisionSide(Area2D area)
 	{
@@ -283,7 +300,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 			return -1;
 		else
 			if (this.GlobalPosition.x > area.GlobalPosition.x)
-				return 1;
+			return 1;
 
 		return 0;
 	}
@@ -295,12 +312,13 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		else
 		{
 			Vector2 velocity;
-			PlayerCommands[0].Stop();
-			velocity.y = -JumpForce * 0.5f; // make y and x jumps less aggressive 
+			PlayerCommands.CommandDash.Stop();
+			velocity.y = -JumpForce * 0.5f; // make y and x jumps less aggressive
 			velocity.x = side * JumpForce * 0.5f;
 			Velocity = velocity;
 		}
 	}
+
 	public void Died()
 	{
 		HaltPlayerLogic = true;
