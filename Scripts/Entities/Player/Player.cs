@@ -145,7 +145,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		MoveAndSlide();
 
-		GD.Print(Velocity.x);
+		//GD.Print(Velocity.x);
 		/*var delta = (float)d;
 
 		if (HaltPlayerLogic)
@@ -277,7 +277,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 	{
 		if (MoveDir.x == 0 && horzVelocity >= -deadzone && horzVelocity <= deadzone)
 		{
-			return 0;
+			return horzVelocity * 0.5f;
 		}
 
 		return horzVelocity;
