@@ -113,28 +113,50 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		foreach (var command in PlayerCommands.GetCommands())
 			command.Initialize();
+
+		JumpCountResetDelay = new GTimer(this, nameof(OnJumpCountResetDelay), 200, false, false);
 	}
+
+	public int JumpCount { get; set; }
+	private GTimer JumpCountResetDelay { get; set; }
+
+	private void OnJumpCountResetDelay() { /* do nothing */ }
 
 	public override void _PhysicsProcess(double d)
 	{
+		var GroundAcceleration = 50;
+		var MaxGroundSpeed = 350;
+		var HorizontalDampening = 25;
+		var HorizontalDeadZone = 25;
+		var Gravity = 10;
+		var MaxJumps = 1;
+
+		// if these are equal to each other then the player movement will not work as expected
+		if (GroundAcceleration == HorizontalDampening)
+			HorizontalDampening -= 1;
+
 		var input = MovementUtils.GetPlayerMovementInput();
 
 		UpdateMoveDirection(input);
 
 		var velocity = Velocity;
 
-		var GroundAcceleration = 50;
-		var MaxGroundSpeed = 350;
-		var HorizontalDampening = 25;
-		var HorizontalDeadZone = 25;
-
-		// if these are equal to each other then the player movement will not work as expected
-		if (GroundAcceleration == HorizontalDampening)
-			HorizontalDampening -= 1;
-
 		velocity.x += MoveDir.x * GroundAcceleration;
 		velocity.x = ClampAndDampen(velocity.x, HorizontalDampening, MaxGroundSpeed);
 		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone);
+
+		velocity.y += Gravity;
+
+		if (input.IsJump && JumpCount < MaxJumps)
+		{
+			JumpCountResetDelay.Start();
+			JumpCount++;
+			velocity.y -= 1000;
+		}
+
+		// do not reset jump count when the player is leaving the ground for the first time
+		if (IsOnGround() && !JumpCountResetDelay.IsActive())
+			JumpCount = 0;
 
 		Velocity = velocity;
 
@@ -177,7 +199,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	private void HandleMovement(float delta)
 	{
-		MovementInput input = MovementUtils.GetPlayerMovementInput();
+		var input = MovementUtils.GetPlayerMovementInput();
 
 		UpdateMoveDirection(input);
 		WallDir = UpdateWallDirection();
@@ -208,7 +230,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	private void HandleGravityState(float delta, MovementInput input)
 	{
-		Vector2 velocity = Velocity;
+		var velocity = Velocity;
 
 		if (IsOnGround())
 		{
