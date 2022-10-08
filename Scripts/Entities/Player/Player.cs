@@ -2,7 +2,7 @@ namespace Sankari;
 
 public interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
 
-public partial class Player : CharacterBody2D, IPlayerSkills
+public partial class Player : CharacterBody2D
 {
 	private class PlayerSkills
 	{
@@ -22,20 +22,6 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 	public static Vector2 RespawnPosition      { get; set; }
 	public static bool    HasTouchedCheckpoint { get; set; }
 	public static Player  Instance             { get; set; }
-
-	public int UniversalForceModifier { get; set; } = 4;
-	public int SpeedGround            { get; set; } = 60;
-	public int SpeedAir               { get; set; }	= 16;
-	public int SpeedMaxGround         { get; set; }	= 300;
-	public int SpeedMaxGroundSprint   { get; set; }	= 400;
-	public int SpeedMaxAir            { get; set; }	= 900;
-	public int SpeedDashVertical      { get; set; }	= 400;
-	public int SpeedDashHorizontal    { get; set; }	= 600;
-	public int GravityAir             { get; set; }	= 1400;
-	public int GravityWall            { get; set; }	= 3000;
-	public int JumpForce              { get; set; }	= 600;
-	public int JumpForceWallVert      { get; set; }	= 600;
-	public int JumpForceWallHorz      { get; set; }	= 300;
 
 	// dependency injection
 	public  LevelScene LevelScene { get; set; }
@@ -105,20 +91,23 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
 		FloorStopOnSlope = false;   // players should slide on slopes
 
-		PlayerCommands = new PlayerSkills()
+		/*PlayerCommands = new PlayerSkills()
 		{
 			CommandDash = new EntityCommandDash(this),
 			CommandWallJump = new EntityCommandWallJumps(this)
-		};
+		};*/
 
-		foreach (var command in PlayerCommands.GetCommands())
-			command.Initialize();
+		/*foreach (var command in PlayerCommands.GetCommands())
+			command.Initialize();*/
 	}
 
 	public int JumpCount { get; set; }
 
 	public override void _PhysicsProcess(double d)
 	{
+		if (HaltPlayerLogic)
+			return;
+
 		var delta = (float)d;
 
 		var GroundAcceleration = 50;
@@ -149,7 +138,10 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		// jump is handled before all movement restrictions
 		if (input.IsJump && JumpCount < MaxJumps)
 		{
+			AnimatedSprite.Play("jump_start");
+			Audio.PlaySFX("player_jump", 80);
 			JumpCount++;
+			//velocity.y = 0; // reset velocity before jump (is this really needed?)
 			velocity.y -= JumpForce;
 		}
 
@@ -176,6 +168,9 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		}
 		else
 		{
+			if (input.IsFastFall)
+				velocity.y += 10;
+
 			velocity.x += MoveDir.x * AirAcceleration;
 			velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeedWalk);
 		}
@@ -186,12 +181,16 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		MoveAndSlide();
 
-		/*var delta = (float)d;
+		// animation
+		if (MoveDir.x != 0)
+			AnimatedSprite.Play("walk");
+		else
+			AnimatedSprite.Play("idle");
 
-		if (HaltPlayerLogic)
-			return;
+		if (IsFalling())
+			AnimatedSprite.Play("jump_fall");
 
-		HandleMovement(delta);*/
+		AnimatedSprite.FlipH = MoveDir.x < 0; // flip sprite if moving left
 	}
 
 	private float ClampAndDampen(float horzVelocity, int dampening, int maxSpeedGround) 
@@ -233,70 +232,12 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 			PlayerCommands.CommandDash.Start();
 		}
 
-		UpdateUnderPlatform(input);
-
 		foreach (var command in PlayerCommands.GetCommands())
 			command.Update(input);
 
-		HandleGravityState(delta, input);
-
 		foreach (var command in PlayerCommands.GetCommands())
 			command.LateUpdate(input);
-
-		// Finish up animations
-		if (IsFalling())
-			AnimatedSprite.Play("jump_fall");
-
-		// Flip Sprint if we are moving negatively
-		AnimatedSprite.FlipH = MoveDir.x < 0;
-		MoveAndSlide();
-	}
-
-	private void HandleGravityState(float delta, MovementInput input)
-	{
-		var velocity = Velocity;
-
-		if (IsOnGround())
-		{
-			if (!TouchedGround)
-			{
-				TouchedGround = true;
-				velocity.y = 0;
-			}
-
-			if (MoveDir.x != 0)
-				AnimatedSprite.Play("walk");
-			else
-				AnimatedSprite.Play("idle");
-
-			velocity.x += MoveDir.x * SpeedGround;
-
-			velocity.x = MoveDeadZone(velocity.x, 20);
-
-			if (input.IsJump)
-			{
-				Jump();
-				velocity.y = 0; // reset vertical velocity before jumping
-				velocity.y -= JumpForce;
-			}
-		}
-		else
-		{
-			// apply gravity
-			TouchedGround = false;
-			velocity.y += GravityAir * delta;
-
-			velocity.x += MoveDir.x * SpeedAir;
-
-			if (input.IsFastFall)
-				velocity.y += 10;
-		}
-
-		if (IsFalling())
-			AnimatedSprite.Play("jump_fall");
-
-		Velocity = velocity;
-
+		
 		MoveAndSlide();
 	}
 
@@ -338,7 +279,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		return false;
 	}
 
-	public bool IsFalling() => base.Velocity.y > 0;
+	public bool IsFalling() => Velocity.y > 0;
 
 	private void UpdateMoveDirection(MovementInput input)
 	{
@@ -376,6 +317,9 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		{
 			Vector2 velocity;
 			PlayerCommands.CommandDash.Stop();
+
+			var JumpForce = 500;
+
 			velocity.y = -JumpForce * 0.5f; // make y and x jumps less aggressive
 			velocity.x = side * JumpForce * 0.5f;
 			Velocity = velocity;
