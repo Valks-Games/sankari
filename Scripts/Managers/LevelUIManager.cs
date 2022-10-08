@@ -54,7 +54,6 @@ public partial class LevelUIManager : Control
     {
 		RemoveHealth(Health);
 		AddHealth(3);
-		GD.Print(Health);
 		Lives--;
         LabelLives.Text = "" + Lives;
     }
