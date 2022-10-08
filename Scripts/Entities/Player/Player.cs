@@ -114,7 +114,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		foreach (var command in PlayerCommands.GetCommands())
 			command.Initialize();
 
-		JumpCountResetDelay = new GTimer(this, nameof(OnJumpCountResetDelay), 200, false, false);
+		JumpCountResetDelay = new GTimer(this, nameof(OnJumpCountResetDelay), 400, false, false);
 	}
 
 	public int JumpCount { get; set; }
@@ -124,11 +124,14 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	public override void _PhysicsProcess(double d)
 	{
+		var delta = (float)d;
+
 		var GroundAcceleration = 50;
 		var MaxGroundSpeed = 350;
 		var HorizontalDampening = 25;
 		var HorizontalDeadZone = 25;
-		var Gravity = 10;
+		var JumpForce = 500;
+		var Gravity = 1000;
 		var MaxJumps = 1;
 
 		// if these are equal to each other then the player movement will not work as expected
@@ -145,13 +148,13 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		velocity.x = ClampAndDampen(velocity.x, HorizontalDampening, MaxGroundSpeed);
 		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone);
 
-		velocity.y += Gravity;
+		velocity.y += Gravity * delta;
 
 		if (input.IsJump && JumpCount < MaxJumps)
 		{
 			JumpCountResetDelay.Start();
 			JumpCount++;
-			velocity.y -= 1000;
+			velocity.y -= JumpForce;
 		}
 
 		// do not reset jump count when the player is leaving the ground for the first time
