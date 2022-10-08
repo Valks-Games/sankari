@@ -144,18 +144,18 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		var velocity = Velocity;
 
-		velocity.x += MoveDir.x * GroundAcceleration;
-		velocity.x = ClampAndDampen(velocity.x, HorizontalDampening, MaxGroundSpeed);
-		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone);
-
-		velocity.y += Gravity * delta;
-
 		if (input.IsJump && JumpCount < MaxJumps)
 		{
 			JumpCountResetDelay.Start();
 			JumpCount++;
 			velocity.y -= JumpForce;
 		}
+
+		velocity.x += MoveDir.x * GroundAcceleration;
+		velocity.x = ClampAndDampen(velocity.x, HorizontalDampening, MaxGroundSpeed);
+		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone);
+
+		velocity.y += Gravity * delta;
 
 		// do not reset jump count when the player is leaving the ground for the first time
 		if (IsOnGround() && !JumpCountResetDelay.IsActive())
