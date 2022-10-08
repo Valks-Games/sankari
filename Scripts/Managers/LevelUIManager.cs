@@ -29,7 +29,7 @@ public partial class LevelUIManager : Control
         ControlLives = GetNode<Control>(NodePathControlLives);
 		HealthBar = GetNode<HBoxContainer>(NodePathHealthBar);
 
-		AddHealth((float)3);
+		AddHealth(3);
         CoinSprite.Playing = true;
         ControlLives.Hide();
     }
@@ -52,9 +52,10 @@ public partial class LevelUIManager : Control
 
     public void RemoveLife()
     {
-		AddHealth((float)3);
+		RemoveHealth(Health);
+		AddHealth(3);
+		GD.Print(Health);
 		Lives--;
-
         LabelLives.Text = "" + Lives;
     }
 
@@ -65,23 +66,20 @@ public partial class LevelUIManager : Control
     }
 
 	/// <summary>
-	/// Adds teh specified amount of health
+	/// Adds the specified amount of health
 	/// </summary>
 	/// /// <param name="amount">Amount of health to add</param>
 	public void AddHealth(float amount = 1)
 	{
-		Health += amount;
-
 		var textureFullHeart = GD.Load<Texture2D>("res://Sprites/icon.png");
 		var textureHalfHeart = GD.Load<Texture2D>("res://Sprites/light.png");
 
-		var j = 0;
-
-		for (var i = 0.5f; i <= amount; i += 0.5f, j++)
+		var j = Health*2; //Health is literally a halved index of visible sprites
+		for (var i = Health + 0.5f; i <= Health + amount; i += 0.5f, j++) //adding 'Health' is required due to the nature of the usage of 'i'
 		{
-			if ((2 * i) % 2 == 0) // 'i' is an int
+			if ((2 * i) % 2 == 0) // if 'i' is an int
 			{
-				HealthBar.GetChild<Sprite2D>(j - 1).Hide();
+				HealthBar.GetChild<Sprite2D>((int)j - 1).Hide();
 
 				if (HealthBar.GetChildCount() <= j)
 					AddHealthSprite(textureFullHeart, new Vector2(50 * (i - 1), 40));
@@ -97,8 +95,9 @@ public partial class LevelUIManager : Control
 				}
 			}
 
-			HealthBar.GetChild<Sprite2D>(j).Show();
+			HealthBar.GetChild<Sprite2D>((int)j).Show();
 		}
+		Health += amount;
 	}
 
 	private void AddHealthSprite(Texture2D texture, Vector2 position) 
@@ -106,7 +105,7 @@ public partial class LevelUIManager : Control
 		var sprite = new Sprite2D() 
 		{
 			Texture = texture,
-			Scale = new Vector2((float)48 / texture.GetWidth(), (float)48 / texture.GetHeight()), // what is so special about 48 anyways?
+			Scale = new Vector2((float)48 / texture.GetWidth(), (float)48 / texture.GetHeight()), // 48 looks good as a size (64 was too big, 32 too small)
 			Position = position
 		};
 
