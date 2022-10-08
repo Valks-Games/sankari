@@ -113,14 +113,9 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		foreach (var command in PlayerCommands.GetCommands())
 			command.Initialize();
-
-		JumpCountResetDelay = new GTimer(this, nameof(OnJumpCountResetDelay), 400, false, false);
 	}
 
 	public int JumpCount { get; set; }
-	private GTimer JumpCountResetDelay { get; set; }
-
-	private void OnJumpCountResetDelay() { /* do nothing */ }
 
 	public override void _PhysicsProcess(double d)
 	{
@@ -132,7 +127,9 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		var AirAcceleration = 20;
 		var DampeningAir = 10;
 
-		var MaxSpeed = 350;
+		var MaxSpeedWalk = 350;
+		var MaxSpeedSprint = 500;
+
 		var HorizontalDeadZone = 25;
 		var JumpForce = 700;
 		var Gravity = 1000;
@@ -149,33 +146,39 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		var velocity = Velocity;
 
+		// jump is handled before all movement restrictions
 		if (input.IsJump && JumpCount < MaxJumps)
 		{
-			JumpCountResetDelay.Start();
 			JumpCount++;
 			velocity.y -= JumpForce;
 		}
-
-		
-		
 
 		velocity.y += Gravity * delta;
 		
 		if (IsOnGround())
 		{
 			velocity.x += MoveDir.x * GroundAcceleration;
-			velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeed);
 
+			if (input.IsSprint)
+			{
+				AnimatedSprite.SpeedScale = 1.5f;
+				velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeedSprint);
+			}
+			else
+			{
+				AnimatedSprite.SpeedScale = 1;
+				velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeedWalk);
+			}
+			
 			// do not reset jump count when the player is leaving the ground for the first time
-			if (!JumpCountResetDelay.IsActive())
+			if (velocity.y > 0)
 				JumpCount = 0;
 		}
 		else
 		{
 			velocity.x += MoveDir.x * AirAcceleration;
-			velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeed);
+			velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeedWalk);
 		}
-		
 		
 		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone); // must be after ClampAndDampen(...)
 
