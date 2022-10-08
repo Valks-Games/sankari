@@ -298,8 +298,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 	{
 		if (this.GlobalPosition.x < area.GlobalPosition.x)
 			return -1;
-		else
-			if (this.GlobalPosition.x > area.GlobalPosition.x)
+		else if (this.GlobalPosition.x > area.GlobalPosition.x)
 			return 1;
 
 		return 0;
