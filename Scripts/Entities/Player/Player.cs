@@ -130,7 +130,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		var MaxGroundSpeed = 350;
 		var HorizontalDampening = 25;
 		var HorizontalDeadZone = 25;
-		var JumpForce = 500;
+		var JumpForce = 700;
 		var Gravity = 1000;
 		var MaxJumps = 1;
 
@@ -141,6 +141,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		var input = MovementUtils.GetPlayerMovementInput();
 
 		UpdateMoveDirection(input);
+		UpdateUnderPlatform(input);
 
 		var velocity = Velocity;
 
