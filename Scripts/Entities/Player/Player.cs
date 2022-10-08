@@ -128,6 +128,10 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		var HorizontalDampening = 25;
 		var HorizontalDeadZone = 25;
 
+		// if these are equal to each other then the player movement will not work as expected
+		if (GroundAcceleration == HorizontalDampening)
+			HorizontalDampening -= 1;
+
 		velocity.x += MoveDir.x * GroundAcceleration;
 		velocity.x = ClampAndDampen(velocity.x, HorizontalDampening, MaxGroundSpeed);
 		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone);
