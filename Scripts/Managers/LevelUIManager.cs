@@ -52,9 +52,11 @@ public partial class LevelUIManager : Control
 
     public void RemoveLife()
     {
-		RemoveHealth(Health);
-		AddHealth(3);
-		Lives--;
+		if(Lives-- > 0)
+		{
+			RemoveHealth(Health);
+			AddHealth(3);
+		}
         LabelLives.Text = "" + Lives;
     }
 
@@ -73,7 +75,7 @@ public partial class LevelUIManager : Control
 		var textureFullHeart = GD.Load<Texture2D>("res://Sprites/icon.png");
 		var textureHalfHeart = GD.Load<Texture2D>("res://Sprites/light.png");
 
-		var j = Health*2; //Health is literally a halved index of visible sprites
+		var j = Health * 2; //Health is literally a halved index of visible sprites
 		for (var i = Health + 0.5f; i <= Health + amount; i += 0.5f, j++) //adding 'Health' is required due to the nature of the usage of 'i'
 		{
 			if ((2 * i) % 2 == 0) // if 'i' is an int
