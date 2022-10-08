@@ -129,29 +129,35 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		var HorizontalDeadZone = 25;
 
 		velocity.x += MoveDir.x * GroundAcceleration;
-
-		if (velocity.x > 0)
-		{
-			velocity.x = Mathf.Min(velocity.x - HorizontalDampening, MaxGroundSpeed);
-		}
-		else
-		{
-			velocity.x = Mathf.Max(velocity.x + HorizontalDampening, -MaxGroundSpeed);
-		}
-
+		velocity.x = ClampAndDampen(velocity.x, HorizontalDampening, MaxGroundSpeed);
 		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone);
 
 		Velocity = velocity;
 
 		MoveAndSlide();
 
-		//GD.Print(Velocity.x);
 		/*var delta = (float)d;
 
 		if (HaltPlayerLogic)
 			return;
 
 		HandleMovement(delta);*/
+	}
+
+	private float ClampAndDampen(float horzVelocity, int dampening, int maxSpeedGround) 
+	{
+		if (horzVelocity > 0)
+			return Mathf.Min(horzVelocity - dampening, maxSpeedGround);
+		else
+			return Mathf.Max(horzVelocity + dampening, -maxSpeedGround);
+	}
+
+	private float MoveDeadZone(float horzVelocity, int deadzone)
+	{
+		if (MoveDir.x == 0 && horzVelocity >= -deadzone && horzVelocity <= deadzone)
+			return horzVelocity * 0.5f;
+
+		return horzVelocity;
 	}
 
 	private void NetUpdate()
@@ -271,16 +277,6 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 				tilemap.EnableLayers(1, 2);
 			}
 		}
-	}
-
-	private float MoveDeadZone(float horzVelocity, int deadzone)
-	{
-		if (MoveDir.x == 0 && horzVelocity >= -deadzone && horzVelocity <= deadzone)
-		{
-			return horzVelocity * 0.5f;
-		}
-
-		return horzVelocity;
 	}
 
 	public bool IsOnGround()
