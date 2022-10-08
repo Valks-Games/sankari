@@ -3,7 +3,7 @@
 </p>
 
 ## What is Sankari?
-Sankari is a non-profit F2P 2D Platformer about a hero whose village gets raided by the evil king. The hero goes on a journey to free back the villagers that were captured and defeat the evil king. 
+Sankari ("hero" in Finnish) is a non-profit F2P 2D Platformer about a hero whose village gets raided by the evil king. The hero goes on a journey to free back the villagers that were captured and defeat the evil king. 
 
 This project was created to gain experience in the C# Godot environment for the 2D Platform genre and to prove to myself that I can make a complete game. I hope in making this open source that others will also learn some things that I have learned.
 
