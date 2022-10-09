@@ -110,7 +110,7 @@ public partial class Player : CharacterBody2D
 			new PlayerCommandAudio(this)
 		};
 
-		PlayerCommands.ForEach(cmd => cmd.Init());
+		PlayerCommands.ForEach(cmd => cmd.Initialize());
 	}
 
 	public override void _PhysicsProcess(double d)
@@ -139,9 +139,9 @@ public partial class Player : CharacterBody2D
 			PlayerVelocity.x += MoveDir.x * GroundAcceleration;
 
 			if (PlayerInput.IsSprint)
-				PlayerCommands.ForEach(cmd => cmd.UpdateGroundSprinting());
+				PlayerCommands.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
 			else
-				PlayerCommands.ForEach(cmd => cmd.UpdateGroundWalking());
+				PlayerCommands.ForEach(cmd => cmd.UpdateGroundWalking(delta));
 			
 			// do not reset jump count when the player is leaving the ground for the first time
 			if (PlayerVelocity.y > 0)
@@ -149,7 +149,7 @@ public partial class Player : CharacterBody2D
 		}
 		else // air
 		{
-			PlayerCommands.ForEach(cmd => cmd.UpdateAir());
+			PlayerCommands.ForEach(cmd => cmd.UpdateAir(delta));
 		}
 		
 		PlayerVelocity.x = MoveDeadZone(PlayerVelocity.x, HorizontalDeadZone); // must be after ClampAndDampen(...)

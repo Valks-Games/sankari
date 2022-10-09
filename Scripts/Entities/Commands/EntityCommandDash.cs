@@ -67,7 +67,7 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 		}
 	}
 
-	public override void Update(MovementInput input)
+	public override void Update(float delta)
 	{
 		// Entity.IsOnGround() is called twice, in Update() and LateUpdate() 
 		// Also what if IsOnGround() was called in other commands? 
@@ -92,28 +92,6 @@ public class EntityCommandDash : EntityCommand<IEntityDashable>
 
 			Entity.Velocity = DashDir * dashSpeed;
 		}
-	}
-
-	public override void LateUpdate(MovementInput input)
-	{
-		var velocity = Entity.Velocity;
-
-		// None of this is dash related code, it should be somewhere else
-		// Perhaps this should be moved to something like EntityCommandMove
-		if (Entity.IsOnGround() && input.IsSprint)
-		{
-			Entity.AnimatedSprite.SpeedScale = 1.5f;
-			velocity.x = Mathf.Clamp(Entity.Velocity.x, -Entity.SpeedMaxGroundSprint, Entity.SpeedMaxGroundSprint);
-		}
-		else
-		{
-			Entity.AnimatedSprite.SpeedScale = 1;
-			velocity.x = Mathf.Clamp(Entity.Velocity.x, -Entity.SpeedMaxGround, Entity.SpeedMaxGround);
-		}
-
-		velocity.y = Mathf.Clamp(Entity.Velocity.y, -Entity.SpeedMaxAir, Entity.SpeedMaxAir);
-
-		Entity.Velocity = velocity;
 	}
 
 	public override void Stop()

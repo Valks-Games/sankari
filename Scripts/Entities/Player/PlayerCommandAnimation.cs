@@ -17,12 +17,12 @@ public class PlayerCommandAnimation : PlayerCommand
 		Player.AnimatedSprite.FlipH = Player.MoveDir.x < 0; // flip sprite if moving left
 	}
 
-	public override void UpdateGroundWalking()
+	public override void UpdateGroundWalking(float delta)
 	{
 		Player.AnimatedSprite.SpeedScale = 1.0f;
 	}
 
-	public override void UpdateGroundSprinting()
+	public override void UpdateGroundSprinting(float delta)
 	{
 		Player.AnimatedSprite.SpeedScale = 1.5f;
 	}

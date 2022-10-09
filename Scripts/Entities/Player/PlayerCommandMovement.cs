@@ -11,7 +11,7 @@ public class PlayerCommandMovement : PlayerCommand
 
 	public PlayerCommandMovement(Player player) : base(player) { }
 
-	public override void Init()
+	public override void Initialize()
 	{
 		// if these are equal to each other then the player movement will not work as expected
 		if (Player.GroundAcceleration == DampeningGround)
@@ -24,17 +24,17 @@ public class PlayerCommandMovement : PlayerCommand
 		UpdateUnderPlatform(Player.PlayerInput);
 	}
 
-	public override void UpdateGroundWalking()
+	public override void UpdateGroundWalking(float delta)
 	{
 		Player.PlayerVelocity.x = ClampAndDampen(Player.PlayerVelocity.x, DampeningGround, MaxSpeedWalk);
 	}
 
-	public override void UpdateGroundSprinting()
+	public override void UpdateGroundSprinting(float delta)
 	{
 		Player.PlayerVelocity.x = ClampAndDampen(Player.PlayerVelocity.x, DampeningGround, MaxSpeedSprint);
 	}
 
-	public override void UpdateAir()
+	public override void UpdateAir(float delta)
 	{
 		if (Player.PlayerInput.IsFastFall)
 			Player.PlayerVelocity.y += 10;

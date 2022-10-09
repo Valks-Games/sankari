@@ -30,14 +30,14 @@ public abstract class EntityCommand
 	/// Called when Movement occurs.
 	/// </summary>
 	/// <param name="input">Input to act on</param>
-	public virtual void Update(MovementInput input)
+	public virtual void Update(float delta)
 	{ }
 
 	/// <summary>
 	/// Called after most Movement logic occurs
 	/// </summary>
 	/// <param name="input">Input to act on</param>
-	public virtual void LateUpdate(MovementInput input)
+	public virtual void LateUpdate(float delta)
 	{ }
 
 	/// <summary>
