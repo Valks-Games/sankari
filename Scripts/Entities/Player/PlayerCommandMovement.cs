@@ -20,7 +20,8 @@ public class PlayerCommandMovement : PlayerCommand
 
 	public override void Update(float delta)
 	{
-		UpdateUnderPlatform(Player.PlayerInput);
+		if (!Player.CurrentlyDashing && !Player.DontCheckPlatformAfterDashDuration.IsActive())
+			UpdateUnderPlatform(Player.PlayerInput);
 	}
 
 	public override void UpdateGroundWalking(float delta)
