@@ -236,8 +236,6 @@ public partial class Player : CharacterBody2D
 			Vector2 velocity;
 			//PlayerCommandsOld.CommandDash.Stop();
 
-			var JumpForce = 500;
-
 			velocity.y = -JumpForce * 0.5f; // make y and x jumps less aggressive
 			velocity.x = side * JumpForce * 0.5f;
 			Velocity = velocity;
