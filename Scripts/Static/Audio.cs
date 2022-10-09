@@ -21,6 +21,7 @@ public static class Audio
 
 		var eventsPlayer = GameManager.EventsPlayer;
 
+		// Player
 		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnJumped, (args) => 
 		{
 			PlaySFX("player_jump", 80);
@@ -35,6 +36,14 @@ public static class Audio
 		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnDash, (args) => 
 		{
 			PlaySFX("dash");
+		});
+
+		// Game
+		var events = GameManager.Events;
+
+		events.AddListener(nameof(Audio), Event.OnCoinPickup, (args) => 
+		{
+			PlaySFX("coin_pickup_1", 30);	
 		});
     }
 

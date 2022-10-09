@@ -12,7 +12,8 @@ public enum Event
     OnLevelLoaded,
     OnGameClientLeft,
     OnGameClientJoined,
-    OnReceivePlayersFromServer
+    OnReceivePlayersFromServer,
+	OnCoinPickup
 }
 
 public enum EventPlayer 
