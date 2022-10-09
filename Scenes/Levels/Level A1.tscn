@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=3 uid="uid://bvh6ustg7jq73"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/Spawner.cs" id="1"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Player.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="2"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="3"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="5"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Bottom.cs" id="7"]
