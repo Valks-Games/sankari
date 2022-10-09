@@ -131,7 +131,10 @@ public partial class Player : CharacterBody2D
 
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump && JumpCount < MaxJumps)
+		{
+			GameManager.PlayerEvents.Notify(PlayerEvent.OnJumped);
 			PlayerCommands.ForEach(cmd => cmd.Jump());
+		}
 
 		// gravity
 		PlayerVelocity.y += Gravity * delta;

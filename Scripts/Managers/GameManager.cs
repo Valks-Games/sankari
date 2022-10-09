@@ -41,8 +41,6 @@ public class GameManager
         Menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
         
         Audio.Init(new GAudioStreamPlayer(linker), new GAudioStreamPlayer(linker));
-		LoadSoundEffects();
-		LoadSoundTracks();
 
         Transition = linker.GetNode<TransitionManager>(linker.NodePathTransition);
         Console = linker.ConsoleManager;
@@ -75,25 +73,4 @@ public class GameManager
     }
 
     public static void DestroyMap() => NodeMap.QueueFreeChildren();
-
-	private static void LoadSoundEffects()
-    {
-        Audio.LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav");
-        Audio.LoadSFX("coin_pickup_1", "Environment/Coin Pickup/1/sfx_coin_single1.wav");
-        Audio.LoadSFX("coin_pickup_2", "Environment/Coin Pickup/2/coin.wav");
-        Audio.LoadSFX("dash", "Movement/Dash/swish-9.wav");
-
-        Audio.LoadSFX("game_over_1", "Game Over/1/retro-game-over.wav");
-        Audio.LoadSFX("game_over_2", "Game Over/2/game-over-dark-orchestra.wav");
-        Audio.LoadSFX("game_over_3", "Game Over/3/musical-game-over.wav");
-        Audio.LoadSFX("game_over_4", "Game Over/4/orchestra-game-over.wav");
-    }
-
-    private static void LoadSoundTracks()
-    {
-        Audio.LoadMusic("map_grassy", "Map/8bit Bossa/8bit Bossa.mp3");
-        Audio.LoadMusic("grassy_1", "Level/Grassy Peaceful/Chiptune Adventures/Juhani Junkala [Chiptune Adventures] 1. Stage 1.ogg");
-        Audio.LoadMusic("grassy_2", "Level/Grassy Peaceful/Chiptune Adventures/Juhani Junkala [Chiptune Adventures] 2. Stage 2.ogg");
-        Audio.LoadMusic("ice_1", "Level/Ice/Icy_Expanse.mp3");
-    }
 }
