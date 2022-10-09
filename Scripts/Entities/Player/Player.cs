@@ -6,6 +6,13 @@ public interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
 
 public partial class Player : CharacterBody2D
 {
+	private enum PlayerCommandType 
+	{
+		Animation,
+		Dash,
+		Movement
+	}
+
 	private class PlayerSkills
 	{
 		public EntityCommandDash CommandDash { get; set; }
@@ -54,6 +61,9 @@ public partial class Player : CharacterBody2D
 	public int GroundAcceleration { get; set; } = 50;
 	public int HorizontalDeadZone { get; set; } = 25;
 
+	public bool CurrentlyDashing  { get; set; }
+	public bool GravityEnabled    { get; set; } = true;
+
 
 	public Vector2 PlayerVelocity; // this was made as a field intentionally
 
@@ -76,7 +86,8 @@ public partial class Player : CharacterBody2D
 		LevelScene = levelScene;
 	}
 
-	private PlayerCommand[] PlayerCommands { get; set; }
+	private Dictionary<PlayerCommandType, PlayerCommand> PlayerCommands { get; set; }
+	public GTimer DontCheckPlatformAfterDashDuration { get; set; }
 
 	public override void _Ready()
 	{
@@ -94,6 +105,9 @@ public partial class Player : CharacterBody2D
 		Timers                = new GTimers(this);
 		Tree                  = GetTree().Root;
 
+		// dont go under platform at the end of a dash for X ms
+		DontCheckPlatformAfterDashDuration = new GTimer(this, nameof(UselessFunction), 500, false, false);
+
 		PrepareRaycasts(ParentWallChecksLeft, RayCast2DWallChecksLeft);
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
 		PrepareRaycasts(ParentGroundChecks, RayCast2DGroundChecks);
@@ -103,14 +117,17 @@ public partial class Player : CharacterBody2D
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
 		FloorStopOnSlope = false;   // players should slide on slopes
 
-		PlayerCommands = new PlayerCommand[2]
+		PlayerCommands = new Dictionary<PlayerCommandType, PlayerCommand>
 		{
-			new PlayerCommandAnimation(this),
-			new PlayerCommandMovement(this)
+			{ PlayerCommandType.Animation, new PlayerCommandAnimation(this) },
+			{ PlayerCommandType.Movement , new PlayerCommandMovement(this)  },
+			{ PlayerCommandType.Dash     , new PlayerCommandDash(this)      }
 		};
 
-		PlayerCommands.ForEach(cmd => cmd.Initialize());
+		PlayerCommands.Values.ForEach(cmd => cmd.Initialize());
 	}
+
+	private void UselessFunction() { }
 
 	public override void _PhysicsProcess(double d)
 	{
@@ -126,26 +143,30 @@ public partial class Player : CharacterBody2D
 
 		UpdateMoveDirection(PlayerInput);
 
-		PlayerCommands.ForEach(cmd => cmd.Update(delta));
+		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
 
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump && JumpCount < MaxJumps)
 		{
 			GameManager.EventsPlayer.Notify(EventPlayer.OnJumped);
-			PlayerCommands.ForEach(cmd => cmd.Jump());
+			PlayerCommands.Values.ForEach(cmd => cmd.Jump());
 		}
 
+		if (PlayerInput.IsDash)
+			PlayerCommands[PlayerCommandType.Dash].Start();
+
 		// gravity
-		PlayerVelocity.y += Gravity * delta;
+		if (GravityEnabled)
+			PlayerVelocity.y += Gravity * delta;
 		
 		if (IsOnGround()) // ground
 		{
 			PlayerVelocity.x += MoveDir.x * GroundAcceleration;
 
 			if (PlayerInput.IsSprint)
-				PlayerCommands.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
+				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
 			else
-				PlayerCommands.ForEach(cmd => cmd.UpdateGroundWalking(delta));
+				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundWalking(delta));
 			
 			// do not reset jump count when the player is leaving the ground for the first time
 			if (PlayerVelocity.y > 0)
@@ -153,7 +174,7 @@ public partial class Player : CharacterBody2D
 		}
 		else // air
 		{
-			PlayerCommands.ForEach(cmd => cmd.UpdateAir(delta));
+			PlayerCommands.Values.ForEach(cmd => cmd.UpdateAir(delta));
 		}
 		
 		PlayerVelocity.x = MoveDeadZone(PlayerVelocity.x, HorizontalDeadZone); // must be after ClampAndDampen(...)
@@ -247,7 +268,7 @@ public partial class Player : CharacterBody2D
 	public void Died() 
 	{
 		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
-		PlayerCommands.ForEach(cmd => cmd.Died());	
+		PlayerCommands.Values.ForEach(cmd => cmd.Died());	
 	}
 
 	private void _on_Player_Area_area_entered(Area2D area)
@@ -263,13 +284,13 @@ public partial class Player : CharacterBody2D
 
 		if (area.IsInGroup("Level Finish"))
 		{
-			PlayerCommands.ForEach(cmd => cmd.FinishedLevel());
+			PlayerCommands.Values.ForEach(cmd => cmd.FinishedLevel());
 			return;
 		}
 
 		if (area.IsInGroup("Enemy"))
 		{
-			PlayerCommands.ForEach(cmd => cmd.TouchedEnemy());
+			PlayerCommands.Values.ForEach(cmd => cmd.TouchedEnemy());
 			TakenDamage(GetCollisionSide(area), 1);
 			return;
 		}
