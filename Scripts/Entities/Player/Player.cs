@@ -101,6 +101,7 @@ public partial class Player : CharacterBody2D
 		PrepareRaycasts(ParentGroundChecks, RayCast2DGroundChecks);
 
 		UpDirection = Vector2.Up;
+		FloorSnapLength = 10;
 
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
 		FloorStopOnSlope = false;   // players should slide on slopes
