@@ -217,7 +217,7 @@ public partial class Player : CharacterBody2D
 		return 0;
 	}
 
-	public void TakenDamage(int side, float damage)
+	public void TakenDamage(int side, int damage)
 	{
 		if (!GameManager.LevelUI.RemoveHealth(damage))
 			Died();
@@ -256,7 +256,7 @@ public partial class Player : CharacterBody2D
 		if (area.IsInGroup("Enemy"))
 		{
 			PlayerCommands.ForEach(cmd => cmd.TouchedEnemy());
-			TakenDamage(GetCollisionSide(area), 0.5f);
+			TakenDamage(GetCollisionSide(area), 1);
 			return;
 		}
 
