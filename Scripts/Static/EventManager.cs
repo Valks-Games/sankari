@@ -24,7 +24,7 @@ public class EventManager<TEvent>
 {
     private Dictionary<TEvent, List<Listener>> Listeners { get; set; } = new();
 
-    public void AddListener(Node sender, TEvent eventType, Action<object[]> action)
+    public void AddListener(string sender, TEvent eventType, Action<object[]> action)
     {
         if (!Listeners.ContainsKey(eventType))
             Listeners.Add(eventType, new List<Listener>());
@@ -32,43 +32,24 @@ public class EventManager<TEvent>
         Listeners[eventType].Add(new Listener(sender, action));
     }
 
-    public void RemoveListener(Node sender, TEvent eventType)
+    public void RemoveListener(string sender, TEvent eventType)
     {
         if (!Listeners.ContainsKey(eventType))
             throw new InvalidOperationException($"Tried to remove listener of event type '{eventType}' from an event type that has not even been defined yet");
 
         foreach (var pair in Listeners)
             for (int i = pair.Value.Count - 1; i >= 0; i--)
-                if (sender.GetInstanceId() == pair.Value[i].Sender.GetInstanceId())
+                if (sender == pair.Value[i].Sender)
                     pair.Value.RemoveAt(i);
     }
 
-	public void RemoveListeners(Node sender) 
+	public void RemoveListeners(string sender) 
 	{
 		foreach (TEvent eventType in Enum.GetValues(typeof(TEvent)))
 			RemoveListener(sender, eventType);
 	}
 
     public void RemoveAllListeners() => Listeners.Clear();
-
-    public void RemoveInvalidListeners()
-    {
-        var tempListeners = new Dictionary<TEvent, List<Listener>>();
-
-        foreach (var pair in Listeners)
-        {
-            for (int i = pair.Value.Count - 1; i >= 0; i--)
-            {
-                if (!Godot.Object.IsInstanceValid(pair.Value[i].Sender))
-                    pair.Value.RemoveAt(i);
-            }
-
-            if (pair.Value.Count > 0)
-                tempListeners.Add(pair.Key, pair.Value);
-        }
-
-        Listeners = new(tempListeners);
-    }
 
     public void Notify(TEvent eventType, params object[] args)
     {
@@ -81,10 +62,10 @@ public class EventManager<TEvent>
 
     private class Listener
     {
-        public Node Sender { get; set; }
+        public string Sender { get; set; }
         public Action<object[]> Action { get; set; }
 
-        public Listener(Node sender, Action<object[]> action)
+        public Listener(string sender, Action<object[]> action)
         {
             Sender = sender;
             Action = action;

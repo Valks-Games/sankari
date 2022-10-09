@@ -30,7 +30,7 @@ public static class Net
 
         var mapScript = GameManager.UIMapMenu;
 
-        GameManager.Events.AddListener(GameManager.Linker, Event.OnGameClientStopped, (args) =>
+        GameManager.Events.AddListener(nameof(Net), Event.OnGameClientStopped, (args) =>
         {
             Client.ExecuteCode((client) => client.TryingToConnect = false);
             mapScript.BtnJoin.Disabled = false;
@@ -39,7 +39,7 @@ public static class Net
             GameManager.UIPlayerList.RemoveAllPlayers();
         });
 
-        GameManager.Events.AddListener(GameManager.Linker, Event.OnGameClientConnected, (args) =>
+        GameManager.Events.AddListener(nameof(Net), Event.OnGameClientConnected, (args) =>
         {
             Client.Send(ClientPacketOpcode.GameInfo, new CPacketGameInfo
             {
