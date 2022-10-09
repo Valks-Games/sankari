@@ -2,15 +2,14 @@ using Godot;
 
 namespace Sankari;
 
-public interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
-
 public partial class Player : CharacterBody2D
 {
 	private enum PlayerCommandType 
 	{
 		Animation,
 		Dash,
-		Movement
+		Movement,
+		WallJump
 	}
 
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
@@ -110,7 +109,8 @@ public partial class Player : CharacterBody2D
 		{
 			{ PlayerCommandType.Animation, new PlayerCommandAnimation(this) },
 			{ PlayerCommandType.Movement , new PlayerCommandMovement(this)  },
-			{ PlayerCommandType.Dash     , new PlayerCommandDash(this)      }
+			{ PlayerCommandType.Dash     , new PlayerCommandDash(this)      },
+			{ PlayerCommandType.WallJump , new PlayerCommandWallJump(this)  }
 		};
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Initialize());
@@ -198,14 +198,6 @@ public partial class Player : CharacterBody2D
 		var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
 
 		MoveDir = new Vector2(x, y);
-	}
-
-	private int UpdateWallDirection()
-	{
-		var left = CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksLeft);
-		var right = CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksRight);
-
-		return -Convert.ToInt32(left) + Convert.ToInt32(right);
 	}
 
 	public bool IsOnGround()

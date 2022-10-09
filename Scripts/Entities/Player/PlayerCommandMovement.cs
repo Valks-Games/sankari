@@ -45,6 +45,10 @@ public class PlayerCommandMovement : PlayerCommand
 
 	public override void Jump()
 	{
+		// something needs to be done here to clean this conflict up
+		if (Player.WallDir != 0) // otherwise conflicts with PlayerCommandWallJump
+			return;
+
 		Player.JumpCount++;
 		//Player.PlayerVelocity.y = 0; // reset velocity before jump (is this really needed?)
 		Player.PlayerVelocity.y -= Player.JumpForce;
