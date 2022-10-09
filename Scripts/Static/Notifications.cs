@@ -20,7 +20,7 @@ public enum PlayerEvent
 	OnJumped	
 }
 
-public class Notifications<TEvent>
+public class EventManager<TEvent>
 {
     private Dictionary<TEvent, List<Listener>> Listeners { get; set; } = new();
 

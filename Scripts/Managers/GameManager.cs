@@ -29,8 +29,8 @@ public class GameManager
     public static UIMenu Menu { get; private set; }
 
 	// notifications
-	public static Notifications<Event> Events {  get; private set; } = new();
-	public static Notifications<PlayerEvent> PlayerEvents { get; private set; } = new();
+	public static EventManager<Event> Events {  get; private set; } = new();
+	public static EventManager<PlayerEvent> PlayerEvents { get; private set; } = new();
 
     private static Node NodeMap { get; set; }
 
