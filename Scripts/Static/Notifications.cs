@@ -15,11 +15,16 @@ public enum Event
     OnReceivePlayersFromServer
 }
 
-public static class Notifications
+public enum PlayerEvent 
 {
-    private static Dictionary<Event, List<Listener>> Listeners { get; set; } = new();
+	OnJumped	
+}
 
-    public static void AddListener(Node sender, Event eventType, Action<object[]> action)
+public class Notifications<TEvent>
+{
+    private Dictionary<TEvent, List<Listener>> Listeners { get; set; } = new();
+
+    public void AddListener(Node sender, TEvent eventType, Action<object[]> action)
     {
         if (!Listeners.ContainsKey(eventType))
             Listeners.Add(eventType, new List<Listener>());
@@ -27,7 +32,7 @@ public static class Notifications
         Listeners[eventType].Add(new Listener(sender, action));
     }
 
-    public static void RemoveListener(Node sender, Event eventType)
+    public void RemoveListener(Node sender, TEvent eventType)
     {
         if (!Listeners.ContainsKey(eventType))
             throw new InvalidOperationException($"Tried to remove listener of event type '{eventType}' from an event type that has not even been defined yet");
@@ -38,17 +43,17 @@ public static class Notifications
                     pair.Value.RemoveAt(i);
     }
 
-	public static void RemoveListeners(Node sender) 
+	public void RemoveListeners(Node sender) 
 	{
-		foreach (Event eventType in Enum.GetValues(typeof(Event)))
+		foreach (TEvent eventType in Enum.GetValues(typeof(TEvent)))
 			RemoveListener(sender, eventType);
 	}
 
-    public static void RemoveAllListeners() => Listeners.Clear();
+    public void RemoveAllListeners() => Listeners.Clear();
 
-    public static void RemoveInvalidListeners()
+    public void RemoveInvalidListeners()
     {
-        var tempListeners = new Dictionary<Event, List<Listener>>();
+        var tempListeners = new Dictionary<TEvent, List<Listener>>();
 
         foreach (var pair in Listeners)
         {
@@ -65,7 +70,7 @@ public static class Notifications
         Listeners = new(tempListeners);
     }
 
-    public static void Notify(Event eventType, params object[] args)
+    public void Notify(TEvent eventType, params object[] args)
     {
         if (!Listeners.ContainsKey(eventType))
             return;

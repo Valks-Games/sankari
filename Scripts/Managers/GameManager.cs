@@ -28,6 +28,10 @@ public class GameManager
     public static UIConsoleManager Console { get; private set; }
     public static UIMenu Menu { get; private set; }
 
+	// notifications
+	public static Notifications<Event> Events {  get; private set; } = new();
+	public static Notifications<PlayerEvent> PlayerEvents { get; private set; } = new();
+
     private static Node NodeMap { get; set; }
 
     public GameManager(Linker linker) 
