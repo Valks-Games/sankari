@@ -13,17 +13,6 @@ public partial class Player : CharacterBody2D
 		Movement
 	}
 
-	private class PlayerSkills
-	{
-		public EntityCommandDash CommandDash { get; set; }
-		public EntityCommandWallJumps CommandWallJump { get; set; }
-
-		public EntityCommand[] GetCommands()
-		{
-			return new EntityCommand[2] { CommandDash, CommandWallJump };
-		}
-	}
-
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
 	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
