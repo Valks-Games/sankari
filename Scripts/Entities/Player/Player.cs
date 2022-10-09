@@ -98,8 +98,6 @@ public partial class Player : CharacterBody2D
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
 		PrepareRaycasts(ParentGroundChecks, RayCast2DGroundChecks);
 
-		AnimatedSprite.Play("idle");
-
 		UpDirection = Vector2.Up;
 
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true

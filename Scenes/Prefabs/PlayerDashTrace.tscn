@@ -1,7 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://cmbrqqb81rxl2"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Player/PlayerDashTrace.cs" id="2"]
 
 [node name="Sprite2D" type="Sprite2D"]
-modulate = Color( 1, 1, 1, 0.156863 )
-script = ExtResource( 2 )
+modulate = Color(1, 1, 1, 0.156863)
+script = ExtResource("2")

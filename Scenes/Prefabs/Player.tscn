@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://bfeednkyjlv1t"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Player/Player.cs" id="2"]
 [ext_resource type="SpriteFrames" uid="uid://di3nq5eobjvgk" path="res://Sprites/Sprite Frames/Player.tres" id="2_pdwy7"]

@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://cfxb7e3cfo0c3"]
 
 [ext_resource type="SpriteFrames" uid="uid://di3nq5eobjvgk" path="res://Sprites/Sprite Frames/Player.tres" id="1"]
 [ext_resource type="Script" path="res://Scripts/Entities/Player/OtherPlayer.cs" id="2"]
 
 [node name="OtherPlayer" type="AnimatedSprite2D"]
-scale = Vector2( 2, 2 )
-frames = ExtResource( 1 )
-animation = "idle"
-script = ExtResource( 2 )
+scale = Vector2(2, 2)
+frames = ExtResource("1")
+animation = &"idle"
+script = ExtResource("2")
