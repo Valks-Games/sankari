@@ -31,6 +31,11 @@ public static class Audio
 			StopMusic();
 			PlaySFX("game_over_1");	
 		});
+
+		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnDash, (args) => 
+		{
+			PlaySFX("dash");
+		});
     }
 
 	private static void LoadSoundEffects()

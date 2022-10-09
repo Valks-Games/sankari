@@ -18,7 +18,8 @@ public enum Event
 public enum EventPlayer 
 {
 	OnJumped,
-	OnDied
+	OnDied,
+	OnDash
 }
 
 public class EventManager<TEvent>

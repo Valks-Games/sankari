@@ -29,9 +29,9 @@ public class PlayerCommandDash : PlayerCommand
 
 			if (DashDir != Vector2.Zero)
 			{
+				GameManager.EventsPlayer.Notify(EventPlayer.OnDash);
 				Player.GravityEnabled = false;
 				DashCount++;
-				Audio.PlaySFX("dash");
 				DashReady = false;
 				Player.CurrentlyDashing = true;
 				TimerDashDuration.Start();
