@@ -19,7 +19,7 @@ public enum Event
 
 public enum EventPlayer 
 {
-	OnJumped,
+	OnJump,
 	OnDied,
 	OnDash
 }

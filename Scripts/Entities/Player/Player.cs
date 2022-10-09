@@ -135,10 +135,22 @@ public partial class Player : CharacterBody2D
 		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
 
 		// jump is handled before all movement restrictions
-		if (PlayerInput.IsJump && JumpCount < MaxJumps)
+		if (PlayerInput.IsJump)
 		{
-			GameManager.EventsPlayer.Notify(EventPlayer.OnJumped);
-			PlayerCommands.Values.ForEach(cmd => cmd.Jump());
+			if (WallDir != 0)
+			{
+				PlayerCommands.Values.ForEach(cmd => cmd.Jump());
+				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+				PlayerCommands[PlayerCommandType.WallJump].Start();
+			}
+			else if (JumpCount < MaxJumps)
+			{
+				PlayerCommands.Values.ForEach(cmd => cmd.Jump());
+				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+				JumpCount++;
+				//Player.PlayerVelocity.y = 0; // reset velocity before jump (is this really needed?)
+				PlayerVelocity.y -= JumpForce;	
+			}
 		}
 
 		if (PlayerInput.IsDash)

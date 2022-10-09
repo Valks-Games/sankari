@@ -22,7 +22,7 @@ public static class Audio
 		var eventsPlayer = GameManager.EventsPlayer;
 
 		// Player
-		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnJumped, (args) => 
+		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnJump, (args) => 
 		{
 			PlaySFX("player_jump", 80);
 		});

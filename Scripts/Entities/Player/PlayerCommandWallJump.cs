@@ -4,15 +4,33 @@ public class PlayerCommandWallJump : PlayerCommand
 {
 	public PlayerCommandWallJump(Player player) : base(player) { }
 
+	public override void Start()
+	{
+		// on a wall and falling
+		if (Player.InWallJumpArea)
+		{
+			Player.AnimatedSprite.FlipH = Player.WallDir == 1;
+
+			if (Player.WallDir != 0 && Player.IsFalling())
+			{
+				var JumpForceWallHorz = 700;
+				var JumpForceWallVert = 600;
+
+				// wall jump
+				Player.PlayerVelocity.x += -JumpForceWallHorz * Player.WallDir;
+				Player.PlayerVelocity.y -= JumpForceWallVert;
+			}
+		}
+		else
+			Player.AnimatedSprite.FlipH = false;
+	}
+
 	public override void Update(float delta)
 	{
 		Player.WallDir = UpdateWallDirection();
 
-		// on a wall and falling
 		if (Player.WallDir != 0 && Player.InWallJumpArea)
 		{
-			Player.AnimatedSprite.FlipH = Player.WallDir == 1;
-
 			if (Player.IsFalling())
 			{
 				Player.PlayerVelocity.y = 1;
@@ -20,20 +38,8 @@ public class PlayerCommandWallJump : PlayerCommand
 				// fast fall
 				if (Player.PlayerInput.IsDown)
 					Player.PlayerVelocity.y += 200;
-
-				var JumpForceWallHorz = 500;
-				var JumpForceWallVert = 500;
-
-				// wall jump
-				if (Player.PlayerInput.IsJump)
-				{
-					Player.PlayerVelocity.x += -JumpForceWallHorz * Player.WallDir;
-					Player.PlayerVelocity.y -= JumpForceWallVert;
-				}
 			}
 		}
-		else
-			Player.AnimatedSprite.FlipH = false;
 	}
 
 	private int UpdateWallDirection()
