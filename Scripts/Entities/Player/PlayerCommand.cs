@@ -6,10 +6,6 @@ public abstract class PlayerCommand : EntityCommand
 
 	public PlayerCommand(Player player) => Player = player;
 
-	public override void Initialize() { }
-
-	public override void Update(float delta) { }
-
 	public virtual void UpdateGroundWalking(float delta) { }
 
 	public virtual void UpdateGroundSprinting(float delta) { }
