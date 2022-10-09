@@ -103,11 +103,10 @@ public partial class Player : CharacterBody2D
 		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
 		FloorStopOnSlope = false;   // players should slide on slopes
 
-		PlayerCommands = new PlayerCommand[3] 
+		PlayerCommands = new PlayerCommand[2]
 		{
 			new PlayerCommandAnimation(this),
-			new PlayerCommandMovement(this),
-			new PlayerCommandAudio(this)
+			new PlayerCommandMovement(this)
 		};
 
 		PlayerCommands.ForEach(cmd => cmd.Initialize());
@@ -132,7 +131,7 @@ public partial class Player : CharacterBody2D
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump && JumpCount < MaxJumps)
 		{
-			GameManager.PlayerEvents.Notify(PlayerEvent.OnJumped);
+			GameManager.EventsPlayer.Notify(EventPlayer.OnJumped);
 			PlayerCommands.ForEach(cmd => cmd.Jump());
 		}
 
@@ -245,7 +244,11 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	public void Died() => PlayerCommands.ForEach(cmd => cmd.Died());
+	public void Died() 
+	{
+		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
+		PlayerCommands.ForEach(cmd => cmd.Died());	
+	}
 
 	private void _on_Player_Area_area_entered(Area2D area)
 	{

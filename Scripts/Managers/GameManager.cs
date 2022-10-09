@@ -30,7 +30,7 @@ public class GameManager
 
 	// notifications
 	public static EventManager<Event> Events {  get; private set; } = new();
-	public static EventManager<PlayerEvent> PlayerEvents { get; private set; } = new();
+	public static EventManager<EventPlayer> EventsPlayer { get; private set; } = new();
 
     private static Node NodeMap { get; set; }
 

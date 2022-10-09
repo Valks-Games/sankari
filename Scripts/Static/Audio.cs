@@ -18,6 +18,19 @@ public static class Audio
 
 		LoadSoundEffects();
 		LoadSoundTracks();
+
+		var eventsPlayer = GameManager.EventsPlayer;
+
+		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnJumped, (args) => 
+		{
+			PlaySFX("player_jump", 80);
+		});
+
+		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnDied, (args) => 
+		{
+			StopMusic();
+			PlaySFX("game_over_1");	
+		});
     }
 
 	private static void LoadSoundEffects()

@@ -15,9 +15,10 @@ public enum Event
     OnReceivePlayersFromServer
 }
 
-public enum PlayerEvent 
+public enum EventPlayer 
 {
-	OnJumped	
+	OnJumped,
+	OnDied
 }
 
 public class EventManager<TEvent>
