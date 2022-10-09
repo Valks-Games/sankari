@@ -13,7 +13,8 @@ public enum Event
     OnGameClientLeft,
     OnGameClientJoined,
     OnReceivePlayersFromServer,
-	OnCoinPickup
+	OnCoinPickup,
+	OnMapLoaded
 }
 
 public enum EventPlayer 

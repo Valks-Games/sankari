@@ -45,6 +45,11 @@ public static class Audio
 		{
 			PlaySFX("coin_pickup_1", 30);	
 		});
+
+		events.AddListener(nameof(Audio), Event.OnMapLoaded, (args) => 
+		{
+			PlayMusic("map_grassy");	
+		});
     }
 
 	private static void LoadSoundEffects()

@@ -69,7 +69,7 @@ public class GameManager
         Map = (Map)Prefabs.Map.Instantiate(); 
 
         NodeMap.CallDeferred("add_child", Map); // need to wait for the engine because we are dealing with areas with is physics related
-        Audio.PlayMusic("map_grassy");
+        GameManager.Events.Notify(Event.OnMapLoaded);
     }
 
     public static void DestroyMap() => NodeMap.QueueFreeChildren();
