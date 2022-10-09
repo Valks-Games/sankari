@@ -125,6 +125,8 @@ public partial class Player : CharacterBody2D
 		// Velocity is a property struct, so it needs to be turned into a field to be modifiable
 		PlayerVelocity = Velocity;
 
+		UpdateMoveDirection(PlayerInput);
+
 		PlayerCommands.ForEach(cmd => cmd.Update(delta));
 
 		// jump is handled before all movement restrictions
@@ -176,6 +178,14 @@ public partial class Player : CharacterBody2D
 			});
 
 		PrevNetPos = Position;
+	}
+
+	private void UpdateMoveDirection(MovementInput input)
+	{
+		var x = -Convert.ToInt32(input.IsLeft) + Convert.ToInt32(input.IsRight);
+		var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
+
+		MoveDir = new Vector2(x, y);
 	}
 
 	private int UpdateWallDirection()

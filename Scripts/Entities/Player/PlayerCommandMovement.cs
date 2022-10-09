@@ -20,7 +20,6 @@ public class PlayerCommandMovement : PlayerCommand
 
 	public override void Update(float delta)
 	{
-		UpdateMoveDirection(Player.PlayerInput);
 		UpdateUnderPlatform(Player.PlayerInput);
 	}
 
@@ -56,14 +55,6 @@ public class PlayerCommandMovement : PlayerCommand
 			return Mathf.Min(horzVelocity - dampening, maxSpeedGround);
 		else
 			return Mathf.Max(horzVelocity + dampening, -maxSpeedGround);
-	}
-
-	private void UpdateMoveDirection(MovementInput input)
-	{
-		var x = -Convert.ToInt32(input.IsLeft) + Convert.ToInt32(input.IsRight);
-		var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
-
-		Player.MoveDir = new Vector2(x, y);
 	}
 
 	private async void UpdateUnderPlatform(MovementInput input)
