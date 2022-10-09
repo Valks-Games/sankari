@@ -27,21 +27,21 @@ shape = SubResource("1")
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
 position = Vector2(-10, -12)
-target_position = Vector2(-4, 0)
+target_position = Vector2(-5, 0)
 
 [node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
 position = Vector2(-10, 3)
-target_position = Vector2(-4, 0)
+target_position = Vector2(-5, 0)
 
 [node name="Right" type="Node2D" parent="Raycasts/Wall Checks"]
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
 position = Vector2(10, -12)
-target_position = Vector2(4, 0)
+target_position = Vector2(5, 0)
 
 [node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
 position = Vector2(10, 3)
-target_position = Vector2(4, 0)
+target_position = Vector2(5, 0)
 
 [node name="Ground Checks" type="Node2D" parent="Raycasts"]
 
