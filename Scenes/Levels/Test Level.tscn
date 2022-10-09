@@ -1047,7 +1047,7 @@ shape = SubResource("RectangleShape2D_xgde1")
 
 [node name="Area2d" type="Area2D" parent="Environment/Zones" groups=["WallJumpArea"]]
 
-[node name="CollisionShape2d" type="CollisionShape2D" parent="Environment/Zones/Area2d" groups=["WallJumpArea"]]
+[node name="CollisionShape2d" type="CollisionShape2D" parent="Environment/Zones/Area2d"]
 position = Vector2(1569, -120.5)
 shape = SubResource("RectangleShape2D_rypwg")
 
