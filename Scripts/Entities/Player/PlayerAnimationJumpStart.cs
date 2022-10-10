@@ -16,7 +16,7 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 		// JumpStart -> JumpFall
 		// JumpStart -> Dash
 
-		if (Player.Velocity.y > 0)
+		if (Player.IsFalling())
 		{
 			Transition(Player.AnimationJumpFall);
 		}

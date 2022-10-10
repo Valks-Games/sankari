@@ -13,25 +13,34 @@ public class PlayerAnimationIdle : PlayerAnimation
 
 	public override void UpdateState()
 	{
-		// Idle -> JumpStart
 		// Idle -> Walking
 		// Idle -> Sprinting
+		// Idle -> JumpStart
+		// Idle -> JumpFall
 
-		if (Player.PlayerInput.IsJump)
+		if (Player.IsOnGround())
 		{
-			Transition(Player.AnimationJumpStart);
+			if (Player.PlayerInput.IsJump)
+			{
+				Transition(Player.AnimationJumpStart);
+			}
+
+			if (Player.MoveDir != Vector2.Zero)
+			{
+				if (Player.PlayerInput.IsSprint)
+				{
+					Transition(Player.AnimationRunning, 1.5f);
+				}
+				else
+				{
+					Transition(Player.AnimationWalking);
+				}
+			}
 		}
-
-		if (Player.MoveDir != Vector2.Zero)
+		else
 		{
-			if (Player.PlayerInput.IsSprint)
-			{
-				Transition(Player.AnimationRunning, 1.5f);
-			}
-			else
-			{
-				Transition(Player.AnimationWalking);
-			}
+			if (Player.IsFalling())
+				Transition(Player.AnimationJumpFall);
 		}
 	}
 }
