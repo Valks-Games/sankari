@@ -6,30 +6,30 @@ public class PlayerCommandAnimation : PlayerCommand
 
 	public override void Update(float delta)
 	{
-		if (Entity.MoveDir.x != 0)
+		/*if (Entity.MoveDir.x != 0)
 			Entity.AnimatedSprite.Play("walk");
 		else
 			Entity.AnimatedSprite.Play("idle");
 
 		if (Entity.IsFalling())
-			Entity.AnimatedSprite.Play("jump_fall");
+			Entity.AnimatedSprite.Play("jump_fall");*/
 
 		Entity.AnimatedSprite.FlipH = Entity.MoveDir.x < 0; // flip sprite if moving left
 	}
 
 	public override void UpdateGroundWalking(float delta)
 	{
-		Entity.AnimatedSprite.SpeedScale = 1.0f;
+		//Entity.AnimatedSprite.SpeedScale = 1.0f;
 	}
 
 	public override void UpdateGroundSprinting(float delta)
 	{
-		Entity.AnimatedSprite.SpeedScale = 1.5f;
+		//Entity.AnimatedSprite.SpeedScale = 1.5f;
 	}
 
 	public override void Jump()
 	{
-		Entity.AnimatedSprite.Play("jump_start");
+		//Entity.AnimatedSprite.Play("jump_start");
 	}
 
 	public override void Died()

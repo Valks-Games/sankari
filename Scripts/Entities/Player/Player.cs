@@ -93,8 +93,6 @@ public partial class Player : CharacterBody2D
 	{
 		Instance = this;
 
-		AnimationState = PlayerAnimationState.Idle;
-
 		if (HasTouchedCheckpoint)
 			Position = RespawnPosition;
 
@@ -106,6 +104,9 @@ public partial class Player : CharacterBody2D
 		DieTween              = new GTween(this);
 		Timers                = new GTimers(this);
 		Tree                  = GetTree().Root;
+
+		AnimationState = PlayerAnimationState.Idle;
+		AnimatedSprite.Play("idle");
 
 		// dont go under platform at the end of a dash for X ms
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
@@ -179,14 +180,26 @@ public partial class Player : CharacterBody2D
 			// Idle -> Sprinting
 
 			if (PlayerInput.IsJump)
+			{
 				AnimationState = PlayerAnimationState.JumpStart;
+				AnimatedSprite.Play("jump_start");
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 
 			if (MoveDir != Vector2.Zero)
 			{
+				AnimatedSprite.Play("walk");
+
 				if (PlayerInput.IsSprint)
+				{
 					AnimationState = PlayerAnimationState.Running;
+					AnimatedSprite.SpeedScale = 1.5f;
+				}
 				else
+				{
 					AnimationState = PlayerAnimationState.Walking;	
+					AnimatedSprite.SpeedScale = 1.0f;
+				}
 			}
 		}
 		else if (AnimationState == PlayerAnimationState.Walking)
@@ -197,13 +210,29 @@ public partial class Player : CharacterBody2D
 			// Walking -> JumpStart
 
 			if (PlayerInput.IsJump)
+			{
 				AnimationState = PlayerAnimationState.JumpStart;
+				AnimatedSprite.Play("jump_start");
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 			else if (PlayerInput.IsDash)
+			{
 				AnimationState = PlayerAnimationState.Dash;
+				// no animation for dash yet
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 			else if (PlayerInput.IsSprint)
+			{
 				AnimationState = PlayerAnimationState.Running;
+				AnimatedSprite.Play("walk");
+				AnimatedSprite.SpeedScale = 1.5f;
+			}
 			else if (MoveDir == Vector2.Zero)
+			{
 				AnimationState = PlayerAnimationState.Idle;
+				AnimatedSprite.Play("idle");
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 		}
 		else if (AnimationState == PlayerAnimationState.Running)
 		{
@@ -213,13 +242,29 @@ public partial class Player : CharacterBody2D
 			// Running -> JumpStart
 
 			if (PlayerInput.IsJump)
+			{
 				AnimationState = PlayerAnimationState.JumpStart;
+				AnimatedSprite.Play("jump_start");
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 			else if (PlayerInput.IsDash)
+			{ 
 				AnimationState = PlayerAnimationState.Dash;
+				// no animation for dash yet
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 			else if (!PlayerInput.IsSprint)
+			{
 				AnimationState = PlayerAnimationState.Walking;
+				AnimatedSprite.Play("walk");
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 			else if (MoveDir == Vector2.Zero)
+			{
 				AnimationState = PlayerAnimationState.Idle;
+				AnimatedSprite.Play("idle");
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 		}
 		else if (AnimationState == PlayerAnimationState.JumpStart)
 		{
@@ -227,9 +272,17 @@ public partial class Player : CharacterBody2D
 			// JumpStart -> Dash
 
 			if (Velocity.y > 0)
+			{
 				AnimationState = PlayerAnimationState.JumpFall;
+				AnimatedSprite.Play("jump_fall");
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 			else if (PlayerInput.IsDash)
+			{
 				AnimationState = PlayerAnimationState.Dash;
+				// no animation for dash yet
+				AnimatedSprite.SpeedScale = 1.0f;
+			}
 		}
 		else if (AnimationState == PlayerAnimationState.JumpFall)
 		{
@@ -243,18 +296,30 @@ public partial class Player : CharacterBody2D
 				if (MoveDir != Vector2.Zero)
 				{
 					if (PlayerInput.IsSprint)
+					{
 						AnimationState = PlayerAnimationState.Running;
+						AnimatedSprite.Play("walk");
+						AnimatedSprite.SpeedScale = 1.5f;
+					}
 					else
+					{
 						AnimationState = PlayerAnimationState.Walking;	
+						AnimatedSprite.Play("walk");
+						AnimatedSprite.SpeedScale = 1.0f;
+					}
 				}
 				else
 				{
 					AnimationState = PlayerAnimationState.Idle;
+					AnimatedSprite.Play("idle");
+					AnimatedSprite.SpeedScale = 1.0f;
 				}
 			}
 			else if (PlayerInput.IsDash)
 			{
 				AnimationState = PlayerAnimationState.Dash;
+				// no animation for dash yet
+				AnimatedSprite.SpeedScale = 1.0f;
 			}
 		}
 		else if (AnimationState == PlayerAnimationState.Dash)
@@ -269,20 +334,34 @@ public partial class Player : CharacterBody2D
 				if (!IsOnGround())
 				{
 					if (Velocity.y > 0)
+					{
 						AnimationState = PlayerAnimationState.JumpFall;
+						AnimatedSprite.Play("jump_fall");
+						AnimatedSprite.SpeedScale = 1.0f;
+					}
 				}
 				else
 				{
 					if (MoveDir != Vector2.Zero)
 					{
 						if (PlayerInput.IsSprint)
+						{
 							AnimationState = PlayerAnimationState.Running;
+							AnimatedSprite.Play("walk");
+							AnimatedSprite.SpeedScale = 1.5f;
+						}
 						else
+						{
 							AnimationState = PlayerAnimationState.Walking;	
+							AnimatedSprite.Play("walk");
+							AnimatedSprite.SpeedScale = 1.0f;
+						}
 					}
 					else
 					{
 						AnimationState = PlayerAnimationState.Idle;
+						AnimatedSprite.Play("idle");
+						AnimatedSprite.SpeedScale = 1.0f;
 					}
 				}
 			}	
