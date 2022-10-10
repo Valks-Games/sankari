@@ -188,16 +188,16 @@ public partial class Player : CharacterBody2D
 
 			if (MoveDir != Vector2.Zero)
 			{
-				AnimatedSprite.Play("walk");
-
 				if (PlayerInput.IsSprint)
 				{
 					AnimationState = PlayerAnimationState.Running;
+					AnimatedSprite.Play("walk");
 					AnimatedSprite.SpeedScale = 1.5f;
 				}
 				else
 				{
-					AnimationState = PlayerAnimationState.Walking;	
+					AnimationState = PlayerAnimationState.Walking;
+					AnimatedSprite.Play("walk");
 					AnimatedSprite.SpeedScale = 1.0f;
 				}
 			}
