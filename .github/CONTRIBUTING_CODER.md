@@ -7,7 +7,7 @@
 ## Setup VS2022 to work with Godot C#
 1. Make sure you have the latest installation of [VS2022 Community Edition](https://visualstudio.microsoft.com/vs/)
 2. Set `Godot > Editor > Editor Settings > Mono > Editor > External Editor` to `Visual Studio`
-3. To get debugging working with Godot, create a new folder next to `project.godot` called `Properties` and within that folder create a file called `launchSettings.json` with the following contents
+3. To get debugging working with Godot, create a new folder next to `project.godot` called `Properties` and within that folder create a file called `launchSettings.json` with the following contents (use double back slashes for exe path, for example `"C:\\Users\\VALK-DESKTOP\\Downloads\\Godot_v4.0-beta2_mono_win64\\Godot_v4.0-beta2_mono_win64.exe"`)
 
 ```json
 {
