@@ -13,6 +13,8 @@ public class PlayerAnimationJumpFall : PlayerAnimation
 
 	public override void UpdateState()
 	{
+		FlipSpriteOnDirection();
+
 		// JumpFall -> Idle
 		// JumpFall -> Walking
 		// JumpFall -> Running

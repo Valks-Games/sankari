@@ -16,5 +16,8 @@ public abstract class PlayerAnimation
 		Player.AnimatedSprite.SpeedScale = animationSpeed;
 	}
 
+	protected void FlipSpriteOnDirection() =>
+		Player.AnimatedSprite.FlipH = Player.MoveDir.x < 0; // flip sprite if moving left
+
 	public override string ToString() => GetType().Name.Replace(nameof(PlayerAnimation), "");
 }

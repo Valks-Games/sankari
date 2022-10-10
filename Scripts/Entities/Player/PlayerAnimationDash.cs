@@ -13,6 +13,8 @@ public class PlayerAnimationDash : PlayerAnimation
 
 	public override void UpdateState()
 	{
+		FlipSpriteOnDirection();
+
 		// Dash -> Idle
 		// Dash -> JumpFall
 		// Dash -> Walking
