@@ -43,8 +43,8 @@ public partial class Player : CharacterBody2D
 	public MovementInput PlayerInput { get; set; }
 
 	public int JumpCount          { get; set; }
-	public int JumpForce          { get; set; } = 700;
-	public int Gravity            { get; set; } = 1000;
+	public int JumpForce          { get; set; } = 600;
+	public int Gravity            { get; set; } = 1200;
 	public int MaxJumps           { get; set; } = 1;
 	public int GroundAcceleration { get; set; } = 50;
 	public int HorizontalDeadZone { get; set; } = 25;
