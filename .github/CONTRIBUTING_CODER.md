@@ -36,7 +36,7 @@ Issue https://github.com/Valks-Games/sankari/issues/136 relates to fixing up the
 
 > ℹ️ There is an in-game console you can bring up with `F12`. Type `help` to view a list of all the commands. You can program any of these commands within their respective scripts located under `res://Scripts/UI/Console/Commands`
 
-> ℹ️ Please always use `Logger.Log()` over `GD.Print()` as the logger uses a thread safe approach removing the possibility of random game crashes. I noticed that `Logger.Log()` is not great for logging things every frame as it lags behind. So use `GD.Print()` but please remove the call to this in your final PR changes.
+> ℹ️ Please always use `Logger.Log()` over `GD.Print()` as the logger uses a thread safe approach removing the possibility of random game crashes. I noticed that `Logger.Log()` is not great for logging things every frame as it lags behind. So use `GD.Print()` for those scenarios but please remove the call(s) to these in your final PR changes.
 
 > ℹ️ Try making use of `Print()` and `PrintFull()`. For example `Logger.Log(myArray.Print())` and `Logger.Log(this.PrintFull())`, try it out!
 
