@@ -94,7 +94,7 @@ public partial class Player : CharacterBody2D
 		Tree                  = GetTree().Root;
 
 		// dont go under platform at the end of a dash for X ms
-		DontCheckPlatformAfterDashDuration = new GTimer(this, nameof(UselessFunction), 500, false, false);
+		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
 
 		PrepareRaycasts(ParentWallChecksLeft, RayCast2DWallChecksLeft);
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
@@ -116,8 +116,6 @@ public partial class Player : CharacterBody2D
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Initialize());
 	}
-
-	private void UselessFunction() { }
 
 	public override void _PhysicsProcess(double d)
 	{
