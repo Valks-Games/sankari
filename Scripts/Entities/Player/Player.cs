@@ -12,6 +12,16 @@ public partial class Player : CharacterBody2D
 		WallJump
 	}
 
+	public enum PlayerAnimationState
+	{
+		Idle,
+		Walking,
+		Running,
+		JumpStart,
+		JumpFall,
+		Dash
+	}
+
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
 	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
@@ -49,6 +59,8 @@ public partial class Player : CharacterBody2D
 	public int GroundAcceleration { get; set; } = 50;
 	public int HorizontalDeadZone { get; set; } = 25;
 
+	public PlayerAnimationState AnimationState { get; set; }
+
 	public bool CurrentlyDashing  { get; set; }
 	public bool GravityEnabled    { get; set; } = true;
 
@@ -80,6 +92,8 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		Instance = this;
+
+		AnimationState = PlayerAnimationState.Idle;
 
 		if (HasTouchedCheckpoint)
 			Position = RespawnPosition;
@@ -155,6 +169,124 @@ public partial class Player : CharacterBody2D
 		PlayerVelocity = Velocity;
 
 		UpdateMoveDirection(PlayerInput);
+
+		GD.Print(AnimationState);
+
+		if (AnimationState == PlayerAnimationState.Idle)
+		{
+			// Idle -> JumpStart
+			// Idle -> Walking
+			// Idle -> Sprinting
+
+			if (PlayerInput.IsJump)
+				AnimationState = PlayerAnimationState.JumpStart;
+
+			if (MoveDir != Vector2.Zero)
+			{
+				if (PlayerInput.IsSprint)
+					AnimationState = PlayerAnimationState.Running;
+				else
+					AnimationState = PlayerAnimationState.Walking;	
+			}
+		}
+		else if (AnimationState == PlayerAnimationState.Walking)
+		{
+			// Walking -> Idle
+			// Walking -> Running
+			// Walking -> Dash
+			// Walking -> JumpStart
+
+			if (PlayerInput.IsJump)
+				AnimationState = PlayerAnimationState.JumpStart;
+			else if (PlayerInput.IsDash)
+				AnimationState = PlayerAnimationState.Dash;
+			else if (PlayerInput.IsSprint)
+				AnimationState = PlayerAnimationState.Running;
+			else if (MoveDir == Vector2.Zero)
+				AnimationState = PlayerAnimationState.Idle;
+		}
+		else if (AnimationState == PlayerAnimationState.Running)
+		{
+			// Running -> Idle
+			// Running -> Walking
+			// Running -> Dash
+			// Running -> JumpStart
+
+			if (PlayerInput.IsJump)
+				AnimationState = PlayerAnimationState.JumpStart;
+			else if (PlayerInput.IsDash)
+				AnimationState = PlayerAnimationState.Dash;
+			else if (!PlayerInput.IsSprint)
+				AnimationState = PlayerAnimationState.Walking;
+			else if (MoveDir == Vector2.Zero)
+				AnimationState = PlayerAnimationState.Idle;
+		}
+		else if (AnimationState == PlayerAnimationState.JumpStart)
+		{
+			// JumpStart -> JumpFall
+			// JumpStart -> Dash
+
+			if (Velocity.y > 0)
+				AnimationState = PlayerAnimationState.JumpFall;
+			else if (PlayerInput.IsDash)
+				AnimationState = PlayerAnimationState.Dash;
+		}
+		else if (AnimationState == PlayerAnimationState.JumpFall)
+		{
+			// JumpFall -> Idle
+			// JumpFall -> Walking
+			// JumpFall -> Running
+			// JumpFall -> Dash
+
+			if (IsOnGround())
+			{
+				if (MoveDir != Vector2.Zero)
+				{
+					if (PlayerInput.IsSprint)
+						AnimationState = PlayerAnimationState.Running;
+					else
+						AnimationState = PlayerAnimationState.Walking;	
+				}
+				else
+				{
+					AnimationState = PlayerAnimationState.Idle;
+				}
+			}
+			else if (PlayerInput.IsDash)
+			{
+				AnimationState = PlayerAnimationState.Dash;
+			}
+		}
+		else if (AnimationState == PlayerAnimationState.Dash)
+		{
+			// Dash -> Idle
+			// Dash -> JumpFall
+			// Dash -> Walking
+			// Dash -> Running
+
+			if (!CurrentlyDashing)
+			{
+				if (!IsOnGround())
+				{
+					if (Velocity.y > 0)
+						AnimationState = PlayerAnimationState.JumpFall;
+				}
+				else
+				{
+					if (MoveDir != Vector2.Zero)
+					{
+						if (PlayerInput.IsSprint)
+							AnimationState = PlayerAnimationState.Running;
+						else
+							AnimationState = PlayerAnimationState.Walking;	
+					}
+					else
+					{
+						AnimationState = PlayerAnimationState.Idle;
+					}
+				}
+			}	
+		}
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
 
