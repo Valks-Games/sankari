@@ -100,11 +100,36 @@ public partial class Player : CharacterBody2D
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
 		PrepareRaycasts(ParentGroundChecks, RayCast2DGroundChecks);
 
+		// The up direction must be defined in order for the FloorSnapLength
+		// to work properly. A direction of up means gravity goes down and
+		// the player jumps up
 		UpDirection = Vector2.Up;
-		FloorSnapLength = 10; // prevents player from bouncing when going down a slope
 
-		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
-		FloorStopOnSlope = false;   // players should slide on slopes
+		// Prevents the player from bouncing when going down a slope
+		FloorSnapLength = 10;
+
+		// Sets the speed to be constant no matter the angle of terrain the
+		// player is on. This means the player will walk the same speed on a
+		// flat surface and a slope
+		FloorConstantSpeed = true;
+
+		// If true, the body will not slide on slopes when calling move_and_slide
+		// when the body is standing still.
+        // If false, the body will slide on floor's slopes when velocity applies
+		// a downward force.
+		// Does not seem to have any effect if this is either true or false
+		FloorStopOnSlope = false;
+
+		// If true, the body will be able to move on the floor only. This
+		// option avoids to be able to walk on walls, it will however allow
+		// to slide down along them.
+		// Does not seem to have any effect if this is either true or false
+		FloorBlockOnWall = true;
+
+		// If true, during a jump against the ceiling, the body will slide,
+		// if false it will be stopped and will fall vertically.
+		// Does not seem to have any effect if this is either true or false
+		SlideOnCeiling = true;
 
 		PlayerCommands = new Dictionary<PlayerCommandType, PlayerCommand>
 		{
