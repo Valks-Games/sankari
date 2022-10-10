@@ -2,6 +2,8 @@
 
 > ℹ️ If you comment on an issue in GitHub I can assign you to that issue. 
 
+> ℹ️ This project has been tested only on Windows 10, as such if you are on a Mac or Linux OS you may experience difficulties getting this to work
+
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
 Issue https://github.com/Valks-Games/sankari/issues/136 relates to fixing up the players movement, this should be of the highest priority issue right now.
