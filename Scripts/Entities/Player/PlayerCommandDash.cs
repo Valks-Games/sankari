@@ -1,17 +1,46 @@
 ﻿namespace Sankari;
 
-public class PlayerCommandDash : PlayerCommand
+public interface IEntityDash 
 {
-	private Vector2 DashDir          { get; set; }
-	private int     MaxDashes        { get; set; } = 1;
-	private int     DashCount        { get; set; }
-	private bool    HorizontalDash   { get; set; }
-	private bool    DashReady        { get; set; } = true;
-	private int DashCooldown           { get; set; }	= 1400;
-	private int DashDuration           { get; set; }	= 200;
+	// Current dash direction
+	public Vector2 DashDir           { get; set; }
 
-	private GTimer TimerDashCooldown { get; set; }
-	private GTimer TimerDashDuration { get; set; }
+	// Max number of dashes before entity has to touch the ground
+	public int     MaxDashes         { get; set; }
+
+	// The current dash count
+	public int     DashCount         { get; set; }
+
+	// Is this entity currently dashing horizontally?
+	public bool    HorizontalDash    { get; set; }
+
+	// If true, the entity may dash
+	public bool    DashReady         { get; set; }
+
+	// The cooldown between dashes
+	public int     DashCooldown      { get; set; }
+
+	// The duration of the dash
+	public int     DashDuration      { get; set; }
+
+	// Timer for dash cooldown
+	public GTimer  TimerDashCooldown { get; set; }
+
+	// Timer for dash duration
+	public GTimer  TimerDashDuration { get; set; }
+}
+
+public class PlayerCommandDash : PlayerCommand, IEntityDash
+{
+	public Vector2 DashDir           { get; set; }
+	public int     MaxDashes         { get; set; } = 1;
+	public int     DashCount         { get; set; }
+	public bool    HorizontalDash    { get; set; }
+	public bool    DashReady         { get; set; } = true;
+	public int     DashCooldown      { get; set; }	= 1400;
+	public int     DashDuration      { get; set; }	= 200;
+	public GTimer  TimerDashCooldown { get; set; }
+	public GTimer  TimerDashDuration { get; set; }
 
 	public PlayerCommandDash(Player player) : base(player) { }
 

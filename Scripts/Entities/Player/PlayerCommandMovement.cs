@@ -1,13 +1,35 @@
 ﻿namespace Sankari;
 
-public class PlayerCommandMovement : PlayerCommand
+public interface IEntityMovement 
 {
-	private int MaxSpeedWalk     { get; set; } = 350;
-	private int MaxSpeedSprint   { get; set; } = 500;
-	private int MaxSpeedAir      { get; set; } = 350;
-	private int AirAcceleration  { get; set; } = 20;
-	private int DampeningAir     { get; set; } = 10;
-	private int DampeningGround  { get; set; } = 25;
+	// Maximum walking speed
+	public int MaxSpeedWalk { get; set; }
+
+	// Maximum sprinting speed
+	public int MaxSpeedSprint   { get; set; }
+
+	// Maximum airial speed
+	public int MaxSpeedAir      { get; set; }
+
+	// How fast the entity speeds up
+	public int AirAcceleration  { get; set; }
+
+	// How much the air effects movement
+	public int DampeningAir     { get; set; }
+
+	// How much the ground effects movement
+	public int DampeningGround  { get; set; }
+
+}
+
+public class PlayerCommandMovement : PlayerCommand, IEntityMovement
+{
+	public int MaxSpeedWalk     { get; set; } = 350;
+	public int MaxSpeedSprint   { get; set; } = 500;
+	public int MaxSpeedAir      { get; set; } = 350;
+	public int AirAcceleration  { get; set; } = 20;
+	public int DampeningAir     { get; set; } = 10;
+	public int DampeningGround  { get; set; } = 25;
 
 	public PlayerCommandMovement(Player player) : base(player) { }
 
