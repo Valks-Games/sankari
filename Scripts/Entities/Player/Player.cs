@@ -60,6 +60,14 @@ public partial class Player : CharacterBody2D
 	public int HorizontalDeadZone { get; set; } = 25;
 
 	public PlayerAnimationState AnimationState { get; set; }
+	
+	public PlayerAnimation CurrentAnimation { get; set; }
+	public PlayerAnimationIdle AnimationIdle { get; set; }
+	public PlayerAnimationWalking AnimationWalking { get; set; }
+	public PlayerAnimationRunning AnimationRunning { get; set; }
+	public PlayerAnimationDash AnimationDash { get; set; }
+	public PlayerAnimationJumpStart AnimationJumpStart { get; set; }
+	public PlayerAnimationJumpFall AnimationJumpFall { get; set; }
 
 	public bool CurrentlyDashing  { get; set; }
 	public bool GravityEnabled    { get; set; } = true;
@@ -105,6 +113,14 @@ public partial class Player : CharacterBody2D
 		Timers                = new GTimers(this);
 		Tree                  = GetTree().Root;
 
+		AnimationIdle = new(this);
+		AnimationWalking = new(this);
+		AnimationRunning = new(this);
+		AnimationJumpStart = new(this);
+		AnimationJumpFall = new(this);
+		AnimationDash = new(this);
+
+		CurrentAnimation = AnimationIdle;
 		AnimationState = PlayerAnimationState.Idle;
 		AnimatedSprite.Play("idle");
 
@@ -171,201 +187,9 @@ public partial class Player : CharacterBody2D
 
 		UpdateMoveDirection(PlayerInput);
 
-		GD.Print(AnimationState);
+		GD.Print(CurrentAnimation);
 
-		if (AnimationState == PlayerAnimationState.Idle)
-		{
-			// Idle -> JumpStart
-			// Idle -> Walking
-			// Idle -> Sprinting
-
-			if (PlayerInput.IsJump)
-			{
-				AnimationState = PlayerAnimationState.JumpStart;
-				AnimatedSprite.Play("jump_start");
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-
-			if (MoveDir != Vector2.Zero)
-			{
-				if (PlayerInput.IsSprint)
-				{
-					AnimationState = PlayerAnimationState.Running;
-					AnimatedSprite.Play("walk");
-					AnimatedSprite.SpeedScale = 1.5f;
-				}
-				else
-				{
-					AnimationState = PlayerAnimationState.Walking;
-					AnimatedSprite.Play("walk");
-					AnimatedSprite.SpeedScale = 1.0f;
-				}
-			}
-		}
-		else if (AnimationState == PlayerAnimationState.Walking)
-		{
-			// Walking -> Idle
-			// Walking -> Running
-			// Walking -> Dash
-			// Walking -> JumpStart
-
-			if (PlayerInput.IsJump)
-			{
-				AnimationState = PlayerAnimationState.JumpStart;
-				AnimatedSprite.Play("jump_start");
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-			else if (PlayerInput.IsDash)
-			{
-				AnimationState = PlayerAnimationState.Dash;
-				// no animation for dash yet
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-			else if (PlayerInput.IsSprint)
-			{
-				AnimationState = PlayerAnimationState.Running;
-				AnimatedSprite.Play("walk");
-				AnimatedSprite.SpeedScale = 1.5f;
-			}
-			else if (MoveDir == Vector2.Zero)
-			{
-				AnimationState = PlayerAnimationState.Idle;
-				AnimatedSprite.Play("idle");
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-		}
-		else if (AnimationState == PlayerAnimationState.Running)
-		{
-			// Running -> Idle
-			// Running -> Walking
-			// Running -> Dash
-			// Running -> JumpStart
-
-			if (PlayerInput.IsJump)
-			{
-				AnimationState = PlayerAnimationState.JumpStart;
-				AnimatedSprite.Play("jump_start");
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-			else if (PlayerInput.IsDash)
-			{ 
-				AnimationState = PlayerAnimationState.Dash;
-				// no animation for dash yet
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-			else if (!PlayerInput.IsSprint)
-			{
-				AnimationState = PlayerAnimationState.Walking;
-				AnimatedSprite.Play("walk");
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-			else if (MoveDir == Vector2.Zero)
-			{
-				AnimationState = PlayerAnimationState.Idle;
-				AnimatedSprite.Play("idle");
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-		}
-		else if (AnimationState == PlayerAnimationState.JumpStart)
-		{
-			// JumpStart -> JumpFall
-			// JumpStart -> Dash
-
-			if (Velocity.y > 0)
-			{
-				AnimationState = PlayerAnimationState.JumpFall;
-				AnimatedSprite.Play("jump_fall");
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-			else if (PlayerInput.IsDash)
-			{
-				AnimationState = PlayerAnimationState.Dash;
-				// no animation for dash yet
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-		}
-		else if (AnimationState == PlayerAnimationState.JumpFall)
-		{
-			// JumpFall -> Idle
-			// JumpFall -> Walking
-			// JumpFall -> Running
-			// JumpFall -> Dash
-
-			if (IsOnGround())
-			{
-				if (MoveDir != Vector2.Zero)
-				{
-					if (PlayerInput.IsSprint)
-					{
-						AnimationState = PlayerAnimationState.Running;
-						AnimatedSprite.Play("walk");
-						AnimatedSprite.SpeedScale = 1.5f;
-					}
-					else
-					{
-						AnimationState = PlayerAnimationState.Walking;	
-						AnimatedSprite.Play("walk");
-						AnimatedSprite.SpeedScale = 1.0f;
-					}
-				}
-				else
-				{
-					AnimationState = PlayerAnimationState.Idle;
-					AnimatedSprite.Play("idle");
-					AnimatedSprite.SpeedScale = 1.0f;
-				}
-			}
-			else if (PlayerInput.IsDash)
-			{
-				AnimationState = PlayerAnimationState.Dash;
-				// no animation for dash yet
-				AnimatedSprite.SpeedScale = 1.0f;
-			}
-		}
-		else if (AnimationState == PlayerAnimationState.Dash)
-		{
-			// Dash -> Idle
-			// Dash -> JumpFall
-			// Dash -> Walking
-			// Dash -> Running
-
-			if (!CurrentlyDashing)
-			{
-				if (!IsOnGround())
-				{
-					if (Velocity.y > 0)
-					{
-						AnimationState = PlayerAnimationState.JumpFall;
-						AnimatedSprite.Play("jump_fall");
-						AnimatedSprite.SpeedScale = 1.0f;
-					}
-				}
-				else
-				{
-					if (MoveDir != Vector2.Zero)
-					{
-						if (PlayerInput.IsSprint)
-						{
-							AnimationState = PlayerAnimationState.Running;
-							AnimatedSprite.Play("walk");
-							AnimatedSprite.SpeedScale = 1.5f;
-						}
-						else
-						{
-							AnimationState = PlayerAnimationState.Walking;	
-							AnimatedSprite.Play("walk");
-							AnimatedSprite.SpeedScale = 1.0f;
-						}
-					}
-					else
-					{
-						AnimationState = PlayerAnimationState.Idle;
-						AnimatedSprite.Play("idle");
-						AnimatedSprite.SpeedScale = 1.0f;
-					}
-				}
-			}	
-		}
+		CurrentAnimation.UpdateState();
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
 
