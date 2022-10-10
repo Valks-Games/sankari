@@ -17,23 +17,23 @@ public class PlayerCommandDash : PlayerCommand
 
 	public override void Initialize()
 	{
-		TimerDashCooldown = Player.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false, false);
-		TimerDashDuration = Player.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false, false);
+		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false, false);
+		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false, false);
 	}
 
 	public override void Start()
 	{
-		if (DashReady && !Player.CurrentlyDashing && DashCount != MaxDashes && !Player.IsOnGround())
+		if (DashReady && !Entity.CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
 		{
-			DashDir = GetDashDirection(Player.MoveDir);
+			DashDir = GetDashDirection(Entity.MoveDir);
 
 			if (DashDir != Vector2.Zero)
 			{
 				GameManager.EventsPlayer.Notify(EventPlayer.OnDash);
-				Player.GravityEnabled = false;
+				Entity.GravityEnabled = false;
 				DashCount++;
 				DashReady = false;
-				Player.CurrentlyDashing = true;
+				Entity.CurrentlyDashing = true;
 				TimerDashDuration.Start();
 				TimerDashCooldown.Start();
 			}
@@ -45,21 +45,21 @@ public class PlayerCommandDash : PlayerCommand
 		// Entity.IsOnGround() is called twice, in Update() and LateUpdate() 
 		// Also what if IsOnGround() was called in other commands? 
 		// Shouldn't IsOnGround() only be called once?
-		if (Player.IsOnGround())
+		if (Entity.IsOnGround())
 			DashCount = 0;
 	}
 
 	public override void UpdateAir(float delta)
 	{
-		if (Player.CurrentlyDashing)
+		if (Entity.CurrentlyDashing)
 		{
 			var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
-			sprite.Texture = Player.AnimatedSprite.Frames.GetFrame(Player.AnimatedSprite.Animation, Player.AnimatedSprite.Frame);
-			sprite.GlobalPosition = Player.GlobalPosition;
+			sprite.Texture = Entity.AnimatedSprite.Frames.GetFrame(Entity.AnimatedSprite.Animation, Entity.AnimatedSprite.Frame);
+			sprite.GlobalPosition = Entity.GlobalPosition;
 			sprite.Scale = new Vector2(2f, 2f); // this is ugly
-			sprite.FlipH = Player.AnimatedSprite.FlipH;
+			sprite.FlipH = Entity.AnimatedSprite.FlipH;
 			//sprite.FlipH = wallDir == 1 ? true : false; // cant remember why I commented this out
-			Player.Tree.AddChild(sprite);
+			Entity.Tree.AddChild(sprite);
 
 			var SpeedDashVertical = 400;
 			var SpeedDashHorizontal = 600;
@@ -69,7 +69,7 @@ public class PlayerCommandDash : PlayerCommand
 			if (HorizontalDash)
 				dashSpeed = SpeedDashHorizontal;
 
-			Player.PlayerVelocity = DashDir * dashSpeed;
+			Entity.PlayerVelocity = DashDir * dashSpeed;
 		}
 	}
 
@@ -101,8 +101,8 @@ public class PlayerCommandDash : PlayerCommand
 
 	private void OnDashDurationDone() 
 	{
-		Player.DontCheckPlatformAfterDashDuration.Start();
-		Player.CurrentlyDashing = false;
-		Player.GravityEnabled = true;
+		Entity.DontCheckPlatformAfterDashDuration.Start();
+		Entity.CurrentlyDashing = false;
+		Entity.GravityEnabled = true;
 	}
 }

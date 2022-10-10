@@ -1,10 +1,8 @@
 ﻿namespace Sankari;
 
-public abstract class PlayerCommand : EntityCommand
+public abstract class PlayerCommand : EntityCommand<Player>
 {
-	public Player Player { get; set; }
-
-	public PlayerCommand(Player player) => Player = player;
+	protected PlayerCommand(Player entity) : base(entity) { }
 
 	public virtual void UpdateGroundWalking(float delta) { }
 

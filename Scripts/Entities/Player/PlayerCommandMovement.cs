@@ -14,33 +14,33 @@ public class PlayerCommandMovement : PlayerCommand
 	public override void Initialize()
 	{
 		// if these are equal to each other then the player movement will not work as expected
-		if (Player.GroundAcceleration == DampeningGround)
+		if (Entity.GroundAcceleration == DampeningGround)
 			DampeningGround -= 1;
 	}
 
 	public override void Update(float delta)
 	{
-		if (!Player.CurrentlyDashing && !Player.DontCheckPlatformAfterDashDuration.IsActive())
-			UpdateUnderPlatform(Player.PlayerInput);
+		if (!Entity.CurrentlyDashing && !Entity.DontCheckPlatformAfterDashDuration.IsActive())
+			UpdateUnderPlatform(Entity.PlayerInput);
 	}
 
 	public override void UpdateGroundWalking(float delta)
 	{
-		Player.PlayerVelocity.x = ClampAndDampen(Player.PlayerVelocity.x, DampeningGround, MaxSpeedWalk);
+		Entity.PlayerVelocity.x = ClampAndDampen(Entity.PlayerVelocity.x, DampeningGround, MaxSpeedWalk);
 	}
 
 	public override void UpdateGroundSprinting(float delta)
 	{
-		Player.PlayerVelocity.x = ClampAndDampen(Player.PlayerVelocity.x, DampeningGround, MaxSpeedSprint);
+		Entity.PlayerVelocity.x = ClampAndDampen(Entity.PlayerVelocity.x, DampeningGround, MaxSpeedSprint);
 	}
 
 	public override void UpdateAir(float delta)
 	{
-		if (Player.PlayerInput.IsFastFall)
-			Player.PlayerVelocity.y += 10;
+		if (Entity.PlayerInput.IsFastFall)
+			Entity.PlayerVelocity.y += 10;
 
-		Player.PlayerVelocity.x += Player.MoveDir.x * AirAcceleration;
-		Player.PlayerVelocity.x = ClampAndDampen(Player.PlayerVelocity.x, DampeningAir, MaxSpeedAir);
+		Entity.PlayerVelocity.x += Entity.MoveDir.x * AirAcceleration;
+		Entity.PlayerVelocity.x = ClampAndDampen(Entity.PlayerVelocity.x, DampeningAir, MaxSpeedAir);
 	}
 
 	private float ClampAndDampen(float horzVelocity, int dampening, int maxSpeedGround) 
@@ -53,7 +53,7 @@ public class PlayerCommandMovement : PlayerCommand
 
 	private async void UpdateUnderPlatform(MovementInput input)
 	{
-		var collision = Player.RayCast2DGroundChecks[0].GetCollider();
+		var collision = Entity.RayCast2DGroundChecks[0].GetCollider();
 
 		if (collision is TileMap tilemap)
 		{

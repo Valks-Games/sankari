@@ -6,43 +6,43 @@ public class PlayerCommandAnimation : PlayerCommand
 
 	public override void Update(float delta)
 	{
-		if (Player.MoveDir.x != 0)
-			Player.AnimatedSprite.Play("walk");
+		if (Entity.MoveDir.x != 0)
+			Entity.AnimatedSprite.Play("walk");
 		else
-			Player.AnimatedSprite.Play("idle");
+			Entity.AnimatedSprite.Play("idle");
 
-		if (Player.IsFalling())
-			Player.AnimatedSprite.Play("jump_fall");
+		if (Entity.IsFalling())
+			Entity.AnimatedSprite.Play("jump_fall");
 
-		Player.AnimatedSprite.FlipH = Player.MoveDir.x < 0; // flip sprite if moving left
+		Entity.AnimatedSprite.FlipH = Entity.MoveDir.x < 0; // flip sprite if moving left
 	}
 
 	public override void UpdateGroundWalking(float delta)
 	{
-		Player.AnimatedSprite.SpeedScale = 1.0f;
+		Entity.AnimatedSprite.SpeedScale = 1.0f;
 	}
 
 	public override void UpdateGroundSprinting(float delta)
 	{
-		Player.AnimatedSprite.SpeedScale = 1.5f;
+		Entity.AnimatedSprite.SpeedScale = 1.5f;
 	}
 
 	public override void Jump()
 	{
-		Player.AnimatedSprite.Play("jump_start");
+		Entity.AnimatedSprite.Play("jump_start");
 	}
 
 	public override void Died()
 	{
-		Player.HaltPlayerLogic = true;
-		Player.LevelScene.Camera.StopFollowingPlayer();
-		Player.AnimatedSprite.Stop();
+		Entity.HaltPlayerLogic = true;
+		Entity.LevelScene.Camera.StopFollowingPlayer();
+		Entity.AnimatedSprite.Stop();
 
-		var dieStartPos = Player.Position.y;
+		var dieStartPos = Entity.Position.y;
 		var goUpDuration = 1.25f;
 
 		// animate y position
-		Player.DieTween.InterpolateProperty
+		Entity.DieTween.InterpolateProperty
 		(
 			"position:y",
 			dieStartPos - 80,
@@ -50,7 +50,7 @@ public class PlayerCommandAnimation : PlayerCommand
 			0 // delay
 		);
 
-		Player.DieTween.InterpolateProperty
+		Entity.DieTween.InterpolateProperty
 		(
 			"position:y",
 			dieStartPos + 400,
@@ -61,7 +61,7 @@ public class PlayerCommandAnimation : PlayerCommand
 		.From(dieStartPos - 80);
 
 		// animate rotation
-		Player.DieTween.InterpolateProperty
+		Entity.DieTween.InterpolateProperty
 		(
 			"rotation",
 			Mathf.Pi,
@@ -70,15 +70,15 @@ public class PlayerCommandAnimation : PlayerCommand
 			true
 		);
 
-		Player.DieTween.Start();
-		Player.DieTween.Callback(() => OnDieTweenCompleted());
+		Entity.DieTween.Start();
+		Entity.DieTween.Callback(() => OnDieTweenCompleted());
 	}
 
 	public override async void FinishedLevel()
 	{
-		Player.HaltPlayerLogic = true;
+		Entity.HaltPlayerLogic = true;
 		await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
-		Player.HaltPlayerLogic = false;
+		Entity.HaltPlayerLogic = false;
 	}
 
 	private async void OnDieTweenCompleted()
@@ -92,8 +92,8 @@ public class PlayerCommandAnimation : PlayerCommand
 		await GameManager.LevelUI.HideLivesTransition();
 		await Task.Delay(250);
 		GameManager.Transition.BlackToAlpha();
-		Player.HaltPlayerLogic = false;
+		Entity.HaltPlayerLogic = false;
 		LevelManager.LoadLevelFast();
-		Player.LevelScene.Camera.StartFollowingPlayer();
+		Entity.LevelScene.Camera.StartFollowingPlayer();
 	}
 }
