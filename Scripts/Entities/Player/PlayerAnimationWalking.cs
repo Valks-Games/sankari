@@ -7,7 +7,7 @@ public class PlayerAnimationWalking : PlayerAnimation
 {
 	public PlayerAnimationWalking(Player player) : base(player) { }
 
-	public override void EnterState()
+	protected override void EnterState()
 	{
 		Player.AnimatedSprite.Play("walk");
 	}
@@ -38,7 +38,7 @@ public class PlayerAnimationWalking : PlayerAnimation
 			SwitchState(Player.AnimationIdle);
 	}
 
-	public override void ExitState()
+	protected override void ExitState()
 	{
 		
 	}

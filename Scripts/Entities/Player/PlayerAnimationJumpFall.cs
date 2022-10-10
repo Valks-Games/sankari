@@ -6,7 +6,7 @@ public class PlayerAnimationJumpFall : PlayerAnimation
 {
 	public PlayerAnimationJumpFall(Player player) : base(player) { }
 
-	public override void EnterState()
+	protected override void EnterState()
 	{
 		Player.AnimatedSprite.Play("jump_fall");
 	}
@@ -40,7 +40,7 @@ public class PlayerAnimationJumpFall : PlayerAnimation
 		}
 	}
 
-	public override void ExitState()
+	protected override void ExitState()
 	{
 		
 	}

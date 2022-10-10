@@ -6,7 +6,7 @@ public class PlayerAnimationRunning : PlayerAnimation
 {
 	public PlayerAnimationRunning(Player player) : base(player) { }
 
-	public override void EnterState()
+	protected override void EnterState()
 	{
 		Player.AnimatedSprite.Play("walk");
 		Player.AnimatedSprite.SpeedScale = 1.5f;
@@ -38,7 +38,7 @@ public class PlayerAnimationRunning : PlayerAnimation
 			SwitchState(Player.AnimationIdle);
 	}
 
-	public override void ExitState()
+	protected override void ExitState()
 	{
 		Player.AnimatedSprite.SpeedScale = 1.0f;
 	}

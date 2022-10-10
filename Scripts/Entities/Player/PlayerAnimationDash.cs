@@ -6,7 +6,7 @@ public class PlayerAnimationDash : PlayerAnimation
 {
 	public PlayerAnimationDash(Player player) : base(player) { }
 
-	public override void EnterState()
+	protected override void EnterState()
 	{
 		// no animation for dash exists at this time
 	}
@@ -44,7 +44,7 @@ public class PlayerAnimationDash : PlayerAnimation
 		}	
 	}
 
-	public override void ExitState()
+	protected override void ExitState()
 	{
 		
 	}

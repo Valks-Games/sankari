@@ -6,9 +6,9 @@ public abstract class PlayerAnimation
 
 	protected PlayerAnimation(Player player) { Player = player; }
 
-	public abstract void EnterState();
+	protected abstract void EnterState();
 	public abstract void UpdateState();
-	public abstract void ExitState();
+	protected abstract void ExitState();
 	
 	protected void SwitchState(PlayerAnimation animation)
 	{

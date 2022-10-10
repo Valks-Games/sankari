@@ -6,7 +6,7 @@ public class PlayerAnimationIdle : PlayerAnimation
 {
 	public PlayerAnimationIdle(Player player) : base(player) { }
 
-	public override void EnterState()
+	protected override void EnterState()
 	{
 		Player.AnimatedSprite.Play("idle");
 	}
@@ -38,7 +38,7 @@ public class PlayerAnimationIdle : PlayerAnimation
 		}
 	}
 
-	public override void ExitState()
+	protected override void ExitState()
 	{
 		
 	}

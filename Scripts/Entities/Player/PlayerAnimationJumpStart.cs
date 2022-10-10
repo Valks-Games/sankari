@@ -6,7 +6,7 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 {
 	public PlayerAnimationJumpStart(Player player) : base(player) { }
 
-	public override void EnterState()
+	protected override void EnterState()
 	{
 		Player.AnimatedSprite.Play("jump_start");
 	}
@@ -27,7 +27,7 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 			SwitchState(Player.AnimationIdle);
 	}
 
-	public override void ExitState()
+	protected override void ExitState()
 	{
 		
 	}
