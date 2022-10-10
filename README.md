@@ -2,6 +2,8 @@
   <img alt="Discord" src="https://img.shields.io/discord/1005979449340211240?color=black&label=Sankari&logo=Discord&logoColor=white">
 </p>
 
+## Gameplay -> https://www.youtube.com/watch?v=mSUxmJlmxyc
+
 ## What is Sankari?
 Sankari ("hero" in Finnish) is a non-profit F2P 2D Platformer about a hero whose village gets raided by the evil king. The hero goes on a journey to free back the villagers that were captured and defeat the evil king. 
 
@@ -31,5 +33,3 @@ This project is under the [MIT license](https://github.com/Valks-Games/sankari/b
 - The networking library [ENet-CSharp](https://github.com/SoftwareGuy/ENet-CSharp) is under the [MIT license](https://github.com/SoftwareGuy/ENet-CSharp/blob/master/LICENSE)
 
 ![image](https://user-images.githubusercontent.com/6277739/188284863-dec66a12-e4d4-4d5a-b332-ca3c1907108e.png)
-
-## Gameplay -> https://www.youtube.com/watch?v=mSUxmJlmxyc
