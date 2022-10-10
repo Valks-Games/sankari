@@ -4,7 +4,7 @@
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
-Issue https://github.com/Valks-Games/sankari/issues/136 relates to fixing up the players movement, this should be the highest priority issue right now.
+Issue https://github.com/Valks-Games/sankari/issues/136 relates to fixing up the players movement, this should be of the highest priority issue right now.
 
 ## Setup VS2022 to work with Godot C#
 1. Make sure you have the latest installation of [VS2022 Community Edition](https://visualstudio.microsoft.com/vs/)
