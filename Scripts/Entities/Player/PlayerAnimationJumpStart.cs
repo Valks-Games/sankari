@@ -13,6 +13,7 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 
 	public override void UpdateState()
 	{
+		// JumpStart -> Idle
 		// JumpStart -> JumpFall
 		// JumpStart -> Dash
 
@@ -20,5 +21,7 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 			Transition(Player.AnimationJumpFall);
 		else if (Player.PlayerInput.IsDash)
 			Transition(Player.AnimationDash);
+		else if (Player.IsOnGround() && Player.MoveDir == Vector2.Zero)
+			Transition(Player.AnimationIdle);
 	}
 }
