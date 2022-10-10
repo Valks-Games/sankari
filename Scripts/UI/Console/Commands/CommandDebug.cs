@@ -2,45 +2,45 @@ namespace Sankari;
 
 public class CommandDebug : Command
 {
-    private readonly Dictionary<string, Action> commands = new();
+    private Dictionary<string, Action> Commands { get; } = new();
 
     public CommandDebug() 
     {
         Aliases = new[] { "x" };
 
-        commands["help"] = () => 
+        Commands["help"] = () => 
         {
             Logger.Log("List of commands:");
             
-            foreach (var cmd in commands.Keys)
+            foreach (var cmd in Commands.Keys)
                 Logger.Log(cmd);
         };
 
-        commands["peerid"] = () => 
+        Commands["peerid"] = () => 
         {
-            if (!GameManager.Net.Client.IsRunning)
+            if (!Net.Client.IsRunning)
             {
                 Logger.Log("Client is not running!");
                 return;
             }
 
             // WARN: Not a thread safe way to get peerId
-            Logger.Log(GameManager.Net.Client.PeerId);
+            Logger.Log(Net.Client.PeerId);
         };
 
-        commands["players"] = () => 
+        Commands["players"] = () => 
         {
-            if (!GameManager.Net.Server.IsRunning)
+            if (!Net.Server.IsRunning)
             {
                 Logger.Log("Server is not running on this client");
                 return;
             }
 
             // WARN: Not a thread safe way to get Players
-            Logger.Log(GameManager.Net.Server.Players.PrintFull());
+            Logger.Log(Net.Server.Players.PrintFull());
         };
 
-        commands["scroll"] = () => 
+        Commands["scroll"] = () => 
         {
             GameManager.Console.ScrollToBottom = !GameManager.Console.ScrollToBottom;
         };
@@ -54,6 +54,6 @@ public class CommandDebug : Command
             return;
         }
 
-        commands[args[0]]();
+        Commands[args[0]]();
     }
 }

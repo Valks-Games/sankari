@@ -21,26 +21,20 @@ public abstract class ENetClient
     /// </summary>
     public bool IsRunning => Interlocked.Read(ref running) == 1;
 
-    protected readonly ConcurrentQueue<ENetClientCmd> enetCmds = new();
-    private readonly ConcurrentDictionary<int, ClientPacket> outgoing = new();
+    protected ConcurrentQueue<ENetClientCmd> EnetCmds { get; } = new();
+    private ConcurrentDictionary<int, ClientPacket> Outgoing { get; } = new();
 
-    protected GodotCommands godotCmds;
-    protected readonly Net networkManager;
-
+    private int OutgoingId { get; set; }
+    protected CancellationTokenSource CancellationTokenSource { get; set; } = new();
+	
+	// fields
     private long connected;
     private long running;
-    private int outgoingId;
-    protected CancellationTokenSource cancellationTokenSource = new();
-
-    protected ENetClient(Net networkManager)
-    {
-        this.networkManager = networkManager;
-    }
 
     /// <summary>
     /// This method is not thread safe
     /// </summary>
-    public async void Start(string ip, ushort port) => await StartAsync(ip, port, cancellationTokenSource);
+    public async void Start(string ip, ushort port) => await StartAsync(ip, port, CancellationTokenSource);
 
     /// <summary>
     /// This method is not thread safe
@@ -56,9 +50,9 @@ public abstract class ENetClient
             }
 
             running = 1;
-            cancellationTokenSource = cts;
+            CancellationTokenSource = cts;
 
-            using var task = Task.Run(() => ENetThreadWorker(ip, port), cancellationTokenSource.Token);
+            using var task = Task.Run(() => ENetThreadWorker(ip, port), CancellationTokenSource.Token);
             await task;
         }
         catch (Exception e)
@@ -70,7 +64,7 @@ public abstract class ENetClient
     /// <summary>
     /// This method is thread safe
     /// </summary>
-    public void Stop() => enetCmds.Enqueue(new ENetClientCmd(ENetClientOpcode.Disconnect));
+    public void Stop() => EnetCmds.Enqueue(new ENetClientCmd(ENetClientOpcode.Disconnect));
 
     /// <summary>
     /// This method is thread safe
@@ -88,8 +82,8 @@ public abstract class ENetClient
     /// </summary>
     public void Send(ClientPacketOpcode opcode, APacket data = null, PacketFlags flags = PacketFlags.Reliable)
     {
-        outgoingId++;
-        var success = outgoing.TryAdd(outgoingId, new ClientPacket((byte)opcode, flags, data));
+        OutgoingId++;
+        var success = Outgoing.TryAdd(OutgoingId, new ClientPacket((byte)opcode, flags, data));
 
         if (!success)
             Logger.LogWarning($"Failed to add {opcode} to Outgoing queue because of duplicate key");
@@ -102,7 +96,7 @@ public abstract class ENetClient
     {
         Send(opcode, data, flags);
 
-        while (outgoing.ContainsKey(outgoingId))
+        while (Outgoing.ContainsKey(OutgoingId))
             await Task.Delay(1);
     }
 
@@ -111,7 +105,7 @@ public abstract class ENetClient
     /// Do not bring non-client vars over to the client thread. 
     /// Only work with variables that are in the clients thread. 
     /// </summary>
-    public void ExecuteCode(Action<GameClient> action) => enetCmds.Enqueue(new ENetClientCmd(ENetClientOpcode.ExecuteCode, action));
+    public void ExecuteCode(Action<GameClient> action) => EnetCmds.Enqueue(new ENetClientCmd(ENetClientOpcode.ExecuteCode, action));
 
     protected virtual void Connecting() { }
     protected virtual void ClientCmds(Peer peer) { }
@@ -142,7 +136,7 @@ public abstract class ENetClient
         peer.PingInterval(pingInterval);
         peer.Timeout(timeout, timeoutMinimum, timeoutMaximum);
 
-        while (!cancellationTokenSource.IsCancellationRequested)
+        while (!CancellationTokenSource.IsCancellationRequested)
         {
             var polled = false;
 
@@ -150,9 +144,9 @@ public abstract class ENetClient
             ClientCmds(peer);
 
             // Outgoing
-            while (outgoing.TryRemove(outgoingId, out var clientPacket))
+            while (Outgoing.TryRemove(OutgoingId, out var clientPacket))
             {
-                outgoingId--;
+                OutgoingId--;
                 byte channelID = 0; // The channel all networking traffic will be going through
                 var packet = default(Packet);
                 packet.Create(clientPacket.Data, clientPacket.PacketFlags);
@@ -192,14 +186,14 @@ public abstract class ENetClient
 
                     case EventType.Timeout:
                         connected = 0;
-                        cancellationTokenSource.Cancel();
+                        CancellationTokenSource.Cancel();
                         Timeout(ref netEvent);
                         Leave(ref netEvent);
                         break;
 
                     case EventType.Disconnect:
                         connected = 0;
-                        cancellationTokenSource.Cancel();
+                        CancellationTokenSource.Cancel();
                         Disconnect(ref netEvent);
                         Leave(ref netEvent);
                         break;

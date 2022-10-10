@@ -12,16 +12,32 @@ public static class ExtensionsTileMap
         foreach (var layer in layers)
             result += Math.UIntPow(2, layer - 1);
 
-        tileMap.CollisionLayer = result;
-        tileMap.CollisionMask = result;
+        // TODO: Godot 4 conversion
+        //tileMap.CollisionLayer = result;
+        //tileMap.CollisionMask = result;
     }
 
-    public static string GetTileName(this TileMap tilemap, Vector2 pos) =>
-        tilemap.TileSet.TileGetName(tilemap.GetCurrentTileId(pos));
+    public static string GetTileName(this TileMap tilemap, Vector2 pos, int layer = 0)
+    {
+        if (!tilemap.TileExists(pos))
+            return "";
+
+        var tileData = tilemap.GetCellTileData(layer, tilemap.LocalToMap(pos));
+
+        if (tileData == null)
+            return "";
+
+        var data = tileData.GetCustomData("Name");
+
+        return data.AsString();
+    }
+
+    public static bool TileExists(this TileMap tilemap, Vector2 pos, int layer = 0) => tilemap.GetCellSourceId(layer, tilemap.LocalToMap(pos)) != -1;
 
     private static int GetCurrentTileId(this TileMap tilemap, Vector2 pos)
     {
-        var cellPos = tilemap.WorldToMap(pos);
-        return tilemap.GetCellv(cellPos);
+        var cellPos = tilemap.LocalToMap(pos);
+        return 0;
+        //return tilemap.GetCellv(cellPos); // TODO: Godot 4 conversion
     }
 }

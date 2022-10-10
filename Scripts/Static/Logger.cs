@@ -2,14 +2,23 @@ namespace Sankari;
 
 public static class Logger
 {
-    private static readonly ConcurrentQueue<LogInfo> _messages = new();
+    private static ConcurrentQueue<LogInfo> Messages { get; } = new();
 
+	/// <summary>
+	/// Log a message
+	/// </summary>
     public static void Log(object message, ConsoleColor color = ConsoleColor.Gray) =>
-        _messages.Enqueue(new LogInfo(LoggerOpcode.Message, new LogMessage($"{message}"), color));
+        Messages.Enqueue(new LogInfo(LoggerOpcode.Message, new LogMessage($"{message}"), color));
 
+	/// <summary>
+	/// Log a warning
+	/// </summary>
     public static void LogWarning(object message, ConsoleColor color = ConsoleColor.Yellow) =>
         Log($"[Warning] {message}", color);
 
+	/// <summary>
+	/// Log a todo
+	/// </summary>
     public static void LogTodo(object message, ConsoleColor color = ConsoleColor.White) =>
         Log($"[Todo] {message}", color);
 
@@ -37,6 +46,9 @@ public static class Logger
         [CallerLineNumber] int lineNumber = 0
     ) => LogDetailed(LoggerOpcode.Debug, $"[Debug] {message}", color, trace, filePath, lineNumber);
 
+	/// <summary>
+	/// Log the time it takes to do a section of code
+	/// </summary>
     public static void LogMs(Action code)
     {
         var watch = new Stopwatch();
@@ -46,14 +58,17 @@ public static class Logger
         Log($"Took {watch.ElapsedMilliseconds} ms", ConsoleColor.DarkGray);
     }
 
-    public static bool StillWorking() => _messages.Count > 0;
+	/// <summary>
+	/// Checks to see if there are any messages left in the queue
+	/// </summary>
+    public static bool StillWorking() => !Messages.IsEmpty;
 
     /// <summary>
     /// Dequeues a Requested Message and Logs it
     /// </summary>
     public static void Update()
     {
-        if (!_messages.TryDequeue(out LogInfo result))
+        if (!Messages.TryDequeue(out LogInfo result))
             return;
 
         switch (result.Opcode)
@@ -89,7 +104,7 @@ public static class Logger
     /// Logs a message that may contain trace information
     /// </summary>
     private static void LogDetailed(LoggerOpcode opcode, string message, ConsoleColor color, bool trace, string filePath, int lineNumber) =>
-            _messages.Enqueue(new LogInfo(opcode, new LogMessageTrace(message, trace, $"  at {filePath.Substring(filePath.IndexOf("Scripts\\"))}:{lineNumber}"), color));
+            Messages.Enqueue(new LogInfo(opcode, new LogMessageTrace(message, trace, $"  at {filePath.Substring(filePath.IndexOf("Scripts\\"))}:{lineNumber}"), color));
 
     private static void Print(object v, ConsoleColor color)
     {

@@ -1,30 +1,27 @@
 namespace Sankari;
 
-public class PopupError : WindowDialog
+public partial class PopupError : Window
 {
-    [Export] protected readonly NodePath NodePathError;
+    [Export] protected NodePath NodePathError { get; set; }
 
-    private string _message;
-    private string _title;
-    private Popups _popupManager;
+    private string Message { get; set; }
+    private string PopupTitle { get; set; }
 
-    public void PreInit(Popups popupManager, Exception exception, string title = "")
+    public void PreInit(Exception exception, string title = "")
     {
-        _popupManager = popupManager;
-        _message = exception.StackTrace;
-
-        _title = !string.IsNullOrWhiteSpace(title) ? title : exception.Message;
+        Message = exception.StackTrace;
+        PopupTitle = !string.IsNullOrWhiteSpace(title) ? title : exception.Message;
     }
 
     public override void _Ready()
     {
-        WindowTitle = _title;
-        GetNode<TextEdit>(NodePathError).Text = _message;
+        base.Title = PopupTitle;
+        GetNode<TextEdit>(NodePathError).Text = Message;
     }
 
     private void _on_UIPopupError_popup_hide()
     {
-        _popupManager.Next();
+        Popups.Next();
         QueueFree();
     }
 

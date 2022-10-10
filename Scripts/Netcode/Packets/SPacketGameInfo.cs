@@ -125,20 +125,20 @@ public class SPacketGameInfo : APacketServer
     private void HandlePlayerJoinLeave()
     {
         if (Joining)
-            GameManager.Notifications.Notify(Event.OnGameClientJoined, Id, Username);
+            Notifications.Notify(Event.OnGameClientJoined, Id, Username);
         else
-            GameManager.Notifications.Notify(Event.OnGameClientLeft, Id);
+            Notifications.Notify(Event.OnGameClientLeft, Id);
     }
 
     private void HandlePlayersOnServer() 
     {
-        GameManager.Notifications.Notify(Event.OnReceivePlayersFromServer, Usernames);
+        Notifications.Notify(Event.OnReceivePlayersFromServer, Usernames);
     }
 
     private async Task HandleStartLevel()
     {
-        GameManager.Level.CurrentLevel = LevelName;
-        await GameManager.Level.LoadLevel();
+        LevelManager.CurrentLevel = LevelName;
+        await LevelManager.LoadLevel();
     }
 
     private void HandleMapPosition() 
@@ -150,6 +150,6 @@ public class SPacketGameInfo : APacketServer
     {
         // is it really thread safe to pass a godot thread variable (PeerId) in a action to the client thread?
         // at least it's being executed in order now via the queue
-        GameManager.Net.Client.ExecuteCode((client) => client.PeerId = PeerId);
+        Net.Client.ExecuteCode((client) => client.PeerId = PeerId);
     }
 }

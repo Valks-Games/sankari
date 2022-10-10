@@ -54,7 +54,7 @@ public class CPacketGameInfo : APacketClient
     public override void Handle(ENet.Peer peer)
     {
         this.peer = peer;
-        this.server = GameManager.Net.Server;
+        this.server = Net.Server;
 
         switch (ClientGameInfo)
         {

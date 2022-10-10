@@ -1,14 +1,18 @@
-<Project Sdk="Godot.NET.Sdk/3.3.0">
+﻿<Project Sdk="Godot.NET.Sdk/4.0.0-beta2">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>10</LangVersion>
     <RootNamespace>Sankari</RootNamespace>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!--Required in Godot 4 or Newtonsoft will not be found-->
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" /> <!--This is used because net472 does not have System.Text.Json-->
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" /> <!--Required for use of dynamic keyword-->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <!--This is used because net472 does not have System.Text.Json-->
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <!--Required for use of dynamic keyword-->
     <Reference Include="ENet-CSharp">
-        <HintPath>ENet-CSharp.dll</HintPath>
+      <HintPath>ENet-CSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

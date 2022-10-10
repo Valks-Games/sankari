@@ -2,40 +2,43 @@ namespace Sankari;
 
 public class GTween 
 {
-    private readonly Tween tween;
-    private readonly Node target;
-
-    /// <summary>
-    /// Should the tween animation loop? Note that if Repeat is set to false than the values set in InterpolateProperty
-    /// will be wiped when the animation finishes.
-    /// </summary>
-    public bool Repeat
-    {
-        get { return tween.Repeat; }
-        set { tween.Repeat = value; }
-    }
+    private Tween Tween { get; }
+    private Node Target { get; }
 
     public GTween(Node target)
     {
-        tween = new Tween();
-        tween.ProcessPriority = (int)Tween.TweenProcessMode.Physics;
-        this.target = target;
-        this.target.AddChild(tween);
+        this.Target = target;
+        Tween = this.Target.GetTree().CreateTween();
+        Tween.Stop();
     }
+
+	public void Callback(Action action) => Tween.TweenCallback(action);
 
     /// <summary>
     /// Hover over the property in the editor to get the string value of that property.
     /// </summary>
-    public bool InterpolateProperty
+    public PropertyTweener InterpolateProperty
     (
         NodePath property, 
-        object initialValue, 
-        object finalValue, 
-        float duration, 
-        float delay = 0,
-        Tween.TransitionType transType = Tween.TransitionType.Cubic, 
-        Tween.EaseType easeType = Tween.EaseType.InOut
-    ) => tween.InterpolateProperty(target, property, initialValue, finalValue, duration, transType, easeType, delay);
+        Variant finalValue, 
+        float duration,
+		float delay = 0,
+		bool parallel = false,
+		Tween.EaseType easeType = Tween.EaseType.InOut,
+		Tween.TransitionType transType = Tween.TransitionType.Quad
+    )
+	{
+		if (parallel)
+			return Tween.Parallel().TweenProperty(Target, property, finalValue, duration)
+				.SetEase(easeType)
+				.SetTrans(transType)
+				.SetDelay(delay);
+		else
+			return Tween.TweenProperty(Target, property, finalValue, duration)
+				.SetEase(easeType)
+				.SetTrans(transType)
+				.SetDelay(delay);
+	}
 
     public async Task AnimatePlatform
     (
@@ -48,25 +51,14 @@ public class GTween
         Tween.EaseType easeType = Tween.EaseType.InOut
     ) 
     {
-        tween.Repeat = true;
-        InterpolateProperty("position", initialValue, finalValue, duration, 0, transType, easeType);
-        InterpolateProperty("position", finalValue, initialValue, duration, duration, transType, easeType);
+		Tween.SetLoops(); // Run forever
+        InterpolateProperty("position", finalValue, duration);
+        InterpolateProperty("position", initialValue, duration);
         await Task.Delay(startDelay * 1000);
         Start();
     }
 
-    public void IsActive() => tween.IsActive();
-    public void Start() => tween.Start();
-    public void Pause() => tween.StopAll();
-    public void Resume() => tween.ResumeAll();
-
-    /// <summary>
-    /// The name of the method passed must have Object @object, NodePath nodePath params
-    /// </summary>
-    public void OnCompleted(string method) => tween.Connect("tween_completed", target, method);
-
-    /// <summary>
-    /// Emitted when all the animations in the tween have been completed.
-    /// </summary>
-    public void OnAllCompleted(string method) => tween.Connect("tween_all_completed", target, method);
+    public void IsActive() => Tween.IsRunning();
+    public void Start() => Tween.Play();
+    public void Pause() => Tween.Stop();
 }

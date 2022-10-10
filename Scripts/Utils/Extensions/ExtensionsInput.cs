@@ -2,8 +2,8 @@ namespace Sankari;
 
 public static class ExtensionsInput
 {
-    private static readonly Dictionary<ulong, string> _prevTexts = new();
-    private static readonly Dictionary<ulong, int> _prevNums = new();
+    private static Dictionary<ulong, string> PrevTexts { get; } = new();
+    private static Dictionary<ulong, int> PrevNums { get; } = new();
 
     public static string Filter(this LineEdit lineEdit, Func<string, bool> filter)
     {
@@ -11,21 +11,21 @@ public static class ExtensionsInput
         var id = lineEdit.GetInstanceId();
 
         if (string.IsNullOrWhiteSpace(text))
-            return _prevTexts.ContainsKey(id) ? _prevTexts[id] : null;
+            return PrevTexts.ContainsKey(id) ? PrevTexts[id] : null;
 
         if (!filter(text))
         {
-            if (!_prevTexts.ContainsKey(id))
+            if (!PrevTexts.ContainsKey(id))
             {
                 lineEdit.ChangeLineEditText("");
                 return null;
             }
 
-            lineEdit.ChangeLineEditText(_prevTexts[id]);
-            return _prevTexts[id];
+            lineEdit.ChangeLineEditText(PrevTexts[id]);
+            return PrevTexts[id];
         }
 
-        _prevTexts[id] = text;
+        PrevTexts[id] = text;
         return text;
     }
 
@@ -35,82 +35,94 @@ public static class ExtensionsInput
         var id = textEdit.GetInstanceId();
 
         if (string.IsNullOrWhiteSpace(text))
-            return _prevTexts.ContainsKey(id) ? _prevTexts[id] : null;
+            return PrevTexts.ContainsKey(id) ? PrevTexts[id] : null;
 
         if (!filter(text))
         {
-            if (!_prevTexts.ContainsKey(id))
+            if (!PrevTexts.ContainsKey(id))
             {
                 textEdit.ChangeTextEditText("");
                 return null;
             }
 
-            textEdit.ChangeTextEditText(_prevTexts[id]);
-            return _prevTexts[id];
+            textEdit.ChangeTextEditText(PrevTexts[id]);
+            return PrevTexts[id];
         }
 
-        _prevTexts[id] = text;
+        PrevTexts[id] = text;
         return text;
     }
 
-    public static int FilterRange(this LineEdit lineEdit, int maxRange, int minRange = 0)
+    public static int FilterRange(this LineEdit lineEdit, int maxRange)
     {
         var text = lineEdit.Text;
         var id = lineEdit.GetInstanceId();
 
+		// Ignore blank spaces
         if (string.IsNullOrWhiteSpace(text))
-            return minRange - 1;
+		{
+			lineEdit.ChangeLineEditText("");	
+            return 0;
+		}
 
-        if (text == "-")
-            return minRange - 1;
-
-        if (!int.TryParse(text.Trim(), out int numAttempts))
+		// Text is not a number
+        if (!int.TryParse(text.Trim(), out int num))
         {
-            if (!_prevNums.ContainsKey(id))
+			// No keys are in the dictionary for the first case, so handle this by returning 0
+            if (!PrevNums.ContainsKey(id))
             {
                 lineEdit.ChangeLineEditText("");
-                return minRange - 1;
+                return 0;
             }
 
-            lineEdit.ChangeLineEditText($"{_prevNums[id]}");
-            return _prevNums[id];
+			// Scenario #1: Text is 'a'  -> returns ""
+			// Scenario #2: Text is '1a' -> returns ""
+			if (text.Length == 1 || text.Length == 2)
+			{
+				if (!int.TryParse(text, out int number))
+				{
+					lineEdit.ChangeLineEditText("");
+					return 0;
+				}
+			}
+
+			// Text is '123', user types a letter -> returns "123"
+            lineEdit.ChangeLineEditText($"{PrevNums[id]}");
+            return PrevNums[id];
         }
 
-        if (text.Length > maxRange.ToString().Length && numAttempts <= maxRange)
+		// Not sure why this is here but I'm sure it's here for a good reason
+        if (text.Length > maxRange.ToString().Length && num <= maxRange)
         {
             var spliced = text.Remove(text.Length - 1);
-            _prevNums[id] = int.Parse(spliced);
+            PrevNums[id] = int.Parse(spliced);
 
             lineEdit.Text = spliced;
-            lineEdit.CaretPosition = spliced.Length;
-            return _prevNums[id];
+            lineEdit.CaretColumn = spliced.Length;
+            return PrevNums[id];
         }
 
-        if (numAttempts > maxRange)
+		// Text is at max range, return max range text if greater than max range
+        if (num > maxRange)
         {
-            numAttempts = maxRange;
+            num = maxRange;
             lineEdit.ChangeLineEditText($"{maxRange}");
         }
 
-        if (numAttempts < minRange)
-        {
-            numAttempts = minRange;
-            lineEdit.ChangeLineEditText($"{minRange}");
-        }
-
-        _prevNums[id] = numAttempts;
-        return numAttempts;
+		// Keep track of the previous number
+        PrevNums[id] = num;
+        return num;
     }
 
     private static void ChangeLineEditText(this LineEdit lineEdit, string text)
     {
         lineEdit.Text = text;
-        lineEdit.CaretPosition = text.Length;
+        lineEdit.CaretColumn = text.Length;
     }
 
     private static void ChangeTextEditText(this TextEdit textEdit, string text)
     {
         textEdit.Text = text;
-        //textEdit.CaretPosition = text.Length;
+        //textEdit.CaretColumn = text.Length;
     }
 }

@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource path="res://Scripts/Level/Camera.cs" type="Script" id=1]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="1"]
 
-[node name="Camera" type="Camera2D"]
+[node name="Camera3D" type="Camera2D"]
 current = true
 limit_left = -10
 limit_top = -100
 limit_right = 770
 limit_bottom = 159
 editor_draw_limits = true
-script = ExtResource( 1 )
+script = ExtResource("1")

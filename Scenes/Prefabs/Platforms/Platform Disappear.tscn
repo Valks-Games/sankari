@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource path="res://Sprites/Level/Platform.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/Level/PlatformDisappear.cs" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://cogb6i16r14qt" path="res://Sprites/Level/Platform.png" id="1"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/PlatformDisappear.cs" id="2"]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
@@ -28,10 +28,10 @@ extents = Vector2( 64, 4 )
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 64, 1 )
 
-[node name="Platform Disappear" type="KinematicBody2D" groups=["Platform"]]
+[node name="Platform Disappear" type="CharacterBody2D" groups=["Platform"]]
 script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource( 3 )
 texture = ExtResource( 1 )
 

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/swish-9.wav-7d2f109eca45efee5438ca86064013dd.sample"
+type="AudioStreamWAV"
+uid="uid://cvv34k8k6qvsr"
+path="res://.godot/imported/swish-9.wav-7d2f109eca45efee5438ca86064013dd.sample"
 
 [deps]
 
 source_file="res://Audio/SFX/Movement/Dash/swish-9.wav"
-dest_files=[ "res://.import/swish-9.wav-7d2f109eca45efee5438ca86064013dd.sample" ]
+dest_files=["res://.godot/imported/swish-9.wav-7d2f109eca45efee5438ca86064013dd.sample"]
 
 [params]
 

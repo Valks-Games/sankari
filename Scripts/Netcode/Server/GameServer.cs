@@ -21,7 +21,7 @@ public class GameServer : ENetServer
     /// </summary>
     public STimer LevelUpdateLoop { get; }
 
-    public GameServer(Net networkManager) : base(networkManager)
+    public GameServer()
     {
         LevelUpdateLoop = new STimer(NetIntervals.HEARTBEAT, () =>
         {
@@ -34,7 +34,7 @@ public class GameServer : ENetServer
                 // [ImHost, OtherClient]
                 var playerPositions = new Dictionary<byte, DataPlayer>(Players).ToDictionary(x => x.Key, x => x.Value.Position);
 
-                // Remove ImHost from the list of player positions
+                // RemoveAt ImHost from the list of player positions
                 // [OtherClient]
                 playerPositions.Remove(player.Key);
 
@@ -138,7 +138,7 @@ public class GameServer : ENetServer
 
                     KickAll(DisconnectOpcode.Restarting);
                     CancellationTokenSource.Cancel();
-                    queueRestart = true;
+                    QueueRestart = true;
                     break;
 
                 case ENetServerOpcode.SendPackets:
@@ -207,13 +207,14 @@ public class GameServer : ENetServer
     {
         var logOpcode = true;
 
-        if (GameManager.Linker.IgnoreOpcodesFromClient != null)
+        // TODO: Convert to Godot4
+        /*if (GameManager.Linker.IgnoreOpcodesFromClient != null)
             foreach (var dontLogOpcode in GameManager.Linker.IgnoreOpcodesFromClient)
                 if (opcode == dontLogOpcode)
                 {
                     logOpcode = false;
                     break;
-                }
+                }*/
 
         if (logOpcode)
             Log($"Received: {opcode}");

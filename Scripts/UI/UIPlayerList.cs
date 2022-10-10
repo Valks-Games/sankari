@@ -1,29 +1,29 @@
 namespace Sankari;
 
-public class UIPlayerList : Control
+public partial class UIPlayerList : Control
 {
-    public Dictionary<byte, string> Players = new();
-    private Control controlPlayerList;
+    public Dictionary<byte, string> Players { get; set; } = new();
+    private Control ControlPlayerList { get; set; }
 
     public override void _Ready()
     {
-        controlPlayerList = GetNode<Control>("VBox");
+        ControlPlayerList = GetNode<Control>("VBox");
         Hide();
     }
 
     public void SetupListeners() 
     {
-        GameManager.Notifications.AddListener(this, Event.OnGameClientLeft, (args) => 
+        Notifications.AddListener(this, Event.OnGameClientLeft, (args) => 
         {
             RemovePlayer((byte)args[0]);
         });
 
-        GameManager.Notifications.AddListener(this, Event.OnGameClientJoined, (args) => 
+        Notifications.AddListener(this, Event.OnGameClientJoined, (args) => 
         {
             AddPlayer((byte)args[0], (string)args[1]);
         });
 
-        GameManager.Notifications.AddListener(this, Event.OnReceivePlayersFromServer, (args) => 
+        Notifications.AddListener(this, Event.OnReceivePlayersFromServer, (args) => 
         {
             var usernames = (Dictionary<byte, string>)args[0];
 
@@ -47,7 +47,7 @@ public class UIPlayerList : Control
 
     public void RemoveAllPlayers()
     {
-        foreach (Label child in controlPlayerList.GetChildren())
+        foreach (Label child in ControlPlayerList.GetChildren())
             child.QueueFree();
 
         Players.Clear();
@@ -58,15 +58,15 @@ public class UIPlayerList : Control
     private void AddLabel(string text)
     {
         var label = new Label();
-        label.Align = Label.AlignEnum.Center;
+        label.HorizontalAlignment = HorizontalAlignment.Center;
         label.Text = text;
         label.Name = text;
-        controlPlayerList.AddChild(label);
+        ControlPlayerList.AddChild(label);
     }
 
     private void RemoveLabel(string text)
     {
-        foreach (Label child in controlPlayerList.GetChildren())
+        foreach (Label child in ControlPlayerList.GetChildren())
         {
             if (child.Name == text) 
             {
@@ -76,7 +76,7 @@ public class UIPlayerList : Control
         }
 
         // have to wait a frame for the child count to update so that's why were checking if equal to 1 instead of 0
-        if (controlPlayerList.GetChildCount() == 1) 
+        if (ControlPlayerList.GetChildCount() == 1) 
             Hide();
     }
 }

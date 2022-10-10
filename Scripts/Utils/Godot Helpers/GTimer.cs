@@ -4,43 +4,59 @@ namespace Sankari;
 
 public class GTimer
 {
-    private readonly Timer timer = new();
+	private Timer Timer { get; } = new();
+	private Callable Callable { get; }
 
-    public float TimeLeft 
-    { 
-        get { return timer.TimeLeft; } 
-    }
+	public double TimeLeft
+	{
+		get { return Timer.TimeLeft; }
+	}
 
-    public GTimer(Node target, string methodName, int delayMs = 1000, bool loop = true, bool autoStart = true)
-    {
-        Init(target, delayMs, loop, autoStart);
-        timer.Connect("timeout", target, methodName);
-    }
+	public GTimer(Node node, Callable callable, int delayMs = 1000, bool loop = true, bool autoStart = true)
+	{
+		Init(node, delayMs, loop, autoStart);
+		Callable = callable;
+		Timer.Connect("timeout", Callable);
+	}
 
-    private void Init(Node target, int delayMs, bool loop, bool autoStart)
-    {
-        timer.WaitTime = delayMs / 1000f;
-        timer.OneShot = !loop;
-        timer.Autostart = autoStart;
-        target.AddChild(timer);
-    }
+	public GTimer(Node target, string methodName, int delayMs = 1000, bool loop = true, bool autoStart = true)
+		: this(target, new Callable(target, methodName), delayMs, loop, autoStart)
+	{
+	}
 
-    public bool IsActive() => timer.TimeLeft != 0;
-    public void SetDelay(float delay) => timer.WaitTime = delay;
-    public void SetDelayMs(int delayMs) => timer.WaitTime = delayMs / 1000f;
+	private void Init(Node target, int delayMs, bool loop, bool autoStart)
+	{
+		Timer.WaitTime = delayMs / 1000f;
+		Timer.OneShot = !loop;
+		Timer.Autostart = autoStart;
+		target.AddChild(Timer);
+	}
 
-    public void Start(float delay)
-    {
-        timer.WaitTime = delay;
-        Start();
-    }
-    public void StartMs(float delayMs)
-    {
-        timer.WaitTime = delayMs / 1000;
-        Start();
-    }
+	public bool IsActive() => Timer.TimeLeft != 0;
 
-    public void Start() => timer.Start();
-    public void Stop() => timer.Stop();
-    public void QueueFree() => timer.QueueFree();
+	public void SetDelay(float delay) => Timer.WaitTime = delay;
+
+	public void SetDelayMs(int delayMs) => Timer.WaitTime = delayMs / 1000f;
+
+	public void Start(float delay)
+	{
+		Timer.WaitTime = delay;
+		Start();
+	}
+
+	public void StartMs(float delayMs)
+	{
+		Timer.WaitTime = delayMs / 1000;
+		Start();
+	}
+
+	public void Start() => Timer.Start();
+
+	public void Stop()
+	{
+		Timer.Stop();
+		Callable.Call();
+	}
+
+	public void QueueFree() => Timer.QueueFree();
 }

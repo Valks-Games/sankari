@@ -1,30 +1,28 @@
 namespace Sankari;
 
-public class PopupMessage : WindowDialog
+public partial class PopupMessage : Window
 {
-    [Export] protected readonly NodePath NodePathMessage;
+    [Export] protected NodePath NodePathMessage { get; set; }
 
-    private string _message;
-    private string _title;
-    private Popups _popupManager;
+    private string Message { get; set; }
+    private string PopupTitle { get; set; }
 
-    public void PreInit(Popups popupManager, string message, string title = "")
+    public void PreInit(string message, string title = "")
     {
-        _popupManager = popupManager;
-        _message = message;
+        Message = message;
 
-        _title = !string.IsNullOrWhiteSpace(title) ? title : "";
+        PopupTitle = !string.IsNullOrWhiteSpace(title) ? title : "";
     }
 
     public override void _Ready()
     {
-        WindowTitle = _title;
-        GetNode<Label>(NodePathMessage).Text = _message;
+        Title = PopupTitle;
+        GetNode<Label>(NodePathMessage).Text = Message;
     }
 
     private void _on_UIPopupMessage_popup_hide()
     {
-        _popupManager.Next();
+        Popups.Next();
         QueueFree();
     }
 

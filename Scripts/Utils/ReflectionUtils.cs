@@ -4,6 +4,9 @@ namespace Sankari;
 
 public static class ReflectionUtils
 {
+	/// <summary>
+	/// Loads instances of each class into a dictionary sorted by strings
+	/// </summary>
     public static Dictionary<TKey, TValue> LoadInstances<TKey, TValue>(string prefix) =>
         Assembly.GetExecutingAssembly()
             .GetTypes()

@@ -4,7 +4,7 @@ namespace Sankari;
 
 public abstract class Command
 {
-    public static readonly List<Command> Instances = Assembly.GetExecutingAssembly()
+    public static List<Command> Instances { get; } = Assembly.GetExecutingAssembly()
             .GetTypes()
             .Where(x => typeof(Command).IsAssignableFrom(x) && !x.IsAbstract)
             .Select(Activator.CreateInstance).Cast<Command>()

@@ -16,6 +16,6 @@ public class CPacketPlayerPosition : APacketClient
 
     public override void Handle(ENet.Peer peer)
     {
-        GameManager.Net.Server.Players[(byte)peer.ID].Position = Position;
+        Net.Server.Players[(byte)peer.ID].Position = Position;
     }
 }

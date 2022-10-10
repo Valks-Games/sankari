@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource path="res://Sprites/Level/Turret Rod.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/Enemy/Turret.cs" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://d3byt80wjv304" path="res://Sprites/Level/Turret Rod.png" id="1"]
+[ext_resource type="Script" path="res://Scripts/Entities/Enemy/Turret.cs" id="2"]
 
 [sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 3, 3 )
@@ -14,18 +14,18 @@ script = ExtResource( 2 )
 NodePathPositionEndOfRod = NodePath("Rod/End of Rod")
 
 [node name="Base" type="ColorRect" parent="."]
-margin_left = -3.0
-margin_top = -3.0
-margin_right = 3.0
-margin_bottom = 3.0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="Rod" type="Sprite" parent="."]
+[node name="Rod" type="Sprite2D" parent="."]
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 offset = Vector2( 10, 0 )
 
-[node name="End of Rod" type="Position2D" parent="Rod"]
+[node name="End of Rod" type="Marker2D" parent="Rod"]
 position = Vector2( 25, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

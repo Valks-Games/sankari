@@ -1,114 +1,101 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://drhv6phmlcb2c"]
 
-[ext_resource path="res://Themes/Main.tres" type="Theme" id=1]
-[ext_resource path="res://Scripts/UI/UIMenu.cs" type="Script" id=2]
-[ext_resource path="res://Themes/Fonts/Roboto.tres" type="DynamicFont" id=3]
-[ext_resource path="res://Themes/Button New/Large.tres" type="Theme" id=4]
-[ext_resource path="res://Themes/Button New/Medium.tres" type="Theme" id=5]
+[ext_resource type="Theme" uid="uid://g6gh2yrjxny3" path="res://Themes/Main.tres" id="1"]
+[ext_resource type="Script" path="res://Scripts/UI/UIMenu.cs" id="2"]
+[ext_resource type="Theme" uid="uid://cnxyq1tcmihl0" path="res://Themes/Button New/Large.tres" id="4"]
+[ext_resource type="Theme" uid="uid://dfabn4csoslgr" path="res://Themes/Button New/Medium.tres" id="5"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0, 0, 1 )
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2kwsd"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Menu" type="Panel"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
-custom_styles/panel = SubResource( 1 )
-script = ExtResource( 2 )
+theme = ExtResource("1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_2kwsd")
+script = ExtResource("2")
 
 [node name="Left Sidebar" type="MarginContainer" parent="."]
+anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_top = -26.0
-margin_right = 249.0
-margin_bottom = 26.0
-custom_constants/margin_right = 50
-custom_constants/margin_top = 0
-custom_constants/margin_left = 50
-custom_constants/margin_bottom = 0
+offset_top = -26.0
+offset_right = 249.0
+offset_bottom = 26.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Left Sidebar"]
-margin_left = 50.0
-margin_right = 199.0
-margin_bottom = 52.0
-theme = ExtResource( 4 )
+offset_right = 249.0
+offset_bottom = 52.0
+theme = ExtResource("4")
 
 [node name="Play" type="Button" parent="Left Sidebar/VBoxContainer"]
-margin_right = 149.0
-margin_bottom = 52.0
-focus_neighbour_right = NodePath("../../../Right Sidebar/VBoxContainer/Options")
+offset_right = 249.0
+offset_bottom = 49.0
+focus_neighbor_right = NodePath("../../../Right Sidebar/VBoxContainer/Options")
 text = "Play"
 
 [node name="Right Sidebar" type="MarginContainer" parent="."]
+anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -212.0
-margin_top = -102.0
-margin_bottom = 102.0
-theme = ExtResource( 5 )
-custom_constants/margin_right = 50
-custom_constants/margin_top = 0
-custom_constants/margin_left = 50
-custom_constants/margin_bottom = 0
+offset_left = -212.0
+offset_top = -102.0
+offset_bottom = 102.0
+theme = ExtResource("5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Right Sidebar"]
-margin_left = 50.0
-margin_right = 162.0
-margin_bottom = 204.0
-theme = ExtResource( 5 )
+offset_right = 212.0
+offset_bottom = 208.0
+theme = ExtResource("5")
 
 [node name="Options" type="Button" parent="Right Sidebar/VBoxContainer"]
-margin_right = 112.0
-margin_bottom = 48.0
+offset_right = 212.0
+offset_bottom = 49.0
 text = "Options"
 
 [node name="Mods" type="Button" parent="Right Sidebar/VBoxContainer"]
-margin_top = 52.0
-margin_right = 112.0
-margin_bottom = 100.0
+offset_top = 53.0
+offset_right = 212.0
+offset_bottom = 102.0
 text = "Mods"
 
 [node name="Credits" type="Button" parent="Right Sidebar/VBoxContainer"]
-margin_top = 104.0
-margin_right = 112.0
-margin_bottom = 152.0
+offset_top = 106.0
+offset_right = 212.0
+offset_bottom = 155.0
 text = "Credits"
 
 [node name="Quit" type="Button" parent="Right Sidebar/VBoxContainer"]
-margin_top = 156.0
-margin_right = 112.0
-margin_bottom = 204.0
-focus_neighbour_left = NodePath("../../../Left Sidebar/VBoxContainer/Play")
+offset_top = 159.0
+offset_right = 212.0
+offset_bottom = 208.0
+focus_neighbor_left = NodePath("../../../Left Sidebar/VBoxContainer/Play")
 text = "Quit"
 
 [node name="Social Links" type="MarginContainer" parent="."]
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -27.0
-margin_right = 139.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 0
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 0
+offset_top = -27.0
+offset_right = 139.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Social Links"]
-margin_left = 10.0
-margin_right = 129.0
-margin_bottom = 27.0
+offset_right = 139.0
+offset_bottom = 27.0
 
 [node name="Discord" type="Button" parent="Social Links/HBoxContainer"]
-margin_right = 60.0
-margin_bottom = 27.0
-custom_fonts/font = ExtResource( 3 )
+offset_right = 61.0
+offset_bottom = 27.0
 text = "Discord"
 flat = true
 
 [node name="GitHub" type="Button" parent="Social Links/HBoxContainer"]
-margin_left = 64.0
-margin_right = 119.0
-margin_bottom = 27.0
+offset_left = 65.0
+offset_right = 121.0
+offset_bottom = 27.0
 text = "GitHub"
 flat = true
 

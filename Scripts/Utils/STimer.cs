@@ -4,6 +4,9 @@ using System.Timers;
 using Timer = System.Timers.Timer;
 using Object = System.Object;
 
+/// <summary>
+/// If for whatever reason a Timer is needed on a non-Godot thread, this is what you should use.
+/// </summary>
 public class STimer : IDisposable
 {
     private Timer Timer { get; }

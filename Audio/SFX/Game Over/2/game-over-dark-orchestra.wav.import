@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/game-over-dark-orchestra.wav-647a78dbb39d5c654c57deaaf7d59730.sample"
+type="AudioStreamWAV"
+uid="uid://cdpb1ccjo2pkk"
+path="res://.godot/imported/game-over-dark-orchestra.wav-647a78dbb39d5c654c57deaaf7d59730.sample"
 
 [deps]
 
 source_file="res://Audio/SFX/Game Over/2/game-over-dark-orchestra.wav"
-dest_files=[ "res://.import/game-over-dark-orchestra.wav-647a78dbb39d5c654c57deaaf7d59730.sample" ]
+dest_files=["res://.godot/imported/game-over-dark-orchestra.wav-647a78dbb39d5c654c57deaaf7d59730.sample"]
 
 [params]
 

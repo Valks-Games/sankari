@@ -6,7 +6,7 @@ using Event = ENet.Event;
 
 public abstract class ENetServer
 {
-    protected static readonly Dictionary<ClientPacketOpcode, APacketClient> HandlePacket = ReflectionUtils.LoadInstances<ClientPacketOpcode, APacketClient>("CPacket");
+    protected static Dictionary<ClientPacketOpcode, APacketClient> HandlePacket { get; } = ReflectionUtils.LoadInstances<ClientPacketOpcode, APacketClient>("CPacket");
 
     /// <summary>
     /// This property is thread safe
@@ -21,23 +21,18 @@ public abstract class ENetServer
     /// <summary>
     /// This property is thread safe
     /// </summary>
-    public readonly ConcurrentQueue<ENetServerCmd> ENetCmds = new();
+    public ConcurrentQueue<ENetServerCmd> ENetCmds { get; } = new();
     //
 
-    private readonly ConcurrentQueue<ServerPacket> outgoing = new();
+    private ConcurrentQueue<ServerPacket> Outgoing { get; } = new();
 
     protected readonly Dictionary<uint, Peer> Peers = new();
-    protected CancellationTokenSource CancellationTokenSource = new();
-    protected bool queueRestart { get; set; }
-
+    protected CancellationTokenSource CancellationTokenSource { get; set; } = new();
+    protected bool QueueRestart { get; set; }
+	
+	// fields
     private long someoneConnected = 0;
     private long running = 0;
-    private readonly Net networkManager;
-
-    protected ENetServer(Net networkManager)
-    {
-        this.networkManager = networkManager;
-    }
 
     /// <summary>
     /// This method is not thread safe
@@ -107,25 +102,25 @@ public abstract class ENetServer
     /// Send an opcode to peer(s) (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, Peer peer, params Peer[] peers) =>
-        outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, null, JoinPeers(peer, peers)));
+        Outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, null, JoinPeers(peer, peers)));
 
     /// <summary>
     /// Send an opcode to peer(s) with data (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, APacket data, Peer peer, params Peer[] peers) =>
-        outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, data, JoinPeers(peer, peers)));
+        Outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, data, JoinPeers(peer, peers)));
 
     /// <summary>
     /// Send an opcode to peer(s) and specify how the packet is sent (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, PacketFlags flags, Peer peer, params Peer[] peers) => 
-        outgoing.Enqueue(new ServerPacket((byte)opcode, flags, null, JoinPeers(peer, peers)));
+        Outgoing.Enqueue(new ServerPacket((byte)opcode, flags, null, JoinPeers(peer, peers)));
 
     /// <summary>
     /// Send an opcode to peer(s) with data and specify how the packet is sent (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags, Peer peer, params Peer[] peers) => 
-        outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(peer, peers)));
+        Outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(peer, peers)));
 
     // Same methods below but instead of the params being of type Peer, they are of type byte
 
@@ -133,25 +128,25 @@ public abstract class ENetServer
     /// Send an opcode to peer(s) (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, byte peerId, params byte[] peerIds) =>
-        outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, null, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
+        Outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, null, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
 
     /// <summary>
     /// Send an opcode to peer(s) with data (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, APacket data, byte peerId, params byte[] peerIds) =>
-        outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, data, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
+        Outgoing.Enqueue(new ServerPacket((byte)opcode, PacketFlags.Reliable, data, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
 
     /// <summary>
     /// Send an opcode to peer(s) and specify how the packet is sent (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, PacketFlags flags, byte peerId, params byte[] peerIds) =>
-        outgoing.Enqueue(new ServerPacket((byte)opcode, flags, null, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
+        Outgoing.Enqueue(new ServerPacket((byte)opcode, flags, null, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
 
     /// <summary>
     /// Send an opcode to peer(s) with data and specify how the packet is sent (this method is thread safe)
     /// </summary>
     public void Send(ServerPacketOpcode opcode, APacket data, PacketFlags flags, byte peerId, params byte[] peerIds) => 
-        outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
+        Outgoing.Enqueue(new ServerPacket((byte)opcode, flags, data, JoinPeers(Peers[peerId], ConvertPeerIdsToPeers(peerIds))));
 
     private Peer[] ConvertPeerIdsToPeers(byte[] peerIds) 
     {
@@ -209,7 +204,7 @@ public abstract class ENetServer
             ServerCmds();
 
             // Outgoing
-            while (outgoing.TryDequeue(out ServerPacket packet)) 
+            while (Outgoing.TryDequeue(out ServerPacket packet)) 
                 packet.Peers.ForEach(peer => Send(packet, peer));
 
             while (!polled)
@@ -267,10 +262,10 @@ public abstract class ENetServer
         server.Flush();
         Cleanup();
 
-        if (queueRestart)
+        if (QueueRestart)
         {
-            queueRestart = false;
-            networkManager.StartServer(port, maxClients, CancellationTokenSource);
+            QueueRestart = false;
+            Net.StartServer(port, maxClients, CancellationTokenSource);
         }
 
         return Task.FromResult(1);
