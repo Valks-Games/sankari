@@ -4,21 +4,6 @@
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
 
-## Differences between `main` and `godot4` branches
-**main**
-- Latest Godot 3.x stable release
-- Player movement works 80% as intended (in other words use this as a reference to how the player should move)
-- Old code and will be abandoned
-- No multiplayer
-- README and CONTRIBUTING files are up-to-date
-
-**godot4**
-- Latest Godot 4 beta stable release
-- Player movement works 20% as intended (the transition to Godot 4 beta changed a lot of stuff unforunately destroyed the way the player moves)
-- Newer code and will be merged into `main` eventually (please put all your commits on the `godot4` branch)
-- Multiplayer
-- README and CONTRIBUTING files are outdated
-
 ## Setup VS2022 to work with Godot C#
 1. Make sure you have the latest installation of [VS2022 Community Edition](https://visualstudio.microsoft.com/vs/)
 2. Set `Godot > Editor > Editor Settings > Mono > Editor > External Editor` to `Visual Studio`
