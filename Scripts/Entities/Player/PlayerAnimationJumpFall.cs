@@ -23,13 +23,9 @@ public class PlayerAnimationJumpFall : PlayerAnimation
 			if (Player.MoveDir != Vector2.Zero)
 			{
 				if (Player.PlayerInput.IsSprint)
-				{
 					Transition(Player.AnimationRunning, 1.5f);
-				}
 				else
-				{
 					Transition(Player.AnimationWalking);
-				}
 			}
 			else
 			{

@@ -19,20 +19,19 @@ public class PlayerAnimationRunning : PlayerAnimation
 		// Running -> JumpStart
 
 		if (Player.PlayerInput.IsJump)
-		{
+
 			Transition(Player.AnimationJumpStart);
-		}
+
 		else if (Player.PlayerInput.IsDash)
-		{
+
 			Transition(Player.AnimationDash);
-		}
+
 		else if (!Player.PlayerInput.IsSprint)
-		{
+
 			Transition(Player.AnimationWalking);
-		}
+
 		else if (Player.MoveDir == Vector2.Zero)
-		{
+
 			Transition(Player.AnimationIdle);
-		}
 	}
 }

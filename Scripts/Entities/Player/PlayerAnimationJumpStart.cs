@@ -17,12 +17,8 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 		// JumpStart -> Dash
 
 		if (Player.IsFalling())
-		{
 			Transition(Player.AnimationJumpFall);
-		}
 		else if (Player.PlayerInput.IsDash)
-		{
 			Transition(Player.AnimationDash);
-		}
 	}
 }

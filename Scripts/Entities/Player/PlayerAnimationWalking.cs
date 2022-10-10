@@ -20,20 +20,20 @@ public class PlayerAnimationWalking : PlayerAnimation
 		// Walking -> JumpStart
 
 		if (Player.PlayerInput.IsJump)
-		{
+
 			Transition(Player.AnimationJumpStart);
-		}
+
 		else if (Player.PlayerInput.IsDash)
-		{
+
 			Transition(Player.AnimationDash);
-		}
+
 		else if (Player.PlayerInput.IsSprint)
-		{
+
 			Transition(Player.AnimationRunning, 1.5f);
-		}
+
 		else if (Player.MoveDir == Vector2.Zero)
-		{
+
 			Transition(Player.AnimationIdle);
-		}
+
 	}
 }
