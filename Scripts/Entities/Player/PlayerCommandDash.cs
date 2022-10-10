@@ -98,7 +98,7 @@ public class PlayerCommandDash : PlayerCommand, IEntityDash
 			if (HorizontalDash)
 				dashSpeed = SpeedDashHorizontal;
 
-			Entity.PlayerVelocity = DashDir * dashSpeed;
+			Entity.Velocity = DashDir * dashSpeed;
 		}
 	}
 

@@ -17,8 +17,10 @@ public class PlayerCommandWallJump : PlayerCommand
 				var JumpForceWallVert = 600;
 
 				// wall jump
-				Entity.PlayerVelocity.x += -JumpForceWallHorz * Entity.WallDir;
-				Entity.PlayerVelocity.y -= JumpForceWallVert;
+				var velocity = Entity.Velocity;
+				velocity.x += -JumpForceWallHorz * Entity.WallDir;
+				velocity.y -= JumpForceWallVert;
+				Entity.Velocity = velocity;
 			}
 		}
 		else
@@ -33,11 +35,14 @@ public class PlayerCommandWallJump : PlayerCommand
 		{
 			if (Entity.IsFalling())
 			{
-				Entity.PlayerVelocity.y = 1;
+				var velocity = Entity.Velocity;
+				velocity.y = 1;
 
 				// fast fall
 				if (Entity.PlayerInput.IsDown)
-					Entity.PlayerVelocity.y += 200;
+					velocity.y += 200;
+
+				Entity.Velocity = velocity;
 			}
 		}
 	}

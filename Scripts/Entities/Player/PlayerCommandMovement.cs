@@ -48,21 +48,27 @@ public class PlayerCommandMovement : PlayerCommand, IEntityMovement
 
 	public override void UpdateGroundWalking(float delta)
 	{
-		Entity.PlayerVelocity.x = ClampAndDampen(Entity.PlayerVelocity.x, DampeningGround, MaxSpeedWalk);
+		var velocity = Entity.Velocity;
+		velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeedWalk);
+		Entity.Velocity = velocity;
 	}
 
 	public override void UpdateGroundSprinting(float delta)
 	{
-		Entity.PlayerVelocity.x = ClampAndDampen(Entity.PlayerVelocity.x, DampeningGround, MaxSpeedSprint);
+		var velocity = Entity.Velocity;
+		velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeedSprint);
+		Entity.Velocity = velocity;
 	}
 
 	public override void UpdateAir(float delta)
 	{
+		var velocity = Entity.Velocity;
 		if (Entity.PlayerInput.IsFastFall)
-			Entity.PlayerVelocity.y += 10;
+			velocity.y += 10;
 
-		Entity.PlayerVelocity.x += Entity.MoveDir.x * AirAcceleration;
-		Entity.PlayerVelocity.x = ClampAndDampen(Entity.PlayerVelocity.x, DampeningAir, MaxSpeedAir);
+		velocity.x += Entity.MoveDir.x * AirAcceleration;
+		velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeedAir);
+		Entity.Velocity = velocity;
 	}
 
 	private float ClampAndDampen(float horzVelocity, int dampening, int maxSpeedGround) 

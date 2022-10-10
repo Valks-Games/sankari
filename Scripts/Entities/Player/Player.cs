@@ -52,9 +52,6 @@ public partial class Player : CharacterBody2D
 	public bool CurrentlyDashing  { get; set; }
 	public bool GravityEnabled    { get; set; } = true;
 
-
-	public Vector2 PlayerVelocity; // this was made as a field intentionally
-
 	// animation
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 	public GTween           DieTween       { get; set; }
@@ -152,7 +149,7 @@ public partial class Player : CharacterBody2D
 		PlayerInput = MovementUtils.GetPlayerMovementInput();
 
 		// Velocity is a property struct, so it needs to be turned into a field to be modifiable
-		PlayerVelocity = Velocity;
+		var velocity = Velocity;
 
 		UpdateMoveDirection(PlayerInput);
 
@@ -173,7 +170,7 @@ public partial class Player : CharacterBody2D
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 				JumpCount++;
 				//Player.PlayerVelocity.y = 0; // reset velocity before jump (is this really needed?)
-				PlayerVelocity.y -= JumpForce;	
+				velocity.y -= JumpForce;	
 			}
 		}
 
@@ -182,11 +179,11 @@ public partial class Player : CharacterBody2D
 
 		// gravity
 		if (GravityEnabled)
-			PlayerVelocity.y += Gravity * delta;
+			velocity.y += Gravity * delta;
 		
 		if (IsOnGround()) // ground
 		{
-			PlayerVelocity.x += MoveDir.x * GroundAcceleration;
+			velocity.x += MoveDir.x * GroundAcceleration;
 
 			if (PlayerInput.IsSprint)
 				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
@@ -194,7 +191,7 @@ public partial class Player : CharacterBody2D
 				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundWalking(delta));
 			
 			// do not reset jump count when the player is leaving the ground for the first time
-			if (PlayerVelocity.y > 0)
+			if (velocity.y > 0)
 				JumpCount = 0;
 		}
 		else // air
@@ -202,9 +199,9 @@ public partial class Player : CharacterBody2D
 			PlayerCommands.Values.ForEach(cmd => cmd.UpdateAir(delta));
 		}
 		
-		PlayerVelocity.x = MoveDeadZone(PlayerVelocity.x, HorizontalDeadZone); // must be after ClampAndDampen(...)
+		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone); // must be after ClampAndDampen(...)
 
-		Velocity = PlayerVelocity;
+		Velocity = velocity;
 
 		MoveAndSlide();
 	}
