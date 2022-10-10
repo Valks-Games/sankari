@@ -25,22 +25,27 @@ public class PlayerAnimationDash : PlayerAnimation
 			if (!Player.IsOnGround())
 			{
 				if (Player.Velocity.y > 0)
-					Transition(Player.AnimationJumpFall);
+					SwitchState(Player.AnimationJumpFall);
 			}
 			else
 			{
 				if (Player.MoveDir != Vector2.Zero)
 				{
 					if (Player.PlayerInput.IsSprint)
-						Transition(Player.AnimationRunning, 1.5f);
+						SwitchState(Player.AnimationRunning);
 					else
-						Transition(Player.AnimationWalking);
+						SwitchState(Player.AnimationWalking);
 				}
 				else
 				{
-					Transition(Player.AnimationIdle);
+					SwitchState(Player.AnimationIdle);
 				}
 			}
 		}	
+	}
+
+	public override void ExitState()
+	{
+		
 	}
 }

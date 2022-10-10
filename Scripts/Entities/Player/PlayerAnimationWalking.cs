@@ -23,19 +23,23 @@ public class PlayerAnimationWalking : PlayerAnimation
 
 		if (Player.PlayerInput.IsJump)
 
-			Transition(Player.AnimationJumpStart);
+			SwitchState(Player.AnimationJumpStart);
 
 		else if (Player.PlayerInput.IsDash)
 
-			Transition(Player.AnimationDash);
+			SwitchState(Player.AnimationDash);
 
 		else if (Player.PlayerInput.IsSprint)
 
-			Transition(Player.AnimationRunning, 1.5f);
+			SwitchState(Player.AnimationRunning);
 
 		else if (Player.MoveDir == Vector2.Zero)
 
-			Transition(Player.AnimationIdle);
+			SwitchState(Player.AnimationIdle);
+	}
 
+	public override void ExitState()
+	{
+		
 	}
 }

@@ -20,10 +20,15 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 		// JumpStart -> Dash
 
 		if (Player.IsFalling())
-			Transition(Player.AnimationJumpFall);
+			SwitchState(Player.AnimationJumpFall);
 		else if (Player.PlayerInput.IsDash)
-			Transition(Player.AnimationDash);
+			SwitchState(Player.AnimationDash);
 		else if (Player.IsOnGround() && Player.MoveDir == Vector2.Zero)
-			Transition(Player.AnimationIdle);
+			SwitchState(Player.AnimationIdle);
+	}
+
+	public override void ExitState()
+	{
+		
 	}
 }

@@ -25,18 +25,23 @@ public class PlayerAnimationJumpFall : PlayerAnimation
 			if (Player.MoveDir != Vector2.Zero)
 			{
 				if (Player.PlayerInput.IsSprint)
-					Transition(Player.AnimationRunning, 1.5f);
+					SwitchState(Player.AnimationRunning);
 				else
-					Transition(Player.AnimationWalking);
+					SwitchState(Player.AnimationWalking);
 			}
 			else
 			{
-				Transition(Player.AnimationIdle);
+				SwitchState(Player.AnimationIdle);
 			}
 		}
 		else if (Player.PlayerInput.IsDash)
 		{
-			Transition(Player.AnimationDash);
+			SwitchState(Player.AnimationDash);
 		}
+	}
+
+	public override void ExitState()
+	{
+		
 	}
 }

@@ -9,6 +9,7 @@ public class PlayerAnimationRunning : PlayerAnimation
 	public override void EnterState()
 	{
 		Player.AnimatedSprite.Play("walk");
+		Player.AnimatedSprite.SpeedScale = 1.5f;
 	}
 
 	public override void UpdateState()
@@ -22,18 +23,23 @@ public class PlayerAnimationRunning : PlayerAnimation
 
 		if (Player.PlayerInput.IsJump)
 
-			Transition(Player.AnimationJumpStart);
+			SwitchState(Player.AnimationJumpStart);
 
 		else if (Player.PlayerInput.IsDash)
 
-			Transition(Player.AnimationDash);
+			SwitchState(Player.AnimationDash);
 
 		else if (!Player.PlayerInput.IsSprint)
 
-			Transition(Player.AnimationWalking);
+			SwitchState(Player.AnimationWalking);
 
 		else if (Player.MoveDir == Vector2.Zero)
 
-			Transition(Player.AnimationIdle);
+			SwitchState(Player.AnimationIdle);
+	}
+
+	public override void ExitState()
+	{
+		Player.AnimatedSprite.SpeedScale = 1.0f;
 	}
 }

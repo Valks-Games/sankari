@@ -21,20 +21,25 @@ public class PlayerAnimationIdle : PlayerAnimation
 		if (Player.IsOnGround())
 		{
 			if (Player.PlayerInput.IsJump)
-				Transition(Player.AnimationJumpStart);
+				SwitchState(Player.AnimationJumpStart);
 
 			if (Player.MoveDir != Vector2.Zero)
 			{
 				if (Player.PlayerInput.IsSprint)
-					Transition(Player.AnimationRunning, 1.5f);
+					SwitchState(Player.AnimationRunning);
 				else
-					Transition(Player.AnimationWalking);
+					SwitchState(Player.AnimationWalking);
 			}
 		}
 		else
 		{
 			if (Player.IsFalling())
-				Transition(Player.AnimationJumpFall);
+				SwitchState(Player.AnimationJumpFall);
 		}
+	}
+
+	public override void ExitState()
+	{
+		
 	}
 }

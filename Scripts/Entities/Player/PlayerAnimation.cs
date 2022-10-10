@@ -8,12 +8,13 @@ public abstract class PlayerAnimation
 
 	public abstract void EnterState();
 	public abstract void UpdateState();
+	public abstract void ExitState();
 	
-	protected void Transition(PlayerAnimation animation, float animationSpeed = 1.0f)
+	protected void SwitchState(PlayerAnimation animation)
 	{
+		Player.CurrentAnimation.ExitState();
 		Player.CurrentAnimation = animation;
 		Player.CurrentAnimation.EnterState();
-		Player.AnimatedSprite.SpeedScale = animationSpeed;
 	}
 
 	protected void FlipSpriteOnDirection() =>
