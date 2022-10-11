@@ -57,8 +57,9 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 				velocity.y = 1;
 
 				// fast fall
-				if (Entity.PlayerInput.IsDown)
-					velocity.y += 200;
+				if (Entity is Player player)
+					if (player.PlayerInput.IsDown)
+						velocity.y += 200;
 
 				Entity.Velocity = velocity;
 			}

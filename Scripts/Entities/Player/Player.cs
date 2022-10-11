@@ -2,7 +2,7 @@ using Godot;
 
 namespace Sankari;
 
-public partial class Player : CharacterBody2D, IEntityMoveable, IEntityDash, IEntityWallJumpable
+public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement, IEntityDash, IEntityWallJumpable
 {
 	private enum PlayerCommandType 
 	{
@@ -71,7 +71,7 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityDash, IEn
 		LevelScene = levelScene;
 	}
 
-	private Dictionary<PlayerCommandType, PlayerCommand> PlayerCommands { get; set; }
+	private Dictionary<PlayerCommandType, EntityCommand> PlayerCommands { get; set; }
 	public GTimer DontCheckPlatformAfterDashDuration { get; set; }
 
 	public override void _Ready()
@@ -128,9 +128,8 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityDash, IEn
 		// Does not seem to have any effect if this is either true or false
 		SlideOnCeiling = true;
 
-		PlayerCommands = new Dictionary<PlayerCommandType, PlayerCommand>
+		PlayerCommands = new Dictionary<PlayerCommandType, EntityCommand>
 		{
-			{ PlayerCommandType.Animation, new PlayerCommandAnimation(this) },
 			{ PlayerCommandType.Movement , new EntityCommandMovement(this)  },
 			{ PlayerCommandType.Dash     , new EntityCommandDash(this)      },
 			{ PlayerCommandType.WallJump , new EntityCommandWallJump(this)  }
@@ -160,13 +159,13 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityDash, IEn
 		{
 			if (WallDir != 0)
 			{
-				PlayerCommands.Values.ForEach(cmd => cmd.Jump());
+				//PlayerCommands.Values.ForEach(cmd => cmd.Jump());
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 				PlayerCommands[PlayerCommandType.WallJump].Start();
 			}
 			else if (JumpCount < MaxJumps)
 			{
-				PlayerCommands.Values.ForEach(cmd => cmd.Jump());
+				//PlayerCommands.Values.ForEach(cmd => cmd.Jump());
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 				JumpCount++;
 				//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
@@ -298,7 +297,7 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityDash, IEn
 	public void Died() 
 	{
 		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
-		PlayerCommands.Values.ForEach(cmd => cmd.Died());	
+		//PlayerCommands.Values.ForEach(cmd => cmd.Died());	
 	}
 
 	private void _on_Player_Area_area_entered(Area2D area)
@@ -314,13 +313,13 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityDash, IEn
 
 		if (area.IsInGroup("Level Finish"))
 		{
-			PlayerCommands.Values.ForEach(cmd => cmd.FinishedLevel());
+			//PlayerCommands.Values.ForEach(cmd => cmd.FinishedLevel());
 			return;
 		}
 
 		if (area.IsInGroup("Enemy"))
 		{
-			PlayerCommands.Values.ForEach(cmd => cmd.TouchedEnemy());
+			//PlayerCommands.Values.ForEach(cmd => cmd.TouchedEnemy());
 			TakenDamage(GetCollisionSide(area), 1);
 			return;
 		}
