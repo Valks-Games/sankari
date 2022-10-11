@@ -2,7 +2,12 @@ using Godot;
 
 namespace Sankari;
 
-public partial class Player : CharacterBody2D
+public interface IPlayer 
+{
+	public MovementInput PlayerInput { get; }
+}
+
+public partial class Player : CharacterBody2D, IPlayer
 {
 	private enum PlayerCommandType 
 	{
@@ -131,7 +136,7 @@ public partial class Player : CharacterBody2D
 		PlayerCommands = new Dictionary<PlayerCommandType, PlayerCommand>
 		{
 			{ PlayerCommandType.Animation, new PlayerCommandAnimation(this) },
-			{ PlayerCommandType.Movement , new PlayerCommandMovement(this)  },
+			{ PlayerCommandType.Movement , new EntityCommandMovement(this)  },
 			{ PlayerCommandType.Dash     , new EntityCommandDash(this)      },
 			{ PlayerCommandType.WallJump , new PlayerCommandWallJump(this)  }
 		};
@@ -151,6 +156,9 @@ public partial class Player : CharacterBody2D
 		UpdateMoveDirection(PlayerInput);
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
+
+		if (!CurrentlyDashing && !DontCheckPlatformAfterDashDuration.IsActive())
+			UpdateUnderPlatform(PlayerInput);
 
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump)
@@ -193,6 +201,9 @@ public partial class Player : CharacterBody2D
 		}
 		else // air
 		{
+			if (PlayerInput.IsFastFall)
+				Velocity = Velocity + new Vector2(0, 10);
+
 			PlayerCommands.Values.ForEach(cmd => cmd.UpdateAir(delta));
 		}
 
@@ -218,6 +229,21 @@ public partial class Player : CharacterBody2D
 			});
 
 		PrevNetPos = Position;
+	}
+
+	private async void UpdateUnderPlatform(MovementInput input)
+	{
+		var collision = RayCast2DGroundChecks[0].GetCollider();
+
+		if (collision is TileMap tilemap)
+		{
+			if (input.IsDown && tilemap.IsInGroup("Platform"))
+			{
+				tilemap.EnableLayers(2);
+				await Task.Delay(1000);
+				tilemap.EnableLayers(1, 2);
+			}
+		}
 	}
 
 	private void UpdateMoveDirection(MovementInput input)
