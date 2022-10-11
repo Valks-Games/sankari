@@ -1,10 +1,10 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpStart : EntityAnimation
+public class EntityAnimationJumpStart<T> : EntityAnimation<T> where T : IEntityAnimation
 {
 	private GTimer TimerDontCheckOnGround;
 
-	public EntityAnimationJumpStart(Player player) : base(player) { }
+	public EntityAnimationJumpStart(T entity) : base(entity) { }
 
 	protected override void EnterState()
 	{

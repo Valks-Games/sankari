@@ -1,8 +1,8 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationRunning : EntityAnimation
+public class EntityAnimationRunning<T> : EntityAnimation<T> where T : IEntityAnimation
 {
-	public EntityAnimationRunning(Player player) : base(player) { }
+	public EntityAnimationRunning(T entity) : base(entity) { }
 
 	protected override void EnterState()
 	{

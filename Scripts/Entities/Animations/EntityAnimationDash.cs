@@ -1,8 +1,8 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationDash : EntityAnimation
+public class EntityAnimationDash<T> : EntityAnimation<T> where T : IEntityAnimation
 {
-	public EntityAnimationDash(Player player) : base(player) { }
+	public EntityAnimationDash(T entity) : base(entity) { }
 
 	protected override void EnterState()
 	{
@@ -21,18 +21,18 @@ public class EntityAnimationDash : EntityAnimation
 		// Dash -> Walking
 		// Dash -> Running
 
-		if (!Player.CurrentlyDashing)
-			if (!Player.IsOnGround())
-				if (Player.Velocity.y > 0)
-					SwitchState(Player.AnimationJumpFall);
+		if (!Entity.CurrentlyDashing)
+			if (!Entity.IsOnGround())
+				if (Entity.Velocity.y > 0)
+					SwitchState(Entity.AnimationJumpFall);
 			else
-				if (Player.MoveDir != Vector2.Zero)
-					if (Player.PlayerInput.IsSprint)
-						SwitchState(Player.AnimationRunning);
+				if (Entity.MoveDir != Vector2.Zero)
+					if (Entity.PlayerInput.IsSprint)
+						SwitchState(Entity.AnimationRunning);
 					else
-						SwitchState(Player.AnimationWalking);
+						SwitchState(Entity.AnimationWalking);
 				else
-					SwitchState(Player.AnimationIdle);
+					SwitchState(Entity.AnimationIdle);
 	}
 
 	protected override void ExitState()

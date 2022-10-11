@@ -59,7 +59,7 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 
 	public PlayerAnimationState AnimationState { get; set; }
 	
-	public EntityAnimation CurrentAnimation { get; set; }
+	public EntityAnimation<IEntityAnimation> CurrentAnimation { get; set; }
 	public EntityAnimationIdle AnimationIdle { get; set; }
 	public EntityAnimationWalking AnimationWalking { get; set; }
 	public EntityAnimationRunning AnimationRunning { get; set; }

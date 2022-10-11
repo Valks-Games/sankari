@@ -1,12 +1,12 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationIdle : EntityAnimation
+public class EntityAnimationIdle<T> : EntityAnimation<T> where T : IEntityAnimation
 {
-	public EntityAnimationIdle(Player player) : base(player) { }
+	public EntityAnimationIdle(T entity) : base(entity) { }
 
 	protected override void EnterState()
 	{
-		Player.AnimatedSprite.Play("idle");
+		Entity.AnimatedSprite.Play("idle");
 	}
 
 	public override void UpdateState()

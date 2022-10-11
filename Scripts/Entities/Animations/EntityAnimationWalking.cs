@@ -1,12 +1,12 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationWalking : EntityAnimation
+public class EntityAnimationWalking<T> : EntityAnimation<T> where T : IEntityAnimation
 {
-	public EntityAnimationWalking(Player player) : base(player) { }
+	public EntityAnimationWalking(T entity) : base(entity) { }
 
 	protected override void EnterState()
 	{
-		Player.AnimatedSprite.Play("walk");
+		Entity.AnimatedSprite.Play("walk");
 	}
 
 	public override void UpdateState()
@@ -21,21 +21,21 @@ public class EntityAnimationWalking : EntityAnimation
 		// Walking -> Dash
 		// Walking -> JumpStart
 
-		if (Player.PlayerInput.IsJump)
+		if (Entity.PlayerInput.IsJump)
 
-			SwitchState(Player.AnimationJumpStart);
+			SwitchState(Entity.AnimationJumpStart);
 
-		else if (Player.PlayerInput.IsDash)
+		else if (Entity.PlayerInput.IsDash)
 
-			SwitchState(Player.AnimationDash);
+			SwitchState(Entity.AnimationDash);
 
-		else if (Player.PlayerInput.IsSprint)
+		else if (Entity.PlayerInput.IsSprint)
 
-			SwitchState(Player.AnimationRunning);
+			SwitchState(Entity.AnimationRunning);
 
-		else if (Player.MoveDir == Vector2.Zero)
+		else if (Entity.MoveDir == Vector2.Zero)
 
-			SwitchState(Player.AnimationIdle);
+			SwitchState(Entity.AnimationIdle);
 	}
 
 	protected override void ExitState()
