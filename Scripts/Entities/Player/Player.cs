@@ -148,9 +148,6 @@ public partial class Player : CharacterBody2D
 
 		PlayerInput = MovementUtils.GetPlayerMovementInput();
 
-		// Velocity is a property struct, so it needs to be turned into a field to be modifiable
-		var velocity = Velocity;
-
 		UpdateMoveDirection(PlayerInput);
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
@@ -169,8 +166,8 @@ public partial class Player : CharacterBody2D
 				PlayerCommands.Values.ForEach(cmd => cmd.Jump());
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 				JumpCount++;
-				//Player.PlayerVelocity.y = 0; // reset velocity before jump (is this really needed?)
-				velocity.y -= JumpForce;	
+				//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
+				Velocity = Velocity - new Vector2(0, JumpForce);
 			}
 		}
 
@@ -179,11 +176,11 @@ public partial class Player : CharacterBody2D
 
 		// gravity
 		if (GravityEnabled)
-			velocity.y += Gravity * delta;
+			Velocity = Velocity + new Vector2(0, Gravity * delta);
 		
 		if (IsOnGround()) // ground
 		{
-			velocity.x += MoveDir.x * GroundAcceleration;
+			Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);
 
 			if (PlayerInput.IsSprint)
 				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
@@ -191,17 +188,15 @@ public partial class Player : CharacterBody2D
 				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundWalking(delta));
 			
 			// do not reset jump count when the player is leaving the ground for the first time
-			if (velocity.y > 0)
+			if (Velocity.y > 0)
 				JumpCount = 0;
 		}
 		else // air
 		{
 			PlayerCommands.Values.ForEach(cmd => cmd.UpdateAir(delta));
 		}
-		
-		velocity.x = MoveDeadZone(velocity.x, HorizontalDeadZone); // must be after ClampAndDampen(...)
 
-		Velocity = velocity;
+		Velocity = new Vector2(MoveDeadZone(Velocity.x, HorizontalDeadZone), Velocity.y); // must be after ClampAndDampen(...)
 
 		MoveAndSlide();
 	}
