@@ -12,6 +12,16 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 		WallJump
 	}
 
+	public enum PlayerAnimationState
+	{
+		Idle,
+		Walking,
+		Running,
+		JumpStart,
+		JumpFall,
+		Dash
+	}
+
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
 	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
@@ -48,6 +58,16 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 	public int MaxJumps           { get; set; } = 1;
 	public int GroundAcceleration { get; set; } = 50;
 	public int HorizontalDeadZone { get; set; } = 25;
+
+	public PlayerAnimationState AnimationState { get; set; }
+	
+	public PlayerAnimation CurrentAnimation { get; set; }
+	public PlayerAnimationIdle AnimationIdle { get; set; }
+	public PlayerAnimationWalking AnimationWalking { get; set; }
+	public PlayerAnimationRunning AnimationRunning { get; set; }
+	public PlayerAnimationDash AnimationDash { get; set; }
+	public PlayerAnimationJumpStart AnimationJumpStart { get; set; }
+	public PlayerAnimationJumpFall AnimationJumpFall { get; set; }
 
 	public bool CurrentlyDashing  { get; set; }
 	public bool GravityEnabled    { get; set; } = true;
@@ -89,6 +109,17 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 		DieTween              = new GTween(this);
 		Timers                = new GTimers(this);
 		Tree                  = GetTree().Root;
+
+		AnimationIdle = new(this);
+		AnimationWalking = new(this);
+		AnimationRunning = new(this);
+		AnimationJumpStart = new(this);
+		AnimationJumpFall = new(this);
+		AnimationDash = new(this);
+
+		CurrentAnimation = AnimationIdle;
+		AnimationState = PlayerAnimationState.Idle;
+		AnimatedSprite.Play("idle");
 
 		// dont go under platform at the end of a dash for X ms
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
@@ -148,6 +179,10 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 		PlayerInput = MovementUtils.GetPlayerMovementInput();
 
 		UpdateMoveDirection(PlayerInput);
+
+		GD.Print(CurrentAnimation);
+
+		CurrentAnimation.UpdateState();
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
 
