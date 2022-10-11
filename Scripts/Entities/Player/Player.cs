@@ -132,7 +132,7 @@ public partial class Player : CharacterBody2D
 		{
 			{ PlayerCommandType.Animation, new PlayerCommandAnimation(this) },
 			{ PlayerCommandType.Movement , new PlayerCommandMovement(this)  },
-			{ PlayerCommandType.Dash     , new PlayerCommandDash(this)      },
+			{ PlayerCommandType.Dash     , new EntityCommandDash(this)      },
 			{ PlayerCommandType.WallJump , new PlayerCommandWallJump(this)  }
 		};
 

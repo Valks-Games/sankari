@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public interface IEntityDash 
+public interface IEntityDash : IEntityMoveable
 {
 	// Current dash direction
 	public Vector2 DashDir           { get; set; }
@@ -28,9 +28,15 @@ public interface IEntityDash
 
 	// Timer for dash duration
 	public GTimer  TimerDashDuration { get; set; }
+
+	// Entity is currently dashing
+	public bool    CurrentlyDashing  { get; set; }
+
+	// Timer to prevent going under a platform too early right after the end of a dash
+	public GTimer  DontCheckPlatformAfterDashDuration { get; set; }
 }
 
-public class PlayerCommandDash : PlayerCommand, IEntityDash
+public class EntityCommandDash : EntityCommand<IEntityDash>
 {
 	public Vector2 DashDir           { get; set; }
 	public int     MaxDashes         { get; set; } = 1;
@@ -42,7 +48,7 @@ public class PlayerCommandDash : PlayerCommand, IEntityDash
 	public GTimer  TimerDashCooldown { get; set; }
 	public GTimer  TimerDashDuration { get; set; }
 
-	public PlayerCommandDash(Player player) : base(player) { }
+	public EntityCommandDash(IEntityDash entity) : base(entity) { }
 
 	public override void Initialize()
 	{
