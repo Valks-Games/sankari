@@ -2,33 +2,6 @@
 
 public interface IEntityDash : IEntityMoveable
 {
-	// Current dash direction
-	public Vector2 DashDir           { get; set; }
-
-	// Max number of dashes before entity has to touch the ground
-	public int     MaxDashes         { get; set; }
-
-	// The current dash count
-	public int     DashCount         { get; set; }
-
-	// Is this entity currently dashing horizontally?
-	public bool    HorizontalDash    { get; set; }
-
-	// If true, the entity may dash
-	public bool    DashReady         { get; set; }
-
-	// The cooldown between dashes
-	public int     DashCooldown      { get; set; }
-
-	// The duration of the dash
-	public int     DashDuration      { get; set; }
-
-	// Timer for dash cooldown
-	public GTimer  TimerDashCooldown { get; set; }
-
-	// Timer for dash duration
-	public GTimer  TimerDashDuration { get; set; }
-
 	// Entity is currently dashing
 	public bool    CurrentlyDashing  { get; set; }
 

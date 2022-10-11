@@ -2,24 +2,6 @@
 
 public interface IEntityMovement : IEntityMoveable, IEntityDash
 {
-	// Maximum walking speed
-	public int MaxSpeedWalk { get; set; }
-
-	// Maximum sprinting speed
-	public int MaxSpeedSprint   { get; set; }
-
-	// Maximum airial speed
-	public int MaxSpeedAir      { get; set; }
-
-	// How fast the entity speeds up
-	public int AirAcceleration  { get; set; }
-
-	// How much the air effects movement
-	public int DampeningAir     { get; set; }
-
-	// How much the ground effects movement
-	public int DampeningGround  { get; set; }
-
 	// Ground acceleration
 	public int GroundAcceleration { get; set; }
 
