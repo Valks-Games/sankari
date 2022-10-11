@@ -138,7 +138,7 @@ public partial class Player : CharacterBody2D, IPlayer
 			{ PlayerCommandType.Animation, new PlayerCommandAnimation(this) },
 			{ PlayerCommandType.Movement , new EntityCommandMovement(this)  },
 			{ PlayerCommandType.Dash     , new EntityCommandDash(this)      },
-			{ PlayerCommandType.WallJump , new PlayerCommandWallJump(this)  }
+			{ PlayerCommandType.WallJump , new EntityCommandWallJump(this)  }
 		};
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Initialize());

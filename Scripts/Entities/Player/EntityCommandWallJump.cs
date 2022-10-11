@@ -1,8 +1,35 @@
 ﻿namespace Sankari;
 
-public class PlayerCommandWallJump : PlayerCommand
+public interface IEntityWallJumpable : IEntityMoveable
 {
-	public PlayerCommandWallJump(Player player) : base(player) { }
+	// Left wall checks
+	public List<RayCast2D> RayCast2DWallChecksLeft  { get; }
+
+	// Right wall checks
+	public List<RayCast2D> RayCast2DWallChecksRight { get; }
+
+	// Horizontal wall jump force
+	public int JumpForceWallHorz { get; }
+
+	// Vertical wall jump force
+	public int JumpForceWallVert { get; }
+
+	// Is entity within wall jump-able area
+	public bool InWallJumpArea { get; }
+
+	// Wall direction
+	public int WallDir { get; set; }
+
+	// Is the entity falling?
+	bool IsFalling();
+
+	// Force the entity to jump
+	void Jump();
+}
+
+public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
+{
+	public EntityCommandWallJump(IEntityWallJumpable entity) : base(entity) { }
 
 	public override void Start()
 	{
