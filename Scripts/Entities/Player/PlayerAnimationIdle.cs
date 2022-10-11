@@ -13,6 +13,11 @@ public class PlayerAnimationIdle : PlayerAnimation
 
 	public override void UpdateState()
 	{
+		
+	}
+
+	public override void HandleStateTransitions()
+	{
 		// Idle -> Walking
 		// Idle -> Sprinting
 		// Idle -> JumpStart

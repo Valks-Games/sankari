@@ -15,7 +15,10 @@ public class PlayerAnimationWalking : PlayerAnimation
 	public override void UpdateState()
 	{
 		FlipSpriteOnDirection();
+	}
 
+	public override void HandleStateTransitions()
+	{
 		// Walking -> Idle
 		// Walking -> Running
 		// Walking -> Dash

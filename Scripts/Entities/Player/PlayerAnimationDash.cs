@@ -14,7 +14,10 @@ public class PlayerAnimationDash : PlayerAnimation
 	public override void UpdateState()
 	{
 		FlipSpriteOnDirection();
+	}
 
+	public override void HandleStateTransitions()
+	{
 		// Dash -> Idle
 		// Dash -> JumpFall
 		// Dash -> Walking
@@ -41,7 +44,7 @@ public class PlayerAnimationDash : PlayerAnimation
 					SwitchState(Player.AnimationIdle);
 				}
 			}
-		}	
+		}
 	}
 
 	protected override void ExitState()

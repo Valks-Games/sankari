@@ -181,6 +181,7 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 		UpdateMoveDirection(PlayerInput);
 
 		CurrentAnimation.UpdateState();
+		CurrentAnimation.HandleStateTransitions();
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
 

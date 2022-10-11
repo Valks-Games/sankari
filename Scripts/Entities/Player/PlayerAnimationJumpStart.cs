@@ -17,7 +17,10 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 	public override void UpdateState()
 	{
 		FlipSpriteOnDirection();
+	}
 
+	public override void HandleStateTransitions()
+	{
 		// JumpStart -> Idle
 		// JumpStart -> JumpFall
 		// JumpStart -> Dash
