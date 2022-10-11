@@ -2,7 +2,9 @@
   <img alt="Discord" src="https://img.shields.io/discord/1005979449340211240?color=black&label=Sankari&logo=Discord&logoColor=white">
 </p>
 
-## Gameplay -> https://www.youtube.com/watch?v=mSUxmJlmxyc
+<h4 align="center">
+  <a href="https://www.youtube.com/watch?v=mSUxmJlmxyc">Video of Gameplay</a>
+</h4>
 
 ## What is Sankari?
 Sankari ("hero" in Finnish) is a non-profit F2P 2D Platformer about a hero whose village gets raided by the evil king. The hero goes on a journey to free back the villagers that were captured and defeat the evil king. 
