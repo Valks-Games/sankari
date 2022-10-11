@@ -1,5 +1,6 @@
 ﻿namespace Sankari;
 
+// unused class?
 public abstract class PlayerCommand : EntityCommand<Player>
 {
 	protected PlayerCommand(Player entity) : base(entity) { }
