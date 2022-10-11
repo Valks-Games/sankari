@@ -38,39 +38,29 @@ public interface IEntityDash : IEntityMoveable
 
 public class EntityCommandDash : EntityCommand<IEntityDash>
 {
-	public Vector2 DashDir           { get; set; }
-	public int     MaxDashes         { get; set; } = 1;
-	public int     DashCount         { get; set; }
-	public bool    HorizontalDash    { get; set; }
-	public bool    DashReady         { get; set; } = true;
-	public int     DashCooldown      { get; set; }	= 1400;
-	public int     DashDuration      { get; set; }	= 200;
-	public GTimer  TimerDashCooldown { get; set; }
-	public GTimer  TimerDashDuration { get; set; }
-
 	public EntityCommandDash(IEntityDash entity) : base(entity) { }
 
 	public override void Initialize()
 	{
-		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false, false);
-		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false, false);
+		Entity.TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), Entity.DashCooldown, false, false);
+		Entity.TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), Entity.DashDuration, false, false);
 	}
 
 	public override void Start()
 	{
-		if (DashReady && !Entity.CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
+		if (Entity.DashReady && !Entity.CurrentlyDashing && Entity.DashCount != Entity.MaxDashes && !Entity.IsOnGround())
 		{
-			DashDir = GetDashDirection(Entity.MoveDir);
+			Entity.DashDir = GetDashDirection(Entity.MoveDir);
 
-			if (DashDir != Vector2.Zero)
+			if (Entity.DashDir != Vector2.Zero)
 			{
 				GameManager.EventsPlayer.Notify(EventPlayer.OnDash);
 				Entity.GravityEnabled = false;
-				DashCount++;
-				DashReady = false;
+				Entity.DashCount++;
+				Entity.DashReady = false;
 				Entity.CurrentlyDashing = true;
-				TimerDashDuration.Start();
-				TimerDashCooldown.Start();
+				Entity.TimerDashDuration.Start();
+				Entity.TimerDashCooldown.Start();
 			}
 		}
 	}
@@ -81,7 +71,7 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 		// Also what if IsOnGround() was called in other commands? 
 		// Shouldn't IsOnGround() only be called once?
 		if (Entity.IsOnGround())
-			DashCount = 0;
+			Entity.DashCount = 0;
 	}
 
 	public override void UpdateAir(float delta)
@@ -101,10 +91,10 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 
 			var dashSpeed = SpeedDashVertical;
 
-			if (HorizontalDash)
+			if (Entity.HorizontalDash)
 				dashSpeed = SpeedDashHorizontal;
 
-			Entity.Velocity = DashDir * dashSpeed;
+			Entity.Velocity = Entity.DashDir * dashSpeed;
 		}
 	}
 
@@ -125,14 +115,14 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 		// Only update horizontal dash property if input for it is received
 		if (MovementUtils.IsUp(moveDir) || (MovementUtils.IsDown(moveDir) && moveDir.x == 0))
 			// Prioritize input up for vertical dashing
-			HorizontalDash = false;
+			Entity.HorizontalDash = false;
 		else if (moveDir.x != 0)
-			HorizontalDash = true;
+			Entity.HorizontalDash = true;
 
 		return new Vector2(x, y);
 	}
 
-	private void OnDashReady() => DashReady = true;
+	private void OnDashReady() => Entity.DashReady = true;
 
 	private void OnDashDurationDone() 
 	{

@@ -27,13 +27,6 @@ public interface IEntityMovement : IEntityMoveable, IEntityDash
 
 public class EntityCommandMovement : EntityCommand<IEntityMovement>
 {
-	public int MaxSpeedWalk     { get; set; } = 350;
-	public int MaxSpeedSprint   { get; set; } = 500;
-	public int MaxSpeedAir      { get; set; } = 350;
-	public int AirAcceleration  { get; set; } = 20;
-	public int DampeningAir     { get; set; } = 10;
-	public int DampeningGround  { get; set; } = 25;
-
 	public EntityCommandMovement(IEntityMovement entity) : base(entity) { }
 
 	public override void Initialize()

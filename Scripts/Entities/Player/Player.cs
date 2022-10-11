@@ -27,6 +27,25 @@ public partial class Player : CharacterBody2D, IEntityMoveable
 	public  Vector2 PrevNetPos { get; set; }
 	public  Vector2 MoveDir    { get; set; }
 
+	// dash
+	public Vector2 DashDir           { get; set; }
+	public int     MaxDashes         { get; set; } = 1;
+	public int     DashCount         { get; set; }
+	public bool    HorizontalDash    { get; set; }
+	public bool    DashReady         { get; set; } = true;
+	public int     DashCooldown      { get; set; }	= 1400;
+	public int     DashDuration      { get; set; }	= 200;
+	public GTimer  TimerDashCooldown { get; set; }
+	public GTimer  TimerDashDuration { get; set; }
+
+	// movement
+	public int MaxSpeedWalk     { get; set; } = 350;
+	public int MaxSpeedSprint   { get; set; } = 500;
+	public int MaxSpeedAir      { get; set; } = 350;
+	public int AirAcceleration  { get; set; } = 20;
+	public int DampeningAir     { get; set; } = 10;
+	public int DampeningGround  { get; set; } = 25;
+
 	public  bool HaltPlayerLogic { get; set; }
 
 	// timers
