@@ -180,8 +180,6 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 
 		UpdateMoveDirection(PlayerInput);
 
-		GD.Print(CurrentAnimation);
-
 		CurrentAnimation.UpdateState();
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));

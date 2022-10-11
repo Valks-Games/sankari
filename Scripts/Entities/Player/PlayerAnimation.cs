@@ -12,6 +12,7 @@ public abstract class PlayerAnimation
 	
 	protected void SwitchState(PlayerAnimation animation)
 	{
+		Logger.Log(animation);
 		Player.CurrentAnimation.ExitState();
 		Player.CurrentAnimation = animation;
 		Player.CurrentAnimation.EnterState();
