@@ -8,12 +8,6 @@ public interface IEntityWallJumpable : IEntityMoveable
 	// Right wall checks
 	public List<RayCast2D> RayCast2DWallChecksRight { get; }
 
-	// Horizontal wall jump force
-	public int JumpForceWallHorz { get; }
-
-	// Vertical wall jump force
-	public int JumpForceWallVert { get; }
-
 	// Is entity within wall jump-able area
 	public bool InWallJumpArea { get; }
 
@@ -22,9 +16,6 @@ public interface IEntityWallJumpable : IEntityMoveable
 
 	// Is the entity falling?
 	bool IsFalling();
-
-	// Force the entity to jump
-	void Jump();
 }
 
 public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>

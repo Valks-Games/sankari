@@ -2,7 +2,7 @@ using Godot;
 
 namespace Sankari;
 
-public partial class Player : CharacterBody2D, IEntityMoveable
+public partial class Player : CharacterBody2D, IEntityMoveable, IEntityDash, IEntityWallJumpable
 {
 	private enum PlayerCommandType 
 	{
