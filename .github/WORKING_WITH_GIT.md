@@ -1,4 +1,6 @@
 ## Working with Git
+I highly recommend installing [GitHub Desktop](https://desktop.github.com/), it greatly simplifies this process for the most part.
+
 ### Setup GitHub Fork
 1. Fork this repo
 2. Install [Git scm](https://git-scm.com/downloads)
