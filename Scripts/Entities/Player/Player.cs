@@ -2,12 +2,7 @@ using Godot;
 
 namespace Sankari;
 
-public interface IPlayer 
-{
-	public MovementInput PlayerInput { get; }
-}
-
-public partial class Player : CharacterBody2D, IPlayer
+public partial class Player : CharacterBody2D, IEntityMoveable
 {
 	private enum PlayerCommandType 
 	{
