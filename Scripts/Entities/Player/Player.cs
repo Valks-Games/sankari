@@ -1,5 +1,3 @@
-using Godot;
-
 namespace Sankari;
 
 public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement, IEntityDash, IEntityWallJumpable
@@ -61,13 +59,13 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 
 	public PlayerAnimationState AnimationState { get; set; }
 	
-	public PlayerAnimation CurrentAnimation { get; set; }
-	public PlayerAnimationIdle AnimationIdle { get; set; }
-	public PlayerAnimationWalking AnimationWalking { get; set; }
-	public PlayerAnimationRunning AnimationRunning { get; set; }
-	public PlayerAnimationDash AnimationDash { get; set; }
-	public PlayerAnimationJumpStart AnimationJumpStart { get; set; }
-	public PlayerAnimationJumpFall AnimationJumpFall { get; set; }
+	public EntityAnimation CurrentAnimation { get; set; }
+	public EntityAnimationIdle AnimationIdle { get; set; }
+	public EntityAnimationWalking AnimationWalking { get; set; }
+	public EntityAnimationRunning AnimationRunning { get; set; }
+	public EntityAnimationDash AnimationDash { get; set; }
+	public EntityAnimationJumpStart AnimationJumpStart { get; set; }
+	public EntityAnimationJumpFall AnimationJumpFall { get; set; }
 
 	public bool CurrentlyDashing  { get; set; }
 	public bool GravityEnabled    { get; set; } = true;

@@ -1,12 +1,10 @@
-﻿using static Sankari.Player;
+﻿namespace Sankari;
 
-namespace Sankari;
-
-public class PlayerAnimationJumpStart : PlayerAnimation
+public class EntityAnimationJumpStart : EntityAnimation
 {
 	private GTimer TimerDontCheckOnGround;
 
-	public PlayerAnimationJumpStart(Player player) : base(player) { }
+	public EntityAnimationJumpStart(Player player) : base(player) { }
 
 	protected override void EnterState()
 	{
@@ -40,6 +38,6 @@ public class PlayerAnimationJumpStart : PlayerAnimation
 
 	protected override void ExitState()
 	{
-		
+
 	}
 }

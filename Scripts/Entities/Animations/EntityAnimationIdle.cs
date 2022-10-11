@@ -1,10 +1,8 @@
-﻿using static Sankari.Player;
+﻿namespace Sankari;
 
-namespace Sankari;
-
-public class PlayerAnimationIdle : PlayerAnimation
+public class EntityAnimationIdle : EntityAnimation
 {
-	public PlayerAnimationIdle(Player player) : base(player) { }
+	public EntityAnimationIdle(Player player) : base(player) { }
 
 	protected override void EnterState()
 	{
@@ -13,7 +11,7 @@ public class PlayerAnimationIdle : PlayerAnimation
 
 	public override void UpdateState()
 	{
-		
+
 	}
 
 	public override void HandleStateTransitions()
@@ -29,22 +27,18 @@ public class PlayerAnimationIdle : PlayerAnimation
 				SwitchState(Player.AnimationJumpStart);
 
 			if (Player.MoveDir != Vector2.Zero)
-			{
 				if (Player.PlayerInput.IsSprint)
 					SwitchState(Player.AnimationRunning);
 				else
 					SwitchState(Player.AnimationWalking);
-			}
 		}
 		else
-		{
 			if (Player.IsFalling())
 				SwitchState(Player.AnimationJumpFall);
-		}
 	}
 
 	protected override void ExitState()
 	{
-		
+
 	}
 }

@@ -1,10 +1,8 @@
-﻿using static Sankari.Player;
+﻿namespace Sankari;
 
-namespace Sankari;
-
-public class PlayerAnimationDash : PlayerAnimation
+public class EntityAnimationDash : EntityAnimation
 {
-	public PlayerAnimationDash(Player player) : base(player) { }
+	public EntityAnimationDash(Player player) : base(player) { }
 
 	protected override void EnterState()
 	{
@@ -24,31 +22,21 @@ public class PlayerAnimationDash : PlayerAnimation
 		// Dash -> Running
 
 		if (!Player.CurrentlyDashing)
-		{
 			if (!Player.IsOnGround())
-			{
 				if (Player.Velocity.y > 0)
 					SwitchState(Player.AnimationJumpFall);
-			}
 			else
-			{
 				if (Player.MoveDir != Vector2.Zero)
-				{
 					if (Player.PlayerInput.IsSprint)
 						SwitchState(Player.AnimationRunning);
 					else
 						SwitchState(Player.AnimationWalking);
-				}
 				else
-				{
 					SwitchState(Player.AnimationIdle);
-				}
-			}
-		}
 	}
 
 	protected override void ExitState()
 	{
-		
+
 	}
 }

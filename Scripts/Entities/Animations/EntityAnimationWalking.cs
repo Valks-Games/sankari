@@ -1,15 +1,12 @@
-﻿using static Sankari.Player;
+﻿namespace Sankari;
 
-namespace Sankari;
-
-public class PlayerAnimationRunning : PlayerAnimation
+public class EntityAnimationWalking : EntityAnimation
 {
-	public PlayerAnimationRunning(Player player) : base(player) { }
+	public EntityAnimationWalking(Player player) : base(player) { }
 
 	protected override void EnterState()
 	{
 		Player.AnimatedSprite.Play("walk");
-		Player.AnimatedSprite.SpeedScale = 1.5f;
 	}
 
 	public override void UpdateState()
@@ -19,10 +16,10 @@ public class PlayerAnimationRunning : PlayerAnimation
 
 	public override void HandleStateTransitions()
 	{
-		// Running -> Idle
-		// Running -> Walking
-		// Running -> Dash
-		// Running -> JumpStart
+		// Walking -> Idle
+		// Walking -> Running
+		// Walking -> Dash
+		// Walking -> JumpStart
 
 		if (Player.PlayerInput.IsJump)
 
@@ -32,9 +29,9 @@ public class PlayerAnimationRunning : PlayerAnimation
 
 			SwitchState(Player.AnimationDash);
 
-		else if (!Player.PlayerInput.IsSprint)
+		else if (Player.PlayerInput.IsSprint)
 
-			SwitchState(Player.AnimationWalking);
+			SwitchState(Player.AnimationRunning);
 
 		else if (Player.MoveDir == Vector2.Zero)
 
@@ -43,6 +40,6 @@ public class PlayerAnimationRunning : PlayerAnimation
 
 	protected override void ExitState()
 	{
-		Player.AnimatedSprite.SpeedScale = 1.0f;
+
 	}
 }
