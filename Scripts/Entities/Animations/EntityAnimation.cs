@@ -1,30 +1,27 @@
 ﻿namespace Sankari;
 
-public interface IEntityAnimation
+public interface IEntityAnimation : IEntityBase
 {
-	public EntityAnimation<IEntityAnimation>          CurrentAnimation   { get; set; }
-	public EntityAnimationIdle<IEntityAnimation>      AnimationIdle      { get; set; }
-	public EntityAnimationWalking<IEntityAnimation>   AnimationWalking   { get; set; }
-	public EntityAnimationRunning<IEntityAnimation>   AnimationRunning   { get; set; }
-	public EntityAnimationJumpStart<IEntityAnimation> AnimationJumpStart { get; set; }
-	public EntityAnimationJumpFall<IEntityAnimation>  AnimationJumpFall  { get; set; }
-	public AnimatedSprite2D                           AnimatedSprite     { get; set; }
-	public Vector2                                    MoveDir            { get; set; }
+	public EntityAnimation          CurrentAnimation   { get; set; }
+	public EntityAnimationIdle      AnimationIdle      { get; set; }
+	public EntityAnimationWalking   AnimationWalking   { get; set; }
+	public EntityAnimationRunning   AnimationRunning   { get; set; }
+	public EntityAnimationJumpStart AnimationJumpStart { get; set; }
+	public EntityAnimationJumpFall  AnimationJumpFall  { get; set; }
+	public EntityAnimationDash      AnimationDash      { get; set; }
+	public AnimatedSprite2D         AnimatedSprite     { get; set; }
 }
 
-public abstract class EntityAnimation<T> where T : IEntityAnimation
+public abstract class EntityAnimation<T> : EntityAnimation where T : IEntityAnimation
 {
 	protected T Entity { get; set; }
 
-	protected EntityAnimation(T entity) { Entity = entity; }
+	public EntityAnimation(T entity) : base()
+	{
+		Entity = entity;
+	}
 
-	public abstract void UpdateState();
-	public abstract void HandleStateTransitions();
-
-	protected abstract void EnterState();
-	protected abstract void ExitState();
-
-	protected void SwitchState(EntityAnimation<T> animation)
+	protected void SwitchState(EntityAnimation animation)
 	{
 		Logger.Log(animation);
 		Entity.CurrentAnimation.ExitState();
@@ -35,5 +32,19 @@ public abstract class EntityAnimation<T> where T : IEntityAnimation
 	protected void FlipSpriteOnDirection() =>
 		Entity.AnimatedSprite.FlipH = Entity.MoveDir.x < 0; // flip sprite if moving left
 
-	public override string ToString() => GetType().Name.Replace(nameof(EntityAnimation<T>), "");
+	public override string ToString() => GetType().Name.Replace(nameof(EntityAnimation), "");
+}
+
+public abstract class EntityAnimation
+{
+	public EntityAnimation()
+	{ }
+
+	public abstract void UpdateState();
+
+	public abstract void HandleStateTransitions();
+
+	public abstract void EnterState();
+
+	public abstract void ExitState();
 }
