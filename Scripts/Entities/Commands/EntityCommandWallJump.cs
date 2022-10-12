@@ -38,6 +38,8 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 			if (Entity.WallDir != 0)
 			{
 				// wall jump
+				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+
 				var velocity = Entity.Velocity;
 				velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
 				velocity.y -= Entity.JumpForceWallVert;

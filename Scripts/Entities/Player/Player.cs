@@ -3,7 +3,7 @@ namespace Sankari;
 public interface IPlayerAnimations : IEntityAnimationDash, IEntityAnimation
 { }
 
-public interface IPlayerCommands : IEntityDash, IEntityWallJumpable, IEntityMovement
+public interface IPlayerCommands : IEntityDash, IEntityWallJumpable, IEntityGroundJumpable, IEntityMovement
 { }
 
 public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommands
@@ -13,7 +13,9 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		Animation,
 		Dash,
 		Movement,
-		WallJump
+		WallJump,
+		GroundJump,
+		MidAirJump
 	}
 
 	public enum PlayerAnimationState
@@ -163,9 +165,10 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 
 		PlayerCommands = new Dictionary<PlayerCommandType, EntityCommand>
 		{
-			{ PlayerCommandType.Movement , new EntityCommandMovement(this)  },
-			{ PlayerCommandType.Dash     , new EntityCommandDash(this)      },
-			{ PlayerCommandType.WallJump , new EntityCommandWallJump(this)  }
+			{ PlayerCommandType.Movement  , new EntityCommandMovement(this)    },
+			{ PlayerCommandType.Dash      , new EntityCommandDash(this)        },
+			{ PlayerCommandType.WallJump  , new EntityCommandWallJump(this)    },
+			{ PlayerCommandType.GroundJump, new EntityCommandGroundJump(this)  }
 		};
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Initialize());
@@ -195,17 +198,18 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		{
 			if (WallDir != 0 && !IsOnGround()) // Wall jump
 			{
-				//PlayerCommands.Values.ForEach(cmd => cmd.Jump());
-				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 				PlayerCommands[PlayerCommandType.WallJump].Start();
 			}
-			else if (JumpCount < MaxJumps) // Normal jump
+			else if (JumpCount < MaxJumps) 
 			{
-				//PlayerCommands.Values.ForEach(cmd => cmd.Jump());
-				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
-				JumpCount++;
-				//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
-				Velocity = Velocity - new Vector2(0, JumpForce);
+				if (IsOnGround()) // Ground jump
+				{
+					PlayerCommands[PlayerCommandType.GroundJump].Start();
+				}
+				else // Mid air jump
+				{
+
+				}
 			}
 		}
 
