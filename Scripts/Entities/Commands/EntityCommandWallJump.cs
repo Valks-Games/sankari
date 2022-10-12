@@ -15,7 +15,13 @@ public interface IEntityWallJumpable : IEntityMoveable
 	public int WallDir { get; set; }
 
 	// Is the entity falling?
-	bool IsFalling();
+	public bool IsFalling();
+
+	// Horizontal wall jump force
+	public int JumpForceWallHorz { get; set; }
+
+	// Vertical wall jump force
+	public int JumpForceWallVert { get; set; }
 }
 
 public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
@@ -31,13 +37,10 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 			if (Entity.WallDir != 0)
 			{
-				var JumpForceWallHorz = 700;
-				var JumpForceWallVert = 600;
-
 				// wall jump
 				var velocity = Entity.Velocity;
-				velocity.x += -JumpForceWallHorz * Entity.WallDir;
-				velocity.y -= JumpForceWallVert;
+				velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
+				velocity.y -= Entity.JumpForceWallVert;
 				Entity.Velocity = velocity;
 			}
 		}

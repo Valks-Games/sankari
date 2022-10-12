@@ -62,8 +62,8 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 	public int MaxJumps           { get; set; } = 1;
 	public int GroundAcceleration { get; set; } = 50;
 	public int HorizontalDeadZone { get; set; } = 25;
-
-	public PlayerAnimationState AnimationState { get; set; }
+	public int JumpForceWallHorz  { get; set; } = 800;
+	public int JumpForceWallVert  { get; set; } = 500;
 
 	public EntityAnimation CurrentAnimation { get; set; }
 	public EntityAnimationIdle AnimationIdle { get; set; }
@@ -122,8 +122,6 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		AnimationDash = new(this);
 
 		CurrentAnimation = AnimationIdle;
-		AnimationState = PlayerAnimationState.Idle;
-		AnimatedSprite.Play("idle");
 
 		// dont go under platform at the end of a dash for X ms
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
