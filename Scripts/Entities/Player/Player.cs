@@ -195,13 +195,13 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump)
 		{
-			if (WallDir != 0)
+			if (WallDir != 0 && !IsOnGround()) // Wall jump
 			{
 				//PlayerCommands.Values.ForEach(cmd => cmd.Jump());
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 				PlayerCommands[PlayerCommandType.WallJump].Start();
 			}
-			else if (JumpCount < MaxJumps)
+			else if (JumpCount < MaxJumps) // Normal jump
 			{
 				//PlayerCommands.Values.ForEach(cmd => cmd.Jump());
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);

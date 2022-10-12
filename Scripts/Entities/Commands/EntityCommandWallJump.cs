@@ -29,7 +29,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 		{
 			Entity.AnimatedSprite.FlipH = Entity.WallDir == 1;
 
-			if (Entity.WallDir != 0 && Entity.IsFalling())
+			if (Entity.WallDir != 0)
 			{
 				var JumpForceWallHorz = 700;
 				var JumpForceWallVert = 600;
