@@ -3,7 +3,6 @@ namespace Sankari;
 public static class Prefabs
 {
     public static PackedScene Map { get; }             = LoadPrefab("Map");
-    public static PackedScene CannonBall { get; }      = LoadPrefab("Enemies/CannonBall");
     public static PackedScene PlayerDashTrace { get; } = LoadPrefab("PlayerDashTrace");
     public static PackedScene BasicEnemy { get; }      = LoadPrefab("Enemies/BasicEnemy");
     public static PackedScene PopupMessage { get; }    = LoadPrefab("UI/Popups/PopupMessage");
