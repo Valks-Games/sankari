@@ -1,10 +1,16 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationDash<T> : EntityAnimation<T> where T : IEntityAnimation
+public interface IEntityAnimationDash : IEntityDash, IEntityAnimation
 {
-	public EntityAnimationDash(T entity) : base(entity) { }
+}
 
-	protected override void EnterState()
+public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
+{
+	public EntityAnimationDash(IEntityAnimationDash entity) : base(entity)
+	{
+	}
+
+	public override void EnterState()
 	{
 		// no animation for dash exists at this time
 	}
@@ -16,18 +22,15 @@ public class EntityAnimationDash<T> : EntityAnimation<T> where T : IEntityAnimat
 
 	public override void HandleStateTransitions()
 	{
-		// Dash -> Idle
-		// Dash -> JumpFall
-		// Dash -> Walking
-		// Dash -> Running
+		// Dash -> Idle Dash -> JumpFall Dash -> Walking Dash -> Running
 
 		if (!Entity.CurrentlyDashing)
 			if (!Entity.IsOnGround())
 				if (Entity.Velocity.y > 0)
 					SwitchState(Entity.AnimationJumpFall);
-			else
+				else
 				if (Entity.MoveDir != Vector2.Zero)
-					if (Entity.PlayerInput.IsSprint)
+					if (Entity is Player player && player.PlayerInput.IsSprint)
 						SwitchState(Entity.AnimationRunning);
 					else
 						SwitchState(Entity.AnimationWalking);
@@ -35,8 +38,7 @@ public class EntityAnimationDash<T> : EntityAnimation<T> where T : IEntityAnimat
 					SwitchState(Entity.AnimationIdle);
 	}
 
-	protected override void ExitState()
+	public override void ExitState()
 	{
-
 	}
 }
