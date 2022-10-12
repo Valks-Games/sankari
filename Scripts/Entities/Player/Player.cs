@@ -49,6 +49,16 @@ public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement,
 	public int GroundAcceleration { get; set; } = 50;
 	public int HorizontalDeadZone { get; set; } = 25;
 
+	public PlayerAnimationState AnimationState { get; set; }
+	
+	public EntityAnimation<IEntityAnimation> CurrentAnimation { get; set; }
+	public EntityAnimationIdle AnimationIdle { get; set; }
+	public EntityAnimationWalking AnimationWalking { get; set; }
+	public EntityAnimationRunning AnimationRunning { get; set; }
+	public EntityAnimationDash AnimationDash { get; set; }
+	public EntityAnimationJumpStart AnimationJumpStart { get; set; }
+	public EntityAnimationJumpFall AnimationJumpFall { get; set; }
+
 	public bool CurrentlyDashing  { get; set; }
 	public bool GravityEnabled    { get; set; } = true;
 
