@@ -1,44 +1,44 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationIdle<T> : EntityAnimation<T> where T : IEntityAnimation
+public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 {
-	public EntityAnimationIdle(T entity) : base(entity) { }
+	public EntityAnimationIdle(IEntityAnimation entity) : base(entity)
+	{
+	}
 
-	protected override void EnterState()
+	public override void EnterState()
 	{
 		Entity.AnimatedSprite.Play("idle");
 	}
 
 	public override void UpdateState()
 	{
-
 	}
 
 	public override void HandleStateTransitions()
 	{
-		// Idle -> Walking
-		// Idle -> Sprinting
-		// Idle -> JumpStart
-		// Idle -> JumpFall
+		// Idle -> Walking Idle -> Sprinting Idle -> JumpStart Idle -> JumpFall
 
-		if (Player.IsOnGround())
+		if (Entity is Player player)
 		{
-			if (Player.PlayerInput.IsJump)
-				SwitchState(Player.AnimationJumpStart);
+			if (player.IsOnGround())
+			{
+				if (player.PlayerInput.IsJump)
+					SwitchState(Entity.AnimationJumpStart);
 
-			if (Player.MoveDir != Vector2.Zero)
-				if (Player.PlayerInput.IsSprint)
-					SwitchState(Player.AnimationRunning);
-				else
-					SwitchState(Player.AnimationWalking);
+				if (Entity.MoveDir != Vector2.Zero)
+					if (player.PlayerInput.IsSprint)
+						SwitchState(Entity.AnimationRunning);
+					else
+						SwitchState(Entity.AnimationWalking);
+			}
+			else
+			if (player.IsFalling())
+				SwitchState(Entity.AnimationJumpFall);
 		}
-		else
-			if (Player.IsFalling())
-				SwitchState(Player.AnimationJumpFall);
 	}
 
-	protected override void ExitState()
+	public override void ExitState()
 	{
-
 	}
 }

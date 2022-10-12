@@ -1,13 +1,15 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationRunning<T> : EntityAnimation<T> where T : IEntityAnimation
+public class EntityAnimationRunning : EntityAnimation<IEntityAnimation>
 {
-	public EntityAnimationRunning(T entity) : base(entity) { }
-
-	protected override void EnterState()
+	public EntityAnimationRunning(IEntityAnimation entity) : base(entity)
 	{
-		Player.AnimatedSprite.Play("walk");
-		Player.AnimatedSprite.SpeedScale = 1.5f;
+	}
+
+	public override void EnterState()
+	{
+		Entity.AnimatedSprite.Play("walk");
+		Entity.AnimatedSprite.SpeedScale = 1.5f;
 	}
 
 	public override void UpdateState()
@@ -22,25 +24,25 @@ public class EntityAnimationRunning<T> : EntityAnimation<T> where T : IEntityAni
 		// Running -> Dash
 		// Running -> JumpStart
 
-		if (Player.PlayerInput.IsJump)
+		if (Entity is Player player)
+		{
+			if (player.PlayerInput.IsJump)
 
-			SwitchState(Player.AnimationJumpStart);
+				SwitchState(Entity.AnimationJumpStart);
+			else if (player.PlayerInput.IsDash)
 
-		else if (Player.PlayerInput.IsDash)
+				SwitchState(Entity.AnimationDash);
+			else if (!player.PlayerInput.IsSprint)
 
-			SwitchState(Player.AnimationDash);
+				SwitchState(Entity.AnimationWalking);
+			else if (Entity.MoveDir == Vector2.Zero)
 
-		else if (!Player.PlayerInput.IsSprint)
-
-			SwitchState(Player.AnimationWalking);
-
-		else if (Player.MoveDir == Vector2.Zero)
-
-			SwitchState(Player.AnimationIdle);
+				SwitchState(Entity.AnimationIdle);
+		}
 	}
 
-	protected override void ExitState()
+	public override void ExitState()
 	{
-		Player.AnimatedSprite.SpeedScale = 1.0f;
+		Entity.AnimatedSprite.SpeedScale = 1.0f;
 	}
 }
