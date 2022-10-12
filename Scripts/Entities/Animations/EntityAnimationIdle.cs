@@ -24,17 +24,17 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 			if (player.IsOnGround())
 			{
 				if (player.PlayerInput.IsJump)
-					SwitchState(Entity.AnimationJumpStart);
+					SwitchState(EntityAnimationType.JumpStart);
 
 				if (Entity.MoveDir != Vector2.Zero)
 					if (player.PlayerInput.IsSprint)
-						SwitchState(Entity.AnimationRunning);
+						SwitchState(EntityAnimationType.Running);
 					else
-						SwitchState(Entity.AnimationWalking);
+						SwitchState(EntityAnimationType.Walking);
 			}
 			else
 			if (player.IsFalling())
-				SwitchState(Entity.AnimationJumpFall);
+				SwitchState(EntityAnimationType.JumpFall);
 		}
 	}
 

@@ -29,13 +29,15 @@ public class EntityAnimationJumpStart : EntityAnimation<IEntityAnimation>
 		{
 			if (player.IsFalling())
 
-				SwitchState(Entity.AnimationJumpFall);
+				SwitchState(EntityAnimationType.JumpFall);
+
 			else if (player.PlayerInput.IsDash)
 
-				SwitchState(Entity.AnimationDash);
+				SwitchState(EntityAnimationType.Dash);
+
 			else if (player.IsOnGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
 
-				SwitchState(Entity.AnimationIdle);
+				SwitchState(EntityAnimationType.Idle);
 		}
 	}
 

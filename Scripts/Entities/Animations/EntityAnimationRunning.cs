@@ -28,16 +28,19 @@ public class EntityAnimationRunning : EntityAnimation<IEntityAnimation>
 		{
 			if (player.PlayerInput.IsJump)
 
-				SwitchState(Entity.AnimationJumpStart);
+				SwitchState(EntityAnimationType.JumpStart);
+
 			else if (player.PlayerInput.IsDash)
 
-				SwitchState(Entity.AnimationDash);
+				SwitchState(EntityAnimationType.Dash);
+
 			else if (!player.PlayerInput.IsSprint)
 
-				SwitchState(Entity.AnimationWalking);
+				SwitchState(EntityAnimationType.Walking);
+
 			else if (Entity.MoveDir == Vector2.Zero)
 
-				SwitchState(Entity.AnimationIdle);
+				SwitchState(EntityAnimationType.Idle);
 		}
 	}
 

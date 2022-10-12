@@ -25,13 +25,13 @@ public class EntityAnimationJumpFall : EntityAnimation<IEntityAnimation>
 			if (player.IsOnGround())
 				if (Entity.MoveDir != Vector2.Zero)
 					if (player.PlayerInput.IsSprint)
-						SwitchState(Entity.AnimationRunning);
+						SwitchState(EntityAnimationType.Running);
 					else
-						SwitchState(Entity.AnimationWalking);
+						SwitchState(EntityAnimationType.Walking);
 				else
-					SwitchState(Entity.AnimationIdle);
+					SwitchState(EntityAnimationType.Idle);
 			else if (player.PlayerInput.IsDash)
-				SwitchState(Entity.AnimationDash);
+				SwitchState(EntityAnimationType.Dash);
 		}
 	}
 

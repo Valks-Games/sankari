@@ -27,15 +27,15 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 		if (!Entity.CurrentlyDashing)
 			if (!Entity.IsOnGround())
 				if (Entity.Velocity.y > 0)
-					SwitchState(Entity.AnimationJumpFall);
+					SwitchState(EntityAnimationType.JumpFall);
 				else
 				if (Entity.MoveDir != Vector2.Zero)
 					if (Entity is Player player && player.PlayerInput.IsSprint)
-						SwitchState(Entity.AnimationRunning);
+						SwitchState(EntityAnimationType.Running);
 					else
-						SwitchState(Entity.AnimationWalking);
+						SwitchState(EntityAnimationType.Walking);
 				else
-					SwitchState(Entity.AnimationIdle);
+					SwitchState(EntityAnimationType.Idle);
 	}
 
 	public override void ExitState()

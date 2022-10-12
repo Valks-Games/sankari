@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public enum EntityAnimationState
+public enum EntityAnimationType
 {
 	Idle,
 	Walking,
@@ -12,14 +12,9 @@ public enum EntityAnimationState
 
 public interface IEntityAnimation : IEntityBase
 {
-	public EntityAnimation          CurrentAnimation   { get; set; }
-	public EntityAnimationIdle      AnimationIdle      { get; set; }
-	public EntityAnimationWalking   AnimationWalking   { get; set; }
-	public EntityAnimationRunning   AnimationRunning   { get; set; }
-	public EntityAnimationJumpStart AnimationJumpStart { get; set; }
-	public EntityAnimationJumpFall  AnimationJumpFall  { get; set; }
-	public EntityAnimationDash      AnimationDash      { get; set; }
-	public AnimatedSprite2D         AnimatedSprite     { get; set; }
+	public Dictionary<EntityAnimationType, EntityAnimation> Animations   { get; set; }
+	public EntityAnimationType                              CurrentAnimation   { get; set; }
+	public AnimatedSprite2D                                 AnimatedSprite     { get; set; }
 }
 
 public abstract class EntityAnimation<T> : EntityAnimation where T : IEntityAnimation
@@ -31,12 +26,12 @@ public abstract class EntityAnimation<T> : EntityAnimation where T : IEntityAnim
 		Entity = entity;
 	}
 
-	protected void SwitchState(EntityAnimation animation)
+	protected void SwitchState(EntityAnimationType animation)
 	{
 		Logger.Log(animation);
-		Entity.CurrentAnimation.ExitState();
+		Entity.Animations[Entity.CurrentAnimation].ExitState();
 		Entity.CurrentAnimation = animation;
-		Entity.CurrentAnimation.EnterState();
+		Entity.Animations[Entity.CurrentAnimation].EnterState();
 	}
 
 	protected void FlipSpriteOnDirection() =>
