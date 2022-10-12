@@ -1,3 +1,32 @@
+v0.1.26
+- Added player health mechanics (https://github.com/Valks-Games/sankari/issues/63)
+- ExtensionsInput.FilterRange() does not work right when there is a minimum specified (https://github.com/Valks-Games/sankari/issues/77)
+- New method for Notifications.cs -> RemoveAllListeners(Node sender) (https://github.com/Valks-Games/sankari/issues/83)
+- Fix not being able to click on a popup menu
+- Attempted to improve player movement (still really bad)
+- Cleanup up player script a bit
+- Fix Godot tweens to use the new Godot 4 tween features fixing numerous bugs
+- Fix player crashing game when touching an area with the group name "Bottom"
+- Converted several classes to be static (probably not the best idea and should be using a event system instead, see Notifications.cs)
+- Fix player death lives left text not being shown (https://github.com/Valks-Games/sankari/issues/145)
+- Add convience options for the developer (https://github.com/Valks-Games/sankari/issues/135)
+- Fix enemy raycasts preventing enemies from moving
+
+v0.1.25
+- Fixed pressing quit button doing nothing (https://github.com/Valks-Games/sankari/issues/132)
+- Figured out how to set the game window title (https://github.com/Valks-Games/sankari/issues/131)
+- Fixed Newtonsoft not being detected (https://github.com/Valks-Games/sankari/issues/130)
+- Figured out how to get name from individual tiles in a tileset (https://github.com/Valks-Games/sankari/issues/121)
+- Converted GTween class for Godot 4 (https://github.com/Valks-Games/sankari/issues/120)
+- Converted all scripts to Godot 4
+- Figured out how to give names to individual tiles in a tileset (https://github.com/Valks-Games/sankari/issues/119)
+- Renamed project to "Sankari" (https://github.com/Valks-Games/sankari/issues/114)
+- Added event listeners for player join leave events (https://github.com/Valks-Games/sankari/issues/113)
+- Fixed multiple violations of thread safety (https://github.com/Valks-Games/sankari/issues/112 https://github.com/Valks-Games/sankari/issues/115)
+- Added more `Send()` methods for the server (https://github.com/Valks-Games/sankari/issues/111)
+- Enhance `PrintFull()` method virtually reducing all crashes (https://github.com/Valks-Games/sankari/issues/110) 
+- Added console command history (https://github.com/Valks-Games/sankari/issues/109)
+
 v0.1.24
 - loading levels are synced with clients
 - changing map position is synced with clients
