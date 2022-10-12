@@ -1,14 +1,8 @@
 namespace Sankari;
 
-public interface IPlayerAnimations : IEntityAnimationDash, IEntityAnimation
-{ }
-
-public interface IPlayerCommands : IEntityDash, IEntityWallJumpable, IEntityMovement
-{ }
-
-public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommands
+public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement, IEntityDash, IEntityWallJumpable
 {
-	private enum PlayerCommandType
+	private enum PlayerCommandType 
 	{
 		Animation,
 		Dash,
@@ -64,8 +58,8 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 	public int HorizontalDeadZone { get; set; } = 25;
 
 	public PlayerAnimationState AnimationState { get; set; }
-
-	public EntityAnimation CurrentAnimation { get; set; }
+	
+	public EntityAnimation<IEntityAnimation> CurrentAnimation { get; set; }
 	public EntityAnimationIdle AnimationIdle { get; set; }
 	public EntityAnimationWalking AnimationWalking { get; set; }
 	public EntityAnimationRunning AnimationRunning { get; set; }
@@ -217,7 +211,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		// gravity
 		if (GravityEnabled)
 			Velocity = Velocity + new Vector2(0, Gravity * delta);
-
+		
 		if (IsOnGround()) // ground
 		{
 			Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);
@@ -226,7 +220,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
 			else
 				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundWalking(delta));
-
+			
 			// do not reset jump count when the player is leaving the ground for the first time
 			if (Velocity.y > 0)
 				JumpCount = 0;
@@ -332,10 +326,10 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		}
 	}
 
-	public void Died()
+	public void Died() 
 	{
 		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
-		//PlayerCommands.Values.ForEach(cmd => cmd.Died());
+		//PlayerCommands.Values.ForEach(cmd => cmd.Died());	
 	}
 
 	private void _on_Player_Area_area_entered(Area2D area)

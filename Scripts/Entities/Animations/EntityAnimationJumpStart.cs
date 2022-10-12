@@ -1,17 +1,15 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpStart : EntityAnimation<IEntityAnimation>
+public class EntityAnimationJumpStart<T> : EntityAnimation<T> where T : IEntityAnimation
 {
 	private GTimer TimerDontCheckOnGround;
 
-	public EntityAnimationJumpStart(IEntityAnimation entity) : base(entity)
-	{
-	}
+	public EntityAnimationJumpStart(T entity) : base(entity) { }
 
-	public override void EnterState()
+	protected override void EnterState()
 	{
-		TimerDontCheckOnGround = Entity.Timers.CreateTimer(new Callable(() => { }), 100, false, true);
-		Entity.AnimatedSprite.Play("jump_start");
+		TimerDontCheckOnGround = new GTimer(Player, 100, false, true);
+		Player.AnimatedSprite.Play("jump_start");
 	}
 
 	public override void UpdateState()
@@ -25,21 +23,21 @@ public class EntityAnimationJumpStart : EntityAnimation<IEntityAnimation>
 		// JumpStart -> JumpFall
 		// JumpStart -> Dash
 
-		if (Entity is Player player)
-		{
-			if (player.IsFalling())
+		if (Player.IsFalling())
 
-				SwitchState(Entity.AnimationJumpFall);
-			else if (player.PlayerInput.IsDash)
+			SwitchState(Player.AnimationJumpFall);
 
-				SwitchState(Entity.AnimationDash);
-			else if (player.IsOnGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
+		else if (Player.PlayerInput.IsDash)
 
-				SwitchState(Entity.AnimationIdle);
-		}
+			SwitchState(Player.AnimationDash);
+
+		else if (Player.IsOnGround() && Player.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
+
+			SwitchState(Player.AnimationIdle);
 	}
 
-	public override void ExitState()
+	protected override void ExitState()
 	{
+
 	}
 }
