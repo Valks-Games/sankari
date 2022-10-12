@@ -1,18 +1,15 @@
+using Godot;
+
 namespace Sankari;
 
-public interface IPlayerSkills : IEntityDashable, IEntityWallJumpable { }
-
-public partial class Player : CharacterBody2D, IPlayerSkills
+public partial class Player : CharacterBody2D, IEntityMoveable, IEntityMovement, IEntityDash, IEntityWallJumpable
 {
-	private class PlayerSkills
+	private enum PlayerCommandType 
 	{
-		public EntityCommandDash CommandDash { get; set; }
-		public EntityCommandWallJumps CommandWallJump { get; set; }
-
-		public EntityCommand[] GetCommands()
-		{
-			return new EntityCommand[2] { CommandDash, CommandWallJump };
-		}
+		Animation,
+		Dash,
+		Movement,
+		WallJump
 	}
 
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
@@ -22,20 +19,6 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 	public static Vector2 RespawnPosition      { get; set; }
 	public static bool    HasTouchedCheckpoint { get; set; }
 	public static Player  Instance             { get; set; }
-
-	public int UniversalForceModifier { get; set; } = 4;
-	public int SpeedGround            { get; set; } = 60;
-	public int SpeedAir               { get; set; }	= 16;
-	public int SpeedMaxGround         { get; set; }	= 300;
-	public int SpeedMaxGroundSprint   { get; set; }	= 400;
-	public int SpeedMaxAir            { get; set; }	= 900;
-	public int SpeedDashVertical      { get; set; }	= 400;
-	public int SpeedDashHorizontal    { get; set; }	= 600;
-	public int GravityAir             { get; set; }	= 1400;
-	public int GravityWall            { get; set; }	= 3000;
-	public int JumpForce              { get; set; }	= 600;
-	public int JumpForceWallVert      { get; set; }	= 600;
-	public int JumpForceWallHorz      { get; set; }	= 300;
 
 	// dependency injection
 	public  LevelScene LevelScene { get; set; }
@@ -57,6 +40,18 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 	public  List<RayCast2D> RayCast2DGroundChecks    { get; } = new();
 	public  Node2D          ParentGroundChecks       { get; set; }
 
+	public MovementInput PlayerInput { get; set; }
+
+	public int JumpCount          { get; set; }
+	public int JumpForce          { get; set; } = 600;
+	public int Gravity            { get; set; } = 1200;
+	public int MaxJumps           { get; set; } = 1;
+	public int GroundAcceleration { get; set; } = 50;
+	public int HorizontalDeadZone { get; set; } = 25;
+
+	public bool CurrentlyDashing  { get; set; }
+	public bool GravityEnabled    { get; set; } = true;
+
 	// animation
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 	public GTween           DieTween       { get; set; }
@@ -71,12 +66,13 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 	public GTimers Timers { get; set; }
 
-	private PlayerSkills PlayerCommands { get; set; }
-
 	public void PreInit(LevelScene levelScene)
 	{
 		LevelScene = levelScene;
 	}
+
+	private Dictionary<PlayerCommandType, EntityCommand> PlayerCommands { get; set; }
+	public GTimer DontCheckPlatformAfterDashDuration { get; set; }
 
 	public override void _Ready()
 	{
@@ -94,35 +90,128 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		Timers                = new GTimers(this);
 		Tree                  = GetTree().Root;
 
+		// dont go under platform at the end of a dash for X ms
+		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
+
 		PrepareRaycasts(ParentWallChecksLeft, RayCast2DWallChecksLeft);
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
 		PrepareRaycasts(ParentGroundChecks, RayCast2DGroundChecks);
 
-		AnimatedSprite.Play("idle");
-
+		// The up direction must be defined in order for the FloorSnapLength
+		// to work properly. A direction of up means gravity goes down and
+		// the player jumps up
 		UpDirection = Vector2.Up;
 
-		FloorConstantSpeed = false; // this messes up downward slope velocity if set to true
-		FloorStopOnSlope = false;   // players should slide on slopes
+		// Prevents the player from bouncing when going down a slope
+		FloorSnapLength = 10;
 
-		PlayerCommands = new PlayerSkills()
+		// Sets the speed to be constant no matter the angle of terrain the
+		// player is on. This means the player will walk the same speed on a
+		// flat surface and a slope
+		FloorConstantSpeed = true;
+
+		// If true, the body will not slide on slopes when calling move_and_slide
+		// when the body is standing still.
+        // If false, the body will slide on floor's slopes when velocity applies
+		// a downward force.
+		// Does not seem to have any effect if this is either true or false
+		FloorStopOnSlope = false;
+
+		// If true, the body will be able to move on the floor only. This
+		// option avoids to be able to walk on walls, it will however allow
+		// to slide down along them.
+		// Does not seem to have any effect if this is either true or false
+		FloorBlockOnWall = true;
+
+		// If true, during a jump against the ceiling, the body will slide,
+		// if false it will be stopped and will fall vertically.
+		// Does not seem to have any effect if this is either true or false
+		SlideOnCeiling = true;
+
+		PlayerCommands = new Dictionary<PlayerCommandType, EntityCommand>
 		{
-			CommandDash = new EntityCommandDash(this),
-			CommandWallJump = new EntityCommandWallJumps(this)
+			{ PlayerCommandType.Movement , new EntityCommandMovement(this)  },
+			{ PlayerCommandType.Dash     , new EntityCommandDash(this)      },
+			{ PlayerCommandType.WallJump , new EntityCommandWallJump(this)  }
 		};
 
-		foreach (var command in PlayerCommands.GetCommands())
-			command.Initialize();
+		PlayerCommands.Values.ForEach(cmd => cmd.Initialize());
 	}
 
 	public override void _PhysicsProcess(double d)
 	{
-		var delta = (float)d;
-
 		if (HaltPlayerLogic)
 			return;
 
-		HandleMovement(delta);
+		var delta = (float)d;
+
+		PlayerInput = MovementUtils.GetPlayerMovementInput();
+
+		UpdateMoveDirection(PlayerInput);
+
+		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
+
+		if (!CurrentlyDashing && !DontCheckPlatformAfterDashDuration.IsActive())
+			UpdateUnderPlatform(PlayerInput);
+
+		// jump is handled before all movement restrictions
+		if (PlayerInput.IsJump)
+		{
+			if (WallDir != 0)
+			{
+				//PlayerCommands.Values.ForEach(cmd => cmd.Jump());
+				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+				PlayerCommands[PlayerCommandType.WallJump].Start();
+			}
+			else if (JumpCount < MaxJumps)
+			{
+				//PlayerCommands.Values.ForEach(cmd => cmd.Jump());
+				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+				JumpCount++;
+				//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
+				Velocity = Velocity - new Vector2(0, JumpForce);
+			}
+		}
+
+		if (PlayerInput.IsDash)
+			PlayerCommands[PlayerCommandType.Dash].Start();
+
+		// gravity
+		if (GravityEnabled)
+			Velocity = Velocity + new Vector2(0, Gravity * delta);
+		
+		if (IsOnGround()) // ground
+		{
+			Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);
+
+			if (PlayerInput.IsSprint)
+				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
+			else
+				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundWalking(delta));
+			
+			// do not reset jump count when the player is leaving the ground for the first time
+			if (Velocity.y > 0)
+				JumpCount = 0;
+		}
+		else // air
+		{
+			if (PlayerInput.IsFastFall)
+				Velocity = Velocity + new Vector2(0, 10);
+
+			PlayerCommands.Values.ForEach(cmd => cmd.UpdateAir(delta));
+		}
+
+		Velocity = new Vector2(MoveDeadZone(Velocity.x, HorizontalDeadZone), Velocity.y); // must be after ClampAndDampen(...)
+
+		MoveAndSlide();
+	}
+
+	private float MoveDeadZone(float horzVelocity, int deadzone)
+	{
+		if (MoveDir.x == 0 && horzVelocity >= -deadzone && horzVelocity <= deadzone)
+			return horzVelocity * 0.5f;
+
+		return horzVelocity;
 	}
 
 	private void NetUpdate()
@@ -136,102 +225,9 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		PrevNetPos = Position;
 	}
 
-	private void HandleMovement(float delta)
-	{
-		MovementInput input = MovementUtils.GetPlayerMovementInput();
-
-		UpdateMoveDirection(input);
-		WallDir = UpdateWallDirection();
-
-		if (input.IsDash)
-		{
-			PlayerCommands.CommandDash.Start();
-		}
-
-		UpdateUnderPlatform(input);
-
-		foreach (var command in PlayerCommands.GetCommands())
-			command.Update(input);
-
-		HandleGravityState(delta, input);
-
-		foreach (var command in PlayerCommands.GetCommands())
-			command.LateUpdate(input);
-
-		// Finish up animations
-		if (IsFalling())
-			AnimatedSprite.Play("jump_fall");
-
-		// Flip Sprint if we are moving negatively
-		AnimatedSprite.FlipH = MoveDir.x < 0;
-		MoveAndSlide();
-	}
-
-	private void HandleGravityState(float delta, MovementInput input)
-	{
-		Vector2 velocity = Velocity;
-
-		if (IsOnGround())
-		{
-			if (!TouchedGround)
-			{
-				TouchedGround = true;
-				velocity.y = 0;
-			}
-
-			if (MoveDir.x != 0)
-				AnimatedSprite.Play("walk");
-			else
-				AnimatedSprite.Play("idle");
-
-			velocity.x += MoveDir.x * SpeedGround;
-
-			velocity.x = HorzDampening(velocity.x, 20);
-
-			if (input.IsJump)
-			{
-				Jump();
-				velocity.y = 0; // reset vertical velocity before jumping
-				velocity.y -= JumpForce;
-			}
-		}
-		else
-		{
-			// apply gravity
-			TouchedGround = false;
-			velocity.y += GravityAir * delta;
-
-			velocity.x += MoveDir.x * SpeedAir;
-
-			if (input.IsFastFall)
-				velocity.y += 10;
-		}
-
-		if (IsFalling())
-			AnimatedSprite.Play("jump_fall");
-
-		Velocity = velocity;
-
-		MoveAndSlide();
-	}
-
-	public void Jump()
-	{
-		AnimatedSprite.Play("jump_start");
-		Audio.PlaySFX("player_jump", 80);
-	}
-
-	private int UpdateWallDirection()
-	{
-		var left = CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksLeft);
-		var right = CollectionExtensions.IsAnyRayCastColliding(RayCast2DWallChecksRight);
-
-		return -Convert.ToInt32(left) + Convert.ToInt32(right);
-	}
-
 	private async void UpdateUnderPlatform(MovementInput input)
 	{
-		var collision = RayCast2DGroundChecks[0].GetCollider(); // seems like were getting this twice, this could be optimized to only be got once in _Ready and made into a private variable
+		var collision = RayCast2DGroundChecks[0].GetCollider();
 
 		if (collision is TileMap tilemap)
 		{
@@ -244,25 +240,12 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		}
 	}
 
-	/// <summary>
-	/// Dampens a speed reading towards 0
-	/// </summary>
-	/// <param name="speed">Value to dampen</param>
-	/// <param name="dampening">Value to reduce the magnitude of speed by</param>
-	/// <returns>The dampened speed</returns>
-	private float HorzDampening(float speed, uint dampening)
+	private void UpdateMoveDirection(MovementInput input)
 	{
-		// deadzone has to be bigger than dampening value or the player ghost slide effect will occur
-		int deadzone = (int)(dampening * 1.5f);
+		var x = -Convert.ToInt32(input.IsLeft) + Convert.ToInt32(input.IsRight);
+		var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
 
-		if (Mathf.Abs(speed) < deadzone)
-			return 0;
-		else if (speed > deadzone)
-			return speed - deadzone;
-		else if (speed < deadzone)
-			return speed + dampening;
-
-		return 0;
+		MoveDir = new Vector2(x, y);
 	}
 
 	public bool IsOnGround()
@@ -274,15 +257,7 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		return false;
 	}
 
-	public bool IsFalling() => base.Velocity.y > 0;
-
-	private void UpdateMoveDirection(MovementInput input)
-	{
-		var x = -Convert.ToInt32(Input.IsActionPressed("player_move_left")) + Convert.ToInt32(Input.IsActionPressed("player_move_right"));
-		var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
-
-		MoveDir = new Vector2(x, y);
-	}
+	public bool IsFalling() => Velocity.y > 0;
 
 	private void PrepareRaycasts(Node parent, List<RayCast2D> list)
 	{
@@ -311,75 +286,21 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 		else
 		{
 			Vector2 velocity;
-			PlayerCommands.CommandDash.Stop();
+			//PlayerCommandsOld.CommandDash.Stop();
+
 			velocity.y = -JumpForce * 0.5f; // make y and x jumps less aggressive
 			velocity.x = side * JumpForce * 0.5f;
 			Velocity = velocity;
 		}
 	}
 
-	public void Died()
+	public void Died() 
 	{
-		HaltPlayerLogic = true;
-		AnimatedSprite.Stop();
-		LevelScene.Camera.StopFollowingPlayer();
-
-		var dieStartPos = Position.y;
-		var goUpDuration = 1.25f;
-
-		// animate y position
-		DieTween.InterpolateProperty
-		(
-			"position:y",
-			dieStartPos - 80,
-			goUpDuration,
-			0 // delay
-		);
-
-		DieTween.InterpolateProperty
-		(
-			"position:y",
-			dieStartPos + 400,
-			1.5f,
-			goUpDuration, // delay
-			true
-		)
-		.From(dieStartPos - 80);
-
-		// animate rotation
-		DieTween.InterpolateProperty
-		(
-			"rotation",
-			Mathf.Pi,
-			1.5f,
-			goUpDuration, // delay
-			true
-		);
-
-		DieTween.Start();
-		Audio.StopMusic();
-		Audio.PlaySFX("game_over_1");
-
-		DieTween.Callback(() => OnDieTweenCompleted());
+		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
+		//PlayerCommands.Values.ForEach(cmd => cmd.Died());	
 	}
 
-	private async void OnDieTweenCompleted()
-	{
-		await GameManager.Transition.AlphaToBlack();
-		await Task.Delay(1000);
-		GameManager.LevelUI.ShowLives();
-		await Task.Delay(1750);
-		GameManager.LevelUI.RemoveLife();
-		await Task.Delay(1000);
-		await GameManager.LevelUI.HideLivesTransition();
-		await Task.Delay(250);
-		GameManager.Transition.BlackToAlpha();
-		HaltPlayerLogic = false;
-		LevelManager.LoadLevelFast();
-		LevelScene.Camera.StartFollowingPlayer();
-	}
-
-	private async void _on_Player_Area_area_entered(Area2D area)
+	private void _on_Player_Area_area_entered(Area2D area)
 	{
 		if (HaltPlayerLogic)
 			return;
@@ -392,14 +313,13 @@ public partial class Player : CharacterBody2D, IPlayerSkills
 
 		if (area.IsInGroup("Level Finish"))
 		{
-			HaltPlayerLogic = true;
-			await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
-			HaltPlayerLogic = false;
+			//PlayerCommands.Values.ForEach(cmd => cmd.FinishedLevel());
 			return;
 		}
 
 		if (area.IsInGroup("Enemy"))
 		{
+			//PlayerCommands.Values.ForEach(cmd => cmd.TouchedEnemy());
 			TakenDamage(GetCollisionSide(area), 1);
 			return;
 		}

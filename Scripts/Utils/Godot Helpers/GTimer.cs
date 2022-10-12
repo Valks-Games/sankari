@@ -19,6 +19,11 @@ public class GTimer
 		Timer.Connect("timeout", Callable);
 	}
 
+	public GTimer(Node node, int delayMs = 1000, bool loop = true, bool autoStart = true) 
+	{
+		Init(node, delayMs, loop, autoStart);
+	}
+
 	public GTimer(Node target, string methodName, int delayMs = 1000, bool loop = true, bool autoStart = true)
 		: this(target, new Callable(target, methodName), delayMs, loop, autoStart)
 	{

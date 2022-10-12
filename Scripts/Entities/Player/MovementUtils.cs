@@ -3,6 +3,8 @@
 public class MovementInput
 {
 	public bool IsJump { get; set; }
+	public bool IsLeft { get; set; }
+	public bool IsRight { get; set; }
 	public bool IsUp { get; set; }
 	public bool IsDown { get; set; }
 	public bool IsFastFall { get; set; }
@@ -17,6 +19,8 @@ public class MovementUtils
 		return new()
 		{
 			IsJump = Input.IsActionJustPressed("player_jump"),
+			IsLeft = Input.IsActionPressed("player_move_left"),
+			IsRight = Input.IsActionPressed("player_move_right"),
 			IsUp = Input.IsActionPressed("player_move_up"),
 			IsDown = Input.IsActionPressed("player_move_down"),
 			IsFastFall = Input.IsActionPressed("player_fast_fall"),

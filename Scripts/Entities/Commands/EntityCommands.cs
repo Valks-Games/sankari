@@ -16,6 +16,15 @@ public interface IEntityMoveable
 
 	// Timers object that can be used to make timers
 	public GTimers Timers { get; }
+
+	// Whether gravity is enabled or not
+	public bool GravityEnabled { get; set; }
+
+	// Assuming all movable entites have a animated sprite
+	public AnimatedSprite2D AnimatedSprite { get; set; }
+
+	// Checks if the entity is on the ground
+	public bool IsOnGround();
 }
 
 public abstract class EntityCommand
@@ -23,34 +32,47 @@ public abstract class EntityCommand
 	/// <summary>
 	/// Called after parent entity is ready
 	/// </summary>
-	public virtual void Initialize()
-	{ }
+	public virtual void Initialize() { }
 
 	/// <summary>
 	/// Called when Movement occurs.
 	/// </summary>
 	/// <param name="input">Input to act on</param>
-	public virtual void Update(MovementInput input)
-	{ }
+	public virtual void Update(float delta) { }
+
+	/// <summary>
+	/// Called when moving in the air
+	/// </summary>
+	/// <param name="delta"></param>
+	public virtual void UpdateAir(float delta) { }
+
+	/// <summary>
+	/// Called when walking on the ground
+	/// </summary>
+	/// <param name="delta"></param>
+	public virtual void UpdateGroundWalking(float delta) {  }
+
+	/// <summary>
+	/// Called when running on the ground
+	/// </summary>
+	/// <param name="delta"></param>
+	public virtual void UpdateGroundSprinting(float delta) { }
 
 	/// <summary>
 	/// Called after most Movement logic occurs
 	/// </summary>
 	/// <param name="input">Input to act on</param>
-	public virtual void LateUpdate(MovementInput input)
-	{ }
+	public virtual void LateUpdate(float delta) { }
 
 	/// <summary>
 	/// Start the command
 	/// </summary>
-	public virtual void Start()
-	{ }
-
+	public virtual void Start() { }
+	
 	/// <summary>
 	/// Stop the command
 	/// </summary>
-	public virtual void Stop()
-	{ }
+	public virtual void Stop() { }
 }
 
 public abstract class EntityCommand<T> : EntityCommand
