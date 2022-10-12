@@ -1,16 +1,15 @@
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/level%20designer?color=black&label=Level%20Designer)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22level+designer%22)
 
-[Good First Level Designer Issues](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+label%3A%22level+designer%22)  
-
-### Ideas for Levels that have not been done yet
-- Climb the mountain
-- Go into the volcano (level starts at top, always going down) (tileset for this needs to be done first)
-- Rising water / lava
-
-### Assets
+### Level Creation
 All levels are placed in `res://Scenes/Levels` with the naming convention `Level <letter><number>.tscn` where letter could be `A` and number could be `1`.
 
+The root node must have the `res://Scripts/Level/LevelScene.cs` script attached to it. If this is not done then many things will not function as expected.
+
+`AddLevel("Your Level Name Here")` must be added in the constructor of the `res://Scripts/Managers/LevelManager.cs` class. Use the naming convention described above and use the same name as you used when creating the `.tscn` scene.
+
 All level specific assets such as coins, enemies, and the player are found in `res://Scenes/Prefabs`.
+
+Note that your level will have to be setup in the map scene as well. Instructions on this will be added eventually.
 
 ### Player
 Where ever the player is placed is where the level will start. This can be useful to test specific parts of a level by temporarily placing the player in those areas.

@@ -1,7 +1,5 @@
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/art?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Aart)  
 
-[Good First Art Issues](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+label%3Aart)  
-
 **Only accepting art uploaded to [Open Game Art](https://opengameart.org/) with the [CC0 license](https://creativecommons.org/publicdomain/zero/1.0/)**
 
 ### Tilesets
