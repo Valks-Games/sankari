@@ -25,10 +25,8 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 	public override void Start()
 	{
 		// on a wall and falling
-		if (Entity.InWallJumpArea)
+		if (Entity.InWallJumpArea && !Entity.IsOnGround())
 		{
-			Entity.AnimatedSprite.FlipH = Entity.WallDir == 1;
-
 			if (Entity.WallDir != 0 && Entity.IsFalling())
 			{
 				var JumpForceWallHorz = 700;
@@ -42,7 +40,12 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 			}
 		}
 		else
-			Entity.AnimatedSprite.FlipH = false;
+		{
+			//It basically just jumps
+			var velocity = Entity.Velocity;
+			velocity.y -= 600;
+			Entity.Velocity = velocity;
+		}
 	}
 
 	public override void Update(float delta)
