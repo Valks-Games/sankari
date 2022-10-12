@@ -8,26 +8,6 @@ public interface IPlayerCommands : IEntityDash, IEntityWallJumpable, IEntityGrou
 
 public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommands
 {
-	private enum PlayerCommandType
-	{
-		Animation,
-		Dash,
-		Movement,
-		WallJump,
-		GroundJump,
-		MidAirJump
-	}
-
-	public enum PlayerAnimationState
-	{
-		Idle,
-		Walking,
-		Running,
-		JumpStart,
-		JumpFall,
-		Dash
-	}
-
 	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
 	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
@@ -97,7 +77,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		LevelScene = levelScene;
 	}
 
-	private Dictionary<PlayerCommandType, EntityCommand> PlayerCommands { get; set; }
+	private Dictionary<EntityCommandType, EntityCommand> PlayerCommands { get; set; }
 	public GTimer DontCheckPlatformAfterDashDuration { get; set; }
 
 	public override void _Ready()
@@ -163,12 +143,12 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		// Does not seem to have any effect if this is either true or false
 		SlideOnCeiling = true;
 
-		PlayerCommands = new Dictionary<PlayerCommandType, EntityCommand>
+		PlayerCommands = new Dictionary<EntityCommandType, EntityCommand>
 		{
-			{ PlayerCommandType.Movement  , new EntityCommandMovement(this)    },
-			{ PlayerCommandType.Dash      , new EntityCommandDash(this)        },
-			{ PlayerCommandType.WallJump  , new EntityCommandWallJump(this)    },
-			{ PlayerCommandType.GroundJump, new EntityCommandGroundJump(this)  }
+			{ EntityCommandType.Movement  , new EntityCommandMovement(this)    },
+			{ EntityCommandType.Dash      , new EntityCommandDash(this)        },
+			{ EntityCommandType.WallJump  , new EntityCommandWallJump(this)    },
+			{ EntityCommandType.GroundJump, new EntityCommandGroundJump(this)  }
 		};
 
 		PlayerCommands.Values.ForEach(cmd => cmd.Initialize());
@@ -198,13 +178,13 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		{
 			if (WallDir != 0 && !IsOnGround()) // Wall jump
 			{
-				PlayerCommands[PlayerCommandType.WallJump].Start();
+				PlayerCommands[EntityCommandType.WallJump].Start();
 			}
 			else if (JumpCount < MaxJumps) 
 			{
 				if (IsOnGround()) // Ground jump
 				{
-					PlayerCommands[PlayerCommandType.GroundJump].Start();
+					PlayerCommands[EntityCommandType.GroundJump].Start();
 				}
 				else // Mid air jump
 				{
@@ -214,7 +194,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		}
 
 		if (PlayerInput.IsDash)
-			PlayerCommands[PlayerCommandType.Dash].Start();
+			PlayerCommands[EntityCommandType.Dash].Start();
 
 		// gravity
 		if (GravityEnabled)

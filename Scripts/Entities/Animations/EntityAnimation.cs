@@ -1,5 +1,15 @@
 ﻿namespace Sankari;
 
+public enum EntityAnimationState
+{
+	Idle,
+	Walking,
+	Running,
+	JumpStart,
+	JumpFall,
+	Dash
+}
+
 public interface IEntityAnimation : IEntityBase
 {
 	public EntityAnimation          CurrentAnimation   { get; set; }

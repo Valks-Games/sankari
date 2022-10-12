@@ -1,5 +1,15 @@
 ﻿namespace Sankari;
 
+public enum EntityCommandType
+{
+	Animation,
+	Dash,
+	Movement,
+	WallJump,
+	GroundJump,
+	MidAirJump
+}
+
 public interface IEntityMoveable : IEntityBase
 {
 	// Velocity of the entity
