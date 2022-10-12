@@ -41,6 +41,12 @@ public abstract class EntityCommand
 	public virtual void UpdateAir(float delta) { }
 
 	/// <summary>
+	/// Called when for changing the direction of the sprite
+	/// </summary>
+	/// <param name="delta"></param>
+	public virtual void UpdateSpriteDirection() { }
+
+	/// <summary>
 	/// Called when walking on the ground
 	/// </summary>
 	/// <param name="delta"></param>

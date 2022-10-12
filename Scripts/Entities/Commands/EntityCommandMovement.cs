@@ -25,11 +25,20 @@ public class EntityCommandMovement : EntityCommand<IEntityMovement>
 			DampeningGround -= 1;
 	}
 
+	public override void UpdateSpriteDirection()
+	{
+		//Entity.AnimatedSprite.FlipH is true when facing to the left, false when facing to the right
+		//Entity.MoveDir.x 0 idle -1 to the left 1 to the right
+		if (Entity.MoveDir.x != 0)
+			Entity.AnimatedSprite.FlipH = (Entity.MoveDir.x > 0) ? false : true;
+	}
+
 	public override void UpdateGroundWalking(float delta)
 	{
 		var velocity = Entity.Velocity;
 		velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeedWalk);
 		Entity.Velocity = velocity;
+		UpdateSpriteDirection();
 	}
 
 	public override void UpdateGroundSprinting(float delta)
@@ -37,6 +46,7 @@ public class EntityCommandMovement : EntityCommand<IEntityMovement>
 		var velocity = Entity.Velocity;
 		velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeedSprint);
 		Entity.Velocity = velocity;
+		UpdateSpriteDirection();
 	}
 
 	public override void UpdateAir(float delta)
@@ -45,6 +55,7 @@ public class EntityCommandMovement : EntityCommand<IEntityMovement>
 		velocity.x += Entity.MoveDir.x * AirAcceleration;
 		velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeedAir);
 		Entity.Velocity = velocity;
+		UpdateSpriteDirection();
 	}
 
 	private float ClampAndDampen(float horzVelocity, int dampening, int maxSpeedGround) 
