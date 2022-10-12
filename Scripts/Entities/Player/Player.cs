@@ -77,7 +77,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		LevelScene = levelScene;
 	}
 
-	private Dictionary<EntityCommandType, EntityCommand> PlayerCommands { get; set; }
+	private Dictionary<EntityCommandType, EntityCommand> EntityCommands { get; set; }
 	public GTimer DontCheckPlatformAfterDashDuration { get; set; }
 
 	public override void _Ready()
@@ -143,7 +143,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		// Does not seem to have any effect if this is either true or false
 		SlideOnCeiling = true;
 
-		PlayerCommands = new Dictionary<EntityCommandType, EntityCommand>
+		EntityCommands = new Dictionary<EntityCommandType, EntityCommand>
 		{
 			{ EntityCommandType.Movement  , new EntityCommandMovement(this)    },
 			{ EntityCommandType.Dash      , new EntityCommandDash(this)        },
@@ -151,7 +151,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 			{ EntityCommandType.GroundJump, new EntityCommandGroundJump(this)  }
 		};
 
-		PlayerCommands.Values.ForEach(cmd => cmd.Initialize());
+		EntityCommands.Values.ForEach(cmd => cmd.Initialize());
 	}
 
 	public override void _PhysicsProcess(double d)
@@ -168,7 +168,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		CurrentAnimation.UpdateState();
 		CurrentAnimation.HandleStateTransitions();
 
-		PlayerCommands.Values.ForEach(cmd => cmd.Update(delta));
+		EntityCommands.Values.ForEach(cmd => cmd.Update(delta));
 
 		if (!CurrentlyDashing && !DontCheckPlatformAfterDashDuration.IsActive())
 			UpdateUnderPlatform(PlayerInput);
@@ -178,13 +178,13 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		{
 			if (WallDir != 0 && !IsOnGround()) // Wall jump
 			{
-				PlayerCommands[EntityCommandType.WallJump].Start();
+				EntityCommands[EntityCommandType.WallJump].Start();
 			}
 			else if (JumpCount < MaxJumps) 
 			{
 				if (IsOnGround()) // Ground jump
 				{
-					PlayerCommands[EntityCommandType.GroundJump].Start();
+					EntityCommands[EntityCommandType.GroundJump].Start();
 				}
 				else // Mid air jump
 				{
@@ -194,7 +194,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 		}
 
 		if (PlayerInput.IsDash)
-			PlayerCommands[EntityCommandType.Dash].Start();
+			EntityCommands[EntityCommandType.Dash].Start();
 
 		// gravity
 		if (GravityEnabled)
@@ -205,9 +205,9 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 			Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);
 
 			if (PlayerInput.IsSprint)
-				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
+				EntityCommands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(delta));
 			else
-				PlayerCommands.Values.ForEach(cmd => cmd.UpdateGroundWalking(delta));
+				EntityCommands.Values.ForEach(cmd => cmd.UpdateGroundWalking(delta));
 
 			// do not reset jump count when the player is leaving the ground for the first time
 			if (Velocity.y > 0)
@@ -218,7 +218,7 @@ public partial class Player : CharacterBody2D, IPlayerAnimations, IPlayerCommand
 			if (PlayerInput.IsFastFall)
 				Velocity = Velocity + new Vector2(0, 10);
 
-			PlayerCommands.Values.ForEach(cmd => cmd.UpdateAir(delta));
+			EntityCommands.Values.ForEach(cmd => cmd.UpdateAir(delta));
 		}
 
 		Velocity = new Vector2(MoveDeadZone(Velocity.x, HorizontalDeadZone), Velocity.y); // must be after ClampAndDampen(...)
