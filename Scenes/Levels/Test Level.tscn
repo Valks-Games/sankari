@@ -1,10 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://baao8rdew8ndx"]
+[gd_scene load_steps=16 format=3 uid="uid://du56s3jx2icue"]
 
 [ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="1_4f86e"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="1_pxesi"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="2_h0i8n"]
-[ext_resource type="Script" path="res://Scripts/Entities/Level/Bottom.cs" id="3_722fj"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="3_vjv6q"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/Killzone.cs" id="3_722fj"]
+[ext_resource type="PackedScene" uid="uid://k3c0v1nsfid8" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="3_vjv6q"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/Slime.tscn" id="4_83y1h"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/Spike.tscn" id="5_bfsgh"]
 

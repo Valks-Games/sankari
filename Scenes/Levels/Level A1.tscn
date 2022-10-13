@@ -1,10 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://bvh6ustg7jq73"]
+[gd_scene load_steps=24 format=3 uid="uid://bmbied2802aut"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/Spawner.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="2"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="3"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="5"]
-[ext_resource type="Script" path="res://Scripts/Entities/Level/Bottom.cs" id="7"]
+[ext_resource type="PackedScene" uid="uid://k3c0v1nsfid8" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="5"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/Killzone.cs" id="7"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://w64koklfslbm" path="res://Sprites/Level/Parallax Backgrounds/Grass/5_clouds.png" id="11"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Coin.tscn" id="13"]
