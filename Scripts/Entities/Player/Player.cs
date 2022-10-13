@@ -324,13 +324,12 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 		if (area.IsInGroup("Level Finish"))
 		{
-			//PlayerCommands.Values.ForEach(cmd => cmd.FinishedLevel());
+			FinishedLevel();
 			return;
 		}
 
 		if (area.IsInGroup("Enemy"))
 		{
-			//PlayerCommands.Values.ForEach(cmd => cmd.TouchedEnemy());
 			TakenDamage(GetCollisionSide(area), 1);
 			return;
 		}
