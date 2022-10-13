@@ -19,7 +19,7 @@ public partial class LevelUIManager : Control
 
     private int Coins { get; set; }
     private int Lives { get; set; } = 3;
-	private int Health { get; set; } = 0;
+	public int Health { get; set; } = 0;
 
     public override void _Ready()
     {

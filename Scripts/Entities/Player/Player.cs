@@ -218,7 +218,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		}
 	}
 
-	//Checks from which side the collision occured. -1 if is on the left, 1 on the right, 0 if neither
+	// Checks from which side the collision occured. -1 if is on the left, 1 on the right, 0 if neither
 	public int GetCollisionSide(Area2D area)
 	{
 		if (this.GlobalPosition.x < area.GlobalPosition.x)
@@ -231,6 +231,10 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	public void TakenDamage(int side, int damage)
 	{
+		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero
+		if (GameManager.LevelUI.Health <= 0)
+			return;
+
 		if (!GameManager.LevelUI.RemoveHealth(damage))
 			Died();
 		else
@@ -325,12 +329,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		if (area.IsInGroup("Level Finish"))
 		{
 			await FinishedLevel();
-			return;
-		}
-
-		if (area.IsInGroup("Enemy"))
-		{
-			TakenDamage(GetCollisionSide(area), 1);
 			return;
 		}
 

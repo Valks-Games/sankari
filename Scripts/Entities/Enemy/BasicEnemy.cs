@@ -138,4 +138,13 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 
         return false;
     }
+
+	private void _on_enemy_area_entered(Area2D area) 
+	{
+		if (area.IsInGroup("Player"))
+		{ 
+			var player = area.GetParent<Player>();
+			player.TakenDamage(player.GetCollisionSide(area), 1);
+		}	
+	}
 }
