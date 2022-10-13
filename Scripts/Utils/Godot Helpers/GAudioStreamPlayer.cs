@@ -2,7 +2,7 @@ namespace Sankari;
 
 public class GAudioStreamPlayer 
 {
-    private AudioStreamPlayer AudioStreamPlayer { get; }
+    private SFXSound AudioStreamPlayer { get; }
 
     /// <summary>
     /// The volume ranging from a value of 0 to 100
@@ -36,12 +36,16 @@ public class GAudioStreamPlayer
         set { AudioStreamPlayer.Stream = value; }
     }
 
-    public GAudioStreamPlayer(Node target) 
+    public GAudioStreamPlayer(Node target, bool deleteOnFinished = false) 
     {
         AudioStreamPlayer = new();
         target.AddChild(AudioStreamPlayer);
+
+		if (deleteOnFinished)
+			AudioStreamPlayer.Connect("finished", new Callable(AudioStreamPlayer, "OnFinished"));
     }
 
     public void Play() => AudioStreamPlayer.Play();
     public void Stop() => AudioStreamPlayer.Stop();
+	public void QueueFree() => AudioStreamPlayer.QueueFree();
 }

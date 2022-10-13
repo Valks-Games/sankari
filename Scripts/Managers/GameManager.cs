@@ -40,7 +40,7 @@ public class GameManager
         NodeMap = linker.GetNode<Node>("Map");
         Menu = linker.GetNode<UIMenu>("CanvasLayer/Menu");
         
-        Audio.Init(new GAudioStreamPlayer(linker), new GAudioStreamPlayer(linker));
+        Audio.Init(new GAudioStreamPlayer(linker), linker.SFXPlayers);
 
         Transition = linker.GetNode<TransitionManager>(linker.NodePathTransition);
         Console = linker.ConsoleManager;

@@ -5,16 +5,15 @@ public static class Audio
     private static Dictionary<string, AudioStream> Sfx { get; } = new();
     private static Dictionary<string, AudioStream> Music { get; } = new();
 
-    private static GAudioStreamPlayer SfxPlayer { get; set; }
+    private static Node SFXPlayers { get; set; }
     private static GAudioStreamPlayer MusicPlayer { get; set; }
     private static float LastPitch { get; set; }
 
-    public static void Init(GAudioStreamPlayer sfxPlayer, GAudioStreamPlayer musicPlayer)
+    public static void Init(GAudioStreamPlayer musicPlayer, Node sfxPlayers)
     {
-        SfxPlayer = sfxPlayer;
+        SFXPlayers = sfxPlayers;
         MusicPlayer = musicPlayer;
         MusicPlayer.Volume = 100;
-        SfxPlayer.Volume = 80;
 
 		LoadSoundEffects();
 		LoadSoundTracks();
@@ -79,8 +78,10 @@ public static class Audio
 	/// </summary>
     public static void PlaySFX(string name, int volume = 100)
     {
-        SfxPlayer.Volume = volume;
-        SfxPlayer.Stream = Sfx[name];
+		var sfxPlayer = new GAudioStreamPlayer(SFXPlayers, true);
+
+        sfxPlayer.Volume = volume;
+        sfxPlayer.Stream = Sfx[name];
 
         var rng = new RandomNumberGenerator();
         rng.Randomize();
@@ -94,8 +95,8 @@ public static class Audio
 
         LastPitch = pitchScale;
 
-        SfxPlayer.Pitch = pitchScale;
-        SfxPlayer.Play();
+        sfxPlayer.Pitch = pitchScale;
+        sfxPlayer.Play();
     }
 
 	/// <summary>
@@ -123,11 +124,6 @@ public static class Audio
 	/// Stop the music track currently being played
 	/// </summary>
     public static void StopMusic() => MusicPlayer.Stop();
-
-    /// <summary>
-    /// Set the SFX volume (values range from 0 to 100)
-    /// </summary>
-    public static void SetSFXVolume(int v) => SfxPlayer.Volume = v;
 
 	/// <summary>
 	/// Load a sound effect, for e.g. LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav")
