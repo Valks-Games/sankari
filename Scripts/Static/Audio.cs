@@ -58,6 +58,7 @@ public static class Audio
         LoadSFX("coin_pickup_1", "Environment/Coin Pickup/1/sfx_coin_single1.wav");
         LoadSFX("coin_pickup_2", "Environment/Coin Pickup/2/coin.wav");
         LoadSFX("dash", "Movement/Dash/swish-9.wav");
+		LoadSFX("dash_replenish", "Movement/Dash/sfx_sounds_powerup17.wav");
 
         LoadSFX("game_over_1", "Game Over/1/retro-game-over.wav");
         LoadSFX("game_over_2", "Game Over/2/game-over-dark-orchestra.wav");

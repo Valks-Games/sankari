@@ -105,7 +105,11 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 		return new Vector2(x, y);
 	}
 
-	private void OnDashReady() => DashReady = true;
+	private void OnDashReady() 
+	{
+		Audio.PlaySFX("dash_replenish");
+		DashReady = true;
+	}
 
 	private void OnDashDurationDone() 
 	{
