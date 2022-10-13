@@ -248,69 +248,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		}
 	}
 
-	public void Kill()
-	{
-		// death animation goes through killzone a 2nd time, make sure Kill() isnt called twice
-		if (HaltPlayerLogic) 
-			return;
-
-		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
-		
-		HaltPlayerLogic = true;
-		LevelScene.Camera.StopFollowingPlayer();
-		AnimatedSprite.Stop();
-
-		var dieStartPos = Position.y;
-		var goUpDuration = 1.25f;
-
-		// animate y position
-		DieTween.InterpolateProperty
-		(
-			"position:y",
-			dieStartPos - 80,
-			goUpDuration,
-			0 // delay
-		);
-
-		DieTween.InterpolateProperty
-		(
-			"position:y",
-			dieStartPos + 400,
-			1.5f,
-			goUpDuration, // delay
-			true
-		)
-		.From(dieStartPos - 80);
-
-		// animate rotation
-		DieTween.InterpolateProperty
-		(
-			"rotation",
-			Mathf.Pi,
-			1.5f,
-			goUpDuration, // delay
-			true
-		);
-
-		DieTween.Start();
-		DieTween.Callback(() => OnDieTweenCompleted());
-	}
-
-	private async void OnDieTweenCompleted()
-	{
-		await GameManager.Transition.AlphaToBlack();
-		await Task.Delay(1000);
-		GameManager.LevelUI.ShowLives();
-		await Task.Delay(1750);
-		GameManager.LevelUI.RemoveLife();
-		await Task.Delay(1000);
-		await GameManager.LevelUI.HideLivesTransition();
-		await Task.Delay(250);
-		GameManager.Transition.BlackToAlpha();
-		HaltPlayerLogic = false;
-		LevelManager.LoadLevelFast();
-		LevelScene.Camera.StartFollowingPlayer();
-	}
+	public void Kill() => new PlayerCommandDeath(this).Start();
 
 	public async Task FinishedLevel()
 	{
