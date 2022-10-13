@@ -304,14 +304,14 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		LevelScene.Camera.StartFollowingPlayer();
 	}
 
-	public async void FinishedLevel()
+	public async Task FinishedLevel()
 	{
 		HaltPlayerLogic = true;
 		await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
 		HaltPlayerLogic = false;
 	}
 
-	private void _on_Player_Area_area_entered(Area2D area)
+	private async void _on_Player_Area_area_entered(Area2D area)
 	{
 		if (HaltPlayerLogic)
 			return;
@@ -324,7 +324,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 		if (area.IsInGroup("Level Finish"))
 		{
-			FinishedLevel();
+			await FinishedLevel();
 			return;
 		}
 
