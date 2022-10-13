@@ -10,5 +10,8 @@ public partial class Killzone : Area2D
         {
             parent.QueueFree();
         }
+
+		if (parent is Player player)
+			player.Kill();
     }
 }

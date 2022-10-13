@@ -236,7 +236,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 			return;
 
 		if (!GameManager.LevelUI.RemoveHealth(damage))
-			Died();
+			Kill();
 		else
 		{
 			Vector2 velocity;
@@ -248,8 +248,12 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		}
 	}
 
-	public void Died()
+	public void Kill()
 	{
+		// death animation goes through killzone a 2nd time, make sure Kill() isnt called twice
+		if (HaltPlayerLogic) 
+			return;
+
 		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
 		
 		HaltPlayerLogic = true;
@@ -319,12 +323,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	{
 		if (HaltPlayerLogic)
 			return;
-
-		if (area.IsInGroup("Killzone"))
-		{
-			Died();
-			return;
-		}
 
 		if (area.IsInGroup("Level Finish"))
 		{
