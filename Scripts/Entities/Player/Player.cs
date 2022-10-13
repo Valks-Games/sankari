@@ -203,28 +203,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		MoveDir = new Vector2(x, y);
 	}
 
-	public bool IsFalling() => Velocity.y > 0;
-
-	private void PrepareRaycasts(Node parent, List<RayCast2D> list)
-	{
-		foreach (RayCast2D raycast in parent.GetChildren())
-		{
-			raycast.AddException(this);
-			list.Add(raycast);
-		}
-	}
-
-	// Checks from which side the collision occured. -1 if is on the left, 1 on the right, 0 if neither
-	public int GetCollisionSide(Area2D area)
-	{
-		if (this.GlobalPosition.x < area.GlobalPosition.x)
-			return -1;
-		else if (this.GlobalPosition.x > area.GlobalPosition.x)
-			return 1;
-
-		return 0;
-	}
-
 	public void TakenDamage(int side, int damage)
 	{
 		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero

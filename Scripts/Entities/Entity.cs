@@ -73,9 +73,7 @@ public partial class Entity : CharacterBody2D
 		MoveAndSlide();
 	}
 
-	public virtual void UpdateGround() { }
-
-	public virtual void UpdateAir() { }
+	public bool IsFalling() => Velocity.y > 0;
 
 	public bool IsOnGround()
 	{
@@ -85,4 +83,28 @@ public partial class Entity : CharacterBody2D
 
 		return false;
 	}
+
+	// Checks from which side the collision occured. -1 if is on the left, 1 on the right, 0 if neither
+	public int GetCollisionSide(Area2D area)
+	{
+		if (this.GlobalPosition.x < area.GlobalPosition.x)
+			return -1;
+		else if (this.GlobalPosition.x > area.GlobalPosition.x)
+			return 1;
+
+		return 0;
+	}
+
+	public void PrepareRaycasts(Node parent, List<RayCast2D> list)
+	{
+		foreach (RayCast2D raycast in parent.GetChildren())
+		{
+			raycast.AddException(this);
+			list.Add(raycast);
+		}
+	}
+
+	public virtual void UpdateGround() { }
+
+	public virtual void UpdateAir() { }
 }
