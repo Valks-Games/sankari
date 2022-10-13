@@ -19,11 +19,13 @@ public partial class Linker : Node
 	public UIConsoleManager ConsoleManager { get; private set; }
 	public UIPlayerList UIPlayerList { get; private set; }
 	public UIMapMenu UIMapMenu { get; private set; }
+	public Node SFXPlayers { get; private set; }
 
 	private GameManager gameManager;
 	
 	public override async void _Ready()
 	{
+		SFXPlayers = GetNode<Node>("SFX Players");
 		CanvasLayer = GetNode<CanvasLayer>("CanvasLayer");
 		ConsoleManager = CanvasLayer.GetNode<UIConsoleManager>("PanelContainer/Console");
 		UIMapMenu = CanvasLayer.GetNode<UIMapMenu>("UIMapMenu");
