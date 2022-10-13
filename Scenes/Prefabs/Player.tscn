@@ -62,10 +62,10 @@ scale = Vector2(2, 2)
 frames = ExtResource("2_pdwy7")
 animation = &"idle"
 
-[node name="Area3D" type="Area2D" parent="." groups=["Player"]]
+[node name="Area2D" type="Area2D" parent="." groups=["Player"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area3D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("2")
 
-[connection signal="area_entered" from="Area3D" to="." method="_on_Player_Area_area_entered"]
-[connection signal="area_exited" from="Area3D" to="." method="_on_Area_area_exited"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_Player_Area_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_Area_area_exited"]

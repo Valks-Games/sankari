@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=12 format=3 uid="uid://k3c0v1nsfid8"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/BasicEnemy.cs" id="1"]
 [ext_resource type="Texture2D" uid="uid://beudfgktht2al" path="res://Sprites/Level/Enemies/orange_ball.png" id="2"]
-
 
 [sub_resource type="AtlasTexture" id="13"]
 atlas = ExtResource("2")
@@ -83,3 +82,5 @@ collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
 shape = SubResource("20")
+
+[connection signal="area_entered" from="Enemy" to="." method="_on_enemy_area_entered"]
