@@ -34,8 +34,13 @@ public abstract class EntityAnimation<T> : EntityAnimation where T : IEntityAnim
 		Entity.Animations[Entity.CurrentAnimation].EnterState();
 	}
 
-	protected void FlipSpriteOnDirection() =>
-		Entity.AnimatedSprite.FlipH = Entity.MoveDir.x < 0; // flip sprite if moving left
+	protected void FlipSpriteOnDirection()
+	{
+		if (Entity.MoveDir.x != 0)
+		{
+			Entity.AnimatedSprite.FlipH = Entity.MoveDir.x < 0; // flip sprite if moving left
+		}
+	}
 
 	public override string ToString() => GetType().Name.Replace(nameof(EntityAnimation), "");
 }
