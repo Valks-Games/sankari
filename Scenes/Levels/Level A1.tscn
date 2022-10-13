@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bmbied2802aut"]
+[gd_scene load_steps=25 format=3 uid="uid://bmbied2802aut"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/Spawner.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Killzone.cs" id="7"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://w64koklfslbm" path="res://Sprites/Level/Parallax Backgrounds/Grass/5_clouds.png" id="11"]
+[ext_resource type="Script" path="res://Scripts/Entities/Level/LevelFinish.cs" id="12_o76mk"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Coin.tscn" id="13"]
 [ext_resource type="Texture2D" uid="uid://fw8npcofwl40" path="res://Sprites/Level/Parallax Backgrounds/Grass/3_trees.png" id="14"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="14_1qxvw"]
@@ -1343,6 +1344,7 @@ position = Vector2(3380, 584)
 position = Vector2(169, 568)
 
 [node name="Level Finish" type="Area2D" parent="." groups=["Level Finish"]]
+script = ExtResource("12_o76mk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level Finish"]
 position = Vector2(9260, -604)
@@ -1364,4 +1366,5 @@ limit_bottom = 651
 editor_draw_limits = true
 script = ExtResource("14_1qxvw")
 
+[connection signal="area_entered" from="Level Finish" to="Level Finish" method="_on_level_finish_area_entered"]
 [connection signal="area_entered" from="Bottom" to="Bottom" method="_on_Bottom_area_entered"]

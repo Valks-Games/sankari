@@ -319,16 +319,10 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		HaltPlayerLogic = false;
 	}
 
-	private async void _on_Player_Area_area_entered(Area2D area)
+	private void _on_Player_Area_area_entered(Area2D area)
 	{
 		if (HaltPlayerLogic)
 			return;
-
-		if (area.IsInGroup("Level Finish"))
-		{
-			await FinishedLevel();
-			return;
-		}
 
 		if (area.IsInGroup("WallJumpArea"))
 			InWallJumpArea = true;
