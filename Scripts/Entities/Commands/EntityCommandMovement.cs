@@ -49,7 +49,9 @@ public class EntityCommandMovement : EntityCommand<IEntityMovement>
 
 	private float ClampAndDampen(float horzVelocity, int dampening, int maxSpeedGround) 
 	{
-		if (horzVelocity > 0)
+		if (Mathf.Abs(horzVelocity) <= dampening)
+			return 0;
+		else if (horzVelocity > 0)
 			return Mathf.Min(horzVelocity - dampening, maxSpeedGround);
 		else
 			return Mathf.Max(horzVelocity + dampening, -maxSpeedGround);
