@@ -63,16 +63,13 @@ NodePathTransition = NodePath("CanvasLayer/Transition")
 
 [node name="Level" type="Node2D" parent="."]
 
-[node name="For Testing Pitch" type="AudioStreamPlayer" parent="."]
-volume_db = -40.0
-
 [node name="Music" type="AudioStreamPlayer" parent="."]
 volume_db = -0.478
 pitch_scale = 0.97
 autoplay = true
 
-[node name="SFX" type="AudioStreamPlayer" parent="."]
-volume_db = -10.0
+[node name="SFX Players" type="Node2D" parent="."]
+editor_description = "If there was only one AudioStreamPlayer for SFX then if 2 sounds played at once the 2nd sound would cut out the 1st sound. That is where the SFX players come in handy. All SFX players will be loaded in as children here."
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
