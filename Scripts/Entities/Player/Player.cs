@@ -12,53 +12,53 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
 	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
 
+	// static
 	public static Vector2 RespawnPosition      { get; set; }
 	public static bool    HasTouchedCheckpoint { get; set; }
 
-	// dependency injection
-	public  LevelScene LevelScene { get; set; }
-
-	// movement
-	public  Vector2 PrevNetPos { get; set; }
+	// IEntityBase
 	public  Vector2 MoveDir    { get; set; }
+	public GTimers Timers { get; set; }
 
-	public  bool HaltPlayerLogic { get; set; }
-
-	// timers
-	public  GTimer TimerNetSend      { get; set; }
-
-	// raycasts
-	public  Node2D          ParentWallChecksLeft     { get; set; }
-	public  Node2D          ParentWallChecksRight    { get; set; }
+	// IEntityWallJumpable
 	public  List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
 	public  List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
-	public  Node2D          ParentGroundChecks       { get; set; }
-
-	public MovementInput PlayerInput { get; set; }
-
-	public int JumpCount          { get; set; }
-	public int JumpForce          { get; set; } = 600;
-	public int MaxJumps           { get; set; } = 1;
-	public int GroundAcceleration { get; set; } = 50;
-	public int HorizontalDeadZone { get; set; } = 25;
 	public int JumpForceWallHorz  { get; set; } = 800;
 	public int JumpForceWallVert  { get; set; } = 500;
 
-	public bool CurrentlyDashing  { get; set; }
-
-	// animation
-	public AnimatedSprite2D AnimatedSprite { get; set; }
-	public GTween           DieTween       { get; set; }
-
-	// wall
+	// IEntityJumpable
+	public int JumpCount          { get; set; }
 	public  bool InWallJumpArea { get; set; }
 	public  int  WallDir        { get; set; }
 
-	// msc
-	public  Window     Tree          { get; set; }
-	public  bool       TouchedGround { get; set; }
+	// IEntityGroundJumpable
+	public int JumpForce          { get; set; } = 600;
 
-	public GTimers Timers { get; set; }
+	// IEntityMovement
+	public int GroundAcceleration { get; set; } = 50;
+
+	// IEntityMoveable
+	public  Window     Tree          { get; set; }
+
+	// IEntityDash
+	public bool CurrentlyDashing  { get; set; }
+
+	// IEntityAnimation
+	public AnimatedSprite2D AnimatedSprite { get; set; }
+
+	// Not in a interface
+	public  bool HaltPlayerLogic { get; set; }
+	public  GTimer TimerNetSend      { get; set; }
+	public  Node2D ParentWallChecksLeft     { get; set; }
+	public  Node2D ParentWallChecksRight    { get; set; }
+	public  Node2D ParentGroundChecks       { get; set; }
+	public  LevelScene LevelScene { get; set; }
+	public  Vector2 PrevNetPos { get; set; }
+	public MovementInput PlayerInput { get; set; }
+	public int MaxJumps           { get; set; } = 1;
+	public int HorizontalDeadZone { get; set; } = 25;
+	public GTween DieTween       { get; set; }
+	public  bool TouchedGround { get; set; }
 
 	public void PreInit(LevelScene levelScene)
 	{
@@ -102,12 +102,12 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
 		PrepareRaycasts(ParentGroundChecks, RayCast2DGroundChecks);
 
-		base._Ready();
+		base._Ready(); // there are some things in base._Ready() that require to go after everything above
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		PlayerInput = MovementUtils.GetPlayerMovementInput();
+		PlayerInput = MovementUtils.GetPlayerMovementInput(); // PlayerInput = ... needs to go before base._PhysicsProcess(delta)
 		
 		base._PhysicsProcess(delta);
 
