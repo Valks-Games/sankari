@@ -1,9 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://baao8rdew8ndx"]
+[gd_scene load_steps=16 format=3 uid="uid://baao8rdew8ndx"]
 
 [ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="1_4f86e"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="1_pxesi"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="2_h0i8n"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Bottom.cs" id="3_722fj"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="3_vjv6q"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/Slime.tscn" id="4_83y1h"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/Spike.tscn" id="5_bfsgh"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgodp"]
 load_path = "res://.godot/imported/grass_dirt_16.png-a4c5d3e9e447e6431aeae544ed7d9b15.ctex"
@@ -1050,6 +1053,17 @@ shape = SubResource("RectangleShape2D_xgde1")
 [node name="CollisionShape2d" type="CollisionShape2D" parent="Environment/Zones/Area2d"]
 position = Vector2(1569, -120.5)
 shape = SubResource("RectangleShape2D_rypwg")
+
+[node name="Enemies" type="Node2D" parent="Environment"]
+
+[node name="CharacterBody2D" parent="Environment/Enemies" instance=ExtResource("3_vjv6q")]
+position = Vector2(1826, -73)
+
+[node name="Slime" parent="Environment/Enemies" instance=ExtResource("4_83y1h")]
+position = Vector2(2079, -189)
+
+[node name="Spike" parent="Environment/Enemies" instance=ExtResource("5_bfsgh")]
+position = Vector2(1247, 584)
 
 [node name="Player" parent="." instance=ExtResource("1_4f86e")]
 position = Vector2(2407, 120)
