@@ -17,55 +17,51 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public static bool    HasTouchedCheckpoint { get; set; }
 
 	// IEntityBase
-	public  Vector2 MoveDir    { get; set; }
-	public GTimers Timers { get; set; }
+	public Vector2 MoveDir { get; set; }
+	public GTimers Timers  { get; set; }
 
 	// IEntityWallJumpable
-	public  List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
-	public  List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
-	public int JumpForceWallHorz  { get; set; } = 800;
-	public int JumpForceWallVert  { get; set; } = 500;
+	public List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
+	public List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
+	public int             JumpForceWallHorz        { get; set; } = 800;
+	public int             JumpForceWallVert        { get; set; } = 500;
 
 	// IEntityJumpable
-	public int JumpCount          { get; set; }
-	public  bool InWallJumpArea { get; set; }
-	public  int  WallDir        { get; set; }
+	public int  JumpCount      { get; set; }
+	public bool InWallJumpArea { get; set; }
+	public int  WallDir        { get; set; }
 
 	// IEntityGroundJumpable
-	public int JumpForce          { get; set; } = 600;
+	public int JumpForce { get; set; } = 600;
 
 	// IEntityMovement
 	public int GroundAcceleration { get; set; } = 50;
 
 	// IEntityMoveable
-	public  Window     Tree          { get; set; }
+	public Window Tree { get; set; }
 
 	// IEntityDash
-	public bool CurrentlyDashing  { get; set; }
+	public bool CurrentlyDashing { get; set; }
 
 	// IEntityAnimation
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Not in a interface
-	public  bool HaltPlayerLogic { get; set; }
-	public  GTimer TimerNetSend      { get; set; }
-	public  Node2D ParentWallChecksLeft     { get; set; }
-	public  Node2D ParentWallChecksRight    { get; set; }
-	public  Node2D ParentGroundChecks       { get; set; }
-	public  LevelScene LevelScene { get; set; }
-	public  Vector2 PrevNetPos { get; set; }
-	public MovementInput PlayerInput { get; set; }
-	public int MaxJumps           { get; set; } = 1;
-	public int HorizontalDeadZone { get; set; } = 25;
-	public GTween DieTween       { get; set; }
-	public  bool TouchedGround { get; set; }
+	public bool          HaltPlayerLogic                    { get; set; }
+	public GTimer        TimerNetSend                       { get; set; }
+	public Node2D        ParentWallChecksLeft               { get; set; }
+	public Node2D        ParentWallChecksRight              { get; set; }
+	public Node2D        ParentGroundChecks                 { get; set; }
+	public LevelScene    LevelScene                         { get; set; }
+	public Vector2       PrevNetPos                         { get; set; }
+	public MovementInput PlayerInput                        { get; set; }
+	public int           MaxJumps                           { get; set; } = 1;
+	public int           HorizontalDeadZone                 { get; set; } = 25;
+	public GTween        DieTween                           { get; set; }
+	public bool          TouchedGround                      { get; set; }
+	public GTimer        DontCheckPlatformAfterDashDuration { get; set; }
 
-	public void PreInit(LevelScene levelScene)
-	{
-		LevelScene = levelScene;
-	}
-
-	public GTimer DontCheckPlatformAfterDashDuration { get; set; }
+	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 
 	public override void _Ready()
 	{
@@ -98,9 +94,9 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		// dont go under platform at the end of a dash for X ms
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
 
-		PrepareRaycasts(ParentWallChecksLeft, RayCast2DWallChecksLeft);
+		PrepareRaycasts(ParentWallChecksLeft , RayCast2DWallChecksLeft);
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
-		PrepareRaycasts(ParentGroundChecks, RayCast2DGroundChecks);
+		PrepareRaycasts(ParentGroundChecks   , RayCast2DGroundChecks);
 
 		base._Ready(); // there are some things in base._Ready() that require to go after everything above
 	}
@@ -134,7 +130,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 				}
 				else // Mid air jump
 				{
-
+					// to be implemented as a permanent or temporary powerup
 				}
 			}
 		}
