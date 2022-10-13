@@ -22,7 +22,10 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 
 	public override void HandleStateTransitions()
 	{
-		// Dash -> Idle Dash -> JumpFall Dash -> Walking Dash -> Running
+		// Dash -> Idle
+		// Dash -> JumpFall
+		// Dash -> Walking
+		// Dash -> Running
 
 		if (!Entity.CurrentlyDashing)
 			if (!Entity.IsOnGround())

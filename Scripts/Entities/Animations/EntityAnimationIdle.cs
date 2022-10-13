@@ -17,7 +17,10 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 
 	public override void HandleStateTransitions()
 	{
-		// Idle -> Walking Idle -> Sprinting Idle -> JumpStart Idle -> JumpFall
+		// Idle -> Walking
+		// Idle -> Sprinting
+		// Idle -> JumpStart
+		// Idle -> JumpFall
 
 		if (Entity is Player player)
 		{
