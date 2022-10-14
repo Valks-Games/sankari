@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
+public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 {
 	[Export] public float Speed { get; set; } = 40;
 	[Export] public bool Active { get; set; } = true;
@@ -8,19 +8,16 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 	[Export] public bool DontCollideWithWall { get; set; }
 	[Export] public bool FallOffCliff { get; set; }
 
-	private float Gravity { get; set; } = 30000f;
+	public override int Gravity { get; set; } = 30000;
+	public AnimatedSprite2D AnimatedSprite { get; set; }
 	private bool MovingForward { get; set; }
-
-	private AnimatedSprite2D AnimatedSprite { get; set; }
 
 	private RayCast2D RayCastWallLeft { get; set; }
 	private RayCast2D RayCastWallRight { get; set; }
 	private RayCast2D RayCastCliffLeft { get; set; }
 	private RayCast2D RayCastCliffRight { get; set; }
-
-	public void PreInit(Player player)
-	{
-	}
+	public int GroundAcceleration { get; set; } = 50;
+	public Window Tree { get; set; }
 
 	public override void _Ready()
 	{
@@ -58,17 +55,20 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 		}
 
 		FloorStopOnSlope = false;
+
+		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this);
 	}
 
-	public override void _PhysicsProcess(double d)
+	public override void _PhysicsProcess(double delta)
 	{
-		var delta = (float)d;
-		var velocity = new Vector2(0, 0);
+		Delta = (float)delta;
+		var velocity = new Vector2(0,0);
 
-		velocity.y += delta * Gravity; // delta needed here because it's an application of acceleration
+		velocity.y += Delta * Gravity; // delta needed here because it's an application of acceleration
 
 		if (MovingForward)
 		{
+			MoveDir = new Vector2(-1, 0);
 			velocity.x += Speed;
 
 			if (!DontCollideWithWall && IsRaycastColliding(RayCastWallRight))
@@ -79,8 +79,8 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 		}
 		else
 		{
+			MoveDir = new Vector2(1, 0);
 			velocity.x -= Speed;
-
 			if (!DontCollideWithWall && IsRaycastColliding(RayCastWallLeft))
 				ChangeDirection();
 
@@ -90,7 +90,7 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 
 		Velocity = velocity;
 
-		MoveAndSlide(); // move and slide handles delta automatically (delta needed because moving over position between frames)
+		base._PhysicsProcess(delta);
 	}
 
 	public void Activate()
@@ -129,10 +129,9 @@ public partial class BasicEnemy : CharacterBody2D, IEnemy, IEntity
 	{
 		var collider = raycast.GetCollider() as Node;
 
-		if (collider != null)
+		if (collider != null && collider.IsInGroup("Tileset"))
 		{
-			if (collider.IsInGroup("Tileset"))
-				return true;
+			return true;
 		}
 
 		return false;

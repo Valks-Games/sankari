@@ -27,7 +27,7 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 		// Dash -> Walking
 		// Dash -> Running
 
-		if (!Entity.CurrentlyDashing)
+		if (!((EntityCommandDash)Entity.Commands[EntityCommandType.Dash]).CurrentlyDashing)
 			if (!Entity.IsOnGround())
 			{
 				if (Entity.Velocity.y > 0)

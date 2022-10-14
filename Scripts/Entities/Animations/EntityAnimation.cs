@@ -13,6 +13,7 @@ public enum EntityAnimationType
 public interface IEntityAnimation : IEntityBase
 {
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations   { get; set; }
+	public Dictionary<EntityCommandType, EntityCommand>     Commands     { get; set; }
 	public EntityAnimationType                              CurrentAnimation   { get; set; }
 	public AnimatedSprite2D                                 AnimatedSprite     { get; set; }
 }

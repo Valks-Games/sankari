@@ -12,13 +12,9 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
 	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
 
-	// static
 	public static Vector2 RespawnPosition      { get; set; }
 	public static bool    HasTouchedCheckpoint { get; set; }
 
-	// IEntityBase
-	public Vector2 MoveDir { get; set; }
-	public GTimers Timers  { get; set; }
 
 	// IEntityWallJumpable
 	public List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
@@ -92,6 +88,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		Tree                  = GetTree().Root;
 
 		// dont go under platform at the end of a dash for X ms
+		GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
 
 		PrepareRaycasts(ParentWallChecksLeft , RayCast2DWallChecksLeft);
@@ -99,6 +96,11 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		PrepareRaycasts(ParentGroundChecks   , RayCast2DGroundChecks);
 
 		base._Ready(); // there are some things in base._Ready() that require to go after everything above
+	}
+
+	public void OnDashDone(object _, EventArgs _2)
+	{
+		DontCheckPlatformAfterDashDuration.Start();
 	}
 
 	public override void _PhysicsProcess(double delta)

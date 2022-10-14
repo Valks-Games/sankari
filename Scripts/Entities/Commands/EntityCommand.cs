@@ -24,7 +24,7 @@ public interface IEntityMoveable : IEntityBase
 	// Whether gravity is enabled or not
 	public bool GravityEnabled { get; set; }
 
-	// Assuming all movable entites have a animated sprite
+	// Assuming all movable entities have a animated sprite
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Checks if the entity is on the ground
@@ -63,16 +63,10 @@ public abstract class EntityCommand
 	public virtual void UpdateGroundSprinting(float delta) { }
 
 	/// <summary>
-	/// Called after most Movement logic occurs
-	/// </summary>
-	/// <param name="input">Input to act on</param>
-	public virtual void LateUpdate(float delta) { }
-
-	/// <summary>
 	/// Start the command
 	/// </summary>
 	public virtual void Start() { }
-	
+
 	/// <summary>
 	/// Stop the command
 	/// </summary>

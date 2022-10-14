@@ -7,11 +7,13 @@ public partial class Entity : CharacterBody2D
 
 	public EntityAnimationType CurrentAnimation { get; set; }
 
-	public float Delta { get; private set; }
+	public float   Delta      { get; protected set; }
+	public Vector2 MoveDir    { get; protected set; }
 
-	public int Gravity            { get; set; } = 1200;
+	public virtual int Gravity            { get; set; } = 1200;
 	public bool GravityEnabled    { get; set; } = true;
 	public  List<RayCast2D> RayCast2DGroundChecks    { get; } = new();
+	public GTimers Timers { get; set; }
 
 	public override void _Ready()
 	{
@@ -52,9 +54,12 @@ public partial class Entity : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		Delta = (float)delta;
-
-		Animations[CurrentAnimation].UpdateState();
-		Animations[CurrentAnimation].HandleStateTransitions();
+		// Temp until we figure out if Animation are required for simple enemies
+		if (Animations.ContainsKey(CurrentAnimation))
+		{
+			Animations[CurrentAnimation].UpdateState();
+			Animations[CurrentAnimation].HandleStateTransitions();
+		}
 
 		Commands.Values.ForEach(cmd => cmd.Update(Delta));
 
@@ -84,7 +89,7 @@ public partial class Entity : CharacterBody2D
 		return false;
 	}
 
-	// Checks from which side the collision occured. -1 if is on the left, 1 on the right, 0 if neither
+	// Checks from which side the collision occurred. -1 if is on the left, 1 on the right, 0 if neither
 	public int GetCollisionSide(Area2D area)
 	{
 		if (this.GlobalPosition.x < area.GlobalPosition.x)
@@ -107,4 +112,19 @@ public partial class Entity : CharacterBody2D
 	public virtual void UpdateGround() { }
 
 	public virtual void UpdateAir() { }
+
+	/// <summary>
+	/// Attempts to get the command parsed as Type. If the parse is not successful, default(TCommand) is returned.
+	/// </summary>
+	/// <typeparam name="TCommand">EntityCommand to cast</typeparam>
+	/// <param name="commandType">Entry into Commands</param>
+	/// <returns>Gets the command parsed as Type or default(TCommand)</returns>
+	protected TCommand GetCommandClass<TCommand>(EntityCommandType commandType) where TCommand : EntityCommand
+	{
+		if (Commands[commandType] is TCommand command)
+		{
+			return command;
+		}
+		return default(TCommand);
+	}
 }
