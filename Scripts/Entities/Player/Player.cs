@@ -12,6 +12,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
 	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
 
+	// Static
 	public static Vector2 RespawnPosition      { get; set; }
 	public static bool    HasTouchedCheckpoint { get; set; }
 
@@ -98,6 +99,9 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		base._Ready(); // there are some things in base._Ready() that require to go after everything above
 	}
 
+	/// <summary>
+	/// Called when a Dash Command finishes as Dash
+	/// </summary>
 	public void OnDashDone(object _, EventArgs _2)
 	{
 		DontCheckPlatformAfterDashDuration.Start();
