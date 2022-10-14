@@ -100,7 +100,14 @@ public partial class Entity : CharacterBody2D
 		return 0;
 	}
 
-	public void PrepareRaycasts(Node parent, List<RayCast2D> list)
+	protected RayCast2D PrepareRaycast(string path)
+	{
+		var raycast = GetNode<RayCast2D>(path);
+		raycast.AddException(this);
+		return raycast;
+	}
+
+	protected void PrepareRaycasts(Node parent, List<RayCast2D> list)
 	{
 		foreach (RayCast2D raycast in parent.GetChildren())
 		{

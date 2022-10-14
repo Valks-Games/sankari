@@ -29,6 +29,9 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		RayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
 		RayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
 
+		RayCast2DGroundChecks.Add(RayCastCliffRight);
+		RayCast2DGroundChecks.Add(RayCastCliffLeft);
+
 		if (FallOffCliff)
 		{
 			RayCastCliffLeft.Enabled = false;
@@ -63,8 +66,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	{
 		Delta = (float)delta;
 		var velocity = new Vector2(0,0);
-
-		velocity.y += Delta * Gravity; // delta needed here because it's an application of acceleration
 
 		if (MovingForward)
 		{
@@ -116,13 +117,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	{
 		MovingForward = !MovingForward;
 		AnimatedSprite.FlipH = !AnimatedSprite.FlipH;
-	}
-
-	private RayCast2D PrepareRaycast(string path)
-	{
-		var raycast = GetNode<RayCast2D>(path);
-		raycast.AddException(this);
-		return raycast;
 	}
 
 	private bool IsRaycastColliding(RayCast2D raycast)
