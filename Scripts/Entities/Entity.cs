@@ -30,7 +30,7 @@ public partial class Entity : CharacterBody2D
 
 		// If true, the body will not slide on slopes when calling move_and_slide
 		// when the body is standing still.
-        // If false, the body will slide on floor's slopes when velocity applies
+		// If false, the body will slide on floor's slopes when velocity applies
 		// a downward force.
 		// Does not seem to have any effect if this is either true or false
 		FloorStopOnSlope = false;

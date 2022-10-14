@@ -50,8 +50,8 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 
 	public override void Update(float delta)
 	{
-		// Entity.IsOnGround() is called twice, in Update() and LateUpdate() 
-		// Also what if IsOnGround() was called in other commands? 
+		// Entity.IsOnGround() is called twice, in Update() and LateUpdate()
+		// Also what if IsOnGround() was called in other commands?
 		// Shouldn't IsOnGround() only be called once?
 		if (Entity.IsOnGround())
 			DashCount = 0;
@@ -105,13 +105,13 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 		return new Vector2(x, y);
 	}
 
-	private void OnDashReady() 
+	private void OnDashReady()
 	{
 		Audio.PlaySFX("dash_replenish");
 		DashReady = true;
 	}
 
-	private void OnDashDurationDone() 
+	private void OnDashDurationDone()
 	{
 		Entity.DontCheckPlatformAfterDashDuration.Start();
 		Entity.CurrentlyDashing = false;
