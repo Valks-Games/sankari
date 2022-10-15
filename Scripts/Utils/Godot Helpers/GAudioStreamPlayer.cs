@@ -49,3 +49,11 @@ public class GAudioStreamPlayer
     public void Stop() => AudioStreamPlayer.Stop();
 	public void QueueFree() => AudioStreamPlayer.QueueFree();
 }
+
+public partial class SFXSound : AudioStreamPlayer
+{
+	private void OnFinished() 
+	{
+		QueueFree();	
+	}
+}
