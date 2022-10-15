@@ -10,7 +10,7 @@ public static class Prefabs
     public static PackedScene PopupLineEdit   { get; } = LoadPrefab("UI/Popups/PopupLineEdit");
     public static PackedScene OtherPlayer     { get; } = LoadPrefab("OtherPlayer");
 
-    private static PackedScene LoadPrefab(string path) => ResourceLoader.Load<PackedScene>($"res://Scenes/Prefabs/{path}.tscn");
+    private static PackedScene LoadPrefab(string path) => GD.Load<PackedScene>($"res://Scenes/Prefabs/{path}.tscn");
 }
 
 public static class Textures 
