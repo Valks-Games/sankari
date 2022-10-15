@@ -5,7 +5,7 @@ public partial class Entity : CharacterBody2D
 	public Dictionary<EntityCommandType, EntityCommand> Commands { get; set; } = new();
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
 
-	public EntityAnimationType CurrentAnimation { get; set; }
+	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None;
 
 	public float   Delta      { get; protected set; }
 	public Vector2 MoveDir    { get; protected set; }
@@ -49,17 +49,14 @@ public partial class Entity : CharacterBody2D
 		SlideOnCeiling = true;
 
 		Commands.Values.ForEach(cmd => cmd.Initialize());
+		Animations[EntityAnimationType.None] = new EntityAnimationNone();
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Delta = (float)delta;
-		// Temp until we figure out if Animation are required for simple enemies
-		if (Animations.ContainsKey(CurrentAnimation))
-		{
-			Animations[CurrentAnimation].UpdateState();
-			Animations[CurrentAnimation].HandleStateTransitions();
-		}
+		Animations[CurrentAnimation].UpdateState();
+		Animations[CurrentAnimation].HandleStateTransitions();
 
 		Commands.Values.ForEach(cmd => cmd.Update(Delta));
 

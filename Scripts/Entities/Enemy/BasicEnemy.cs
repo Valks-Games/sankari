@@ -60,6 +60,8 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		FloorStopOnSlope = false;
 
 		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this);
+		
+		base._Ready();
 	}
 
 	public override void _PhysicsProcess(double delta)

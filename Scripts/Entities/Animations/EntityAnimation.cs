@@ -2,6 +2,7 @@
 
 public enum EntityAnimationType
 {
+	None = 0,
 	Idle,
 	Walking,
 	Running,
