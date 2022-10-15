@@ -76,6 +76,7 @@ public static class LevelManager
 			var curLevel = Levels[CurrentLevel];
 
 			Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
+			GameManager.LevelUI.AddHealth(6);
 		}
 		else
 		{
@@ -89,6 +90,10 @@ public static class LevelManager
 
     public static async Task CompleteLevel(string levelName)
     {
+		// TODO: Clear player health at the end of each level or hide it so it is
+		// not visible in the map or menu screens. It should only be visible when
+		// in a level.
+
         // the level scene is no longer active, clean it up
         GameManager.Events.RemoveListener(nameof(LevelManager), Event.OnGameClientLeft);
         GameManager.LevelScene = null;

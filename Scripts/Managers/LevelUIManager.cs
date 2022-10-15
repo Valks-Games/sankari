@@ -29,7 +29,6 @@ public partial class LevelUIManager : Control
         ControlLives = GetNode<Control>(NodePathControlLives);
 		HealthBar = GetNode<HBoxContainer>(NodePathHealthBar);
 
-		AddHealth(6);
         CoinSprite.Playing = true;
         ControlLives.Hide();
     }
