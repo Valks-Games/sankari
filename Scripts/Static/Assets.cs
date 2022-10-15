@@ -12,3 +12,11 @@ public static class Prefabs
 
     private static PackedScene LoadPrefab(string path) => ResourceLoader.Load<PackedScene>($"res://Scenes/Prefabs/{path}.tscn");
 }
+
+public static class Textures 
+{
+	public static Texture2D FullHeart { get; } = LoadTexture("icon.png");
+	public static Texture2D HalfHeart { get; } = LoadTexture("light.png");
+
+	private static Texture2D LoadTexture(string path) => GD.Load<Texture2D>($"res://Sprites/{path}");
+}
