@@ -69,7 +69,7 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 		if (MovingForward)
 		{
-			MoveDir = new Vector2(-1, 0);
+			MoveDir = Vector2.Left;
 			velocity.x += Speed;
 
 			if (!DontCollideWithWall && IsRaycastColliding(RayCastWallRight))
@@ -80,7 +80,7 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		}
 		else
 		{
-			MoveDir = new Vector2(1, 0);
+			MoveDir = Vector2.Right;
 			velocity.x -= Speed;
 			if (!DontCollideWithWall && IsRaycastColliding(RayCastWallLeft))
 				ChangeDirection();
