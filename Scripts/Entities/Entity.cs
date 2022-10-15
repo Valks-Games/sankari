@@ -2,16 +2,15 @@
 
 public partial class Entity : CharacterBody2D
 {
-	public Dictionary<EntityCommandType, EntityCommand> Commands { get; set; } = new();
+	public Dictionary<EntityCommandType, EntityCommand>     Commands   { get; set; } = new();
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
 
 	public EntityAnimationType CurrentAnimation { get; set; }
 
-	public float Delta { get; private set; }
-
-	public int Gravity            { get; set; } = 1200;
-	public bool GravityEnabled    { get; set; } = true;
-	public  List<RayCast2D> RayCast2DGroundChecks    { get; } = new();
+	public float           Delta                  { get; private set; }
+	public int             Gravity                { get; set; } = 1200;
+	public bool            GravityEnabled         { get; set; } = true;
+	public List<RayCast2D> RayCast2DGroundChecks  { get;      } = new();
 
 	public override void _Ready()
 	{
