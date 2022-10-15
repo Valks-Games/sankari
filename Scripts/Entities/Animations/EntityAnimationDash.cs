@@ -27,12 +27,12 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 		// Dash -> Walking
 		// Dash -> Running
 
-		if (!Entity.CurrentlyDashing)
+		if (!((EntityCommandDash)Entity.Commands[EntityCommandType.Dash]).CurrentlyDashing)
 			if (!Entity.IsOnGround())
-			{ 
+			{
 				if (Entity.Velocity.y > 0)
 					SwitchState(EntityAnimationType.JumpFall);
-				else 
+				else
 				if (Entity.MoveDir != Vector2.Zero)
 					if (Entity is Player player && player.PlayerInput.IsSprint)
 						SwitchState(EntityAnimationType.Running);

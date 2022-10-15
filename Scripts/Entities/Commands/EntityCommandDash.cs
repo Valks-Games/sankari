@@ -2,11 +2,7 @@
 
 public interface IEntityDash : IEntityMoveable
 {
-	// Entity is currently dashing
-	public bool    CurrentlyDashing  { get; set; }
 
-	// Timer to prevent going under a platform too early right after the end of a dash
-	public GTimer  DontCheckPlatformAfterDashDuration { get; set; }
 }
 
 public class EntityCommandDash : EntityCommand<IEntityDash>
@@ -20,6 +16,9 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 	public int     DashDuration      { get; set; }	= 200;
 	public GTimer  TimerDashCooldown { get; set; }
 	public GTimer  TimerDashDuration { get; set; }
+	public bool CurrentlyDashing { get; set; } = false;
+
+	public event EventHandler DashDurationDone;
 
 	public EntityCommandDash(IEntityDash entity) : base(entity) { }
 
@@ -31,7 +30,7 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 
 	public override void Start()
 	{
-		if (DashReady && !Entity.CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
+		if (DashReady && !CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
 		{
 			DashDir = GetDashDirection(Entity.MoveDir);
 
@@ -41,7 +40,7 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 				Entity.GravityEnabled = false;
 				DashCount++;
 				DashReady = false;
-				Entity.CurrentlyDashing = true;
+				CurrentlyDashing = true;
 				TimerDashDuration.Start();
 				TimerDashCooldown.Start();
 			}
@@ -50,8 +49,8 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 
 	public override void Update(float delta)
 	{
-		// Entity.IsOnGround() is called twice, in Update() and LateUpdate() 
-		// Also what if IsOnGround() was called in other commands? 
+		// Entity.IsOnGround() is called twice, in Update() and LateUpdate()
+		// Also what if IsOnGround() was called in other commands?
 		// Shouldn't IsOnGround() only be called once?
 		if (Entity.IsOnGround())
 			DashCount = 0;
@@ -59,7 +58,7 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 
 	public override void UpdateAir(float delta)
 	{
-		if (Entity.CurrentlyDashing)
+		if (CurrentlyDashing)
 		{
 			var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
 			sprite.Texture = Entity.AnimatedSprite.Frames.GetFrame(Entity.AnimatedSprite.Animation, Entity.AnimatedSprite.Frame);
@@ -105,16 +104,16 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 		return new Vector2(x, y);
 	}
 
-	private void OnDashReady() 
+	private void OnDashReady()
 	{
 		Audio.PlaySFX("dash_replenish");
 		DashReady = true;
 	}
 
-	private void OnDashDurationDone() 
+	private void OnDashDurationDone()
 	{
-		Entity.DontCheckPlatformAfterDashDuration.Start();
-		Entity.CurrentlyDashing = false;
+		CurrentlyDashing = false;
 		Entity.GravityEnabled = true;
+		DashDurationDone?.Invoke(this, EventArgs.Empty);
 	}
 }

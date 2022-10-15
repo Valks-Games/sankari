@@ -5,13 +5,15 @@ public partial class Entity : CharacterBody2D
 	public Dictionary<EntityCommandType, EntityCommand>     Commands   { get; set; } = new();
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
 
-	public EntityAnimationType CurrentAnimation { get; set; }
+	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None;
 
-	public float           Delta                  { get; private set; }
-	public int             Gravity                { get; set; } = 1200;
-	public bool            GravityEnabled         { get; set; } = true;
-	public List<RayCast2D> RayCast2DGroundChecks  { get;      } = new();
-	public bool            HaltLogic                   { get; set; }
+	public float           Delta                 { get; protected set; }
+	public Vector2         MoveDir               { get; protected set; }
+	public GTimers         Timers                { get; set; }
+	public virtual int     Gravity               { get; set; } = 1200;
+	public bool            GravityEnabled        { get; set; } = true;
+	public List<RayCast2D> RayCast2DGroundChecks { get;      } = new();
+	public bool            HaltLogic             { get; set; }
 
 	public override void _Ready()
 	{
@@ -30,7 +32,7 @@ public partial class Entity : CharacterBody2D
 
 		// If true, the body will not slide on slopes when calling move_and_slide
 		// when the body is standing still.
-        // If false, the body will slide on floor's slopes when velocity applies
+		// If false, the body will slide on floor's slopes when velocity applies
 		// a downward force.
 		// Does not seem to have any effect if this is either true or false
 		FloorStopOnSlope = false;
@@ -47,6 +49,7 @@ public partial class Entity : CharacterBody2D
 		SlideOnCeiling = true;
 
 		Commands.Values.ForEach(cmd => cmd.Initialize());
+		Animations[EntityAnimationType.None] = new EntityAnimationNone();
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -55,7 +58,6 @@ public partial class Entity : CharacterBody2D
 			return;
 
 		Delta = (float)delta;
-
 		Animations[CurrentAnimation].UpdateState();
 		Animations[CurrentAnimation].HandleStateTransitions();
 
@@ -87,7 +89,7 @@ public partial class Entity : CharacterBody2D
 		return false;
 	}
 
-	// Checks from which side the collision occured. -1 if is on the left, 1 on the right, 0 if neither
+	// Checks from which side the collision occurred. -1 if is on the left, 1 on the right, 0 if neither
 	public int GetCollisionSide(Area2D area)
 	{
 		if (this.GlobalPosition.x < area.GlobalPosition.x)
@@ -98,7 +100,14 @@ public partial class Entity : CharacterBody2D
 		return 0;
 	}
 
-	public void PrepareRaycasts(Node parent, List<RayCast2D> list)
+	protected RayCast2D PrepareRaycast(string path)
+	{
+		var raycast = GetNode<RayCast2D>(path);
+		raycast.AddException(this);
+		return raycast;
+	}
+
+	protected void PrepareRaycasts(Node parent, List<RayCast2D> list)
 	{
 		foreach (RayCast2D raycast in parent.GetChildren())
 		{
@@ -110,4 +119,19 @@ public partial class Entity : CharacterBody2D
 	public virtual void UpdateGround() { }
 
 	public virtual void UpdateAir() { }
+
+	/// <summary>
+	/// Attempts to get the command parsed as Type. If the parse is not successful, default(TCommand) is returned.
+	/// </summary>
+	/// <typeparam name="TCommand">EntityCommand to cast</typeparam>
+	/// <param name="commandType">Entry into Commands</param>
+	/// <returns>Gets the command parsed as Type or default(TCommand)</returns>
+	protected TCommand GetCommandClass<TCommand>(EntityCommandType commandType) where TCommand : EntityCommand
+	{
+		if (Commands[commandType] is TCommand command)
+		{
+			return command;
+		}
+		return default(TCommand);
+	}
 }
