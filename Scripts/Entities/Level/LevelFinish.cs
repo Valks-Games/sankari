@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class LevelFinish : Node
+public partial class LevelFinish : Area2D
 {
 	private async void _on_level_finish_area_entered(Area2D area) 
 	{
