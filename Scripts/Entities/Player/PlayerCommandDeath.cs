@@ -11,6 +11,7 @@ public class PlayerCommandDeath : EntityCommand<Player>
 			return;
 
 		Entity.HaltPlayerLogic = true;
+		Entity.Dead = true;
 
 		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
 		
