@@ -11,7 +11,7 @@ public partial class Entity : CharacterBody2D
 	public int             Gravity                { get; set; } = 1200;
 	public bool            GravityEnabled         { get; set; } = true;
 	public List<RayCast2D> RayCast2DGroundChecks  { get;      } = new();
-	public bool            Dead                   { get; set; }
+	public bool            HaltLogic                   { get; set; }
 
 	public override void _Ready()
 	{
@@ -51,7 +51,7 @@ public partial class Entity : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (Dead)
+		if (HaltLogic)
 			return;
 
 		Delta = (float)delta;

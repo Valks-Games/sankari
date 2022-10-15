@@ -47,7 +47,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Not in a interface
-	public bool          HaltPlayerLogic                    { get; set; }
 	public GTimer        TimerNetSend                       { get; set; }
 	public Node2D        ParentWallChecksLeft               { get; set; }
 	public Node2D        ParentWallChecksRight              { get; set; }
@@ -106,9 +105,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		PlayerInput = MovementUtils.GetPlayerMovementInput(); // PlayerInput = ... needs to go before base._PhysicsProcess(delta)
 		
 		base._PhysicsProcess(delta);
-
-		if (HaltPlayerLogic)
-			return;
 
 		UpdateMoveDirection(PlayerInput);
 
@@ -226,14 +222,14 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	public async Task FinishedLevel()
 	{
-		HaltPlayerLogic = true;
+		HaltLogic = true;
 		await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
-		HaltPlayerLogic = false;
+		HaltLogic = false;
 	}
 
 	private void _on_Player_Area_area_entered(Area2D area)
 	{
-		if (HaltPlayerLogic)
+		if (HaltLogic)
 			return;
 
 		if (area.IsInGroup("WallJumpArea"))
