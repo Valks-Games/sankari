@@ -102,6 +102,9 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (HaltLogic)
+			return;
+
 		PlayerInput = MovementUtils.GetPlayerMovementInput(); // PlayerInput = ... needs to go before base._PhysicsProcess(delta)
 		
 		base._PhysicsProcess(delta);
