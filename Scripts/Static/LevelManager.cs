@@ -77,6 +77,7 @@ public static class LevelManager
 
 			Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
 			GameManager.LevelUI.AddHealth(6);
+			GameManager.LevelUI.Show();
 		}
 		else
 		{
