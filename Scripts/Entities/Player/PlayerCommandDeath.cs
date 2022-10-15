@@ -7,10 +7,10 @@ public class PlayerCommandDeath : EntityCommand<Player>
 	public override void Start()
 	{
 		// death animation goes through killzone a 2nd time, make sure Kill() isnt called twice
-		if (Entity.HaltPlayerLogic) 
+		if (Entity.HaltLogic) 
 			return;
 
-		Entity.HaltPlayerLogic = true;
+		Entity.HaltLogic = true;
 
 		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
 		
@@ -63,10 +63,10 @@ public class PlayerCommandDeath : EntityCommand<Player>
 		await Task.Delay(1000);
 		await GameManager.LevelUI.HideLivesTransition();
 		await Task.Delay(250);
+		GameManager.LevelUI.AddHealth(6);
 		GameManager.Transition.BlackToAlpha();
-		Entity.HaltPlayerLogic = false;
+		Entity.HaltLogic = false;
 		LevelManager.LoadLevelFast();
 		Entity.LevelScene.Camera.StartFollowingPlayer();
 	}
-
 }

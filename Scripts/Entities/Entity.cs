@@ -2,18 +2,18 @@
 
 public partial class Entity : CharacterBody2D
 {
-	public Dictionary<EntityCommandType, EntityCommand> Commands { get; set; } = new();
+	public Dictionary<EntityCommandType, EntityCommand>     Commands   { get; set; } = new();
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
 
 	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None;
 
-	public float   Delta      { get; protected set; }
-	public Vector2 MoveDir    { get; protected set; }
-
-	public virtual int Gravity            { get; set; } = 1200;
-	public bool GravityEnabled    { get; set; } = true;
-	public  List<RayCast2D> RayCast2DGroundChecks    { get; } = new();
-	public GTimers Timers { get; set; }
+	public float           Delta                 { get; protected set; }
+	public Vector2         MoveDir               { get; protected set; }
+	public GTimers         Timers                { get; set; }
+	public int             Gravity               { get; set; } = 1200;
+	public bool            GravityEnabled        { get; set; } = true;
+	public List<RayCast2D> RayCast2DGroundChecks { get;      } = new();
+	public bool            HaltLogic             { get; set; }
 
 	public override void _Ready()
 	{
@@ -54,6 +54,9 @@ public partial class Entity : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (HaltLogic)
+			return;
+
 		Delta = (float)delta;
 		Animations[CurrentAnimation].UpdateState();
 		Animations[CurrentAnimation].HandleStateTransitions();

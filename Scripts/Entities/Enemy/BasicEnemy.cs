@@ -135,6 +135,9 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 	private void _on_enemy_area_entered(Area2D area)
 	{
+		// TODO: Fix player being able to hide in a enemy's area after touching the enemy
+		// Immunity frames for the player needs to be implemented
+
 		if (area.IsInGroup("Player"))
 		{
 			var player = area.GetParent<Player>();
