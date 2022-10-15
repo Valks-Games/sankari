@@ -53,10 +53,8 @@ public partial class LevelUIManager : Control
     public void RemoveLife()
     {
 		if(Lives-- > 0)
-		{
 			RemoveHealth(Health);
-			AddHealth(6);
-		}
+
         LabelLives.Text = "" + Lives;
     }
 

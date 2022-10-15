@@ -63,6 +63,7 @@ public class PlayerCommandDeath : EntityCommand<Player>
 		await Task.Delay(1000);
 		await GameManager.LevelUI.HideLivesTransition();
 		await Task.Delay(250);
+		GameManager.LevelUI.AddHealth(6);
 		GameManager.Transition.BlackToAlpha();
 		Entity.HaltLogic = false;
 		LevelManager.LoadLevelFast();
