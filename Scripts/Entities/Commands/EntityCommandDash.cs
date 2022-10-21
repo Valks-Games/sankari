@@ -107,6 +107,7 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 	private void OnDashReady()
 	{
 		Audio.PlaySFX("dash_replenish");
+		DashCount = 0; // temporary fix
 		DashReady = true;
 	}
 
