@@ -32,16 +32,15 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 	public override void Start()
 	{
-		// on a wall and falling
 		if (Entity.InWallJumpArea)
 		{
-			Entity.AnimatedSprite.FlipH = Entity.WallDir == 1;
-
 			// If the entity is on a wall, prevent entity from wall jumping on the same wall twice
 			if (Entity.WallDir != 0 && Entity.PreviousWallOnJump != Entity.WallDir)
 			{
 				// wall jump
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+
+				Entity.AnimatedSprite.FlipH = Entity.WallDir == 1; // flip sprite on wall jump
 
 				var velocity = Entity.Velocity;
 				velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
