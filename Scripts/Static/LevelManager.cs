@@ -17,7 +17,13 @@ public static class LevelManager
 		GodotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
 		{
 			if (!dir.CurrentIsDir())
-				Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
+			{
+				GD.Print(fileName);
+				fileName  = fileName.Replace(".tscn.remap", ".tscn");
+				Scenes[fileName.Replace(".tscn", "")] =
+					ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
+				GD.Print(Scenes.PrintFull());
+			}
 		});
 
 		// test level
@@ -60,7 +66,7 @@ public static class LevelManager
 
         // load level
         var scenePath = $"res://Scenes/Levels/{CurrentLevel}.tscn";
-        if (!FileAccess.FileExists(scenePath))
+        if (!FileAccess.FileExists(scenePath) && !FileAccess.FileExists(scenePath + ".remap"))
         {
             Logger.LogWarning("Level has not been made yet!");
             return;
