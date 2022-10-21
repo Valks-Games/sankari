@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Sankari;
 
 public static class LevelManager
@@ -14,16 +16,15 @@ public static class LevelManager
     {
         NodeLevel = nodeLevel;
 
-		GodotFileManager.LoadDir("Scenes/Levels", (dir, fileName) =>
+		GodotFileManager.LoadDir("Scenes/Levels", (dir, fileName) => 
 		{
-			if (!dir.CurrentIsDir())
-			{
-				GD.Print(fileName);
+			// This is here because of a Godot issue (https://github.com/godotengine/godot/issues/66014)
+			// for linux users. If this gets fixed, this code should be deleted.
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
 				fileName  = fileName.Replace(".tscn.remap", ".tscn");
-				Scenes[fileName.Replace(".tscn", "")] =
-					ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
-				GD.Print(Scenes.PrintFull());
-			}
+
+			if (!dir.CurrentIsDir())
+				Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
 		});
 
 		// test level
