@@ -254,6 +254,7 @@ NodePathTileMapLevelIcons = NodePath("Level Icons")
 NodePathTileMapTerrain = NodePath("Terrain")
 NodePathPlayerIcon = NodePath("Map Player Icon")
 NodePathUIMapMenuScript = NodePath("")
+NodePathCamera = NodePath("Map Player Icon/Camera2D")
 
 [node name="Terrain" type="TileMap" parent="."]
 tile_set = SubResource("1")

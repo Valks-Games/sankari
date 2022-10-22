@@ -13,9 +13,11 @@ public partial class Map : Node
 	[Export] protected NodePath NodePathTileMapTerrain { get; set; }
 	[Export] protected NodePath NodePathPlayerIcon { get; set; }
 	[Export] protected NodePath NodePathUIMapMenuScript { get; set; }
+	[Export] protected NodePath NodePathCamera { get; set; }
 
 	public Vector2 CurMapPos => PlayerIcon.Position;
 
+	private Camera2D Camera { get; set; }
 	private TileMap TileMapLevelIcons { get; set; }
 	private TileMap TileMapTerrain { get; set; }
 	private Node Levels { get; set; }
@@ -28,6 +30,8 @@ public partial class Map : Node
 		TileMapTerrain = GetNode<TileMap>(NodePathTileMapTerrain);
 		Levels = GetNode<Node>(NodePathLevels);
 		PlayerIcon = GetNode<Sprite2D>(NodePathPlayerIcon);
+		Camera = GetNode<Camera2D>(NodePathCamera);
+		Camera.Current = true; // cameras are not set to current by default if a previous camera was set to current in a previous scene / child node
 
 		foreach (var level in LevelManager.Levels.Values)
 			if (level.Completed)
