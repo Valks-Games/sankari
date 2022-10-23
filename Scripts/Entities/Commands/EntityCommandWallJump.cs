@@ -23,11 +23,11 @@ public interface IEntityWallJumpable : IEntityMoveable
 	// Vertical wall jump force
 	public int JumpForceWallVert { get; set; }
 
-	public int PreviousWallOnJump { get; set; }
 }
 
 public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 {
+	private int PreviousWallOnJump { get; set; }
 	public EntityCommandWallJump(IEntityWallJumpable entity) : base(entity) { }
 
 	public override void Start()
@@ -35,7 +35,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 		if (Entity.InWallJumpArea)
 		{
 			// If the entity is on a wall, prevent entity from wall jumping on the same wall twice
-			if (Entity.WallDir != 0 && Entity.PreviousWallOnJump != Entity.WallDir)
+			if (Entity.WallDir != 0 && PreviousWallOnJump != Entity.WallDir)
 			{
 				// wall jump
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
@@ -47,7 +47,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 				velocity.y -= Entity.JumpForceWallVert;
 				Entity.Velocity = velocity;
 
-				Entity.PreviousWallOnJump = Entity.WallDir;
+				PreviousWallOnJump = Entity.WallDir;
 			}
 		}
 		else
@@ -56,6 +56,11 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 	public override void Update(float delta)
 	{
+		if (Entity.IsOnGround())
+		{
+			PreviousWallOnJump = 0;
+		}
+
 		Entity.WallDir = UpdateWallDirection();
 
 		if (Entity.WallDir != 0 && Entity.InWallJumpArea)
