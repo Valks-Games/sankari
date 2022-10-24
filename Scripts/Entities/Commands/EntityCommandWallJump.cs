@@ -3,7 +3,7 @@
 public interface IEntityWallJumpable : IEntityMoveable
 {
 	// Left wall checks
-	public List<RayCast2D> RayCast2DWallChecksLeft  { get; }
+	public List<RayCast2D> RayCast2DWallChecksLeft { get; }
 
 	// Right wall checks
 	public List<RayCast2D> RayCast2DWallChecksRight { get; }
@@ -23,6 +23,7 @@ public interface IEntityWallJumpable : IEntityMoveable
 	// Vertical wall jump force
 	public int JumpForceWallVert { get; set; }
 
+	public int ModMaxVerticalSpeedDown { get; set; }
 }
 
 public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
@@ -92,19 +93,23 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 			if (Entity.IsFalling())
 			{
-				var velocity = Entity.Velocity;
-				velocity.y = 1;
+				Entity.ModMaxVerticalSpeedDown = 20;
 
 				// fast fall
 				if (Entity is Player player)
 					if (player.PlayerInput.IsDown)
-						velocity.y += 200;
+						Entity.ModMaxVerticalSpeedDown = 220;
 
-				Entity.Velocity = velocity;
+				if (velocity.y != Entity.ModMaxVerticalSpeedDown)
+				{
+					velocity = velocity.MoveToward(new Vector2(velocity.x, Entity.ModMaxVerticalSpeedDown), 2000 * delta);
+				}
 			}
+			Entity.Velocity = velocity;
+		}
 
 		wasSliding = isSliding;
-		}
+	}
 
 	/// <summary>
 	/// Checks if the Entity should be sliding
