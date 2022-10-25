@@ -39,7 +39,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 		if (Entity.InWallJumpArea)
 		{
 			// If the entity is on a wall, prevent entity from wall jumping on the same wall twice
-			if (Entity.WallDir != 0 && PreviousWallOnJump != Entity.WallDir)
+			if (Entity.WallDir != 0)
 			{
 				// wall jump
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
@@ -49,6 +49,10 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 				var velocity = Entity.Velocity;
 				velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
 				velocity.y = -Entity.JumpForceWallVert;
+				if (PreviousWallOnJump == Entity.WallDir)
+				{
+					velocity.y /= 2;
+				}
 				Entity.Velocity = velocity;
 
 				PreviousWallOnJump = Entity.WallDir;
