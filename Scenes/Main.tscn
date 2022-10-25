@@ -344,6 +344,7 @@ NodePathLabelCoins = NodePath("PanelContainer/HBoxContainer/Coin Value")
 NodePathControlLives = NodePath("Lives")
 NodePathLabelLives = NodePath("Lives/Lives Value")
 NodePathHealthBar = NodePath("Health Bar")
+NodePathGameOver = NodePath("Game Over/Label")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Level UI"]
 layout_mode = 0
@@ -389,20 +390,19 @@ alignment = 1
 
 [node name="Label" type="Label" parent="CanvasLayer/Level UI/Lives"]
 layout_mode = 2
-offset_left = 541.0
+offset_left = 545.0
 offset_top = 311.0
-offset_right = 597.0
+offset_right = 601.0
 offset_bottom = 337.0
 size_flags_horizontal = 4
 text = "Lives x "
 
 [node name="Lives Value" type="Label" parent="CanvasLayer/Level UI/Lives"]
 layout_mode = 2
-offset_left = 601.0
-offset_top = 311.0
-offset_right = 611.0
-offset_bottom = 337.0
-text = "3"
+offset_left = 605.0
+offset_top = 312.0
+offset_right = 606.0
+offset_bottom = 335.0
 
 [node name="Health Bar" type="HBoxContainer" parent="CanvasLayer/Level UI"]
 layout_mode = 1
@@ -411,6 +411,20 @@ anchor_left = 1.0
 anchor_right = 1.0
 offset_bottom = 40.0
 grow_horizontal = 0
+
+[node name="Game Over" type="HBoxContainer" parent="CanvasLayer/Level UI"]
+layout_mode = 0
+offset_left = 536.0
+offset_top = 304.0
+offset_right = 623.0
+offset_bottom = 344.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Level UI/Game Over"]
+layout_mode = 2
+offset_top = 7.0
+offset_right = 87.0
+offset_bottom = 33.0
+text = "Game Over"
 
 [connection signal="text_submitted" from="CanvasLayer/PanelContainer/Console/Console Input" to="CanvasLayer/PanelContainer/Console" method="_on_Console_Input_text_entered"]
 [connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/HBox/Host" to="CanvasLayer/UIMapMenu" method="_on_Host_pressed"]
