@@ -35,6 +35,9 @@ public class EntityAnimationJumpFall : EntityAnimation<IEntityAnimation>
 					SwitchState(EntityAnimationType.Idle);
 			else if (player.PlayerInput.IsDash)
 				SwitchState(EntityAnimationType.Dash);
+			else if (!player.IsFalling() && player.Velocity.y != 0)
+				SwitchState(EntityAnimationType.JumpStart);
+
 		}
 	}
 
