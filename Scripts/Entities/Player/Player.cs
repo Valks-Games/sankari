@@ -98,14 +98,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		base._Ready(); // there are some things in base._Ready() that require to go after everything above
 	}
 
-	/// <summary>
-	/// Called when a Dash Command finishes as Dash
-	/// </summary>
-	public void OnDashDone(object _, EventArgs _2)
-	{
-		DontCheckPlatformAfterDashDuration.Start();
-	}
-
 	public override void _PhysicsProcess(double delta)
 	{
 		if (HaltLogic)
@@ -165,6 +157,11 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		if (PlayerInput.IsFastFall)
 			Velocity = Velocity + new Vector2(0, 10);
 	}
+
+	/// <summary>
+	/// Called when a Dash Command finishes as Dash
+	/// </summary>
+	public void OnDashDone(object _, EventArgs _2) => DontCheckPlatformAfterDashDuration.Start();
 
 	private float MoveDeadZone(float horzVelocity, int deadzone)
 	{
