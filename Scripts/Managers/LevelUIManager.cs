@@ -7,6 +7,7 @@ public partial class LevelUIManager : Control
     [Export] protected NodePath NodePathControlLives { get; set; }
     [Export] protected NodePath NodePathLabelLives { get; set; }
 	[Export] protected NodePath NodePathHealthBar { get; set; }
+	[Export] protected NodePath NodePathGameOver  { get; set; }
 
 
 	private AnimatedSprite2D CoinSprite { get; set; }
@@ -14,12 +15,12 @@ public partial class LevelUIManager : Control
     private Label LabelLives { get; set; }
     private Control ControlLives { get; set; }
 	private Control HealthBar { get; set; }
+	private Label LabelGameOver { get; set; }
 
     private GTween Tween { get; set; }
 
     private int Coins { get; set; }
-    private int Lives { get; set; } = 3;
-	public int Health { get; set; } = 0;
+	public int Health { get; set; }
 
     public override void _Ready()
     {
@@ -28,20 +29,23 @@ public partial class LevelUIManager : Control
         CoinSprite = GetNode<AnimatedSprite2D>(NodePathCoinSprite);
         ControlLives = GetNode<Control>(NodePathControlLives);
 		HealthBar = GetNode<HBoxContainer>(NodePathHealthBar);
+		LabelGameOver = GetNode<Label>(NodePathGameOver);
 
         CoinSprite.Playing = true;
+		LabelGameOver.Hide();
         ControlLives.Hide();
     }
+
+
 
     public void ShowLives() 
     {
         ControlLives.Modulate = Colors.White;
         ControlLives.Show();
     }
-    
     public void HideLives() => ControlLives.Hide();
-
-    public async Task HideLivesTransition() 
+	public void SetLabelLives(int amount) => LabelLives.Text = "" + amount;
+	public async Task HideLivesTransition() 
     {
 		Tween = new GTween(ControlLives);
         Tween.InterpolateProperty("modulate", new Color(1, 1, 1, 0), 2);
@@ -49,13 +53,16 @@ public partial class LevelUIManager : Control
         await Task.Delay(2000);
     }
 
-    public void RemoveLife()
-    {
-		if(Lives-- > 0)
-			RemoveHealth(Health);
 
-        LabelLives.Text = "" + Lives;
-    }
+
+	public void ShowGameOver()
+	{
+		LabelGameOver.Modulate = Colors.DarkRed;
+		LabelGameOver.Show();
+	}
+	public void HideGameOver() => LabelGameOver.Hide();
+	
+
 
     public void AddCoins(int amount = 1)
     {

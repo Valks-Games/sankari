@@ -55,18 +55,31 @@ public class PlayerCommandDeath : EntityCommand<Player>
 
 	private async void OnDieTweenCompleted()
 	{
-		await GameManager.Transition.AlphaToBlack();
-		await Task.Delay(1000);
-		GameManager.LevelUI.ShowLives();
-		await Task.Delay(1750);
-		GameManager.LevelUI.RemoveLife();
-		await Task.Delay(1000);
-		await GameManager.LevelUI.HideLivesTransition();
-		await Task.Delay(250);
-		GameManager.LevelUI.AddHealth(6);
-		GameManager.Transition.BlackToAlpha();
-		Entity.HaltLogic = false;
-		LevelManager.LoadLevelFast();
-		Entity.LevelScene.Camera.StartFollowingPlayer();
+		if (GameManager.PlayerManager.RemoveLife())
+		{
+			await GameManager.Transition.AlphaToBlack();
+			await Task.Delay(1000);
+			GameManager.LevelUI.ShowLives();
+			await Task.Delay(1750);
+			GameManager.LevelUI.SetLabelLives(GameManager.PlayerManager.Lives);
+			await Task.Delay(1000);
+			await GameManager.LevelUI.HideLivesTransition();
+			await Task.Delay(250);
+			GameManager.LevelUI.AddHealth(6);
+			GameManager.Transition.BlackToAlpha();
+			Entity.HaltLogic = false;
+			LevelManager.LoadLevelFast();
+			Entity.LevelScene.Camera.StartFollowingPlayer();
+		}
+		else
+		{
+			await GameManager.Transition.AlphaToBlack();
+			await Task.Delay(1000);
+			GameManager.LevelUI.ShowGameOver();
+			await Task.Delay(1750);
+			GameManager.LoadMap();
+			GameManager.Transition.BlackToAlpha();
+			GameManager.LevelUI.HideGameOver();
+		}
 	}
 }

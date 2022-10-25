@@ -27,6 +27,7 @@ public class GameManager
     public static Map Map { get; private set; }
     public static UIConsoleManager Console { get; private set; }
     public static UIMenu Menu { get; private set; }
+	public static PlayerManager PlayerManager { get; private set; }
 
 	// notifications
 	public static EventManager<Event> Events {  get; private set; } = new();
@@ -50,6 +51,8 @@ public class GameManager
         LevelManager.Init(linker.GetNode<Node>("Level"));
         Popups.Init(linker);
         Net.Init();
+		PlayerManager = new PlayerManager(2, 6); //this numbers are for testing purposes!
+		LevelUI.SetLabelLives(2); //required for the arbitrary lives count
 
         LevelUI.Hide();
     }
