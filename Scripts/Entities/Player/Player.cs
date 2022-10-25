@@ -16,7 +16,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public static Vector2 RespawnPosition      { get; set; }
 	public static bool    HasTouchedCheckpoint { get; set; }
 
-
 	// IEntityWallJumpable
 	public List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
 	public List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
@@ -44,18 +43,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Not in a interface
-	public GTimer        TimerNetSend                       { get; set; }
-	public Node2D        ParentWallChecksLeft               { get; set; }
-	public Node2D        ParentWallChecksRight              { get; set; }
-	public Node2D        ParentGroundChecks                 { get; set; }
-	public LevelScene    LevelScene                         { get; set; }
-	public Vector2       PrevNetPos                         { get; set; }
-	public MovementInput PlayerInput                        { get; set; }
-	public int           MaxJumps                           { get; set; } = 1;
-	public int           HorizontalDeadZone                 { get; set; } = 25;
-	public GTween        DieTween                           { get; set; }
-	public bool          TouchedGround                      { get; set; }
-	public GTimer        DontCheckPlatformAfterDashDuration { get; set; }
+	public MovementInput PlayerInput { get; set; }
 
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 
