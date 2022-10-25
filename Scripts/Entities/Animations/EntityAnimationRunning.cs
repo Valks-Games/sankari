@@ -38,7 +38,7 @@ public class EntityAnimationRunning : EntityAnimation<IEntityAnimation>
 
 				SwitchState(EntityAnimationType.Walking);
 
-			else if (Entity.MoveDir == Vector2.Zero)
+			else if (Entity.MoveDir == Vector2.Zero || (player.Velocity.y != 0))
 
 				SwitchState(EntityAnimationType.Idle);
 		}

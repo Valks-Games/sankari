@@ -16,7 +16,7 @@ public interface IEntityMoveable : IEntityBase
 	public Vector2 Velocity { get; set; }
 
 	// Position in the world
-	public Vector2 GlobalPosition { get; }
+	public Vector2 GlobalPosition { get; set; }
 
 	// Connection to the game world
 	public Window Tree { get; }

@@ -7,13 +7,16 @@ public partial class Entity : CharacterBody2D
 
 	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None;
 
-	public float           Delta                 { get; protected set; }
-	public Vector2         MoveDir               { get; protected set; }
-	public GTimers         Timers                { get; set; }
-	public virtual int     Gravity               { get; set; } = 1200;
-	public bool            GravityEnabled        { get; set; } = true;
-	public List<RayCast2D> RayCast2DGroundChecks { get;      } = new();
-	public bool            HaltLogic             { get; set; }
+	public float           Delta                   { get; protected set; }
+	public Vector2         MoveDir                 { get; protected set; }
+	public GTimers         Timers                  { get; set; }
+	public virtual int     Gravity                 { get; set; } = 1200;
+	public bool            GravityEnabled          { get; set; } = true;
+	public List<RayCast2D> RayCast2DGroundChecks   { get;      } = new();
+	public bool            HaltLogic               { get; set; }
+	public virtual int     ModGravityMaxSpeed { get; set; } = 1200;
+
+	protected int gravityMaxSpeed = 1200;
 
 	public override void _Ready()
 	{
@@ -57,6 +60,7 @@ public partial class Entity : CharacterBody2D
 		if (HaltLogic)
 			return;
 
+		ModGravityMaxSpeed = gravityMaxSpeed;
 		Delta = (float)delta;
 		Animations[CurrentAnimation].UpdateState();
 		Animations[CurrentAnimation].HandleStateTransitions();
@@ -65,7 +69,7 @@ public partial class Entity : CharacterBody2D
 
 		// gravity
 		if (GravityEnabled)
-			Velocity = Velocity + new Vector2(0, Gravity * Delta);
+			Velocity = Velocity.MoveToward(new Vector2(0, ModGravityMaxSpeed), Gravity * Delta);
 
 		if (IsOnGround())
 			UpdateGround();

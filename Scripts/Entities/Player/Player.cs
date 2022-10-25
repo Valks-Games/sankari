@@ -22,7 +22,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
 	public int             JumpForceWallHorz        { get; set; } = 800;
 	public int             JumpForceWallVert        { get; set; } = 500;
-	public int             PreviousWallOnJump       { get; set; }
 
 	// IEntityJumpable
 	public int  JumpCount      { get; set; }
@@ -149,8 +148,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	public override void UpdateGround()
 	{
-		PreviousWallOnJump = 0; // reset to 0 so player can touch same wall again
-
 		Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);
 
 		if (PlayerInput.IsSprint)

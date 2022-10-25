@@ -3,7 +3,7 @@
 public interface IEntityWallJumpable : IEntityMoveable
 {
 	// Left wall checks
-	public List<RayCast2D> RayCast2DWallChecksLeft  { get; }
+	public List<RayCast2D> RayCast2DWallChecksLeft { get; }
 
 	// Right wall checks
 	public List<RayCast2D> RayCast2DWallChecksRight { get; }
@@ -23,11 +23,18 @@ public interface IEntityWallJumpable : IEntityMoveable
 	// Vertical wall jump force
 	public int JumpForceWallVert { get; set; }
 
-	public int PreviousWallOnJump { get; set; }
+	// Max speed due to gravity
+	public int ModGravityMaxSpeed { get; set; }
 }
 
 public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 {
+	public int MaxGravitySpeedSliding {get; set;} = 20; 
+	public int MaxGravitySpeedSlidingFast {get; set;} = 220; 
+	private int PreviousWallOnJump { get; set; }
+	private bool wasSliding = false;
+	private float previousXDir = 0;
+
 	public EntityCommandWallJump(IEntityWallJumpable entity) : base(entity) { }
 
 	public override void Start()
@@ -35,7 +42,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 		if (Entity.InWallJumpArea)
 		{
 			// If the entity is on a wall, prevent entity from wall jumping on the same wall twice
-			if (Entity.WallDir != 0 && Entity.PreviousWallOnJump != Entity.WallDir)
+			if (Entity.WallDir != 0)
 			{
 				// wall jump
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
@@ -44,10 +51,14 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 				var velocity = Entity.Velocity;
 				velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
-				velocity.y -= Entity.JumpForceWallVert;
+				velocity.y = -Entity.JumpForceWallVert;
+				if (PreviousWallOnJump == Entity.WallDir)
+				{
+					velocity.y /= 2;
+				}
 				Entity.Velocity = velocity;
 
-				Entity.PreviousWallOnJump = Entity.WallDir;
+				PreviousWallOnJump = Entity.WallDir;
 			}
 		}
 		else
@@ -57,22 +68,88 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 	public override void Update(float delta)
 	{
 		Entity.WallDir = UpdateWallDirection();
-
-		if (Entity.WallDir != 0 && Entity.InWallJumpArea)
+		if (Entity.IsOnGround())
 		{
+			PreviousWallOnJump = 0;
+			wasSliding = false;
+			return;
+		}
+
+		var isSliding = IsSliding();
+
+		if (isSliding)
+		{
+			var velocity = Entity.Velocity;
+			// Snap to nearest wall if we weren't sliding
+			if (!wasSliding)
+			{
+				var collider = GetCollidingWall();
+
+				if (collider != default)
+				{
+					Entity.GlobalPosition = new Vector2(collider.GetCollisionPoint().x, Entity.GlobalPosition.y);
+				}
+			}
+
 			if (Entity.IsFalling())
 			{
-				var velocity = Entity.Velocity;
-				velocity.y = 1;
+				Entity.ModGravityMaxSpeed = MaxGravitySpeedSliding;
 
 				// fast fall
 				if (Entity is Player player)
 					if (player.PlayerInput.IsDown)
-						velocity.y += 200;
+						Entity.ModGravityMaxSpeed = MaxGravitySpeedSlidingFast;
 
-				Entity.Velocity = velocity;
+				// Slow down the player. (Faking Friction)
+				if (velocity.y != Entity.ModGravityMaxSpeed)
+					velocity = velocity.MoveToward(new Vector2(velocity.x, Entity.ModGravityMaxSpeed), 2000 * delta);
 			}
+			Entity.Velocity = velocity;
 		}
+
+		wasSliding = isSliding;
+	}
+
+	/// <summary>
+	/// Gets the raycast which is colliding
+	/// </summary>
+	private RayCast2D GetCollidingWall()
+	{
+		if (Entity.WallDir == Vector2.Left.x)
+			return CollectionExtensions.GetAnyRayCastCollider(Entity.RayCast2DWallChecksLeft);
+
+		else if (Entity.WallDir == Vector2.Right.x)
+			return CollectionExtensions.GetAnyRayCastCollider(Entity.RayCast2DWallChecksRight);
+
+		return default;
+	}
+
+	/// <summary>
+	/// Checks if the Entity should be sliding
+	/// </summary>
+	private bool IsSliding()
+	{
+		var velocityDir = MovementUtils.GetDirection(Entity.Velocity);
+
+		// MoveDir takes priority
+		if (Entity.MoveDir.x != 0)
+			previousXDir = Entity.MoveDir.x;
+		else if (velocityDir.x != 0)
+			previousXDir = velocityDir.x;
+
+		var isSliding = wasSliding;
+
+		if (Entity.InWallJumpArea && Entity.WallDir != 0)
+		{
+			if (previousXDir == Entity.WallDir)
+				isSliding = true;
+			else if (previousXDir != 0)
+				isSliding = false;
+		}
+		else
+			isSliding = false;
+
+		return isSliding;
 	}
 
 	private int UpdateWallDirection()

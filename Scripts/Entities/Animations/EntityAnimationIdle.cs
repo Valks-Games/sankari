@@ -9,6 +9,7 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 	public override void EnterState()
 	{
 		Entity.AnimatedSprite.Play("idle");
+		HandleStateTransitions();
 	}
 
 	public override void UpdateState()
@@ -35,9 +36,10 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 					else
 						SwitchState(EntityAnimationType.Walking);
 			}
-			else
-			if (player.IsFalling())
+			else if (player.IsFalling())
 				SwitchState(EntityAnimationType.JumpFall);
+			else if (player.Velocity.y != 0)
+				SwitchState(EntityAnimationType.JumpStart);
 		}
 	}
 

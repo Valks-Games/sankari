@@ -46,4 +46,26 @@ public class MovementUtils
 	{
 		return vector.y > 0;
 	}
+
+	/// <summary>
+	/// Convert a vector into a direction vector (e.g. 1 if movement towards left)
+	/// </summary>
+	/// <returns>Vector where x,y are 1, 0, or -1</returns>
+	public static Vector2 GetDirection(Vector2 vector)
+	{
+		var x = 0;
+		var y = 0;
+
+		if (vector.x > 0)
+			x = 1;
+		else if (vector.x < 0)
+			x = -1;
+
+		if (vector.y > 0)
+			y = 1;
+		if (vector.y < 0)
+			y = -1;
+
+		return new Vector2(x, y);
+	}
 }
