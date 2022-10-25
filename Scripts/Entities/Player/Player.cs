@@ -32,17 +32,28 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	// IEntityMovement
 	public int GroundAcceleration { get; set; } = 50;
+	public int MaxSpeedWalk       { get; set; } = 350;
+	public int MaxSpeedSprint     { get; set; } = 500;
+	public int MaxSpeedAir        { get; set; } = 350;
+	public int AirAcceleration    { get; set; } = 30;
+	public int DampeningAir       { get; set; } = 10;
+	public int DampeningGround    { get; set; } = 25;
 
 	// IEntityMoveable
 	public Window Tree { get; set; }
 
 	// IEntityDash
-	public bool CurrentlyDashing { get; set; }
+	public int MaxDashes           { get; set; } = 1;
+	public int DashCooldown        { get; set; } = 1400;
+	public int DashDuration        { get; set; } = 200;
+	public int SpeedDashVertical   { get; set; } = 400;
+	public int SpeedDashHorizontal { get; set; } = 600;
 
 	// IEntityAnimation
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Not in a interface
+	public bool CurrentlyDashing { get; set; }
 	public MovementInput PlayerInput { get; set; }
 
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
