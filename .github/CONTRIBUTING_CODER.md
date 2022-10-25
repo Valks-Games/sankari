@@ -1,12 +1,8 @@
-> ⚠️ Please talk to `valk#9904` through Discord whenever you want to work on something, this way I can tell you if others are working on it or if I do not want you to work on that specific thing right now.
-
-> ℹ️ If you comment on an issue in GitHub I can assign you to that issue. 
+> ℹ️ Please talk to `valk#9904` through the [Discord](https://discord.gg/5frafxrwwd) whenever you want to work on something
 
 > ℹ️ This project has been tested only on Windows 10, as such if you are on a Mac or Linux OS you may experience difficulties getting this to work
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/Valks-Games/sankari/coding?color=black)](https://github.com/Valks-Games/sankari/issues?q=is%3Aissue+is%3Aopen+label%3Acoding)
-
-Issue https://github.com/Valks-Games/sankari/issues/136 relates to fixing up the players movement, this should be of the highest priority issue right now.
 
 ## Setup VS2022 to work with Godot C#
 1. Make sure you have the latest installation of [VS2022 Community Edition](https://visualstudio.microsoft.com/vs/)
@@ -32,7 +28,7 @@ Issue https://github.com/Valks-Games/sankari/issues/136 relates to fixing up the
 > ℹ️ VSCode can alterinatively be used but it [requires more setup](https://github.com/Valks-Games/sankari/blob/main/.github/VSCODE_SETUP.md) and debugging is very tedious
 
 ## Coding
-[Documentation](https://github.com/Valks-Games/sankari/blob/main/.github/DOCUMENTATION.md)  
+[Outdated Documentation](https://github.com/Valks-Games/sankari/blob/main/.github/DOCUMENTATION.md)  
 
 > ⚠️ This game makes use of 3 threads (Godot, Server, Client). Do not directly access public variables or methods from these threads to other threads. If you want to communicate between threads please make use of the appropriate `ConcurrentQueue<T>` channels. Violating thread safety can lead to frequent random game crashes with usually no errors in console making these types of issues extremely hard to track down when they start acting up.
 
@@ -40,11 +36,9 @@ Issue https://github.com/Valks-Games/sankari/issues/136 relates to fixing up the
 
 > ℹ️ Please always use `Logger.Log()` over `GD.Print()` as the logger uses a thread safe approach removing the possibility of random game crashes. I noticed that `Logger.Log()` is not great for logging things every frame as it lags behind. So use `GD.Print()` for those scenarios but please remove the call(s) to these in your final PR changes.
 
-> ℹ️ Try making use of `Print()` and `PrintFull()`. For example `Logger.Log(myArray.Print())` and `Logger.Log(this.PrintFull())`, try it out!
+> ℹ️ Try making use of `Print()` and `PrintFull()`. For example `Logger.Log(myArray.Print())` or `Logger.Log(this.PrintFull())`, try it out!
 
 > ℹ️ Please follow the [Projects Code Style](https://github.com/Valks-Games/sankari/blob/main/.github/CODE_STYLE.md)
 
 ## Exporting the Game
-> ⚠️ Do not forget to put `enet.dll` beside the games exported executable or all multiplayer functions will not work
-
 > ℹ️ To suppress the rcedit warning download [rcedit](https://github.com/electron/rcedit/releases) and link the executable to `Godot > Editor > Editor Settings > Export > Windows > Rcedit`
