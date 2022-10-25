@@ -193,9 +193,17 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		{
 			if (input.IsDown && tilemap.IsInGroup("Platform"))
 			{
-				tilemap.EnableLayers(2);
+				// Player is in layer 1
+				// Enemies are in layer 2
+
+				tilemap.EnableLayers(2); // this disables layer 1 (the layer the player is in)
 				await Task.Delay(1000);
-				tilemap.EnableLayers(1, 2);
+				tilemap.EnableLayers(1, 2); // re-enable layers 1 and 2
+
+				// This works but isn't the best. For example for multiplayer, if all "OtherPlayer"s are
+				// in layer 1, one player disabling the layer will disable the platform for all players.
+				// Also what if we want to move this implementation to enemies? If a enemy disables the
+				// layer 2, all other enemies on that platform will fall as well!
 			}
 		}
 	}
