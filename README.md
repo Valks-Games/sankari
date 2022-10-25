@@ -20,10 +20,10 @@ This project was created to gain experience in the C# Godot environment for the 
 4. In `Godot Editor > Editor Settings > Mono > Builds`: Make sure `Build Tool` is set to `dotnet CLI`
 
 ## Contributing
-### [I am a coder](https://github.com/Valks-Games/sankari/blob/main/.github/CONTRIBUTING_CODER.md)
-### [I am a artist](https://github.com/Valks-Games/sankari/blob/main/.github/CONTRIBUTING_ARTIST.md)
-### [I am a level designer](https://github.com/Valks-Games/sankari/blob/main/.github/CONTRIBUTING_LEVEL_DESINGER.md)
-### [I am a musician](https://github.com/Valks-Games/sankari/blob/main/.github/CONTRIBUTING_AUDIO.md)
+### [I am a coder](https://github.com/Valks-Games/sankari/wiki/Scripting)
+### [I am a artist](https://github.com/Valks-Games/sankari/wiki/Creating-Art)
+### [I am a level designer](https://github.com/Valks-Games/sankari/wiki/Level-Designing)
+### [I am a musician](https://github.com/Valks-Games/sankari/wiki/Creating-Audio)
 
 ## License
 ### Project
