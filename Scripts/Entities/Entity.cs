@@ -14,9 +14,9 @@ public partial class Entity : CharacterBody2D
 	public bool            GravityEnabled          { get; set; } = true;
 	public List<RayCast2D> RayCast2DGroundChecks   { get;      } = new();
 	public bool            HaltLogic               { get; set; }
-	public virtual int     ModMaxVerticalSpeedDown { get; set; } = 1200;
+	public virtual int     ModGravityMaxSpeed { get; set; } = 1200;
 
-	protected int maxVerticalSpeedDown = 1200;
+	protected int gravityMaxSpeed = 1200;
 
 	public override void _Ready()
 	{
@@ -60,7 +60,7 @@ public partial class Entity : CharacterBody2D
 		if (HaltLogic)
 			return;
 
-		ModMaxVerticalSpeedDown = maxVerticalSpeedDown;
+		ModGravityMaxSpeed = gravityMaxSpeed;
 		Delta = (float)delta;
 		Animations[CurrentAnimation].UpdateState();
 		Animations[CurrentAnimation].HandleStateTransitions();
@@ -69,7 +69,7 @@ public partial class Entity : CharacterBody2D
 
 		// gravity
 		if (GravityEnabled)
-			Velocity = Velocity.MoveToward(new Vector2(0, ModMaxVerticalSpeedDown), Gravity * Delta);
+			Velocity = Velocity.MoveToward(new Vector2(0, ModGravityMaxSpeed), Gravity * Delta);
 
 		if (IsOnGround())
 			UpdateGround();

@@ -57,23 +57,15 @@ public class MovementUtils
 		var y = 0;
 
 		if (vector.x > 0)
-		{
 			x = 1;
-		}
 		else if (vector.x < 0)
-		{
 			x = -1;
-		}
 
 		if (vector.y > 0)
-		{
 			y = 1;
-		}
-
 		if (vector.y < 0)
-		{
 			y = -1;
-		}
+
 		return new Vector2(x, y);
 	}
 }
