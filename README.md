@@ -11,7 +11,7 @@ Sankari ("hero" in Finnish) is a non-profit F2P 2D Platformer about a hero whose
 
 This project was created to gain experience in the C# Godot environment for the 2D Platform genre and to prove to myself that I can make a complete game. I hope in making this open source that others will also learn some things that I have learned.
 
-[Patch Notes](https://github.com/Valks-Games/sankari/blob/main/.github/CHANGE_LOG.md)  
+[Patch Notes](https://github.com/Valks-Games/sankari/wiki/Changelog)  
 
 ## Project Setup
 1. Install [Godot 4 Beta 2 Mono (C#)](https://godotengine.org/article/dev-snapshot-godot-4-0-beta-2#downloads)
