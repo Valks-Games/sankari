@@ -64,8 +64,8 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 		CurrentAnimation = EntityAnimationType.Idle;
 
-		if (HasTouchedCheckpoint)
-			Position = RespawnPosition;
+		if (GameManager.PlayerManager.ActiveCheckpoint)
+			Position = GameManager.PlayerManager.RespawnPosition;
 
 		TimerNetSend          = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
 		ParentGroundChecks    = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
