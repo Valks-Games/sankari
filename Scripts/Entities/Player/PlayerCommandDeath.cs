@@ -66,6 +66,7 @@ public class PlayerCommandDeath : EntityCommand<Player>
 			await GameManager.LevelUI.HideLivesTransition();
 			await Task.Delay(250);
 			GameManager.LevelUI.AddHealth(6);
+			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
 			GameManager.Transition.BlackToAlpha();
 			Entity.HaltLogic = false;
 			LevelManager.LoadLevelFast();
@@ -73,6 +74,7 @@ public class PlayerCommandDeath : EntityCommand<Player>
 		}
 		else
 		{
+			GameManager.PlayerManager.ResetCoins();
 			await GameManager.Transition.AlphaToBlack();
 			await Task.Delay(1000);
 			GameManager.LevelUI.ShowGameOver();
@@ -80,6 +82,7 @@ public class PlayerCommandDeath : EntityCommand<Player>
 			GameManager.LoadMap();
 			GameManager.Transition.BlackToAlpha();
 			GameManager.LevelUI.HideGameOver();
+			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
 		}
 	}
 }

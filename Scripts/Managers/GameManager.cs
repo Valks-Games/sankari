@@ -53,6 +53,8 @@ public class GameManager
         Net.Init();
 		PlayerManager = new PlayerManager(2, 6); //this numbers are for testing purposes!
 		LevelUI.SetLabelLives(2); //required for the arbitrary lives count
+		PlayerManager.SetLevelCoins();
+		LevelUI.SetLabelCoins(PlayerManager.Coins);
 
         LevelUI.Hide();
     }
@@ -67,7 +69,7 @@ public class GameManager
     public static void LoadMap()
     {
         LevelUI.Show();
-
+		PlayerManager.SetLevelCoins();
         // weird place to put this but its whatever right now
         Map = (Map)Prefabs.Map.Instantiate(); 
 

@@ -18,8 +18,6 @@ public partial class LevelUIManager : Control
 	private Label LabelGameOver { get; set; }
 
     private GTween Tween { get; set; }
-
-    private int Coins { get; set; }
 	public int Health { get; set; }
 
     public override void _Ready()
@@ -64,11 +62,18 @@ public partial class LevelUIManager : Control
 	
 
 
-    public void AddCoins(int amount = 1)
-    {
-        Coins += amount;
-        LabelCoins.Text = "" + Coins;
-    }
+	public void ShowCoins()
+	{
+		CoinSprite.Show();
+		LabelCoins.Show();
+		CoinSprite.Playing = true;
+	}
+	public void HideCoins()
+	{
+		CoinSprite.Hide();
+		LabelCoins.Hide();
+	}
+    public void SetLabelCoins(int amount) => LabelCoins.Text = "" + amount;
 
 	/// <summary>
 	/// Adds the specified amount of health
