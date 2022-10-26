@@ -142,6 +142,16 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		{
 			var player = area.GetParent<Player>();
 			player.TakenDamage(player.GetCollisionSide(area), 1);
+			player.InDamageZone = true;
 		}
+	}
+
+	private void _on_enemy_area_exited(Area2D area) 
+	{
+		if (area.IsInGroup("Player"))
+		{
+			var player = area.GetParent<Player>();
+			player.InDamageZone = false;
+		}	
 	}
 }
