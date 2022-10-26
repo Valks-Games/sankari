@@ -36,7 +36,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 	#endregion
 
-	public event EventHandler Jump;
+	public event EventHandler WallJump;
 	private int previousWallOnJump;
 	private bool wasSliding = false;
 	private float previousXDir;
@@ -52,7 +52,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 			if (wallDir != 0)
 			{
 				// wall jump
-				Jump?.Invoke(this, EventArgs.Empty);
+				WallJump?.Invoke(this, EventArgs.Empty);
 
 				Entity.AnimatedSprite.FlipH = wallDir == 1; // flip sprite on wall jump
 

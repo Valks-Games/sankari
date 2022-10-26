@@ -81,7 +81,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 		// dont go under platform at the end of a dash for X ms
 		GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;
-		GetCommandClass<EntityCommandWallJump>(EntityCommandType.WallJump).Jump += OnJump;
+		GetCommandClass<EntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
 		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 250, false, false);
 
@@ -146,7 +146,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	/// </summary>
 	public void OnDashDone(object _, EventArgs _2) => DontCheckPlatformAfterDashDuration.Start();
 
-	public void OnJump(object _, EventArgs _2)
+	public void OnWallJump(object _, EventArgs _2)
 	{
 		GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 
