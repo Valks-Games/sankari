@@ -23,8 +23,8 @@ public partial class Entity : CharacterBody2D
 	public bool            InDamageZone            { get; set; }
 
 	protected int gravityMaxSpeed = 1200;
-	private GTimer ImmunityTimer { get; set; }
-	private int DamageTakenForce = 300;
+	private GTimer immunityTimer;
+	private int damageTakenForce = 300;
 
 	public override void _Ready()
 	{
@@ -62,7 +62,7 @@ public partial class Entity : CharacterBody2D
 		Commands.Values.ForEach(cmd => cmd.Initialize());
 		Animations[EntityAnimationType.None] = new EntityAnimationNone();
 
-		ImmunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
+		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -106,10 +106,10 @@ public partial class Entity : CharacterBody2D
 		if (GameManager.LevelUI.Health <= 0)
 			return;
 
-		if (ImmunityTimer.IsActive())
+		if (immunityTimer.IsActive())
 			return;
 		else
-			ImmunityTimer.Start();
+			immunityTimer.Start();
 
 		if (!GameManager.LevelUI.RemoveHealth(damage))
 			Kill();
@@ -118,8 +118,8 @@ public partial class Entity : CharacterBody2D
 			Vector2 velocity;
 			Commands[EntityCommandType.Dash].Stop();
 
-			velocity.y = -DamageTakenForce;
-			velocity.x = side * DamageTakenForce;
+			velocity.y = -damageTakenForce;
+			velocity.x = side * damageTakenForce;
 			Velocity = velocity;
 		}
 	}
