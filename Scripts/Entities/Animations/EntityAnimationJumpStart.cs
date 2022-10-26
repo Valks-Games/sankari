@@ -28,20 +28,13 @@ public class EntityAnimationJumpStart : EntityAnimation<IEntityAnimation>
 		if (Entity is Player player)
 		{
 			if (player.IsFalling())
-
 				SwitchState(EntityAnimationType.JumpFall);
 
 			else if (player.PlayerInput.IsDash)
-
 				SwitchState(EntityAnimationType.Dash);
 
 			else if (player.IsOnGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
-
 				SwitchState(EntityAnimationType.Idle);
 		}
-	}
-
-	public override void ExitState()
-	{
 	}
 }

@@ -26,24 +26,16 @@ public class EntityAnimationWalking : EntityAnimation<IEntityAnimation>
 		if (Entity is Player player)
 		{
 			if (player.PlayerInput.IsJump)
-
 				SwitchState(EntityAnimationType.JumpStart);
 
 			else if (player.PlayerInput.IsDash)
-
 				SwitchState(EntityAnimationType.Dash);
 
 			else if (player.PlayerInput.IsSprint)
-
 				SwitchState(EntityAnimationType.Running);
 
 			else if (player.MoveDir == Vector2.Zero || player.Velocity.y != 0)
-
 				SwitchState(EntityAnimationType.Idle);
 		}
-	}
-
-	public override void ExitState()
-	{
 	}
 }

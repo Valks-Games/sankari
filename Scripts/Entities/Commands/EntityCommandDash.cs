@@ -2,36 +2,49 @@
 
 public interface IEntityDash : IEntityMoveable
 {
-	public int MaxDashes           { get; set; }
-	public int DashCooldown        { get; set; }
-	public int DashDuration        { get; set; }
-	public int SpeedDashVertical   { get; set; }
-	public int SpeedDashHorizontal { get; set; }
+
 }
 
 public class EntityCommandDash : EntityCommand<IEntityDash>
 {
-	public Vector2 DashDir           { get; set; }
-	public int     DashCount         { get; set; }
-	public bool    HorizontalDash    { get; set; }
-	public bool    DashReady         { get; set; } = true;
-	public GTimer  TimerDashCooldown { get; set; }
-	public GTimer  TimerDashDuration { get; set; }
-	public bool    CurrentlyDashing  { get; set; } = false;
+	#region Configuration
+	// Max number of allowed dashes before needing to be reset
+	public int     MaxDashes         { get; set; } = 1;
+
+	// How long before dashing is available again
+	public int     DashCooldown      { get; set; }	= 1400;
+
+	// How long the dash lasts for
+	public int     DashDuration      { get; set; }	= 200;
+
+	// Vertical dash speed
+	public int SpeedDashVertical     { get; set; } = 400;
+
+	// Horizontal dash speed
+	public int SpeedDashHorizontal   { get; set; } = 600;
+	#endregion
+
+	public bool CurrentlyDashing { get; protected set; } = false;
 
 	public event EventHandler DashDurationDone;
+	private bool    DashReady         { get; set; } = true;
+	private int     DashCount         { get; set; }
+	private Vector2 DashDir           { get; set; }
+	private bool    HorizontalDash    { get; set; }
+	private GTimer  TimerDashCooldown { get; set; }
+	private GTimer  TimerDashDuration { get; set; }
 
 	public EntityCommandDash(IEntityDash entity) : base(entity) { }
 
 	public override void Initialize()
 	{
-		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), Entity.DashCooldown, false, false);
-		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), Entity.DashDuration, false, false);
+		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false, false);
+		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false, false);
 	}
 
 	public override void Start()
 	{
-		if (DashReady && !CurrentlyDashing && DashCount != Entity.MaxDashes && !Entity.IsOnGround())
+		if (DashReady && !CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
 		{
 			DashDir = GetDashDirection(Entity.MoveDir);
 
@@ -69,10 +82,10 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 			//sprite.FlipH = wallDir == 1 ? true : false; // cant remember why I commented this out
 			Entity.Tree.AddChild(sprite);
 
-			var dashSpeed = Entity.SpeedDashVertical;
+			var dashSpeed = SpeedDashVertical;
 
 			if (HorizontalDash)
-				dashSpeed = Entity.SpeedDashHorizontal;
+				dashSpeed = SpeedDashHorizontal;
 
 			Entity.Velocity = DashDir * dashSpeed;
 		}
