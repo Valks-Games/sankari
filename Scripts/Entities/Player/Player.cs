@@ -25,8 +25,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	// IEntityJumpable
 	public bool InWallJumpArea { get; set; }
 
-	public int WallDir { get; set; }
-
 	// IEntityMovement
 	public int GroundAcceleration { get; set; } = 50;
 
@@ -106,7 +104,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump)
 		{
-			if (WallDir != 0 && !IsOnGround()) // Wall jump
+			if (!IsOnGround()) // Wall jump
 			{
 				Commands[EntityCommandType.WallJump].Start();
 			}
