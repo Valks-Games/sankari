@@ -19,8 +19,12 @@ public partial class Entity : CharacterBody2D
 	public Node2D          ParentWallChecksRight   { get; set; }
 	public bool            TouchedGround           { get; set; }
 	public Node2D          ParentGroundChecks      { get; set; }
+	public int             ImmunityMs              { get; set; } = 500;
+	public bool            InDamageZone            { get; set; }
 
 	protected int gravityMaxSpeed = 1200;
+	private GTimer ImmunityTimer { get; set; }
+	private int DamageTakenForce = 300;
 
 	public override void _Ready()
 	{
@@ -57,6 +61,8 @@ public partial class Entity : CharacterBody2D
 
 		Commands.Values.ForEach(cmd => cmd.Initialize());
 		Animations[EntityAnimationType.None] = new EntityAnimationNone();
+
+		ImmunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -84,6 +90,38 @@ public partial class Entity : CharacterBody2D
 		}
 
 		MoveAndSlide();
+	}
+
+	public virtual void Kill() { }
+
+	private void OnImmunityTimerFinished() 
+	{
+		if (InDamageZone)
+			TakenDamage(1, 1); // not sure how to input "side" here
+	}
+
+	public void TakenDamage(int side, int damage)
+	{
+		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero
+		if (GameManager.LevelUI.Health <= 0)
+			return;
+
+		if (ImmunityTimer.IsActive())
+			return;
+		else
+			ImmunityTimer.Start();
+
+		if (!GameManager.LevelUI.RemoveHealth(damage))
+			Kill();
+		else
+		{
+			Vector2 velocity;
+			Commands[EntityCommandType.Dash].Stop();
+
+			velocity.y = -DamageTakenForce;
+			velocity.x = side * DamageTakenForce;
+			Velocity = velocity;
+		}
 	}
 
 	public bool IsFalling() => Velocity.y > 0;
