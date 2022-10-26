@@ -7,25 +7,14 @@ public partial class Entity : CharacterBody2D
 
 	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None;
 
-	public GTimer          TimerNetSend                       { get; set; }
-	public Node2D          ParentWallChecksLeft               { get; set; }
-	public Node2D          ParentWallChecksRight              { get; set; }
-	public Node2D          ParentGroundChecks                 { get; set; }
-	public LevelScene      LevelScene                         { get; set; }
-	public Vector2         PrevNetPos                         { get; set; }
-	public float           Delta                              { get; protected set; }
-	public Vector2         MoveDir                            { get; protected set; }
-	public GTimers         Timers                             { get; set; }
-	public virtual int     Gravity                            { get; set; } = 1200;
-	public bool            GravityEnabled                     { get; set; } = true;
-	public List<RayCast2D> RayCast2DGroundChecks              { get;      } = new();
-	public bool            HaltLogic                          { get; set; }
-	public virtual int     ModGravityMaxSpeed                 { get; set; } = 1200;
-	public int             MaxJumps                           { get; set; } = 1;
-	public int             HorizontalDeadZone                 { get; set; } = 25;
-	public GTween          DieTween                           { get; set; }
-	public bool            TouchedGround                      { get; set; }
-	public GTimer          DontCheckPlatformAfterDashDuration { get; set; }
+	public float           Delta                   { get; protected set; }
+	public Vector2         MoveDir                 { get; protected set; }
+	public GTimers         Timers                  { get; set; }
+	public virtual int     Gravity                 { get; set; } = 1200;
+	public bool            GravityEnabled          { get; set; } = true;
+	public List<RayCast2D> RayCast2DGroundChecks   { get;      } = new();
+	public bool            HaltLogic               { get; set; }
+	public virtual int     ModGravityMaxSpeed { get; set; } = 1200;
 
 	protected int gravityMaxSpeed = 1200;
 

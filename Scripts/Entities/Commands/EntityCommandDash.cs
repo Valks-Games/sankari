@@ -2,22 +2,21 @@
 
 public interface IEntityDash : IEntityMoveable
 {
-	public int MaxDashes           { get; set; }
-	public int DashCooldown        { get; set; }
-	public int DashDuration        { get; set; }
-	public int SpeedDashVertical   { get; set; }
-	public int SpeedDashHorizontal { get; set; }
+
 }
 
 public class EntityCommandDash : EntityCommand<IEntityDash>
 {
 	public Vector2 DashDir           { get; set; }
+	public int     MaxDashes         { get; set; } = 1;
 	public int     DashCount         { get; set; }
 	public bool    HorizontalDash    { get; set; }
 	public bool    DashReady         { get; set; } = true;
+	public int     DashCooldown      { get; set; }	= 1400;
+	public int     DashDuration      { get; set; }	= 200;
 	public GTimer  TimerDashCooldown { get; set; }
 	public GTimer  TimerDashDuration { get; set; }
-	public bool    CurrentlyDashing  { get; set; } = false;
+	public bool CurrentlyDashing { get; set; } = false;
 
 	public event EventHandler DashDurationDone;
 
@@ -25,13 +24,13 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 
 	public override void Initialize()
 	{
-		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), Entity.DashCooldown, false, false);
-		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), Entity.DashDuration, false, false);
+		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false, false);
+		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false, false);
 	}
 
 	public override void Start()
 	{
-		if (DashReady && !CurrentlyDashing && DashCount != Entity.MaxDashes && !Entity.IsOnGround())
+		if (DashReady && !CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
 		{
 			DashDir = GetDashDirection(Entity.MoveDir);
 
@@ -69,10 +68,13 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 			//sprite.FlipH = wallDir == 1 ? true : false; // cant remember why I commented this out
 			Entity.Tree.AddChild(sprite);
 
-			var dashSpeed = Entity.SpeedDashVertical;
+			var SpeedDashVertical = 400;
+			var SpeedDashHorizontal = 600;
+
+			var dashSpeed = SpeedDashVertical;
 
 			if (HorizontalDash)
-				dashSpeed = Entity.SpeedDashHorizontal;
+				dashSpeed = SpeedDashHorizontal;
 
 			Entity.Velocity = DashDir * dashSpeed;
 		}

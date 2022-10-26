@@ -29,10 +29,9 @@ public interface IEntityWallJumpable : IEntityMoveable
 
 public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 {
-	public int MaxGravitySpeedSliding { get; set; } = 20; 
-	public int MaxGravitySpeedSlidingFast { get; set; } = 220; 
+	public int MaxGravitySpeedSliding {get; set;} = 20; 
+	public int MaxGravitySpeedSlidingFast {get; set;} = 220; 
 	private int PreviousWallOnJump { get; set; }
-
 	private bool wasSliding = false;
 	private float previousXDir = 0;
 

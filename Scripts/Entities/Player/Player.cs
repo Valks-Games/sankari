@@ -16,6 +16,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public static Vector2 RespawnPosition      { get; set; }
 	public static bool    HasTouchedCheckpoint { get; set; }
 
+
 	// IEntityWallJumpable
 	public List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
 	public List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
@@ -32,29 +33,29 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	// IEntityMovement
 	public int GroundAcceleration { get; set; } = 50;
-	public int MaxSpeedWalk       { get; set; } = 350;
-	public int MaxSpeedSprint     { get; set; } = 500;
-	public int MaxSpeedAir        { get; set; } = 350;
-	public int AirAcceleration    { get; set; } = 30;
-	public int DampeningAir       { get; set; } = 10;
-	public int DampeningGround    { get; set; } = 25;
 
 	// IEntityMoveable
 	public Window Tree { get; set; }
 
 	// IEntityDash
-	public int MaxDashes           { get; set; } = 1;
-	public int DashCooldown        { get; set; } = 1400;
-	public int DashDuration        { get; set; } = 200;
-	public int SpeedDashVertical   { get; set; } = 400;
-	public int SpeedDashHorizontal { get; set; } = 600;
+	public bool CurrentlyDashing { get; set; }
 
 	// IEntityAnimation
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Not in a interface
-	public bool CurrentlyDashing { get; set; }
-	public MovementInput PlayerInput { get; set; }
+	public GTimer        TimerNetSend                       { get; set; }
+	public Node2D        ParentWallChecksLeft               { get; set; }
+	public Node2D        ParentWallChecksRight              { get; set; }
+	public Node2D        ParentGroundChecks                 { get; set; }
+	public LevelScene    LevelScene                         { get; set; }
+	public Vector2       PrevNetPos                         { get; set; }
+	public MovementInput PlayerInput                        { get; set; }
+	public int           MaxJumps                           { get; set; } = 1;
+	public int           HorizontalDeadZone                 { get; set; } = 25;
+	public GTween        DieTween                           { get; set; }
+	public bool          TouchedGround                      { get; set; }
+	public GTimer        DontCheckPlatformAfterDashDuration { get; set; }
 
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 

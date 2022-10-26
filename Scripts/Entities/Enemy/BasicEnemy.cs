@@ -19,21 +19,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	public int GroundAcceleration { get; set; } = 50;
 	public Window Tree { get; set; }
 
-	// IEntityDash
-	public int MaxDashes { get; set; }
-	public int DashCooldown { get; set; }
-	public int DashDuration { get; set; }
-	public int SpeedDashVertical { get; set; }
-	public int SpeedDashHorizontal { get; set; }
-
-	// IEntityMovement
-	public int MaxSpeedWalk     { get; set; } = 350;
-	public int MaxSpeedSprint   { get; set; } = 500;
-	public int MaxSpeedAir      { get; set; } = 350;
-	public int AirAcceleration  { get; set; } = 30;
-	public int DampeningAir     { get; set; } = 10;
-	public int DampeningGround  { get; set; } = 25;
-
 	public override void _Ready()
 	{
 		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
