@@ -42,15 +42,11 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	// Not in a interface
 	private int DamageTakenForce = 300;
 	public GTimer        TimerNetSend                       { get; set; }
-	public Node2D        ParentWallChecksLeft               { get; set; }
-	public Node2D        ParentWallChecksRight              { get; set; }
-	public Node2D        ParentGroundChecks                 { get; set; }
 	public LevelScene    LevelScene                         { get; set; }
 	public Vector2       PrevNetPos                         { get; set; }
 	public MovementInput PlayerInput                        { get; set; }
 	public int           HorizontalDeadZone                 { get; set; } = 25;
 	public GTween        DieTween                           { get; set; }
-	public bool          TouchedGround                      { get; set; }
 	public GTimer        DontCheckPlatformAfterDashDuration { get; set; }
 
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;

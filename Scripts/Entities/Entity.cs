@@ -14,7 +14,11 @@ public partial class Entity : CharacterBody2D
 	public bool            GravityEnabled          { get; set; } = true;
 	public List<RayCast2D> RayCast2DGroundChecks   { get;      } = new();
 	public bool            HaltLogic               { get; set; }
-	public virtual int     ModGravityMaxSpeed { get; set; } = 1200;
+	public virtual int     ModGravityMaxSpeed      { get; set; } = 1200;
+	public Node2D          ParentWallChecksLeft    { get; set; }
+	public Node2D          ParentWallChecksRight   { get; set; }
+	public bool            TouchedGround           { get; set; }
+	public Node2D          ParentGroundChecks      { get; set; }
 
 	protected int gravityMaxSpeed = 1200;
 
