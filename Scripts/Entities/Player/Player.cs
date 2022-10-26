@@ -40,7 +40,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Not in a interface
-	private int DamageTakenForce = 300;
 	public GTimer        TimerNetSend                       { get; set; }
 	public LevelScene    LevelScene                         { get; set; }
 	public Vector2       PrevNetPos                         { get; set; }
@@ -194,26 +193,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		MoveDir = new Vector2(x, y);
 	}
 
-	public void TakenDamage(int side, int damage)
-	{
-		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero
-		if (GameManager.LevelUI.Health <= 0)
-			return;
-
-		if (!GameManager.LevelUI.RemoveHealth(damage))
-			Kill();
-		else
-		{
-			Vector2 velocity;
-			Commands[EntityCommandType.Dash].Stop();
-
-			velocity.y = -DamageTakenForce;
-			velocity.x = side * DamageTakenForce;
-			Velocity = velocity;
-		}
-	}
-
-	public void Kill() => new PlayerCommandDeath(this).Start();
+	public override void Kill() => new PlayerCommandDeath(this).Start();
 
 	public async Task FinishedLevel()
 	{
