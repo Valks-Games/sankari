@@ -2,6 +2,9 @@ namespace Sankari;
 
 public static class ExtensionsMath
 {
+	public static Color Lerp(this Color color1, Color color2, float t) =>
+		color1 * (1 - t) + color2 * t;
+
     public static float Remap(this float value, float from1, float to1, float from2, float to2) =>
         (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 

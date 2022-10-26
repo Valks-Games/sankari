@@ -11,29 +11,35 @@ public interface IEntityWallJumpable : IEntityMoveable
 	// Is entity within wall jump-able area
 	public bool InWallJumpArea { get; }
 
-	// Wall direction
-	public int WallDir { get; set; }
+	// Max speed due to gravity
+	public int ModGravityMaxSpeed { get; set; }
 
 	// Is the entity falling?
 	public bool IsFalling();
-
-	// Horizontal wall jump force
-	public int JumpForceWallHorz { get; set; }
-
-	// Vertical wall jump force
-	public int JumpForceWallVert { get; set; }
-
-	// Max speed due to gravity
-	public int ModGravityMaxSpeed { get; set; }
 }
 
 public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 {
-	public int MaxGravitySpeedSliding {get; set;} = 20; 
-	public int MaxGravitySpeedSlidingFast {get; set;} = 220; 
-	private int PreviousWallOnJump { get; set; }
+	#region Configuration
+
+	// Horizontal wall jump force
+	public int JumpForceWallHorz { get; set; } = 800;
+
+	// Vertical wall jump force
+	public int JumpForceWallVert { get; set; } = 500;
+
+	// Sliding force downwards
+	public int MaxGravitySpeedSliding { get; set; } = 20;
+
+	// Fast sliding force downwards
+	public int MaxGravitySpeedSlidingFast { get; set; } = 220;
+
+	#endregion
+
+	private int previousWallOnJump;
 	private bool wasSliding = false;
-	private float previousXDir = 0;
+	private float previousXDir;
+	private int wallDir;
 
 	public EntityCommandWallJump(IEntityWallJumpable entity) : base(entity) { }
 
@@ -42,23 +48,23 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 		if (Entity.InWallJumpArea)
 		{
 			// If the entity is on a wall, prevent entity from wall jumping on the same wall twice
-			if (Entity.WallDir != 0)
+			if (wallDir != 0)
 			{
 				// wall jump
 				GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 
-				Entity.AnimatedSprite.FlipH = Entity.WallDir == 1; // flip sprite on wall jump
+				Entity.AnimatedSprite.FlipH = wallDir == 1; // flip sprite on wall jump
 
 				var velocity = Entity.Velocity;
-				velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
-				velocity.y = -Entity.JumpForceWallVert;
-				if (PreviousWallOnJump == Entity.WallDir)
+				velocity.x += -JumpForceWallHorz * wallDir;
+				velocity.y = -JumpForceWallVert;
+				if (previousWallOnJump == wallDir)
 				{
 					velocity.y /= 2;
 				}
 				Entity.Velocity = velocity;
 
-				PreviousWallOnJump = Entity.WallDir;
+				previousWallOnJump = wallDir;
 			}
 		}
 		else
@@ -67,10 +73,10 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 	public override void Update(float delta)
 	{
-		Entity.WallDir = UpdateWallDirection();
+		wallDir = UpdateWallDirection();
 		if (Entity.IsOnGround())
 		{
-			PreviousWallOnJump = 0;
+			previousWallOnJump = 0;
 			wasSliding = false;
 			return;
 		}
@@ -115,10 +121,10 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 	/// </summary>
 	private RayCast2D GetCollidingWall()
 	{
-		if (Entity.WallDir == Vector2.Left.x)
+		if (wallDir == Vector2.Left.x)
 			return CollectionExtensions.GetAnyRayCastCollider(Entity.RayCast2DWallChecksLeft);
 
-		else if (Entity.WallDir == Vector2.Right.x)
+		else if (wallDir == Vector2.Right.x)
 			return CollectionExtensions.GetAnyRayCastCollider(Entity.RayCast2DWallChecksRight);
 
 		return default;
@@ -139,9 +145,9 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 		var isSliding = wasSliding;
 
-		if (Entity.InWallJumpArea && Entity.WallDir != 0)
+		if (Entity.InWallJumpArea && wallDir != 0)
 		{
-			if (previousXDir == Entity.WallDir)
+			if (previousXDir == wallDir)
 				isSliding = true;
 			else if (previousXDir != 0)
 				isSliding = false;

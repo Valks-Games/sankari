@@ -14,9 +14,17 @@ public partial class Entity : CharacterBody2D
 	public bool            GravityEnabled          { get; set; } = true;
 	public List<RayCast2D> RayCast2DGroundChecks   { get;      } = new();
 	public bool            HaltLogic               { get; set; }
-	public virtual int     ModGravityMaxSpeed { get; set; } = 1200;
+	public virtual int     ModGravityMaxSpeed      { get; set; } = 1200;
+	public Node2D          ParentWallChecksLeft    { get; set; }
+	public Node2D          ParentWallChecksRight   { get; set; }
+	public bool            TouchedGround           { get; set; }
+	public Node2D          ParentGroundChecks      { get; set; }
+	public int             ImmunityMs              { get; set; } = 500;
+	public bool            InDamageZone            { get; set; }
 
 	protected int gravityMaxSpeed = 1200;
+	private GTimer immunityTimer;
+	private int damageTakenForce = 300;
 
 	public override void _Ready()
 	{
@@ -53,6 +61,8 @@ public partial class Entity : CharacterBody2D
 
 		Commands.Values.ForEach(cmd => cmd.Initialize());
 		Animations[EntityAnimationType.None] = new EntityAnimationNone();
+
+		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -80,6 +90,38 @@ public partial class Entity : CharacterBody2D
 		}
 
 		MoveAndSlide();
+	}
+
+	public virtual void Kill() { }
+
+	private void OnImmunityTimerFinished() 
+	{
+		if (InDamageZone)
+			TakenDamage(1, 1); // not sure how to input "side" here
+	}
+
+	public void TakenDamage(int side, int damage)
+	{
+		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero
+		if (GameManager.LevelUI.Health <= 0)
+			return;
+
+		if (immunityTimer.IsActive())
+			return;
+		else
+			immunityTimer.Start();
+
+		if (!GameManager.LevelUI.RemoveHealth(damage))
+			Kill();
+		else
+		{
+			Vector2 velocity;
+			Commands[EntityCommandType.Dash].Stop();
+
+			velocity.y = -damageTakenForce;
+			velocity.x = side * damageTakenForce;
+			Velocity = velocity;
+		}
 	}
 
 	public bool IsFalling() => Velocity.y > 0;

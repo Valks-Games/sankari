@@ -13,10 +13,10 @@ public enum EntityAnimationType
 
 public interface IEntityAnimation : IEntityBase
 {
-	public Dictionary<EntityAnimationType, EntityAnimation> Animations   { get; set; }
-	public Dictionary<EntityCommandType, EntityCommand>     Commands     { get; set; }
+	public Dictionary<EntityAnimationType, EntityAnimation> Animations   { get; }
+	public Dictionary<EntityCommandType, EntityCommand>     Commands     { get; }
 	public EntityAnimationType                              CurrentAnimation   { get; set; }
-	public AnimatedSprite2D                                 AnimatedSprite     { get; set; }
+	public AnimatedSprite2D                                 AnimatedSprite     { get; }
 }
 
 public abstract class EntityAnimation<T> : EntityAnimation where T : IEntityAnimation
@@ -52,11 +52,27 @@ public abstract class EntityAnimation
 	public EntityAnimation()
 	{ }
 
-	public abstract void UpdateState();
+	/// <summary>
+	/// Update the current animation
+	/// </summary>
+	public virtual void UpdateState()
+	{ }
 
-	public abstract void HandleStateTransitions();
+	/// <summary>
+	/// Potentially transition to a new state
+	/// </summary>
+	public virtual void HandleStateTransitions()
+	{ }
 
-	public abstract void EnterState();
+	/// <summary>
+	/// Setup and start the animation
+	/// </summary>
+	public virtual void EnterState()
+	{ }
 
-	public abstract void ExitState();
+	/// <summary>
+	/// Cleanly exit the animation state
+	/// </summary>
+	public virtual void ExitState()
+	{ }
 }
