@@ -7,18 +7,32 @@ public interface IEntityDash : IEntityMoveable
 
 public class EntityCommandDash : EntityCommand<IEntityDash>
 {
-	public Vector2 DashDir           { get; set; }
+	#region Configuration
+	// Max number of allowed dashes before needing to be reset
 	public int     MaxDashes         { get; set; } = 1;
-	public int     DashCount         { get; set; }
-	public bool    HorizontalDash    { get; set; }
-	public bool    DashReady         { get; set; } = true;
+
+	// How long before dashing is available again
 	public int     DashCooldown      { get; set; }	= 1400;
+
+	// How long the dash lasts for
 	public int     DashDuration      { get; set; }	= 200;
-	public GTimer  TimerDashCooldown { get; set; }
-	public GTimer  TimerDashDuration { get; set; }
-	public bool CurrentlyDashing { get; set; } = false;
+
+	// Vertical dash speed
+	public int SpeedDashVertical     { get; set; } = 400;
+
+	// Horizontal dash speed
+	public int SpeedDashHorizontal   { get; set; } = 600;
+	#endregion
+
+	public bool CurrentlyDashing { get; protected set; } = false;
 
 	public event EventHandler DashDurationDone;
+	private bool    DashReady         { get; set; } = true;
+	private int     DashCount         { get; set; }
+	private Vector2 DashDir           { get; set; }
+	private bool    HorizontalDash    { get; set; }
+	private GTimer  TimerDashCooldown { get; set; }
+	private GTimer  TimerDashDuration { get; set; }
 
 	public EntityCommandDash(IEntityDash entity) : base(entity) { }
 
@@ -67,9 +81,6 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 			sprite.FlipH = Entity.AnimatedSprite.FlipH;
 			//sprite.FlipH = wallDir == 1 ? true : false; // cant remember why I commented this out
 			Entity.Tree.AddChild(sprite);
-
-			var SpeedDashVertical = 400;
-			var SpeedDashHorizontal = 600;
 
 			var dashSpeed = SpeedDashVertical;
 

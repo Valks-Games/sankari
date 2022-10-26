@@ -8,28 +8,24 @@ public interface IPlayerCommands : IEntityDash, IEntityWallJumpable, IEntityGrou
 
 public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 {
-	[Export] protected NodePath NodePathRayCast2DWallChecksLeft  { get; set; }
+	[Export] protected NodePath NodePathRayCast2DWallChecksLeft { get; set; }
 	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
-	[Export] protected NodePath NodePathRayCast2DGroundChecks    { get; set; }
+	[Export] protected NodePath NodePathRayCast2DGroundChecks { get; set; }
 
 	// Static
-	public static Vector2 RespawnPosition      { get; set; }
-	public static bool    HasTouchedCheckpoint { get; set; }
+	public static Vector2 RespawnPosition { get; set; }
 
+	public static bool HasTouchedCheckpoint { get; set; }
 
 	// IEntityWallJumpable
-	public List<RayCast2D> RayCast2DWallChecksLeft  { get; } = new();
+	public List<RayCast2D> RayCast2DWallChecksLeft { get; } = new();
+
 	public List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
-	public int             JumpForceWallHorz        { get; set; } = 800;
-	public int             JumpForceWallVert        { get; set; } = 500;
 
 	// IEntityJumpable
-	public int  JumpCount      { get; set; }
 	public bool InWallJumpArea { get; set; }
-	public int  WallDir        { get; set; }
 
-	// IEntityGroundJumpable
-	public int JumpForce { get; set; } = 600;
+	public int WallDir { get; set; }
 
 	// IEntityMovement
 	public int GroundAcceleration { get; set; } = 50;
@@ -44,6 +40,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Not in a interface
+	private int DamageTakenForce = 300;
 	public GTimer        TimerNetSend                       { get; set; }
 	public Node2D        ParentWallChecksLeft               { get; set; }
 	public Node2D        ParentWallChecksRight              { get; set; }
@@ -51,7 +48,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public LevelScene    LevelScene                         { get; set; }
 	public Vector2       PrevNetPos                         { get; set; }
 	public MovementInput PlayerInput                        { get; set; }
-	public int           MaxJumps                           { get; set; } = 1;
 	public int           HorizontalDeadZone                 { get; set; } = 25;
 	public GTween        DieTween                           { get; set; }
 	public bool          TouchedGround                      { get; set; }
@@ -104,7 +100,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 			return;
 
 		PlayerInput = MovementUtils.GetPlayerMovementInput(); // PlayerInput = ... needs to go before base._PhysicsProcess(delta)
-		
+
 		base._PhysicsProcess(delta);
 
 		UpdateMoveDirection(PlayerInput);
@@ -119,16 +115,9 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 			{
 				Commands[EntityCommandType.WallJump].Start();
 			}
-			else if (JumpCount < MaxJumps) 
+			else
 			{
-				if (IsOnGround()) // Ground jump
-				{
-					Commands[EntityCommandType.GroundJump].Start();
-				}
-				else // Mid air jump
-				{
-					// to be implemented as a permanent or temporary powerup
-				}
+				Commands[EntityCommandType.GroundJump].Start();
 			}
 		}
 
@@ -146,10 +135,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 			Commands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(Delta));
 		else
 			Commands.Values.ForEach(cmd => cmd.UpdateGroundWalking(Delta));
-
-		// reset jump count whenever the player is falling
-		if (IsFalling())
-			JumpCount = 0;
 	}
 
 	public override void UpdateAir()
@@ -226,8 +211,8 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 			Vector2 velocity;
 			Commands[EntityCommandType.Dash].Stop();
 
-			velocity.y = -JumpForce * 0.5f; // make y and x jumps less aggressive
-			velocity.x = side * JumpForce * 0.5f;
+			velocity.y = -DamageTakenForce;
+			velocity.x = side * DamageTakenForce;
 			Velocity = velocity;
 		}
 	}

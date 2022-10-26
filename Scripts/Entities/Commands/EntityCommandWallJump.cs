@@ -14,23 +14,31 @@ public interface IEntityWallJumpable : IEntityMoveable
 	// Wall direction
 	public int WallDir { get; set; }
 
-	// Is the entity falling?
-	public bool IsFalling();
-
-	// Horizontal wall jump force
-	public int JumpForceWallHorz { get; set; }
-
-	// Vertical wall jump force
-	public int JumpForceWallVert { get; set; }
-
 	// Max speed due to gravity
 	public int ModGravityMaxSpeed { get; set; }
+
+	// Is the entity falling?
+	public bool IsFalling();
 }
 
 public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 {
-	public int MaxGravitySpeedSliding {get; set;} = 20; 
-	public int MaxGravitySpeedSlidingFast {get; set;} = 220; 
+	#region Configuration
+
+	// Horizontal wall jump force
+	public int JumpForceWallHorz { get; set; } = 800;
+
+	// Vertical wall jump force
+	public int JumpForceWallVert { get; set; } = 500;
+
+	// Sliding force downwards
+	public int MaxGravitySpeedSliding { get; set; } = 20;
+
+	// Fast sliding force downwards
+	public int MaxGravitySpeedSlidingFast { get; set; } = 220;
+
+	#endregion
+
 	private int PreviousWallOnJump { get; set; }
 	private bool wasSliding = false;
 	private float previousXDir = 0;
@@ -50,8 +58,8 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 				Entity.AnimatedSprite.FlipH = Entity.WallDir == 1; // flip sprite on wall jump
 
 				var velocity = Entity.Velocity;
-				velocity.x += -Entity.JumpForceWallHorz * Entity.WallDir;
-				velocity.y = -Entity.JumpForceWallVert;
+				velocity.x += -JumpForceWallHorz * Entity.WallDir;
+				velocity.y = -JumpForceWallVert;
 				if (PreviousWallOnJump == Entity.WallDir)
 				{
 					velocity.y /= 2;
