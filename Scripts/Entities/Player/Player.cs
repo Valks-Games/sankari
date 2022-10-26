@@ -45,7 +45,10 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public int           HorizontalDeadZone                 { get; set; } = 25;
 	public GTween        DieTween                           { get; set; }
 	public GTimer        DontCheckPlatformAfterDashDuration { get; set; }
+	public GTimer        PreventMovementTimer               { get; set; }
 
+
+	private bool         preventMovement = false;
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 
 	public override void _Ready()
@@ -78,7 +81,9 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 		// dont go under platform at the end of a dash for X ms
 		GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;
+		GetCommandClass<EntityCommandWallJump>(EntityCommandType.WallJump).Jump += OnJump;
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
+		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 250, false, false);
 
 		PrepareRaycasts(ParentWallChecksLeft , RayCast2DWallChecksLeft);
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
@@ -141,6 +146,20 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	/// </summary>
 	public void OnDashDone(object _, EventArgs _2) => DontCheckPlatformAfterDashDuration.Start();
 
+	public void OnJump(object _, EventArgs _2)
+	{
+		GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+
+		// Lock movement
+		preventMovement = true;
+		PreventMovementTimer.Start(); 
+	}
+
+	public void PreventMovementFinished()
+	{
+		preventMovement = false;
+	}
+
 	private float MoveDeadZone(float horzVelocity, int deadzone)
 	{
 		if (MoveDir.x == 0 && horzVelocity >= -deadzone && horzVelocity <= deadzone)
@@ -185,10 +204,17 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	private void UpdateMoveDirection(MovementInput input)
 	{
-		var x = -Convert.ToInt32(input.IsLeft) + Convert.ToInt32(input.IsRight);
-		var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
+		if (!preventMovement)
+		{
+			var x = -Convert.ToInt32(input.IsLeft) + Convert.ToInt32(input.IsRight);
+			var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
+			MoveDir = new Vector2(x, y);
+		}
+		else
+		{
+			MoveDir = MovementUtils.GetDirection(Velocity);
+		}
 
-		MoveDir = new Vector2(x, y);
 	}
 
 	public override void Kill() => new PlayerCommandDeath(this).Start();
