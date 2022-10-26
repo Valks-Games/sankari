@@ -10,11 +10,6 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 	{
 	}
 
-	public override void EnterState()
-	{
-		// no animation for dash exists at this time
-	}
-
 	public override void UpdateState()
 	{
 		FlipSpriteOnDirection();
@@ -46,9 +41,5 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 				// entity is touching the ground
 				SwitchState(EntityAnimationType.Idle);
 			}
-	}
-
-	public override void ExitState()
-	{
 	}
 }

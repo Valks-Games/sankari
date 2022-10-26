@@ -9,11 +9,9 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 	public override void EnterState()
 	{
 		Entity.AnimatedSprite.Play("idle");
+		// Idle animation should only occur if nothing else interesting is happening
+		// Transition immediately to see if there is a better animation to be in
 		HandleStateTransitions();
-	}
-
-	public override void UpdateState()
-	{
 	}
 
 	public override void HandleStateTransitions()
@@ -41,9 +39,5 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 			else if (player.Velocity.y != 0)
 				SwitchState(EntityAnimationType.JumpStart);
 		}
-	}
-
-	public override void ExitState()
-	{
 	}
 }
