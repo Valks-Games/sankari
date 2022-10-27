@@ -83,7 +83,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;
 		GetCommandClass<EntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
-		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 250, false, false);
+		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 50, false, false);
 
 		PrepareRaycasts(ParentWallChecksLeft , RayCast2DWallChecksLeft);
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
