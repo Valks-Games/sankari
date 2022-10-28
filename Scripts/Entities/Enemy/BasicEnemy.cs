@@ -71,22 +71,35 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 		if (MovingForward)
 		{
+			// Move forwards
 			MoveDir = Vector2.Left;
 			velocity.x += Speed;
 
+			// If the entity is set to collide with a wall then change directions
+			// when touching a wall
 			if (!DontCollideWithWall && IsRaycastColliding(RayCastWallRight))
 				ChangeDirection();
 
+			// If the entity is set to not fall off a cliff and there is no ground
+			// to the right in front of the entity then assume there is a cliff and
+			// prevent the entity from falling off the cliff by changing directions
 			if (!FallOffCliff && !IsRaycastColliding(RayCastCliffRight))
 				ChangeDirection();
 		}
 		else
 		{
+			// Move backwards
 			MoveDir = Vector2.Right;
 			velocity.x -= Speed;
+
+			// If the entity is set to collide with a wall then change directions
+			// when touching a wall
 			if (!DontCollideWithWall && IsRaycastColliding(RayCastWallLeft))
 				ChangeDirection();
 
+			// If the entity is set to not fall off a cliff and there is no ground
+			// to the left in front of the entity then assume there is a cliff and
+			// prevent the entity from falling off the cliff by changing directions
 			if (!FallOffCliff && !IsRaycastColliding(RayCastCliffLeft))
 				ChangeDirection();
 		}
