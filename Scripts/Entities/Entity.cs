@@ -23,6 +23,7 @@ public partial class Entity : CharacterBody2D
 	public Node2D          ParentGroundChecks      { get; set; }
 	public int             ImmunityMs              { get; set; } = 500;
 	public bool            InDamageZone            { get; set; }
+	public int             GroundAcceleration      { get; set; } = 50;
 
 	protected int gravityMaxSpeed = 1200;
 	private GTimer immunityTimer;
@@ -164,7 +165,10 @@ public partial class Entity : CharacterBody2D
 		}
 	}
 
-	public virtual void UpdateGround() { }
+	public virtual void UpdateGround() 
+	{
+		Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);	
+	}
 
 	public virtual void UpdateAir() { }
 
