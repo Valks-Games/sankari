@@ -14,8 +14,8 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 	private RayCast2D RayCastWallLeft { get; set; }
 	private RayCast2D RayCastWallRight { get; set; }
-	private RayCast2D RayCastCliffLeft { get; set; }
-	private RayCast2D RayCastCliffRight { get; set; }
+	//private RayCast2D RayCastCliffLeft { get; set; }
+	//private RayCast2D RayCastCliffRight { get; set; }
 	public int GroundAcceleration { get; set; } = 50;
 	public Window Tree { get; set; }
 
@@ -26,16 +26,16 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 		RayCastWallLeft = PrepareRaycast("Wall Checks/Left");
 		RayCastWallRight = PrepareRaycast("Wall Checks/Right");
-		RayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
-		RayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
+		//RayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
+		//RayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
 
-		RayCast2DGroundChecks.Add(RayCastCliffRight);
-		RayCast2DGroundChecks.Add(RayCastCliffLeft);
+		//RayCast2DGroundChecks.Add(RayCastCliffRight);
+		//RayCast2DGroundChecks.Add(RayCastCliffLeft);
 
 		if (FallOffCliff)
 		{
-			RayCastCliffLeft.Enabled = false;
-			RayCastCliffRight.Enabled = false;
+			//RayCastCliffLeft.Enabled = false;
+			//RayCastCliffRight.Enabled = false;
 		}
 
 		if (DontCollideWithWall)
@@ -83,8 +83,8 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 			// If the entity is set to not fall off a cliff and there is no ground
 			// to the right in front of the entity then assume there is a cliff and
 			// prevent the entity from falling off the cliff by changing directions
-			if (!FallOffCliff && !IsRaycastColliding(RayCastCliffRight))
-				ChangeDirection();
+			//if (!FallOffCliff && !IsRaycastColliding(RayCastCliffRight))
+			//	ChangeDirection();
 		}
 		else
 		{
@@ -100,8 +100,8 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 			// If the entity is set to not fall off a cliff and there is no ground
 			// to the left in front of the entity then assume there is a cliff and
 			// prevent the entity from falling off the cliff by changing directions
-			if (!FallOffCliff && !IsRaycastColliding(RayCastCliffLeft))
-				ChangeDirection();
+			//if (!FallOffCliff && !IsRaycastColliding(RayCastCliffLeft))
+			//	ChangeDirection();
 		}
 
 		Velocity = velocity;
