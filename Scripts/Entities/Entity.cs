@@ -2,8 +2,6 @@
 
 public partial class Entity : CharacterBody2D
 {
-	[Export] public bool Debug { get; set; }
-
 	public Dictionary<EntityCommandType, EntityCommand>     Commands   { get; set; } = new();
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
 
