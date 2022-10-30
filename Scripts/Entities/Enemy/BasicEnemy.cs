@@ -16,6 +16,7 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	private RayCast2D RayCastWallRight { get; set; }
 	private RayCast2D RayCastCliffLeft { get; set; }
 	private RayCast2D RayCastCliffRight { get; set; }
+	private RayCast2D RayCastGroundMiddle { get; set; }
 	public Window Tree { get; set; }
 
 	public override void _Ready()
@@ -27,6 +28,9 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		RayCastWallRight = PrepareRaycast("Wall Checks/Right");
 		RayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
 		RayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
+		RayCastGroundMiddle = PrepareRaycast("Ground Checks/Middle");
+
+		RayCast2DGroundChecks.Add(RayCastGroundMiddle);
 
 		if (FallOffCliff)
 		{
@@ -55,10 +59,7 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 		FloorStopOnSlope = false;
 		
-		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this) 
-		{
-			AirAcceleration = (int)Speed // if this value is too low the enemy will not move at all because the dampening values will become dominate
-		};
+		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this);
 
 		base._Ready();
 	}
