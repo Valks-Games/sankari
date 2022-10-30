@@ -55,12 +55,12 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		}
 
 		FloorStopOnSlope = false;
-
+		
 		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this) 
 		{
 			AirAcceleration = (int)Speed // if this value is too low the enemy will not move at all because the dampening values will become dominate
 		};
-		
+
 		base._Ready();
 	}
 
