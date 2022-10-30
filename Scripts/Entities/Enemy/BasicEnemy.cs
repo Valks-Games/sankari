@@ -29,9 +29,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		RayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
 		RayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
 
-		RayCast2DGroundChecks.Add(RayCastCliffRight);
-		RayCast2DGroundChecks.Add(RayCastCliffLeft);
-
 		if (FallOffCliff)
 		{
 			RayCastCliffLeft.Enabled = false;
