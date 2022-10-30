@@ -16,7 +16,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	private RayCast2D RayCastWallRight { get; set; }
 	private RayCast2D RayCastCliffLeft { get; set; }
 	private RayCast2D RayCastCliffRight { get; set; }
-	public int GroundAcceleration { get; set; } = 50;
 	public Window Tree { get; set; }
 
 	public override void _Ready()
