@@ -70,15 +70,12 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	public override void _PhysicsProcess(double delta)
 	{
 		Delta = (float)delta;
-		var velocity = new Vector2(0,0);
 
 		MoveDir = MovingForward ? Vector2.Right : Vector2.Left;
 
 		if (MovingForward)
 		{
 			// Move forwards
-			MoveDir = Vector2.Left;
-			velocity.x += Speed;
 
 			// If the entity is set to collide with a wall then change directions
 			// when touching a wall
@@ -94,8 +91,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		else
 		{
 			// Move backwards
-			MoveDir = Vector2.Right;
-			velocity.x -= Speed;
 
 			// If the entity is set to collide with a wall then change directions
 			// when touching a wall
@@ -108,8 +103,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 			if (!FallOffCliff && !IsRaycastColliding(RayCastCliffLeft))
 				ChangeDirection();
 		}
-
-		Velocity = velocity;
 
 		base._PhysicsProcess(delta);
 	}
