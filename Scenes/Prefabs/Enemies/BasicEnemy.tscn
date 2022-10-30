@@ -78,6 +78,13 @@ position = Vector2(17, 16)
 target_position = Vector2(0, 12)
 collision_mask = 3
 
+[node name="Ground Checks" type="Node2D" parent="."]
+
+[node name="Middle" type="RayCast2D" parent="Ground Checks"]
+position = Vector2(0, 16)
+target_position = Vector2(0, 6)
+collision_mask = 3
+
 [node name="Enemy" type="Area2D" parent="." groups=["Enemy"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
