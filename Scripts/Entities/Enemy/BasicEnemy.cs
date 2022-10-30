@@ -24,11 +24,11 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Activate();
 
-		RayCastWallLeft = PrepareRaycast("Wall Checks/Left");
-		RayCastWallRight = PrepareRaycast("Wall Checks/Right");
-		RayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
-		RayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
-		RayCastGroundMiddle = PrepareRaycast("Ground Checks/Middle");
+		RayCastWallLeft = GetNode<RayCast2D>("Wall Checks/Left");
+		RayCastWallRight = GetNode<RayCast2D>("Wall Checks/Right");
+		RayCastCliffLeft = GetNode<RayCast2D>("Cliff Checks/Left");
+		RayCastCliffRight = GetNode<RayCast2D>("Cliff Checks/Right");
+		RayCastGroundMiddle = GetNode<RayCast2D>("Ground Checks/Middle");
 
 		RayCast2DGroundChecks.Add(RayCastGroundMiddle);
 
