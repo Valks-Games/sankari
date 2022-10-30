@@ -72,6 +72,8 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		Delta = (float)delta;
 		var velocity = new Vector2(0,0);
 
+		MoveDir = MovingForward ? Vector2.Right : Vector2.Left;
+
 		if (MovingForward)
 		{
 			// Move forwards
