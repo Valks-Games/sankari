@@ -30,7 +30,7 @@ public abstract class EntityAnimation<T> : EntityAnimation where T : IEntityAnim
 
 	protected void SwitchState(EntityAnimationType animation)
 	{
-		Logger.Log(animation);
+		//Logger.Log(animation);
 		Entity.Animations[Entity.CurrentAnimation].ExitState();
 		Entity.CurrentAnimation = animation;
 		Entity.Animations[Entity.CurrentAnimation].EnterState();
