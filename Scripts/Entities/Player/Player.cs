@@ -81,10 +81,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		GetCommandClass<EntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
 		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 50, false, false);
-
-		PrepareRaycasts(ParentWallChecksLeft , RayCast2DWallChecksLeft);
-		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
-		PrepareRaycasts(ParentGroundChecks   , RayCast2DGroundChecks);
 	}
 
 	public override void UpdatePhysics()
@@ -102,7 +98,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump)
 		{
-			if (!IsOnGround()) // Wall jump
+			if (!IsNearGround()) // Wall jump
 			{
 				Commands[EntityCommandType.WallJump].Start();
 			}
@@ -174,7 +170,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	private async void UpdateUnderPlatform(MovementInput input)
 	{
-		var collision = RayCast2DGroundChecks[0].GetCollider();
+		var collision = RaycastsGround[0].GetCollider();
 
 		if (collision is TileMap tilemap)
 		{
