@@ -25,9 +25,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	// IEntityJumpable
 	public bool InWallJumpArea { get; set; }
 
-	// IEntityMovement
-	public int GroundAcceleration { get; set; } = 50;
-
 	// IEntityMoveable
 	public Window Tree { get; set; }
 
@@ -127,7 +124,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	public override void UpdateGround()
 	{
-		Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);
+		base.UpdateGround();
 
 		if (PlayerInput.IsSprint)
 			Commands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(Delta));

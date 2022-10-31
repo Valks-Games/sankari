@@ -2,6 +2,8 @@
 
 public partial class Entity : CharacterBody2D
 {
+	[Export] public bool Debug { get; set; }
+
 	public Dictionary<EntityCommandType, EntityCommand>     Commands   { get; set; } = new();
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
 
@@ -21,6 +23,7 @@ public partial class Entity : CharacterBody2D
 	public Node2D          ParentGroundChecks      { get; set; }
 	public int             ImmunityMs              { get; set; } = 500;
 	public bool            InDamageZone            { get; set; }
+	public int             GroundAcceleration      { get; set; } = 50;
 
 	protected int gravityMaxSpeed = 1200;
 	private GTimer immunityTimer;
@@ -146,13 +149,6 @@ public partial class Entity : CharacterBody2D
 		return 0;
 	}
 
-	protected RayCast2D PrepareRaycast(string path)
-	{
-		var raycast = GetNode<RayCast2D>(path);
-		raycast.AddException(this);
-		return raycast;
-	}
-
 	protected void PrepareRaycasts(Node parent, List<RayCast2D> list)
 	{
 		foreach (RayCast2D raycast in parent.GetChildren())
@@ -162,7 +158,10 @@ public partial class Entity : CharacterBody2D
 		}
 	}
 
-	public virtual void UpdateGround() { }
+	public virtual void UpdateGround() 
+	{
+		Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);	
+	}
 
 	public virtual void UpdateAir() { }
 

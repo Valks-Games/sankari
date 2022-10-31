@@ -16,7 +16,7 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	private RayCast2D RayCastWallRight { get; set; }
 	private RayCast2D RayCastCliffLeft { get; set; }
 	private RayCast2D RayCastCliffRight { get; set; }
-	public int GroundAcceleration { get; set; } = 50;
+	private RayCast2D RayCastGroundMiddle { get; set; }
 	public Window Tree { get; set; }
 
 	public override void _Ready()
@@ -24,13 +24,13 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Activate();
 
-		RayCastWallLeft = PrepareRaycast("Wall Checks/Left");
-		RayCastWallRight = PrepareRaycast("Wall Checks/Right");
-		RayCastCliffLeft = PrepareRaycast("Cliff Checks/Left");
-		RayCastCliffRight = PrepareRaycast("Cliff Checks/Right");
+		RayCastWallLeft = GetNode<RayCast2D>("Wall Checks/Left");
+		RayCastWallRight = GetNode<RayCast2D>("Wall Checks/Right");
+		RayCastCliffLeft = GetNode<RayCast2D>("Cliff Checks/Left");
+		RayCastCliffRight = GetNode<RayCast2D>("Cliff Checks/Right");
+		RayCastGroundMiddle = GetNode<RayCast2D>("Ground Checks/Middle");
 
-		RayCast2DGroundChecks.Add(RayCastCliffRight);
-		RayCast2DGroundChecks.Add(RayCastCliffLeft);
+		RayCast2DGroundChecks.Add(RayCastGroundMiddle);
 
 		if (FallOffCliff)
 		{
@@ -58,22 +58,21 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		}
 
 		FloorStopOnSlope = false;
-
-		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this);
 		
+		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this);
+
 		base._Ready();
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Delta = (float)delta;
-		var velocity = new Vector2(0,0);
+
+		MoveDir = MovingForward ? Vector2.Right : Vector2.Left;
 
 		if (MovingForward)
 		{
 			// Move forwards
-			MoveDir = Vector2.Left;
-			velocity.x += Speed;
 
 			// If the entity is set to collide with a wall then change directions
 			// when touching a wall
@@ -89,8 +88,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		else
 		{
 			// Move backwards
-			MoveDir = Vector2.Right;
-			velocity.x -= Speed;
 
 			// If the entity is set to collide with a wall then change directions
 			// when touching a wall
@@ -103,8 +100,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 			if (!FallOffCliff && !IsRaycastColliding(RayCastCliffLeft))
 				ChangeDirection();
 		}
-
-		Velocity = velocity;
 
 		base._PhysicsProcess(delta);
 	}
