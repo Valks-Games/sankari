@@ -12,9 +12,6 @@ size = Vector2(20, 32)
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 script = ExtResource("2")
-NodePathRayCast2DWallChecksLeft = NodePath("Raycasts/Wall/Left")
-NodePathRayCast2DWallChecksRight = NodePath("Raycasts/Wall/Right")
-NodePathRayCast2DGroundChecks = NodePath("Raycasts/Ground")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("1")
