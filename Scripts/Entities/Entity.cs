@@ -2,6 +2,8 @@
 
 public abstract partial class Entity : CharacterBody2D
 {
+	[Export] public bool DontCollideWithWall { get; set; }
+	[Export] public bool FallOffCliff { get; set; }
 	[Export] public bool Debug { get; set; }
 
 	public Dictionary<EntityCommandType, EntityCommand>     Commands   { get; set; } = new();
@@ -14,7 +16,6 @@ public abstract partial class Entity : CharacterBody2D
 	public GTimers         Timers                  { get; set; }
 	public virtual int     Gravity                 { get; set; } = 1200;
 	public bool            GravityEnabled          { get; set; } = true;
-	public List<RayCast2D> RayCast2DGroundChecks   { get;      } = new();
 	public bool            HaltLogic               { get; set; }
 	public virtual int     ModGravityMaxSpeed      { get; set; } = 1200;
 	public Node2D          ParentWallChecksLeft    { get; set; }
@@ -24,6 +25,18 @@ public abstract partial class Entity : CharacterBody2D
 	public int             ImmunityMs              { get; set; } = 500;
 	public bool            InDamageZone            { get; set; }
 	public int             GroundAcceleration      { get; set; } = 50;
+
+	protected Node ParentRaycastsWallLeft   { get; set; }
+	protected Node ParentRaycastsWallRight  { get; set; }
+	protected Node ParentRaycastsCliffLeft  { get; set; }
+	protected Node ParentRaycastsCliffRight { get; set; }
+	protected Node ParentRaycastsGround     { get; set; }
+
+	private List<RayCast2D> RaycastsWallLeft { get; set; } = new();
+	private List<RayCast2D> RaycastsWallRight { get; set; } = new();
+	private List<RayCast2D> RaycastsCliffLeft { get; set; } = new();
+	private List<RayCast2D> RaycastsCliffRight { get; set; } = new();
+	protected List<RayCast2D> RaycastsGround { get; set; } = new();
 
 	protected int gravityMaxSpeed = 1200;
 	private GTimer immunityTimer;
@@ -63,6 +76,31 @@ public abstract partial class Entity : CharacterBody2D
 		SlideOnCeiling = true;
 
 		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
+
+		// Setup raycasts
+		ParentRaycastsWallLeft = GetNodeOrNull<Node>("Raycasts/Wall/Left");
+		ParentRaycastsWallRight = GetNodeOrNull<Node>("Raycasts/Wall/Right");
+		ParentRaycastsCliffLeft = GetNodeOrNull<Node>("Raycasts/Cliff/Left");
+		ParentRaycastsCliffRight = GetNodeOrNull<Node>("Raycasts/Cliff/Right");
+		ParentRaycastsGround = GetNodeOrNull<Node>("Raycasts/Ground");
+
+		PrepareRaycasts(ParentRaycastsWallLeft, RaycastsWallLeft);
+		PrepareRaycasts(ParentRaycastsWallRight, RaycastsWallRight);
+		PrepareRaycasts(ParentRaycastsCliffLeft, RaycastsCliffLeft);
+		PrepareRaycasts(ParentRaycastsCliffRight, RaycastsCliffRight);
+		PrepareRaycasts(ParentRaycastsGround, RaycastsGround);
+
+		if (FallOffCliff)
+		{
+			SetRaycastsEnabled(RaycastsCliffLeft, false);
+			SetRaycastsEnabled(RaycastsCliffRight, false);
+		}
+
+		if (DontCollideWithWall)
+		{
+			SetRaycastsEnabled(RaycastsWallLeft, false);
+			SetRaycastsEnabled(RaycastsWallRight, false);
+		}
 		
 		Init();
 		
@@ -89,7 +127,7 @@ public abstract partial class Entity : CharacterBody2D
 		if (GravityEnabled)
 			Velocity = Velocity.MoveToward(new Vector2(0, ModGravityMaxSpeed), Gravity * Delta);
 
-		if (IsOnGround())
+		if (IsNearGround())
 			UpdateGround();
 		else
 		{
@@ -146,15 +184,6 @@ public abstract partial class Entity : CharacterBody2D
 
 	public bool IsFalling() => Velocity.y > 0;
 
-	public bool IsOnGround()
-	{
-		foreach (var raycast in RayCast2DGroundChecks)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
-	}
-
 	// Checks from which side the collision occurred. -1 if is on the left, 1 on the right, 0 if neither
 	public int GetCollisionSide(Area2D area)
 	{
@@ -166,13 +195,57 @@ public abstract partial class Entity : CharacterBody2D
 		return 0;
 	}
 
-	protected void PrepareRaycasts(Node parent, List<RayCast2D> list)
+	protected bool IsNearWallLeft() => AreRaycastsColliding(RaycastsWallLeft, "Wall Left");
+	protected bool IsNearWallRight() => AreRaycastsColliding(RaycastsWallRight, "Wall Right");
+	protected bool IsNearCliffLeft() => AreRaycastsColliding(RaycastsCliffLeft, "Cliff Left");
+	protected bool IsNearCliffRight() => AreRaycastsColliding(RaycastsCliffRight, "Cliff Right");
+
+	public bool IsNearGround()
 	{
-		foreach (RayCast2D raycast in parent.GetChildren())
+		foreach (var raycast in RaycastsGround)
+			if (raycast.IsColliding())
+				return true;
+
+		return false;
+	}
+
+	private bool AreRaycastsColliding(List<RayCast2D> raycasts, string raycastGroup)
+	{
+		if (raycasts.Count == 0)
 		{
-			raycast.AddException(this);
-			list.Add(raycast);
+			Logger.LogWarning($"Tried to check raycasts for {raycastGroup} but no raycasts were specified for this group");
+			return false;
 		}
+
+		foreach (var raycast in raycasts)
+		{
+			var collider = raycast.GetCollider() as Node;
+
+			if (collider != null && collider.IsInGroup("Tileset"))
+				return true;
+		}
+
+		return false;
+	}
+
+	private void SetRaycastsEnabled(List<RayCast2D> raycasts, bool enabled) 
+	{
+		if (raycasts.Count == 0)
+		{
+			Logger.LogWarning($"Tried to set raycasts enabled to {enabled} but failed because no raycasts exist");
+			return;
+		}
+
+		raycasts.ForEach(raycast => raycast.Enabled = enabled);	
+	}
+
+	private void PrepareRaycasts(Node raycastsParent, List<RayCast2D> raycastList) 
+	{
+		if (raycastsParent == null)
+			return;
+
+		foreach (RayCast2D raycast in raycastsParent.GetChildren())
+			raycastList.Add(raycast);
 	}
 
 	public virtual void UpdateGround() 
