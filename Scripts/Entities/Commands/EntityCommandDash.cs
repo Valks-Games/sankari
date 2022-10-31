@@ -44,7 +44,7 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 
 	public override void Start()
 	{
-		if (DashReady && !CurrentlyDashing && DashCount != MaxDashes && !Entity.IsOnGround())
+		if (DashReady && !CurrentlyDashing && DashCount != MaxDashes && !Entity.IsNearGround())
 		{
 			DashDir = GetDashDirection(Entity.MoveDir);
 
@@ -66,7 +66,7 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 		// Entity.IsOnGround() is called twice, in Update() and LateUpdate()
 		// Also what if IsOnGround() was called in other commands?
 		// Shouldn't IsOnGround() only be called once?
-		if (Entity.IsOnGround())
+		if (Entity.IsNearGround())
 			DashCount = 0;
 	}
 

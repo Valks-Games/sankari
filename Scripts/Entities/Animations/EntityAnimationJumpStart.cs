@@ -33,7 +33,7 @@ public class EntityAnimationJumpStart : EntityAnimation<IEntityAnimation>
 			else if (player.PlayerInput.IsDash)
 				SwitchState(EntityAnimationType.Dash);
 
-			else if (player.IsOnGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
+			else if (player.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
 				SwitchState(EntityAnimationType.Idle);
 		}
 	}

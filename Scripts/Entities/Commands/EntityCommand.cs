@@ -28,7 +28,7 @@ public interface IEntityMoveable : IEntityBase
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 	// Checks if the entity is on the ground
-	public bool IsOnGround();
+	public bool IsNearGround();
 }
 
 public abstract class EntityCommand

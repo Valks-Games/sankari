@@ -31,7 +31,7 @@ public class EntityCommandGroundJump : EntityCommand<IEntityGroundJumpable>
 	public override void Update(float delta)
 	{
 		// Check if Entity in on ground and not current moving away from it
-		if (Entity.IsOnGround() && Entity.Velocity.y >=0)
+		if (Entity.IsNearGround() && Entity.Velocity.y >=0)
 		{
 			JumpCount = 0;
 		}
@@ -39,7 +39,7 @@ public class EntityCommandGroundJump : EntityCommand<IEntityGroundJumpable>
 
 	public override void Start()
 	{
-		if (JumpCount < MaxJumps && (Entity.IsOnGround() || AllowAirJumps))
+		if (JumpCount < MaxJumps && (Entity.IsNearGround() || AllowAirJumps))
 		{
 			GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 

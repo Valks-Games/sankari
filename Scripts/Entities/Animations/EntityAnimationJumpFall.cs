@@ -25,7 +25,7 @@ public class EntityAnimationJumpFall : EntityAnimation<IEntityAnimation>
 
 		if (Entity is Player player)
 		{
-			if (player.IsOnGround())
+			if (player.IsNearGround())
 				if (Entity.MoveDir != Vector2.Zero)
 					if (player.PlayerInput.IsSprint)
 						SwitchState(EntityAnimationType.Running);

@@ -75,7 +75,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 	public override void Update(float delta)
 	{
 		wallDir = UpdateWallDirection();
-		if (Entity.IsOnGround())
+		if (Entity.IsNearGround())
 		{
 			previousWallOnJump = 0;
 			wasSliding = false;
