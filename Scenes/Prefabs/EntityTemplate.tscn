@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://6p0scmjdqx2m"]
+
+[ext_resource type="SpriteFrames" uid="uid://di3nq5eobjvgk" path="res://Sprites/Sprite Frames/Player.tres" id="1_ih8uj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_if0g8"]
+size = Vector2(10, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e01rr"]
+size = Vector2(12, 18)
+
+[node name="EntityTemplate" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+frames = ExtResource("1_ih8uj")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_if0g8")
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="Wall" type="Node2D" parent="Raycasts"]
+
+[node name="Left" type="Node2D" parent="Raycasts/Wall"]
+
+[node name="Right" type="Node2D" parent="Raycasts/Wall"]
+
+[node name="Cliff" type="Node2D" parent="Raycasts"]
+
+[node name="Left" type="Node2D" parent="Raycasts/Cliff"]
+
+[node name="Right" type="Node2D" parent="Raycasts/Cliff"]
+
+[node name="Ground" type="Node2D" parent="Raycasts"]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_e01rr")
