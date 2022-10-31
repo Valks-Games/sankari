@@ -8,19 +8,10 @@ public interface IPlayerCommands : IEntityDash, IEntityWallJumpable, IEntityGrou
 
 public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 {
-	[Export] protected NodePath NodePathRayCast2DWallChecksLeft { get; set; }
-	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
-	[Export] protected NodePath NodePathRayCast2DGroundChecks { get; set; }
-
 	// Static
 	public static Vector2 RespawnPosition { get; set; }
 
 	public static bool HasTouchedCheckpoint { get; set; }
-
-	// IEntityWallJumpable
-	public List<RayCast2D> RayCast2DWallChecksLeft { get; } = new();
-
-	public List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
 
 	// IEntityJumpable
 	public bool InWallJumpArea { get; set; }
@@ -68,9 +59,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 			Position = GameManager.PlayerManager.RespawnPosition;
 
 		TimerNetSend          = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
-		ParentGroundChecks    = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
-		ParentWallChecksLeft  = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
-		ParentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
 		AnimatedSprite        = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		DieTween              = new GTween(this);
 		Timers                = new GTimers(this);

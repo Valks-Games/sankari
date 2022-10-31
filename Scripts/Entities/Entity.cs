@@ -18,8 +18,6 @@ public abstract partial class Entity : CharacterBody2D
 	public bool            GravityEnabled          { get; set; } = true;
 	public bool            HaltLogic               { get; set; }
 	public virtual int     ModGravityMaxSpeed      { get; set; } = 1200;
-	public Node2D          ParentWallChecksLeft    { get; set; }
-	public Node2D          ParentWallChecksRight   { get; set; }
 	public bool            TouchedGround           { get; set; }
 	public Node2D          ParentGroundChecks      { get; set; }
 	public int             ImmunityMs              { get; set; } = 500;
@@ -32,11 +30,12 @@ public abstract partial class Entity : CharacterBody2D
 	protected Node ParentRaycastsCliffRight { get; set; }
 	protected Node ParentRaycastsGround     { get; set; }
 
-	private List<RayCast2D> RaycastsWallLeft { get; set; } = new();
-	private List<RayCast2D> RaycastsWallRight { get; set; } = new();
-	private List<RayCast2D> RaycastsCliffLeft { get; set; } = new();
-	private List<RayCast2D> RaycastsCliffRight { get; set; } = new();
-	protected List<RayCast2D> RaycastsGround { get; set; } = new();
+	// these are public because some interfaces rely on them
+	public List<RayCast2D> RaycastsWallLeft { get; set; } = new();
+	public List<RayCast2D> RaycastsWallRight { get; set; } = new();
+	public List<RayCast2D> RaycastsCliffLeft { get; set; } = new();
+	public List<RayCast2D> RaycastsCliffRight { get; set; } = new();
+	public List<RayCast2D> RaycastsGround { get; set; } = new();
 
 	protected int gravityMaxSpeed = 1200;
 	private GTimer immunityTimer;
