@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public partial class Entity : CharacterBody2D
+public abstract partial class Entity : CharacterBody2D
 {
 	[Export] public bool Debug { get; set; }
 
@@ -29,7 +29,7 @@ public partial class Entity : CharacterBody2D
 	private GTimer immunityTimer;
 	private int damageTakenForce = 300;
 
-	public override void _Ready()
+	sealed public override void _Ready()
 	{
 		// The up direction must be defined in order for the FloorSnapLength
 		// to work properly. A direction of up means gravity goes down and
@@ -62,19 +62,24 @@ public partial class Entity : CharacterBody2D
 		// Does not seem to have any effect if this is either true or false
 		SlideOnCeiling = true;
 
+		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
+		
+		Init();
+		
 		Commands.Values.ForEach(cmd => cmd.Initialize());
 		Animations[EntityAnimationType.None] = new EntityAnimationNone();
-
-		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
 	}
 
-	public override void _PhysicsProcess(double delta)
+	sealed public override void _PhysicsProcess(double delta)
 	{
 		if (HaltLogic)
 			return;
 
 		ModGravityMaxSpeed = gravityMaxSpeed;
 		Delta = (float)delta;
+
+		UpdatePhysics();
+
 		Animations[CurrentAnimation].UpdateState();
 		Animations[CurrentAnimation].HandleStateTransitions();
 
@@ -94,6 +99,10 @@ public partial class Entity : CharacterBody2D
 
 		MoveAndSlide();
 	}
+
+	public abstract void Init();
+
+	public abstract void UpdatePhysics();
 
 	public virtual void Kill() { }
 

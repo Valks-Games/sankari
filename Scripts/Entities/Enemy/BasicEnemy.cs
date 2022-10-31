@@ -19,7 +19,7 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	private RayCast2D RayCastGroundMiddle { get; set; }
 	public Window Tree { get; set; }
 
-	public override void _Ready()
+	public override void Init()
 	{
 		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Activate();
@@ -60,14 +60,10 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		FloorStopOnSlope = false;
 		
 		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this);
-
-		base._Ready();
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void UpdatePhysics()
 	{
-		Delta = (float)delta;
-
 		MoveDir = MovingForward ? Vector2.Right : Vector2.Left;
 
 		if (MovingForward)
@@ -100,8 +96,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 			if (!FallOffCliff && !IsRaycastColliding(RayCastCliffLeft))
 				ChangeDirection();
 		}
-
-		base._PhysicsProcess(delta);
 	}
 
 	public void Activate()

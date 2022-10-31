@@ -48,7 +48,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	private bool         preventMovement = false;
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 
-	public override void _Ready()
+	public override void Init()
 	{
 		Commands[EntityCommandType.Movement]      = new EntityCommandMovement(this);
 		Commands[EntityCommandType.Dash]          = new EntityCommandDash(this);
@@ -85,18 +85,14 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		PrepareRaycasts(ParentWallChecksLeft , RayCast2DWallChecksLeft);
 		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
 		PrepareRaycasts(ParentGroundChecks   , RayCast2DGroundChecks);
-
-		base._Ready(); // there are some things in base._Ready() that require to go after everything above
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void UpdatePhysics()
 	{
 		if (HaltLogic)
 			return;
 
 		PlayerInput = MovementUtils.GetPlayerMovementInput(); // PlayerInput = ... needs to go before base._PhysicsProcess(delta)
-
-		base._PhysicsProcess(delta);
 
 		UpdateMoveDirection(PlayerInput);
 
