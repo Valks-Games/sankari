@@ -513,7 +513,7 @@ texture = SubResource("CompressedTexture2D_bgodp")
 
 [sub_resource type="TileSet" id="TileSet_lwbvd"]
 physics_layer_0/collision_layer = 3
-physics_layer_0/collision_mask = 3
+physics_layer_0/collision_mask = 0
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Dirt"
 terrain_set_0/terrain_0/color = Color(1, 0, 0.0392157, 1)
@@ -1014,7 +1014,7 @@ texture = SubResource("CompressedTexture2D_ch6u7")
 
 [sub_resource type="TileSet" id="TileSet_o5joq"]
 physics_layer_0/collision_layer = 3
-physics_layer_0/collision_mask = 3
+physics_layer_0/collision_mask = 0
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Dirt"
 terrain_set_0/terrain_0/color = Color(1, 0, 0.0392157, 1)
