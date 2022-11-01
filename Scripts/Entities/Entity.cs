@@ -194,19 +194,11 @@ public abstract partial class Entity : CharacterBody2D
 		return 0;
 	}
 
+	public bool IsNearGround() => AreRaycastsColliding(RaycastsGround, "Ground");
 	protected bool IsNearWallLeft() => AreRaycastsColliding(RaycastsWallLeft, "Wall Left");
 	protected bool IsNearWallRight() => AreRaycastsColliding(RaycastsWallRight, "Wall Right");
 	protected bool IsNearCliffLeft() => AreRaycastsColliding(RaycastsCliffLeft, "Cliff Left");
 	protected bool IsNearCliffRight() => AreRaycastsColliding(RaycastsCliffRight, "Cliff Right");
-
-	public bool IsNearGround()
-	{
-		foreach (var raycast in RaycastsGround)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
-	}
 
 	private bool AreRaycastsColliding(List<RayCast2D> raycasts, string raycastGroup)
 	{
