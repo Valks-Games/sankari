@@ -33,6 +33,8 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		FloorStopOnSlope = false;
 		
 		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this);
+
+		Label.Visible = true;
 	}
 
 	public override void UpdatePhysics()

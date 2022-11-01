@@ -37,6 +37,8 @@ public abstract partial class Entity : CharacterBody2D
 	public List<RayCast2D> RaycastsCliffRight { get; set; } = new();
 	public List<RayCast2D> RaycastsGround { get; set; } = new();
 
+	public Label Label { get; set; }
+
 	protected int gravityMaxSpeed = 1200;
 	private GTimer immunityTimer;
 	private int damageTakenForce = 300;
@@ -75,6 +77,14 @@ public abstract partial class Entity : CharacterBody2D
 		SlideOnCeiling = true;
 
 		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
+
+		Label = GetNodeOrNull<Label>("Label");
+
+		if (Label != null)
+		{
+			Label.Text = Name;
+			Label.Visible = false;
+		}
 
 		// Setup raycasts
 		ParentRaycastsWallLeft = GetNodeOrNull<Node>("Raycasts/Wall/Left");
