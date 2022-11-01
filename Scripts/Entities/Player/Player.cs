@@ -73,9 +73,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	public override void UpdatePhysics()
 	{
-		if (HaltLogic)
-			return;
-
 		PlayerInput = MovementUtils.GetPlayerMovementInput(); // PlayerInput = ... needs to go before base._PhysicsProcess(delta)
 
 		UpdateMoveDirection(PlayerInput);
