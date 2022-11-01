@@ -30,7 +30,11 @@ public class EntityAnimationJumpStart : EntityAnimation<IEntityAnimation>
 			if (player.IsFalling())
 				SwitchState(EntityAnimationType.JumpFall);
 
-			else if (player.PlayerInput.IsDash)
+			else if 
+			(
+				player.PlayerInput.IsDash && 
+				player.GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashReady
+			)
 				SwitchState(EntityAnimationType.Dash);
 
 			else if (player.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())

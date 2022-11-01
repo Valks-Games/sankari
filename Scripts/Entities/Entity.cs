@@ -255,12 +255,11 @@ public abstract partial class Entity : CharacterBody2D
 	/// <typeparam name="TCommand">EntityCommand to cast</typeparam>
 	/// <param name="commandType">Entry into Commands</param>
 	/// <returns>Gets the command parsed as Type or default(TCommand)</returns>
-	protected TCommand GetCommandClass<TCommand>(EntityCommandType commandType) where TCommand : EntityCommand
+	public TCommand GetCommandClass<TCommand>(EntityCommandType commandType) where TCommand : EntityCommand
 	{
 		if (Commands[commandType] is TCommand command)
-		{
 			return command;
-		}
+
 		return default(TCommand);
 	}
 }

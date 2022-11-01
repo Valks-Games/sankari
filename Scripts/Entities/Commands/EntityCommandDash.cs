@@ -24,10 +24,9 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 	public int SpeedDashHorizontal   { get; set; } = 600;
 	#endregion
 
-	public bool CurrentlyDashing { get; protected set; } = false;
-
-	public event EventHandler DashDurationDone;
-	private bool    DashReady         { get; set; } = true;
+	public event    EventHandler DashDurationDone;
+	public bool     CurrentlyDashing  { get; protected set; } = false;
+	public bool     DashReady         { get; set; } = true;
 	private int     DashCount         { get; set; }
 	private Vector2 DashDir           { get; set; }
 	private bool    HorizontalDash    { get; set; }
