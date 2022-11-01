@@ -9,7 +9,6 @@ public partial class LevelUIManager : Control
 	[Export] protected NodePath NodePathHealthBar { get; set; }
 	[Export] protected NodePath NodePathGameOver  { get; set; }
 
-
 	private AnimatedSprite2D CoinSprite { get; set; }
     private Label LabelCoins { get; set; }
     private Label LabelLives { get; set; }
@@ -34,15 +33,16 @@ public partial class LevelUIManager : Control
         ControlLives.Hide();
     }
 
-
-
     public void ShowLives() 
     {
         ControlLives.Modulate = Colors.White;
         ControlLives.Show();
     }
+
     public void HideLives() => ControlLives.Hide();
+
 	public void SetLabelLives(int amount) => LabelLives.Text = "" + amount;
+
 	public async Task HideLivesTransition() 
     {
 		Tween = new GTween(ControlLives);
@@ -51,17 +51,14 @@ public partial class LevelUIManager : Control
         await Task.Delay(2000);
     }
 
-
-
 	public void ShowGameOver()
 	{
 		LabelGameOver.Modulate = Colors.DarkRed;
 		LabelGameOver.Show();
 	}
+
 	public void HideGameOver() => LabelGameOver.Hide();
 	
-
-
 	public void ShowCoins()
 	{
 		CoinSprite.Show();
