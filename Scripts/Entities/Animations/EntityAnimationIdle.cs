@@ -23,7 +23,7 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 
 		if (Entity is Player player)
 		{
-			if (player.IsOnGround())
+			if (player.IsNearGround())
 			{
 				if (player.PlayerInput.IsJump)
 					SwitchState(EntityAnimationType.JumpStart);

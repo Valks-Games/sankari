@@ -8,19 +8,10 @@ public interface IPlayerCommands : IEntityDash, IEntityWallJumpable, IEntityGrou
 
 public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 {
-	[Export] protected NodePath NodePathRayCast2DWallChecksLeft { get; set; }
-	[Export] protected NodePath NodePathRayCast2DWallChecksRight { get; set; }
-	[Export] protected NodePath NodePathRayCast2DGroundChecks { get; set; }
-
 	// Static
 	public static Vector2 RespawnPosition { get; set; }
 
 	public static bool HasTouchedCheckpoint { get; set; }
-
-	// IEntityWallJumpable
-	public List<RayCast2D> RayCast2DWallChecksLeft { get; } = new();
-
-	public List<RayCast2D> RayCast2DWallChecksRight { get; } = new();
 
 	// IEntityJumpable
 	public bool InWallJumpArea { get; set; }
@@ -48,7 +39,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	private bool         preventMovement = false;
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 
-	public override void _Ready()
+	public override void Init()
 	{
 		Commands[EntityCommandType.Movement]      = new EntityCommandMovement(this);
 		Commands[EntityCommandType.Dash]          = new EntityCommandDash(this);
@@ -68,9 +59,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 			Position = GameManager.PlayerManager.RespawnPosition;
 
 		TimerNetSend          = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
-		ParentGroundChecks    = GetNode<Node2D>(NodePathRayCast2DGroundChecks);
-		ParentWallChecksLeft  = GetNode<Node2D>(NodePathRayCast2DWallChecksLeft);
-		ParentWallChecksRight = GetNode<Node2D>(NodePathRayCast2DWallChecksRight);
 		AnimatedSprite        = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		DieTween              = new GTween(this);
 		Timers                = new GTimers(this);
@@ -81,22 +69,11 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		GetCommandClass<EntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
 		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 50, false, false);
-
-		PrepareRaycasts(ParentWallChecksLeft , RayCast2DWallChecksLeft);
-		PrepareRaycasts(ParentWallChecksRight, RayCast2DWallChecksRight);
-		PrepareRaycasts(ParentGroundChecks   , RayCast2DGroundChecks);
-
-		base._Ready(); // there are some things in base._Ready() that require to go after everything above
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void UpdatePhysics()
 	{
-		if (HaltLogic)
-			return;
-
 		PlayerInput = MovementUtils.GetPlayerMovementInput(); // PlayerInput = ... needs to go before base._PhysicsProcess(delta)
-
-		base._PhysicsProcess(delta);
 
 		UpdateMoveDirection(PlayerInput);
 
@@ -106,7 +83,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump)
 		{
-			if (!IsOnGround()) // Wall jump
+			if (!IsNearGround()) // Wall jump
 			{
 				Commands[EntityCommandType.WallJump].Start();
 			}
@@ -178,7 +155,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	private async void UpdateUnderPlatform(MovementInput input)
 	{
-		var collision = RayCast2DGroundChecks[0].GetCollider();
+		var collision = RaycastsGround[0].GetCollider();
 
 		if (collision is TileMap tilemap)
 		{

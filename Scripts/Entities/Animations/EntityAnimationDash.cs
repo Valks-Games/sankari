@@ -23,7 +23,7 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 		// Dash -> Running
 
 		if (!((EntityCommandDash)Entity.Commands[EntityCommandType.Dash]).CurrentlyDashing)
-			if (!Entity.IsOnGround())
+			if (!Entity.IsNearGround())
 			{
 				if (Entity.Velocity.y > 0)
 					SwitchState(EntityAnimationType.JumpFall);

@@ -3,10 +3,10 @@
 public interface IEntityWallJumpable : IEntityMoveable
 {
 	// Left wall checks
-	public List<RayCast2D> RayCast2DWallChecksLeft { get; }
+	public List<RayCast2D> RaycastsWallLeft { get; }
 
 	// Right wall checks
-	public List<RayCast2D> RayCast2DWallChecksRight { get; }
+	public List<RayCast2D> RaycastsWallRight { get; }
 
 	// Is entity within wall jump-able area
 	public bool InWallJumpArea { get; }
@@ -75,7 +75,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 	public override void Update(float delta)
 	{
 		wallDir = UpdateWallDirection();
-		if (Entity.IsOnGround())
+		if (Entity.IsNearGround())
 		{
 			previousWallOnJump = 0;
 			wasSliding = false;
@@ -127,10 +127,10 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 	private RayCast2D GetCollidingWall()
 	{
 		if (wallDir == Vector2.Left.x)
-			return CollectionExtensions.GetAnyRayCastCollider(Entity.RayCast2DWallChecksLeft);
+			return Entity.RaycastsWallLeft.GetAnyRayCastCollider();
 
 		else if (wallDir == Vector2.Right.x)
-			return CollectionExtensions.GetAnyRayCastCollider(Entity.RayCast2DWallChecksRight);
+			return Entity.RaycastsWallRight.GetAnyRayCastCollider();
 
 		return default;
 	}
@@ -165,8 +165,8 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 	private int UpdateWallDirection()
 	{
-		var left = CollectionExtensions.IsAnyRayCastColliding(Entity.RayCast2DWallChecksLeft);
-		var right = CollectionExtensions.IsAnyRayCastColliding(Entity.RayCast2DWallChecksRight);
+		var left = Entity.RaycastsWallLeft.IsAnyRayCastColliding();
+		var right = Entity.RaycastsWallRight.IsAnyRayCastColliding();
 
 		return -Convert.ToInt32(left) + Convert.ToInt32(right);
 	}

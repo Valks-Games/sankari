@@ -12,48 +12,45 @@ size = Vector2(20, 32)
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 script = ExtResource("2")
-NodePathRayCast2DWallChecksLeft = NodePath("Raycasts/Wall Checks/Left")
-NodePathRayCast2DWallChecksRight = NodePath("Raycasts/Wall Checks/Right")
-NodePathRayCast2DGroundChecks = NodePath("Raycasts/Ground Checks")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("1")
 
 [node name="Raycasts" type="Node2D" parent="."]
 
-[node name="Wall Checks" type="Node2D" parent="Raycasts"]
+[node name="Wall" type="Node2D" parent="Raycasts"]
 
-[node name="Left" type="Node2D" parent="Raycasts/Wall Checks"]
+[node name="Left" type="Node2D" parent="Raycasts/Wall"]
 
-[node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
+[node name="1" type="RayCast2D" parent="Raycasts/Wall/Left"]
 position = Vector2(-10, -12)
 target_position = Vector2(-3, 0)
 
-[node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Left"]
+[node name="2" type="RayCast2D" parent="Raycasts/Wall/Left"]
 position = Vector2(-10, 3)
 target_position = Vector2(-3, 0)
 
-[node name="Right" type="Node2D" parent="Raycasts/Wall Checks"]
+[node name="Right" type="Node2D" parent="Raycasts/Wall"]
 
-[node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
+[node name="1" type="RayCast2D" parent="Raycasts/Wall/Right"]
 position = Vector2(10, -12)
 target_position = Vector2(3, 0)
 
-[node name="RayCast2D2" type="RayCast2D" parent="Raycasts/Wall Checks/Right"]
+[node name="2" type="RayCast2D" parent="Raycasts/Wall/Right"]
 position = Vector2(10, 3)
 target_position = Vector2(3, 0)
 
-[node name="Ground Checks" type="Node2D" parent="Raycasts"]
+[node name="Ground" type="Node2D" parent="Raycasts"]
 
-[node name="Left" type="RayCast2D" parent="Raycasts/Ground Checks"]
+[node name="1" type="RayCast2D" parent="Raycasts/Ground"]
 position = Vector2(-9, 16)
 target_position = Vector2(0, 10)
 
-[node name="Middle" type="RayCast2D" parent="Raycasts/Ground Checks"]
+[node name="2" type="RayCast2D" parent="Raycasts/Ground"]
 position = Vector2(0, 16)
 target_position = Vector2(0, 10)
 
-[node name="Right" type="RayCast2D" parent="Raycasts/Ground Checks"]
+[node name="3" type="RayCast2D" parent="Raycasts/Ground"]
 position = Vector2(9, 16)
 target_position = Vector2(0, 10)
 
