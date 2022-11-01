@@ -245,24 +245,8 @@ public abstract partial class Entity : CharacterBody2D
 
 		foreach (RayCast2D raycast in raycastsParent.GetChildren())
 		{
-			ExcludeRaycastParents(raycast, raycast.GetParent());
+			raycast.ExcludeRaycastParents(raycast.GetParent());
 			raycastList.Add(raycast);
-		}
-	}
-
-	/// <summary>
-	/// A convience function to tell the raycast to exlude all parents that
-	/// are of type CollisionObject2D (for example a ground raycast should
-	/// only check for the ground, not the player itself)
-	/// </summary>
-	private void ExcludeRaycastParents(RayCast2D raycast, Node parent) 
-	{
-		if (parent != null)
-		{
-			if (parent is CollisionObject2D collision)
-				raycast.AddException(collision);
-
-			ExcludeRaycastParents(raycast, parent.GetParentOrNull<Node>());
 		}
 	}
 

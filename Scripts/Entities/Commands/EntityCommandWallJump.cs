@@ -127,10 +127,10 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 	private RayCast2D GetCollidingWall()
 	{
 		if (wallDir == Vector2.Left.x)
-			return CollectionExtensions.GetAnyRayCastCollider(Entity.RaycastsWallLeft);
+			return Entity.RaycastsWallLeft.GetAnyRayCastCollider();
 
 		else if (wallDir == Vector2.Right.x)
-			return CollectionExtensions.GetAnyRayCastCollider(Entity.RaycastsWallRight);
+			return Entity.RaycastsWallRight.GetAnyRayCastCollider();
 
 		return default;
 	}
@@ -165,8 +165,8 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 
 	private int UpdateWallDirection()
 	{
-		var left = CollectionExtensions.IsAnyRayCastColliding(Entity.RaycastsWallLeft);
-		var right = CollectionExtensions.IsAnyRayCastColliding(Entity.RaycastsWallRight);
+		var left = Entity.RaycastsWallLeft.IsAnyRayCastColliding();
+		var right = Entity.RaycastsWallRight.IsAnyRayCastColliding();
 
 		return -Convert.ToInt32(left) + Convert.ToInt32(right);
 	}

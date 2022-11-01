@@ -68,34 +68,6 @@ public static class CollectionExtensions
 	}
 
 	/// <summary>
-	/// Checks if any raycasts in a collection is colliding
-	/// </summary>
-	/// <param name="raycasts">Collection of raycasts to check</param>
-	/// <returns>True if any ray cast is colliding, else false</returns>
-	public static bool IsAnyRayCastColliding(List<RayCast2D> raycasts)
-	{
-		foreach (var raycast in raycasts)
-			if (raycast.IsColliding())
-				return true;
-
-		return false;
-	}
-
-	/// <summary>
-	/// Returns the first raycasts in a collection which is colliding
-	/// </summary>
-	/// <param name="raycasts">Collection of raycasts to check</param>
-	/// <returns>Raycast which is colliding, else default</returns>
-	public static RayCast2D GetAnyRayCastCollider(List<RayCast2D> raycasts)
-	{
-		foreach (var raycast in raycasts)
-			if (raycast.IsColliding())
-				return raycast;
-
-		return default;
-	}
-
-	/// <summary>
 	/// Used when doing JsonConvert.SerializeObject to ignore Godot properties
 	/// as these are massive.
 	/// </summary>
