@@ -38,4 +38,9 @@ public class EntityAnimationWalking : EntityAnimation<IEntityAnimation>
 				SwitchState(EntityAnimationType.Idle);
 		}
 	}
+
+	public override void ExitState()
+	{
+		
+	}
 }

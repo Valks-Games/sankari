@@ -37,4 +37,9 @@ public class EntityAnimationJumpStart : EntityAnimation<IEntityAnimation>
 				SwitchState(EntityAnimationType.Idle);
 		}
 	}
+
+	public override void ExitState()
+	{
+		
+	}
 }

@@ -49,30 +49,25 @@ public abstract class EntityAnimation<T> : EntityAnimation where T : IEntityAnim
 
 public abstract class EntityAnimation
 {
-	public EntityAnimation()
-	{ }
-
-	/// <summary>
-	/// Update the current animation
-	/// </summary>
-	public virtual void UpdateState()
-	{ }
-
-	/// <summary>
-	/// Potentially transition to a new state
-	/// </summary>
-	public virtual void HandleStateTransitions()
-	{ }
+	public EntityAnimation() { }
 
 	/// <summary>
 	/// Setup and start the animation
 	/// </summary>
-	public virtual void EnterState()
-	{ }
+	public abstract void EnterState();
+
+	/// <summary>
+	/// Update the current animation
+	/// </summary>
+	public abstract void UpdateState();
+
+	/// <summary>
+	/// Potentially transition to a new state
+	/// </summary>
+	public abstract void HandleStateTransitions();
 
 	/// <summary>
 	/// Cleanly exit the animation state
 	/// </summary>
-	public virtual void ExitState()
-	{ }
+	public abstract void ExitState();
 }

@@ -10,6 +10,11 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 	{
 	}
 
+	public override void EnterState()
+	{
+		
+	}
+
 	public override void UpdateState()
 	{
 		FlipSpriteOnDirection();
@@ -41,5 +46,10 @@ public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
 				// entity is touching the ground
 				SwitchState(EntityAnimationType.Idle);
 			}
+	}
+
+	public override void ExitState()
+	{
+		
 	}
 }

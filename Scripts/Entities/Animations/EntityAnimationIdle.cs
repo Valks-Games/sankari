@@ -14,6 +14,11 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 		HandleStateTransitions();
 	}
 
+	public override void UpdateState()
+	{
+		
+	}
+
 	public override void HandleStateTransitions()
 	{
 		// Idle -> Walking
@@ -39,5 +44,10 @@ public class EntityAnimationIdle : EntityAnimation<IEntityAnimation>
 			else if (player.Velocity.y != 0)
 				SwitchState(EntityAnimationType.JumpStart);
 		}
+	}
+
+	public override void ExitState()
+	{
+		
 	}
 }

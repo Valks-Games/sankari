@@ -39,4 +39,9 @@ public class EntityAnimationJumpFall : EntityAnimation<IEntityAnimation>
 				SwitchState(EntityAnimationType.JumpStart);
 		}
 	}
+
+	public override void ExitState()
+	{
+		
+	}
 }
