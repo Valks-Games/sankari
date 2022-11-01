@@ -145,7 +145,7 @@ public abstract partial class Entity : CharacterBody2D
 
 	/// <summary>
 	/// The equivalent to _UpdatePhysics(float delta), everything here gets called every
-	/// frame. Delta is defined in Entity.
+	/// frame. Delta is defined in Entity. MoveAndSlide() is called right after this.
 	/// </summary>
 	public abstract void UpdatePhysics();
 
