@@ -228,7 +228,10 @@ public abstract partial class Entity : CharacterBody2D
 			Velocity = Velocity + new Vector2(0, Gravity * Delta); // appears to do the same thing as Velocity = Velocity.MoveToward(new Vector2(0, ModGravityMaxSpeed), Gravity * Delta);
 
 		if (IsNearGround())
+		{
+			Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);
 			UpdateGround();
+		}
 		else
 		{
 			UpdateAir();
@@ -343,10 +346,7 @@ public abstract partial class Entity : CharacterBody2D
 		}
 	}
 
-	public virtual void UpdateGround() 
-	{
-		Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);	
-	}
+	public virtual void UpdateGround() { }
 
 	public virtual void UpdateAir() { }
 

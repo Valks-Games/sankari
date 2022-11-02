@@ -96,8 +96,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	public override void UpdateGround()
 	{
-		base.UpdateGround();
-
 		if (PlayerInput.IsSprint)
 			Commands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(Delta));
 		else
