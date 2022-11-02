@@ -45,10 +45,9 @@ public abstract partial class Entity : CharacterBody2D
 	public virtual int ModGravityMaxSpeed { get; set; } = 1200;
 
 	/// <summary>
-	/// ??? - While the property name sounds self explanatory, this needs to be looked into further to
-	/// ensure it's doing what it says it's doing
+	/// The ground speed of the entity
 	/// </summary>
-	public int GroundAcceleration { get; set; } = 50;
+	public int SpeedGround { get; set; } = 50;
 
 	// Msc
 
@@ -229,7 +228,7 @@ public abstract partial class Entity : CharacterBody2D
 
 		if (IsNearGround())
 		{
-			Velocity = Velocity + new Vector2(MoveDir.x * GroundAcceleration, 0);
+			Velocity = Velocity + new Vector2(MoveDir.x * SpeedGround, 0);
 			UpdateGround();
 		}
 		else
