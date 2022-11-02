@@ -6,6 +6,7 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	[Export] public bool Active { get; set; } = true;
 	[Export] public bool StartWalkingRight { get; set; }
 
+	public override int AccelerationGround { get; set; } = 30;
 	public override int Gravity { get; set; } = 300;
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 	private bool MovingForward { get; set; }

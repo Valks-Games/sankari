@@ -47,7 +47,7 @@ public abstract partial class Entity : CharacterBody2D
 	/// <summary>
 	/// The ground speed of the entity
 	/// </summary>
-	public virtual int SpeedGround { get; set; } = 50;
+	public virtual int AccelerationGround { get; set; } = 50;
 
 	/// <summary>
 	/// The immunity time in milliseconds after getting hit
@@ -228,7 +228,7 @@ public abstract partial class Entity : CharacterBody2D
 
 		if (IsNearGround())
 		{
-			Velocity = Velocity + new Vector2(MoveDir.x * SpeedGround, 0);
+			Velocity = Velocity + new Vector2(MoveDir.x * AccelerationGround, 0);
 			UpdateGround();
 		}
 		else

@@ -3,7 +3,7 @@
 public interface IEntityMovement : IEntityMoveable, IEntityDash
 {
 	// Ground acceleration
-	public int SpeedGround { get; set; }
+	public int AccelerationGround { get; set; }
 
 }
 
@@ -22,7 +22,7 @@ public class EntityCommandMovement : EntityCommand<IEntityMovement>
 	public override void Initialize()
 	{
 		// if these are equal to each other then the player movement will not work as expected
-		if (Entity.SpeedGround == DampeningGround)
+		if (Entity.AccelerationGround == DampeningGround)
 			DampeningGround -= 1;
 	}
 
