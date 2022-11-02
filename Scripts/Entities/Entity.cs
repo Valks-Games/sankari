@@ -225,7 +225,7 @@ public abstract partial class Entity : CharacterBody2D
 
 		// gravity
 		if (GravityEnabled)
-			Velocity = Velocity.MoveToward(new Vector2(0, ModGravityMaxSpeed), Gravity * Delta);
+			Velocity = Velocity + new Vector2(0, Gravity * Delta); // appears to do the same thing as Velocity = Velocity.MoveToward(new Vector2(0, ModGravityMaxSpeed), Gravity * Delta);
 
 		if (IsNearGround())
 			UpdateGround();
