@@ -22,6 +22,36 @@ public abstract partial class Entity : CharacterBody2D
 
 	// ================================= PROPERTIES =================================
 
+	// Movement
+
+	/// <summary>
+	/// The direction this entity is currently moving
+	/// </summary>
+	public Vector2 MoveDir { get; protected set; }
+
+	/// <summary>
+	/// Should this entity be affected by gravity?
+	/// </summary>
+	public bool GravityEnabled { get; set; } = true;
+
+	/// <summary>
+	/// The gravity of the entity
+	/// </summary>
+	public virtual int Gravity { get; set; } = 1200;
+
+	/// <summary>
+	/// ???
+	/// </summary>
+	public virtual int ModGravityMaxSpeed { get; set; } = 1200;
+
+	/// <summary>
+	/// ??? - While the property name sounds self explanatory, this needs to be looked into further to
+	/// ensure it's doing what it says it's doing
+	/// </summary>
+	public int GroundAcceleration { get; set; } = 50;
+
+	// Msc
+
 	/// <summary>
 	/// All commands for an entity call Initialize() for first frame and
 	/// Update() and UpdateAir() every frame
@@ -51,34 +81,14 @@ public abstract partial class Entity : CharacterBody2D
 	public float Delta { get; protected set; }
 
 	/// <summary>
-	/// The direction this entity is currently moving
-	/// </summary>
-	public Vector2 MoveDir { get; protected set; }
-
-	/// <summary>
 	/// A convience property to help with the initialization of timers
 	/// </summary>
 	public GTimers Timers { get; set; }
 
 	/// <summary>
-	/// The gravity of the entity
-	/// </summary>
-	public virtual int Gravity { get; set; } = 1200;
-
-	/// <summary>
-	/// Should this entity be affected by gravity?
-	/// </summary>
-	public bool GravityEnabled { get; set; } = true;
-
-	/// <summary>
 	/// Used to halt the _PhysicsProcess()
 	/// </summary>
 	public bool HaltLogic { get; set; }
-
-	/// <summary>
-	/// ???
-	/// </summary>
-	public virtual int ModGravityMaxSpeed { get; set; } = 1200;
 
 	/// <summary>
 	/// The immunity time in milliseconds after getting hit
@@ -89,12 +99,6 @@ public abstract partial class Entity : CharacterBody2D
 	/// Constantly updates giving information whether the entity is in a damage zone or not
 	/// </summary>
 	public bool InDamageZone { get; set; }
-
-	/// <summary>
-	/// ??? - While the property name sounds self explanatory, this needs to be looked into further to
-	/// ensure it's doing what it says it's doing
-	/// </summary>
-	public int GroundAcceleration { get; set; } = 50;
 
 	// ================================= RAYCASTS =================================
 
