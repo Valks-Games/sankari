@@ -10,8 +10,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 	private bool MovingForward { get; set; }
 
-	public Window Tree { get; set; }
-
 	public override void Init()
 	{
 		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");

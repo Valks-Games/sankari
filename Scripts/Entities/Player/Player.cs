@@ -16,9 +16,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	// IEntityJumpable
 	public bool InWallJumpArea { get; set; }
 
-	// IEntityMoveable
-	public Window Tree { get; set; }
-
 	// IEntityDash
 	public bool CurrentlyDashing { get; set; }
 
@@ -35,8 +32,7 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public GTimer        DontCheckPlatformAfterDashDuration { get; set; }
 	public GTimer        PreventMovementTimer               { get; set; }
 
-
-	private bool         preventMovement = false;
+	private bool preventMovement = false;
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 
 	public override void Init()
@@ -58,11 +54,10 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 		if (GameManager.PlayerManager.ActiveCheckpoint)
 			Position = GameManager.PlayerManager.RespawnPosition;
 
-		TimerNetSend          = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
-		AnimatedSprite        = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		DieTween              = new GTween(this);
-		Timers                = new GTimers(this);
-		Tree                  = GetTree().Root;
+		TimerNetSend   = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
+		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		DieTween       = new GTween(this);
+		Timers         = new GTimers(this);
 
 		// dont go under platform at the end of a dash for X ms
 		GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;

@@ -100,6 +100,8 @@ public abstract partial class Entity : CharacterBody2D
 	/// </summary>
 	public bool InDamageZone { get; set; }
 
+	public Window Tree { get; set; }
+
 	// ================================= RAYCASTS =================================
 
 	// Raycast Parents
@@ -126,6 +128,8 @@ public abstract partial class Entity : CharacterBody2D
 
 	sealed public override void _Ready()
 	{
+		Tree = GetTree().Root;
+
 		// The up direction must be defined in order for the FloorSnapLength
 		// to work properly. A direction of up means gravity goes down and
 		// the player jumps up
