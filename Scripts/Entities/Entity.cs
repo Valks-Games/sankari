@@ -45,7 +45,7 @@ public abstract partial class Entity : CharacterBody2D
 	public virtual int ModGravityMaxSpeed { get; set; } = 1200;
 
 	/// <summary>
-	/// The ground speed of the entity
+	/// The ground acceleration of the entity
 	/// </summary>
 	public virtual int AccelerationGround { get; set; } = 50;
 
