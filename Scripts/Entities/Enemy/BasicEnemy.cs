@@ -6,7 +6,7 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	[Export] public bool Active { get; set; } = true;
 	[Export] public bool StartWalkingRight { get; set; }
 
-	public override int Gravity { get; set; } = 30000;
+	public override int Gravity { get; set; } = 300;
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 	private bool MovingForward { get; set; }
 
@@ -69,6 +69,11 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 			if (!FallOffCliff && !IsNearCliffLeft())
 				ChangeDirection();
 		}
+	}
+
+	public override void UpdateGround()
+	{
+		Commands.Values.ForEach(cmd => cmd.UpdateGroundWalking(Delta));
 	}
 
 	public void Activate()
