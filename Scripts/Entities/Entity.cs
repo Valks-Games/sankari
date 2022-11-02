@@ -2,34 +2,98 @@
 
 public abstract partial class Entity : CharacterBody2D
 {
+	/// <summary>
+	/// Should this entity care about wall collisions?
+	/// </summary>
 	[Export] public bool DontCollideWithWall { get; set; }
+
+	/// <summary>
+	/// Should this entity keep moving forward when near a cliff?
+	/// </summary>
 	[Export] public bool FallOffCliff { get; set; }
+
+	/// <summary>
+	/// There are many entities, this will help debug specific entities since
+	/// this value can be set per entity through the inspector in the editor
+	/// </summary>
 	[Export] public bool Debug { get; set; }
 
-	public Dictionary<EntityCommandType, EntityCommand>     Commands   { get; set; } = new();
+	/// <summary>
+	/// All commands for an entity call Initialize() for first frame and
+	/// Update() and UpdateAir() every frame
+	/// </summary>
+	public Dictionary<EntityCommandType, EntityCommand> Commands { get; set; } = new();
+
+	/// <summary>
+	/// All animations for an entity call UpdateState() and HandleStateTransitions() 
+	/// every frame
+	/// </summary>
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
 
+	/// <summary>
+	/// The current animation that is being used for the entity
+	/// </summary>
 	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None;
 
-	public float           Delta                   { get; protected set; }
-	public Vector2         MoveDir                 { get; protected set; }
-	public GTimers         Timers                  { get; set; }
-	public virtual int     Gravity                 { get; set; } = 1200;
-	public bool            GravityEnabled          { get; set; } = true;
-	public bool            HaltLogic               { get; set; }
-	public virtual int     ModGravityMaxSpeed      { get; set; } = 1200;
-	public bool            TouchedGround           { get; set; }
-	public Node2D          ParentGroundChecks      { get; set; }
-	public int             ImmunityMs              { get; set; } = 500;
-	public bool            InDamageZone            { get; set; }
-	public int             GroundAcceleration      { get; set; } = 50;
+	/// <summary>
+	/// The delta from _PhysicsProcess(double delta) converted to a float
+	/// </summary>
+	public float Delta { get; protected set; }
 
+	/// <summary>
+	/// The direction this entity is currently moving
+	/// </summary>
+	public Vector2 MoveDir { get; protected set; }
+
+	/// <summary>
+	/// A convience property to help with the initialization of timers
+	/// </summary>
+	public GTimers Timers { get; set; }
+
+	/// <summary>
+	/// The gravity of the entity
+	/// </summary>
+	public virtual int Gravity { get; set; } = 1200;
+
+	/// <summary>
+	/// Should this entity be affected by gravity?
+	/// </summary>
+	public bool GravityEnabled { get; set; } = true;
+
+	/// <summary>
+	/// Used to halt the _PhysicsProcess()
+	/// </summary>
+	public bool HaltLogic { get; set; }
+
+	/// <summary>
+	/// ???
+	/// </summary>
+	public virtual int ModGravityMaxSpeed { get; set; } = 1200;
+
+	/// <summary>
+	/// The immunity time in milliseconds after getting hit
+	/// </summary>
+	public int ImmunityMs { get; set; } = 500;
+
+	/// <summary>
+	/// Constantly updates giving information whether the entity is in a damage zone or not
+	/// </summary>
+	public bool InDamageZone { get; set; }
+
+	/// <summary>
+	/// ??? - While the property name sounds self explanatory, this needs to be looked into further to
+	/// ensure it's doing what it says it's doing
+	/// </summary>
+	public int GroundAcceleration { get; set; } = 50;
+
+	// Raycast Parents
 	protected Node ParentRaycastsWallLeft   { get; set; }
 	protected Node ParentRaycastsWallRight  { get; set; }
 	protected Node ParentRaycastsCliffLeft  { get; set; }
 	protected Node ParentRaycastsCliffRight { get; set; }
 	protected Node ParentRaycastsGround     { get; set; }
 
+	// Raycasts
 	// these are public because some interfaces rely on them
 	public List<RayCast2D> RaycastsWallLeft { get; set; } = new();
 	public List<RayCast2D> RaycastsWallRight { get; set; } = new();
@@ -37,10 +101,15 @@ public abstract partial class Entity : CharacterBody2D
 	public List<RayCast2D> RaycastsCliffRight { get; set; } = new();
 	public List<RayCast2D> RaycastsGround { get; set; } = new();
 
+	/// <summary>
+	/// A label used for mostly debugging information displayed above the entity in-game but
+	/// can also be used for other things
+	/// </summary>
 	public Label Label { get; set; }
 
+	// Why are these fields and not properties?
 	protected int gravityMaxSpeed = 1200;
-	private GTimer immunityTimer;
+	private GTimer immunityTimer; // the timer for immunity
 	private int damageTakenForce = 300;
 
 	sealed public override void _Ready()
@@ -78,6 +147,7 @@ public abstract partial class Entity : CharacterBody2D
 
 		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
 
+		// Assuming all entities will have "Label" path
 		Label = GetNodeOrNull<Label>("Label");
 
 		if (Label != null)
@@ -87,6 +157,7 @@ public abstract partial class Entity : CharacterBody2D
 		}
 
 		// Setup raycasts
+		// Assuming all entities will have the hardcoded paths
 		ParentRaycastsWallLeft = GetNodeOrNull<Node>("Raycasts/Wall/Left");
 		ParentRaycastsWallRight = GetNodeOrNull<Node>("Raycasts/Wall/Right");
 		ParentRaycastsCliffLeft = GetNodeOrNull<Node>("Raycasts/Cliff/Left");
@@ -99,18 +170,21 @@ public abstract partial class Entity : CharacterBody2D
 		PrepareRaycasts(ParentRaycastsCliffRight, RaycastsCliffRight);
 		PrepareRaycasts(ParentRaycastsGround, RaycastsGround);
 
+		// Do not check for cliffs if FallOffCliff is set to true
 		if (FallOffCliff)
 		{
 			SetRaycastsEnabled(RaycastsCliffLeft, false);
 			SetRaycastsEnabled(RaycastsCliffRight, false);
 		}
 
+		// Do not collide with walls if DontCollideWithWall is set to true
 		if (DontCollideWithWall)
 		{
 			SetRaycastsEnabled(RaycastsWallLeft, false);
 			SetRaycastsEnabled(RaycastsWallRight, false);
 		}
 		
+		// All entities will use Init() instead of _Ready()
 		Init();
 		
 		Commands.Values.ForEach(cmd => cmd.Initialize());
@@ -119,12 +193,13 @@ public abstract partial class Entity : CharacterBody2D
 
 	sealed public override void _PhysicsProcess(double delta)
 	{
-		if (HaltLogic)
+		if (HaltLogic) // perhaps SetPhysicsProcess(false) should be used instead of this
 			return;
 
-		ModGravityMaxSpeed = gravityMaxSpeed;
-		Delta = (float)delta;
+		ModGravityMaxSpeed = gravityMaxSpeed; // ???
+		Delta = (float)delta; // convert Delta to a float as most Godot functions require float inputs
 
+		// All entities will use UpdatePhysics() instead of _PhysicsProcess(double delta)
 		UpdatePhysics();
 
 		Animations[CurrentAnimation].UpdateState();
