@@ -22,17 +22,17 @@ public abstract partial class Entity : CharacterBody2D
 
 	// ================================= PROPERTIES =================================
 
-	// Movement
-
 	/// <summary>
 	/// The direction this entity is currently moving
 	/// </summary>
 	public Vector2 MoveDir { get; protected set; }
 
+	// Virtuals
+
 	/// <summary>
 	/// Should this entity be affected by gravity?
 	/// </summary>
-	public bool GravityEnabled { get; set; } = true;
+	public virtual bool GravityEnabled { get; set; } = true;
 
 	/// <summary>
 	/// The gravity of the entity
@@ -47,7 +47,12 @@ public abstract partial class Entity : CharacterBody2D
 	/// <summary>
 	/// The ground speed of the entity
 	/// </summary>
-	public int SpeedGround { get; set; } = 50;
+	public virtual int SpeedGround { get; set; } = 50;
+
+	/// <summary>
+	/// The immunity time in milliseconds after getting hit
+	/// </summary>
+	public virtual int ImmunityMs { get; set; } = 500;
 
 	// Msc
 
@@ -88,11 +93,6 @@ public abstract partial class Entity : CharacterBody2D
 	/// Used to halt the _PhysicsProcess()
 	/// </summary>
 	public bool HaltLogic { get; set; }
-
-	/// <summary>
-	/// The immunity time in milliseconds after getting hit
-	/// </summary>
-	public int ImmunityMs { get; set; } = 500;
 
 	/// <summary>
 	/// Constantly updates giving information whether the entity is in a damage zone or not
