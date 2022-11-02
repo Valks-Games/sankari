@@ -31,7 +31,10 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 		FloorStopOnSlope = false;
 		
-		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this);
+		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this) 
+		{
+			MaxSpeedWalk = 100
+		};
 
 		Label.Visible = true;
 	}
