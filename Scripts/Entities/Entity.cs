@@ -2,6 +2,8 @@
 
 public abstract partial class Entity : CharacterBody2D
 {
+	// ================================= EXPORTS =================================
+
 	/// <summary>
 	/// Should this entity care about wall collisions?
 	/// </summary>
@@ -17,6 +19,8 @@ public abstract partial class Entity : CharacterBody2D
 	/// this value can be set per entity through the inspector in the editor
 	/// </summary>
 	[Export] public bool Debug { get; set; }
+
+	// ================================= PROPERTIES =================================
 
 	/// <summary>
 	/// All commands for an entity call Initialize() for first frame and
@@ -34,6 +38,12 @@ public abstract partial class Entity : CharacterBody2D
 	/// The current animation that is being used for the entity
 	/// </summary>
 	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None;
+
+	/// <summary>
+	/// A label used for mostly debugging information displayed above the entity in-game but
+	/// can also be used for other things
+	/// </summary>
+	public Label Label { get; set; }
 
 	/// <summary>
 	/// The delta from _PhysicsProcess(double delta) converted to a float
@@ -86,6 +96,8 @@ public abstract partial class Entity : CharacterBody2D
 	/// </summary>
 	public int GroundAcceleration { get; set; } = 50;
 
+	// ================================= RAYCASTS =================================
+
 	// Raycast Parents
 	protected Node ParentRaycastsWallLeft   { get; set; }
 	protected Node ParentRaycastsWallRight  { get; set; }
@@ -100,12 +112,8 @@ public abstract partial class Entity : CharacterBody2D
 	public List<RayCast2D> RaycastsCliffLeft { get; set; } = new();
 	public List<RayCast2D> RaycastsCliffRight { get; set; } = new();
 	public List<RayCast2D> RaycastsGround { get; set; } = new();
-
-	/// <summary>
-	/// A label used for mostly debugging information displayed above the entity in-game but
-	/// can also be used for other things
-	/// </summary>
-	public Label Label { get; set; }
+	
+	// ================================= FIELDS =================================
 
 	// Why are these fields and not properties?
 	protected int gravityMaxSpeed = 1200;
