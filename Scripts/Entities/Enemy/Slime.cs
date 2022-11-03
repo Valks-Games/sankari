@@ -1,30 +1,24 @@
 namespace Sankari;
 
-public partial class Slime : CharacterBody2D
+public partial class Slime : MovingEntity
 {
-    private float Gravity { get; set; } = 250f;
+    public override int Gravity { get; set; } = 250;
+
     private bool Jumping { get; set; }
     private GTimer JumpTimer { get; set; }
     private bool MovingForward { get; set; }
     private int WallHugTime { get; set; }
 
-	// fields
-    private Vector2 velocity;
-
-    public override void _Ready()
+    public override void Init()
     {
         JumpTimer = new GTimer(this, nameof(OnJumpTimer), 2000);
     }
 
-    public override void _PhysicsProcess(double d)
+    public override void UpdatePhysics()
     {
-        var delta = (float)d;
-        velocity.y += delta * Gravity;
-
         if (IsOnFloor() && !Jumping)
         {
-            velocity.x = 0;
-            velocity.y = 0;
+			Velocity = Vector2.Zero;
         }
 
         if (Jumping)
@@ -37,17 +31,13 @@ public partial class Slime : CharacterBody2D
             if (WallHugTime >= 50)
                 MovingForward = !MovingForward;
         }
-
-		Velocity = velocity;
-
-        MoveAndSlide();
     }
 
     private void OnJumpTimer()
     {
         Jumping = true;
         WallHugTime = 0;
-        velocity.x += MovingForward ? 20 : -20;
-        velocity.y -= 150;
+
+		Velocity = Velocity + new Vector2(MovingForward ? 20 : -20, -150);
     }
 }

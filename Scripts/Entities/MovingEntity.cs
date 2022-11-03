@@ -110,7 +110,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 		// Setup nodes
 		// assuming all entities will have the hardcoded paths
 		Label = GetNodeOrNull<Label>("Label");
-		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		AnimatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 
 		ParentRaycastsWallLeft = GetNodeOrNull<Node>("Raycasts/Wall/Left");
 		ParentRaycastsWallRight = GetNodeOrNull<Node>("Raycasts/Wall/Right");
