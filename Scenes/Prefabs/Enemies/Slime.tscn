@@ -98,4 +98,4 @@ shape = SubResource("11")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 frames = SubResource("SpriteFrames_q0yui")
-animation = &"jump_fall"
+animation = &"idle"
