@@ -1,34 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgkrwp1kmh5v3"]
+[gd_scene load_steps=10 format=3 uid="uid://dgkrwp1kmh5v3"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/Slime.cs" id="1"]
-
-[sub_resource type="RectangleShape2D" id="11"]
-size = Vector2(6, 6)
+[ext_resource type="Texture2D" uid="uid://dkmct23pefadd" path="res://Sprites/Level/Enemies/frog.png" id="2_7njte"]
 
 [sub_resource type="RectangleShape2D" id="12"]
-size = Vector2(8, 8)
+size = Vector2(30, 24)
+
+[sub_resource type="RectangleShape2D" id="11"]
+size = Vector2(28, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ypw7"]
+atlas = ExtResource("2_7njte")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmccw"]
+atlas = ExtResource("2_7njte")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83mkc"]
+atlas = ExtResource("2_7njte")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fmbq"]
+atlas = ExtResource("2_7njte")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q0yui"]
+animations = [{
+"frames": [SubResource("AtlasTexture_7ypw7")],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [SubResource("AtlasTexture_rmccw"), SubResource("AtlasTexture_83mkc"), SubResource("AtlasTexture_3fmbq")],
+"loop": true,
+"name": &"jump_start",
+"speed": 5.0
+}]
 
 [node name="Slime" type="CharacterBody2D"]
 position = Vector2(124, 118)
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 3.0
-offset_bottom = 3.0
-color = Color(0, 1, 0.109804, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("11")
-one_way_collision = true
-
-[node name="Enemy" type="Area2D" parent="." groups=["Enemy"]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
-shape = SubResource("12")
 
 [node name="Raycasts" type="Node2D" parent="."]
 
@@ -48,3 +62,19 @@ shape = SubResource("12")
 
 [node name="RayCast2D" type="RayCast2D" parent="Raycasts/Ground"]
 target_position = Vector2(0, 25)
+
+[node name="Enemy" type="Area2D" parent="." groups=["Enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+position = Vector2(0, 5)
+shape = SubResource("12")
+debug_color = Color(0.701961, 0.52549, 0.6, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+shape = SubResource("11")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+frames = SubResource("SpriteFrames_q0yui")
+animation = &"jump_start"
