@@ -170,30 +170,14 @@ public partial class Player : MovingEntity
 		{
 			MoveDir = MovementUtils.GetDirection(Velocity);
 		}
-
 	}
 
 	public override void Kill() => new PlayerCommandDeath(this).Start();
 
-	public async Task FinishedLevel()
+	public async Task FinishedLevel() // this feels like it should be moved somewhere else
 	{
 		HaltLogic = true;
 		await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
 		HaltLogic = false;
-	}
-
-	private void _on_Player_Area_area_entered(Area2D area)
-	{
-		if (HaltLogic)
-			return;
-
-		if (area.IsInGroup("WallJumpArea"))
-			InWallJumpArea = true;
-	}
-
-	private void _on_Area_area_exited(Area2D area)
-	{
-		if (area.IsInGroup("WallJumpArea"))
-			InWallJumpArea = false;
 	}
 }
