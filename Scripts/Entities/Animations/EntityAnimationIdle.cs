@@ -16,7 +16,7 @@ public class EntityAnimationIdle : EntityAnimation<MovingEntity>
 
 	private void OnJump(object sender, EventArgs e) 
 	{
-		GD.Print("JUMP");
+		
 	}
 
 	public override void UpdateState()
@@ -42,9 +42,9 @@ public class EntityAnimationIdle : EntityAnimation<MovingEntity>
 				else
 					SwitchState(EntityAnimationType.Walking);
 		}
-		else if (Entity.IsFalling())
+		else if (!Entity.IsNearGround() && Entity.IsFalling())
 			SwitchState(EntityAnimationType.JumpFall);
-		else if (Entity.Velocity.y != 0)
+		else if (!Entity.IsNearGround() && Entity.Velocity.y != 0)
 			SwitchState(EntityAnimationType.JumpStart);
 	}
 

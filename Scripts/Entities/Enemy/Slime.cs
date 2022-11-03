@@ -22,10 +22,14 @@ public partial class Slime : MovingEntity
 		CurrentAnimation = EntityAnimationType.Idle;
 
         JumpTimer = new GTimer(this, nameof(OnJumpTimer), 2000);
+
+		Label.Visible = true;
     }
 
     public override void UpdatePhysics()
     {
+		Label.Text = "" + CurrentAnimation;
+
         if (IsOnFloor() && !Jumping)
         {
 			Velocity = Vector2.Zero;
