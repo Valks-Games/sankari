@@ -14,6 +14,9 @@ public partial class Slime : MovingEntity
 
     public override void Init()
     {
+		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle(this);
+		Animations[EntityAnimationType.JumpStart] = new EntityAnimationJumpStart(this);
+
         JumpTimer = new GTimer(this, nameof(OnJumpTimer), 2000);
     }
 
