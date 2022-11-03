@@ -41,8 +41,9 @@ public partial class Slime : MovingEntity
         }
     }
 
-    private void OnJumpTimer()
+	private void OnJumpTimer()
     {
+		OnJump();
         Jumping = true;
         WallHugTime = 0;
 

@@ -22,7 +22,12 @@ public abstract class EntityAnimation<T> : EntityAnimation where T : MovingEntit
 
 	protected void SwitchState(EntityAnimationType animation)
 	{
-		//Logger.Log(animation);
+		if (!Entity.Animations.ContainsKey(animation))
+		{
+			Logger.LogWarning($"{animation} for {Entity} has not been setup yet");
+			return;
+		}
+
 		Entity.Animations[Entity.CurrentAnimation].ExitState();
 		Entity.CurrentAnimation = animation;
 		Entity.Animations[Entity.CurrentAnimation].EnterState();
