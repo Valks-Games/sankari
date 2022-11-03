@@ -207,14 +207,13 @@ public class GameServer : ENetServer
     {
         var logOpcode = true;
 
-        // TODO: Convert to Godot4
-        /*if (GameManager.Linker.IgnoreOpcodesFromClient != null)
+        if (GameManager.Linker.IgnoreOpcodesFromClient != null)
             foreach (var dontLogOpcode in GameManager.Linker.IgnoreOpcodesFromClient)
                 if (opcode == dontLogOpcode)
                 {
                     logOpcode = false;
                     break;
-                }*/
+                }
 
         if (logOpcode)
             Log($"Received: {opcode}");

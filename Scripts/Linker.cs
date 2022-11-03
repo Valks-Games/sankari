@@ -10,8 +10,8 @@ public partial class Linker : Node
 	[Export] public bool InstantlyLoadLevel { get; set; }
 
 	// net
-	//[Export] public ServerPacketOpcode[] IgnoreOpcodesFromServer; // TODO: Convert to Godot4
-	//[Export] public ClientPacketOpcode[] IgnoreOpcodesFromClient; // TODO: Convert to Godot4
+	[Export] public Godot.Collections.Array<ServerPacketOpcode> IgnoreOpcodesFromServer { get; set; }
+	[Export] public Godot.Collections.Array<ClientPacketOpcode> IgnoreOpcodesFromClient { get; set; }
 
 	[Export] public NodePath NodePathTransition;
 

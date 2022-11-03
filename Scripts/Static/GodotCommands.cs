@@ -19,14 +19,13 @@ public static class GodotCommands
 
                     var logOpcode = true;
 
-                    // TODO: Convert to Godot4
-                    /*if (GameManager.Linker.IgnoreOpcodesFromServer != null)
+                    if (GameManager.Linker.IgnoreOpcodesFromServer != null)
                         foreach (var dontLogOpcode in GameManager.Linker.IgnoreOpcodesFromServer) 
                             if (opcode == dontLogOpcode) 
                             {
                                 logOpcode = false;
                                 break;
-                            }*/
+                            }
 
                     if (logOpcode)
                         Logger.Log($"[Client] Received: {opcode}");
