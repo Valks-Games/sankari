@@ -21,8 +21,11 @@ public class MovingEntityCommandDash : EntityCommand<MovingEntity>
 
 	public override void Initialize()
 	{
-		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false, false);
-		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false, false);
+		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false);
+		TimerDashCooldown.Loop = false;
+
+		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false);
+		TimerDashDuration.Loop = false;
 	}
 
 	public override void Start()

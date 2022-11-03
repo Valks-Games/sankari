@@ -8,7 +8,11 @@ public abstract partial class APlatform : CharacterBody2D
 
 	public void Init()
 	{
-		Timer = new GTimer(this, new Callable(OnTimerUp), 400, false, false);
+		Timer = new GTimer(this, new Callable(OnTimerUp), 400, false)
+		{
+			Loop = false
+		};
+
 		Collision = GetNode<CollisionShape2D>("CollisionShape2D");
 	}
 

@@ -6,7 +6,10 @@ public partial class PlayerDashTrace : Sprite2D
 
     public override void _Ready()
     {
-        Timer = new GTimer(this, new Callable(OnTimerDone), 200, false, true);
+        Timer = new GTimer(this, new Callable(OnTimerDone), 200)
+		{
+			Loop = false
+		};
     }
 
     private void OnTimerDone()

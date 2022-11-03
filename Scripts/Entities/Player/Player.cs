@@ -38,14 +38,26 @@ public partial class Player : MovingEntity
 		if (GameManager.PlayerManager.ActiveCheckpoint)
 			Position = GameManager.PlayerManager.RespawnPosition;
 
-		TimerNetSend   = new GTimer(this, new Callable(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
-		DieTween       = new GTween(this);
+		TimerNetSend = new GTimer(this, new Callable(NetUpdate), NetIntervals.HEARTBEAT, Net.IsMultiplayer())
+		{
+			Loop = true
+		};
+
+		DieTween = new GTween(this);
 
 		// dont go under platform at the end of a dash for X ms
 		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;
 		GetCommandClass<MovingEntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
-		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
-		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 50, false, false);
+
+		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false)
+		{
+			Loop = false
+		};
+
+		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 50, false)
+		{
+			Loop = false
+		};
 	}
 
 	public override void UpdatePhysics()

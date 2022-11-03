@@ -8,7 +8,9 @@ public class EntityAnimationJumpStart : EntityAnimation<MovingEntity>
 
 	public override void EnterState()
 	{
-		TimerDontCheckOnGround = Entity.Timers.CreateTimer(100, false, true);
+		TimerDontCheckOnGround = Entity.Timers.CreateTimer(100);
+		TimerDontCheckOnGround.Loop = false;
+
 		Entity.AnimatedSprite.Play("jump_start");
 	}
 

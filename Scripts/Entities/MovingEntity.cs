@@ -101,7 +101,10 @@ public abstract partial class MovingEntity : CharacterBody2D
 		// Does not seem to have any effect if this is either true or false
 		SlideOnCeiling = true;
 
-		immunityTimer = new GTimer(this, new Callable(OnImmunityTimerFinished), ImmunityMs, false, false);
+		immunityTimer = new GTimer(this, new Callable(OnImmunityTimerFinished), ImmunityMs, false)
+		{
+			Loop = false
+		};
 
 		if (Label != null)
 		{

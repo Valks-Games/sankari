@@ -23,7 +23,10 @@ public partial class Slime : MovingEntity
 		AnimatedSprite.Animation = "idle";
 		CurrentAnimation = EntityAnimationType.Idle;
 
-        JumpTimer = new GTimer(this, new Callable(OnJumpTimer), 2000, false, true);
+        JumpTimer = new GTimer(this, new Callable(OnJumpTimer), 2000)
+		{
+			Loop = false
+		};
 
 		Label.Visible = true;
     }
