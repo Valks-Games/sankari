@@ -1,8 +1,11 @@
+using System;
+
 namespace Sankari;
 
 public partial class Slime : MovingEntity
 {
     public override int Gravity { get; set; } = 250;
+	public override bool ClampDampen { get; set; } = false;
 
     private bool Jumping { get; set; }
     private GTimer JumpTimer { get; set; }

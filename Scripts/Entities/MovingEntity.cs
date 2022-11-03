@@ -8,17 +8,18 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 	public Vector2 MoveDir { get; protected set; } // the direction this entity is currently moving
 
-	public virtual bool GravityEnabled    { get; set; } = true; // should this entity be affected by gravity?
-	public virtual int Gravity            { get; set; } = 1200; // the gravity of the entity
-	public virtual int ModGravityMaxSpeed { get; set; } = 1200; // ???
-	public virtual int AccelerationGround { get; set; } = 50;   // the ground acceleration of the entity
-	public virtual int ImmunityMs         { get; set; } = 500;  // the immunity time in milliseconds after getting hit
-	public virtual int MaxSpeedWalk       { get; set; } = 350;
-	public virtual int MaxSpeedSprint     { get; set; } = 500;
-	public virtual int MaxSpeedAir        { get; set; } = 350;
-	public virtual int AirAcceleration    { get; set; } = 30;
-	public virtual int DampeningAir       { get; set; } = 10;
-	public virtual int DampeningGround    { get; set; } = 25;
+	public virtual bool GravityEnabled     { get; set; } = true; // should this entity be affected by gravity?
+	public virtual int  Gravity            { get; set; } = 1200; // the gravity of the entity
+	public virtual int  ModGravityMaxSpeed { get; set; } = 1200; // ???
+	public virtual int  AccelerationGround { get; set; } = 50;   // the ground acceleration of the entity
+	public virtual int  ImmunityMs         { get; set; } = 500;  // the immunity time in milliseconds after getting hit
+	public virtual int  MaxSpeedWalk       { get; set; } = 350;
+	public virtual int  MaxSpeedSprint     { get; set; } = 500;
+	public virtual int  MaxSpeedAir        { get; set; } = 350;
+	public virtual int  AirAcceleration    { get; set; } = 30;
+	public virtual int  DampeningAir       { get; set; } = 10;
+	public virtual int  DampeningGround    { get; set; } = 25;
+	public virtual bool ClampDampen        { get; set; } = true;
 
 	public int MaxSpeed { get; set; }
 	public bool InWallJumpArea { get; set; }
@@ -171,19 +172,25 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 		if (IsNearGround())
 		{
-			var velocity = Velocity;
-			velocity.x += MoveDir.x * AccelerationGround;
-			velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeed);
-			Velocity = velocity;
+			if (ClampDampen)
+			{
+				var velocity = Velocity;
+				velocity.x += MoveDir.x * AccelerationGround;
+				velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeed);
+				Velocity = velocity;
+			}
 
 			UpdateGround();
 		}
 		else
 		{
-			var velocity = Velocity;
-			velocity.x += MoveDir.x * AirAcceleration;
-			velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeedAir);
-			Velocity = velocity;
+			if (ClampDampen)
+			{
+				var velocity = Velocity;
+				velocity.x += MoveDir.x * AirAcceleration;
+				velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeedAir);
+				Velocity = velocity;
+			}
 
 			UpdateAir();
 
