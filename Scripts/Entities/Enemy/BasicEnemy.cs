@@ -14,7 +14,6 @@ public partial class BasicEnemy : MovingEntity, IEntity
 
 	public override void Init()
 	{
-		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Activate();
 
 		if (StartWalkingRight)
