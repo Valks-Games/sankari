@@ -2,106 +2,37 @@
 
 public abstract partial class Entity : CharacterBody2D
 {
-	// ================================= EXPORTS =================================
+	[Export] public bool DontCollideWithWall { get; set; } // should this entity care about wall collisions?
+	[Export] public bool FallOffCliff { get; set; } // should this entity keep moving forward when near a cliff?
+	[Export] public bool Debug { get; set; } // there are many entities, this will help debug specific entities since this value can be set per entity through the inspector in the editor
+
+	public Vector2 MoveDir { get; protected set; } // the direction this entity is currently moving
+
+	public virtual bool GravityEnabled { get; set; } = true; // should this entity be affected by gravity?
+	public virtual int Gravity { get; set; } = 1200; // the gravity of the entity
+	public virtual int ModGravityMaxSpeed { get; set; } = 1200; // ???
+	public virtual int AccelerationGround { get; set; } = 50; // the ground acceleration of the entity
+	public virtual int ImmunityMs { get; set; } = 500; // the immunity time in milliseconds after getting hit
+
 
 	/// <summary>
-	/// Should this entity care about wall collisions?
-	/// </summary>
-	[Export] public bool DontCollideWithWall { get; set; }
-
-	/// <summary>
-	/// Should this entity keep moving forward when near a cliff?
-	/// </summary>
-	[Export] public bool FallOffCliff { get; set; }
-
-	/// <summary>
-	/// There are many entities, this will help debug specific entities since
-	/// this value can be set per entity through the inspector in the editor
-	/// </summary>
-	[Export] public bool Debug { get; set; }
-
-	// ================================= PROPERTIES =================================
-
-	/// <summary>
-	/// The direction this entity is currently moving
-	/// </summary>
-	public Vector2 MoveDir { get; protected set; }
-
-	// Virtuals
-
-	/// <summary>
-	/// Should this entity be affected by gravity?
-	/// </summary>
-	public virtual bool GravityEnabled { get; set; } = true;
-
-	/// <summary>
-	/// The gravity of the entity
-	/// </summary>
-	public virtual int Gravity { get; set; } = 1200;
-
-	/// <summary>
-	/// ???
-	/// </summary>
-	public virtual int ModGravityMaxSpeed { get; set; } = 1200;
-
-	/// <summary>
-	/// The ground acceleration of the entity
-	/// </summary>
-	public virtual int AccelerationGround { get; set; } = 50;
-
-	/// <summary>
-	/// The immunity time in milliseconds after getting hit
-	/// </summary>
-	public virtual int ImmunityMs { get; set; } = 500;
-
-	// Msc
-
-	/// <summary>
-	/// All commands for an entity call Initialize() for first frame and
-	/// Update() and UpdateAir() every frame
+	/// All commands for an entity call Initialize() for first frame and Update() and UpdateAir() every frame
 	/// </summary>
 	public Dictionary<EntityCommandType, EntityCommand> Commands { get; set; } = new();
 
 	/// <summary>
-	/// All animations for an entity call UpdateState() and HandleStateTransitions() 
-	/// every frame
+	/// All animations for an entity call UpdateState() and HandleStateTransitions() every frame
 	/// </summary>
 	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
 
-	/// <summary>
-	/// The current animation that is being used for the entity
-	/// </summary>
-	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None;
+	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None; // The current animation that is being used for the entity
 
-	/// <summary>
-	/// A label used for mostly debugging information displayed above the entity in-game but
-	/// can also be used for other things
-	/// </summary>
-	public Label Label { get; set; }
-
-	/// <summary>
-	/// The delta from _PhysicsProcess(double delta) converted to a float
-	/// </summary>
-	public float Delta { get; protected set; }
-
-	/// <summary>
-	/// A convience property to help with the initialization of timers
-	/// </summary>
-	public GTimers Timers { get; set; }
-
-	/// <summary>
-	/// Used to halt the _PhysicsProcess()
-	/// </summary>
-	public bool HaltLogic { get; set; }
-
-	/// <summary>
-	/// Constantly updates giving information whether the entity is in a damage zone or not
-	/// </summary>
-	public bool InDamageZone { get; set; }
-
+	public Label Label { get; set; } // a label used for mostly debugging information displayed above the entity in-game but can also be used for other thing
+	public float Delta { get; protected set; } // the delta from _PhysicsProcess(double delta) converted to a float
+	public GTimers Timers { get; set; } // a convience property to help with the initialization of timers
+	public bool HaltLogic { get; private set; } // used to see if _PhysicsProcess() was halted or not
+	public bool InDamageZone { get; set; } // the entity is in a damage zone or not
 	public Window Tree { get; set; }
-
-	// ================================= RAYCASTS =================================
 
 	// Raycast Parents
 	protected Node ParentRaycastsWallLeft   { get; set; }
@@ -111,14 +42,11 @@ public abstract partial class Entity : CharacterBody2D
 	protected Node ParentRaycastsGround     { get; set; }
 
 	// Raycasts
-	// these are public because some interfaces rely on them
 	public List<RayCast2D> RaycastsWallLeft { get; set; } = new();
 	public List<RayCast2D> RaycastsWallRight { get; set; } = new();
 	public List<RayCast2D> RaycastsCliffLeft { get; set; } = new();
 	public List<RayCast2D> RaycastsCliffRight { get; set; } = new();
 	public List<RayCast2D> RaycastsGround { get; set; } = new();
-	
-	// ================================= FIELDS =================================
 
 	// Why are these fields and not properties?
 	protected int gravityMaxSpeed = 1200;
