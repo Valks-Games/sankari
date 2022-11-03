@@ -16,7 +16,9 @@ public partial class Slime : MovingEntity
     {
 		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle(this);
 		Animations[EntityAnimationType.JumpStart] = new EntityAnimationJumpStart(this);
+		Animations[EntityAnimationType.JumpFall]  = new EntityAnimationJumpFall(this);
 
+		AnimatedSprite.Animation = "idle";
 		CurrentAnimation = EntityAnimationType.Idle;
 
         JumpTimer = new GTimer(this, nameof(OnJumpTimer), 2000);

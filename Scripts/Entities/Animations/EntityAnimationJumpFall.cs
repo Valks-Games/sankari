@@ -21,21 +21,18 @@ public class EntityAnimationJumpFall : EntityAnimation<MovingEntity>
 		// JumpFall -> Running
 		// JumpFall -> Dash
 
-		if (Entity is Player player)
-		{
-			if (player.IsNearGround())
-				if (Entity.MoveDir != Vector2.Zero)
-					if (player.PlayerInput.IsSprint)
-						SwitchState(EntityAnimationType.Running);
-					else
-						SwitchState(EntityAnimationType.Walking);
+		if (Entity.IsNearGround())
+			if (Entity.MoveDir != Vector2.Zero)
+				if (Entity is Player player && player.PlayerInput.IsSprint)
+					SwitchState(EntityAnimationType.Running);
 				else
-					SwitchState(EntityAnimationType.Idle);
-			else if (player.PlayerInput.IsDash && player.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady)
-				SwitchState(EntityAnimationType.Dash);
-			else if (!player.IsFalling() && player.Velocity.y != 0)
-				SwitchState(EntityAnimationType.JumpStart);
-		}
+					SwitchState(EntityAnimationType.Walking);
+			else
+				SwitchState(EntityAnimationType.Idle);
+		else if (Entity is Player player && player.PlayerInput.IsDash && Entity.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady)
+			SwitchState(EntityAnimationType.Dash);
+		else if (!Entity.IsFalling() && Entity.Velocity.y != 0)
+			SwitchState(EntityAnimationType.JumpStart);
 	}
 
 	public override void ExitState()
