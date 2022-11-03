@@ -23,20 +23,23 @@ public class EntityAnimationJumpStart : EntityAnimation<MovingEntity>
 		// JumpStart -> JumpFall
 		// JumpStart -> Dash
 
-		if (Entity is Player player)
+
+		if (Entity.IsFalling())
 		{
-			if (player.IsFalling())
-				SwitchState(EntityAnimationType.JumpFall);
-
-			else if 
-			(
-				player.PlayerInput.IsDash && 
-				player.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady
-			)
-				SwitchState(EntityAnimationType.Dash);
-
-			else if (player.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
-				SwitchState(EntityAnimationType.Idle);
+			SwitchState(EntityAnimationType.JumpFall);
+		}
+		else if 
+		(
+			Entity is Player player &&
+			player.PlayerInput.IsDash && 
+			player.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady
+		)
+		{
+			SwitchState(EntityAnimationType.Dash);
+		}
+		else if (Entity.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
+		{
+			SwitchState(EntityAnimationType.Idle);
 		}
 	}
 
