@@ -18,14 +18,14 @@ public class MovementUtils
 	{
 		return new()
 		{
-			IsJump = Input.IsActionJustPressed("player_jump"),
-			IsLeft = Input.IsActionPressed("player_move_left"),
-			IsRight = Input.IsActionPressed("player_move_right"),
-			IsUp = Input.IsActionPressed("player_move_up"),
-			IsDown = Input.IsActionPressed("player_move_down"),
-			IsFastFall = Input.IsActionPressed("player_fast_fall"),
-			IsDash = Input.IsActionJustPressed("player_dash"),
-			IsSprint = Input.IsActionPressed("player_sprint"),
+			IsJump     = Input.IsActionJustPressed("player_jump"),
+			IsDash     = Input.IsActionJustPressed("player_dash"),
+			IsLeft     = Input.IsActionPressed    ("player_move_left"),
+			IsRight    = Input.IsActionPressed    ("player_move_right"),
+			IsUp       = Input.IsActionPressed    ("player_move_up"),
+			IsDown     = Input.IsActionPressed    ("player_move_down"),
+			IsFastFall = Input.IsActionPressed    ("player_fast_fall"),
+			IsSprint   = Input.IsActionPressed    ("player_sprint"),
 		};
 	}
 
