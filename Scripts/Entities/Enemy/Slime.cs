@@ -53,6 +53,6 @@ public partial class Slime : MovingEntity
         Jumping = true;
         WallHugTime = 0;
 
-		Velocity = Velocity + new Vector2(MovingForward ? 20 : -20, -150);
+		Velocity = Velocity + new Vector2(MovingForward ? 20 : -20, -300);
     }
 }
