@@ -1,8 +1,8 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpFall : EntityAnimation<Entity>
+public class EntityAnimationJumpFall : EntityAnimation<MovingEntity>
 {
-	public EntityAnimationJumpFall(Entity entity) : base(entity) { }
+	public EntityAnimationJumpFall(MovingEntity entity) : base(entity) { }
 
 	public override void EnterState()
 	{
@@ -31,7 +31,7 @@ public class EntityAnimationJumpFall : EntityAnimation<Entity>
 						SwitchState(EntityAnimationType.Walking);
 				else
 					SwitchState(EntityAnimationType.Idle);
-			else if (player.PlayerInput.IsDash && player.GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashReady)
+			else if (player.PlayerInput.IsDash && player.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady)
 				SwitchState(EntityAnimationType.Dash);
 			else if (!player.IsFalling() && player.Velocity.y != 0)
 				SwitchState(EntityAnimationType.JumpStart);

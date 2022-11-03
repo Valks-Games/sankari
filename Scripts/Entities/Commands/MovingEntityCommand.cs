@@ -10,7 +10,7 @@ public enum EntityCommandType
 	MidAirJump
 }
 
-public abstract class EntityCommand
+public abstract class MovingEntityCommand
 {
 	/// <summary>
 	/// Called after parent entity is ready
@@ -52,7 +52,7 @@ public abstract class EntityCommand
 	public virtual void Stop() { }
 }
 
-public abstract class EntityCommand<T> : EntityCommand
+public abstract class EntityCommand<T> : MovingEntityCommand
 {
 	protected T Entity { get; set; }
 

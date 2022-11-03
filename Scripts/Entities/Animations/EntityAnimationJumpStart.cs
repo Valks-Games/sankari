@@ -1,10 +1,10 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpStart : EntityAnimation<Entity>
+public class EntityAnimationJumpStart : EntityAnimation<MovingEntity>
 {
 	private GTimer TimerDontCheckOnGround;
 
-	public EntityAnimationJumpStart(Entity entity) : base(entity) { }
+	public EntityAnimationJumpStart(MovingEntity entity) : base(entity) { }
 
 	public override void EnterState()
 	{
@@ -31,7 +31,7 @@ public class EntityAnimationJumpStart : EntityAnimation<Entity>
 			else if 
 			(
 				player.PlayerInput.IsDash && 
-				player.GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashReady
+				player.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady
 			)
 				SwitchState(EntityAnimationType.Dash);
 

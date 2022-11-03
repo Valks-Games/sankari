@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public abstract partial class Entity : CharacterBody2D
+public abstract partial class MovingEntity : CharacterBody2D
 {
 	[Export] public bool DontCollideWithWall { get; set; } // should this entity care about wall collisions?
 	[Export] public bool FallOffCliff        { get; set; } // should this entity keep moving forward when near a cliff?
@@ -28,7 +28,7 @@ public abstract partial class Entity : CharacterBody2D
 	/// <summary>
 	/// All commands for an entity call Initialize() for first frame and Update() and UpdateAir() every frame
 	/// </summary>
-	public Dictionary<EntityCommandType, EntityCommand> Commands { get; set; } = new();
+	public Dictionary<EntityCommandType, MovingEntityCommand> Commands { get; set; } = new();
 
 	/// <summary>
 	/// All animations for an entity call UpdateState() and HandleStateTransitions() every frame
@@ -318,7 +318,7 @@ public abstract partial class Entity : CharacterBody2D
 	/// <typeparam name="TCommand">EntityCommand to cast</typeparam>
 	/// <param name="commandType">Entry into Commands</param>
 	/// <returns>Gets the command parsed as Type or default(TCommand)</returns>
-	public TCommand GetCommandClass<TCommand>(EntityCommandType commandType) where TCommand : EntityCommand
+	public TCommand GetCommandClass<TCommand>(EntityCommandType commandType) where TCommand : MovingEntityCommand
 	{
 		if (Commands[commandType] is TCommand command)
 			return command;

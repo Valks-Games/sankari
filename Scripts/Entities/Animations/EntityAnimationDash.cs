@@ -1,8 +1,8 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationDash : EntityAnimation<Entity>
+public class EntityAnimationDash : EntityAnimation<MovingEntity>
 {
-	public EntityAnimationDash(Entity entity) : base(entity) { }
+	public EntityAnimationDash(MovingEntity entity) : base(entity) { }
 
 	public override void EnterState()
 	{
@@ -21,7 +21,7 @@ public class EntityAnimationDash : EntityAnimation<Entity>
 		// Dash -> Walking
 		// Dash -> Running
 
-		if (!((EntityCommandDash)Entity.Commands[EntityCommandType.Dash]).CurrentlyDashing)
+		if (!((MovingEntityCommandDash)Entity.Commands[EntityCommandType.Dash]).CurrentlyDashing)
 			if (!Entity.IsNearGround())
 			{
 				if (Entity.Velocity.y > 0)

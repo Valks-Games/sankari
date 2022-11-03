@@ -1,8 +1,8 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationRunning : EntityAnimation<Entity>
+public class EntityAnimationRunning : EntityAnimation<MovingEntity>
 {
-	public EntityAnimationRunning(Entity entity) : base(entity) { }
+	public EntityAnimationRunning(MovingEntity entity) : base(entity) { }
 
 	public override void EnterState()
 	{
@@ -28,7 +28,7 @@ public class EntityAnimationRunning : EntityAnimation<Entity>
 
 				SwitchState(EntityAnimationType.JumpStart);
 
-			else if (player.PlayerInput.IsDash && player.GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashReady)
+			else if (player.PlayerInput.IsDash && player.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady)
 
 				SwitchState(EntityAnimationType.Dash);
 

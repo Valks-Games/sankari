@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class EntityCommandWallJump : EntityCommand<Entity>
+public class MovingEntityCommandWallJump : EntityCommand<MovingEntity>
 {
 	public int JumpForceWallHorz { get; set; } = 800; // Horizontal wall jump force
 	public int JumpForceWallVert { get; set; } = 500; // Vertical wall jump force
@@ -13,7 +13,7 @@ public class EntityCommandWallJump : EntityCommand<Entity>
 	private float previousXDir;
 	private int wallDir;
 
-	public EntityCommandWallJump(Entity entity) : base(entity) { }
+	public MovingEntityCommandWallJump(MovingEntity entity) : base(entity) { }
 
 	public override void Start()
 	{

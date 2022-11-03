@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class Player : Entity
+public partial class Player : MovingEntity
 {
 	// Static
 	public static Vector2 RespawnPosition { get; set; }
@@ -24,9 +24,9 @@ public partial class Player : Entity
 
 	public override void Init()
 	{
-		Commands[EntityCommandType.Dash]          = new EntityCommandDash(this);
-		Commands[EntityCommandType.WallJump]      = new EntityCommandWallJump(this);
-		Commands[EntityCommandType.GroundJump]    = new EntityCommandGroundJump(this);
+		Commands[EntityCommandType.Dash]          = new MovingEntityCommandDash(this);
+		Commands[EntityCommandType.WallJump]      = new MovingEntityCommandWallJump(this);
+		Commands[EntityCommandType.GroundJump]    = new MovingEntityCommandGroundJump(this);
 
 		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle(this);
 		Animations[EntityAnimationType.Walking]   = new EntityAnimationWalking(this);
@@ -45,8 +45,8 @@ public partial class Player : Entity
 		Timers         = new GTimers(this);
 
 		// dont go under platform at the end of a dash for X ms
-		GetCommandClass<EntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;
-		GetCommandClass<EntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
+		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;
+		GetCommandClass<MovingEntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false, false);
 		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 50, false, false);
 	}

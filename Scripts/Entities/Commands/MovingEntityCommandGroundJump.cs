@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class EntityCommandGroundJump : EntityCommand<Entity>
+public class MovingEntityCommandGroundJump : EntityCommand<MovingEntity>
 {
 	public int JumpForce { get; set; } = 600; // Force applies when jumping
 	public int MaxJumps { get; set; } = 1; // Max number of Jumps
@@ -8,7 +8,7 @@ public class EntityCommandGroundJump : EntityCommand<Entity>
 
 	private int JumpCount { get; set; }
 
-	public EntityCommandGroundJump(Entity entity) : base(entity) { }
+	public MovingEntityCommandGroundJump(MovingEntity entity) : base(entity) { }
 
 	public override void Update(float delta)
 	{
