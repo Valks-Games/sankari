@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dgkrwp1kmh5v3"]
+[gd_scene load_steps=11 format=3 uid="uid://dgkrwp1kmh5v3"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/Slime.cs" id="1"]
 [ext_resource type="Texture2D" uid="uid://dkmct23pefadd" path="res://Sprites/Level/Enemies/frog.png" id="2_7njte"]
@@ -16,10 +16,6 @@ region = Rect2(0, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_h2w7q"]
 atlas = ExtResource("2_7njte")
 region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yo73o"]
-atlas = ExtResource("2_7njte")
-region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rmccw"]
 atlas = ExtResource("2_7njte")
@@ -40,13 +36,13 @@ animations = [{
 "name": &"idle",
 "speed": 5.0
 }, {
-"frames": [SubResource("AtlasTexture_h2w7q"), SubResource("AtlasTexture_yo73o")],
-"loop": true,
+"frames": [SubResource("AtlasTexture_h2w7q")],
+"loop": false,
 "name": &"jump_fall",
 "speed": 5.0
 }, {
 "frames": [SubResource("AtlasTexture_rmccw"), SubResource("AtlasTexture_83mkc"), SubResource("AtlasTexture_3fmbq")],
-"loop": true,
+"loop": false,
 "name": &"jump_start",
 "speed": 5.0
 }]
