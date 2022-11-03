@@ -12,21 +12,14 @@ public class GTimer
 		get { return Timer.TimeLeft; }
 	}
 
+	public GTimer(Node node, int delayMs = 1000, bool loop = true, bool autoStart = true) =>
+		Init(node, delayMs, loop, autoStart);
+
 	public GTimer(Node node, Callable callable, int delayMs = 1000, bool loop = true, bool autoStart = true)
 	{
 		Init(node, delayMs, loop, autoStart);
 		Callable = callable;
 		Timer.Connect("timeout", Callable);
-	}
-
-	public GTimer(Node node, int delayMs = 1000, bool loop = true, bool autoStart = true) 
-	{
-		Init(node, delayMs, loop, autoStart);
-	}
-
-	public GTimer(Node target, string methodName, int delayMs = 1000, bool loop = true, bool autoStart = true)
-		: this(target, new Callable(target, methodName), delayMs, loop, autoStart)
-	{
 	}
 
 	private void Init(Node target, int delayMs, bool loop, bool autoStart)

@@ -38,7 +38,7 @@ public partial class Player : MovingEntity
 		if (GameManager.PlayerManager.ActiveCheckpoint)
 			Position = GameManager.PlayerManager.RespawnPosition;
 
-		TimerNetSend   = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
+		TimerNetSend   = new GTimer(this, new Callable(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
 		DieTween       = new GTween(this);
 
 		// dont go under platform at the end of a dash for X ms

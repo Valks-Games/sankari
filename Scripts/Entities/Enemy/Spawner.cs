@@ -9,7 +9,7 @@ public partial class Spawner : Marker2D, IEntity
 
     public override void _Ready()
     {
-        Timer = new GTimer(this, nameof(OnTimer), RespawnInterval, true, false);
+        Timer = new GTimer(this, new Callable(OnTimer), RespawnInterval, true, false);
     }
 
     public void Activate() => Timer.Start();
