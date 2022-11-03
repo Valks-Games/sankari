@@ -20,6 +20,7 @@ public class EntityAnimationJumpFall : EntityAnimation<MovingEntity>
 		// JumpFall -> Walking
 		// JumpFall -> Running
 		// JumpFall -> Dash
+		// JumpFall -> JumpStart
 
 		if (Entity.IsNearGround())
 			if (Entity.MoveDir != Vector2.Zero)
