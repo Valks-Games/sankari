@@ -6,10 +6,8 @@ public partial class Killzone : Area2D
     {
         var parent = area.GetParent();
 
-        if (parent is IEnemy) 
-        {
+        if (parent is Entity) 
             parent.QueueFree();
-        }
 
 		if (parent is Player player)
 			player.Kill();

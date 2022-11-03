@@ -1,10 +1,8 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpFall : EntityAnimation<IEntityAnimation>
+public class EntityAnimationJumpFall : EntityAnimation<Entity>
 {
-	public EntityAnimationJumpFall(IEntityAnimation entity) : base(entity)
-	{
-	}
+	public EntityAnimationJumpFall(Entity entity) : base(entity) { }
 
 	public override void EnterState()
 	{

@@ -1,14 +1,8 @@
 ﻿namespace Sankari;
 
-public interface IEntityAnimationDash : IEntityDash, IEntityAnimation
+public class EntityAnimationDash : EntityAnimation<Entity>
 {
-}
-
-public class EntityAnimationDash : EntityAnimation<IEntityAnimationDash>
-{
-	public EntityAnimationDash(IEntityAnimationDash entity) : base(entity)
-	{
-	}
+	public EntityAnimationDash(Entity entity) : base(entity) { }
 
 	public override void EnterState()
 	{

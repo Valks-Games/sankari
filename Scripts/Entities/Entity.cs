@@ -21,6 +21,8 @@ public abstract partial class Entity : CharacterBody2D
 	public virtual int DampeningGround    { get; set; } = 25;
 
 	public int MaxSpeed { get; set; }
+	public bool InWallJumpArea { get; set; }
+	public AnimatedSprite2D AnimatedSprite { get; set; }
 
 
 	/// <summary>
@@ -99,17 +101,17 @@ public abstract partial class Entity : CharacterBody2D
 
 		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
 
-		// Assuming all entities will have "Label" path
-		Label = GetNodeOrNull<Label>("Label");
-
 		if (Label != null)
 		{
 			Label.Text = Name;
 			Label.Visible = false;
 		}
 
-		// Setup raycasts
-		// Assuming all entities will have the hardcoded paths
+		// Setup nodes
+		// assuming all entities will have the hardcoded paths
+		Label = GetNodeOrNull<Label>("Label");
+		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
 		ParentRaycastsWallLeft = GetNodeOrNull<Node>("Raycasts/Wall/Left");
 		ParentRaycastsWallRight = GetNodeOrNull<Node>("Raycasts/Wall/Right");
 		ParentRaycastsCliffLeft = GetNodeOrNull<Node>("Raycasts/Cliff/Left");

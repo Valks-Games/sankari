@@ -1,32 +1,14 @@
 ﻿namespace Sankari;
 
-public interface IEntityJumpable : IEntityMovement
+public class EntityCommandGroundJump : EntityCommand<Entity>
 {
-}
-
-public interface IEntityGroundJumpable : IEntityJumpable
-{
-	bool IsFalling();
-}
-
-public class EntityCommandGroundJump : EntityCommand<IEntityGroundJumpable>
-{
-	#region Configuration
-
-	// Force applies when jumping
-	public int JumpForce { get; set; } = 600;
-
-	// Max number of Jumps
-	public int MaxJumps { get; set; } = 1;
-
-	// Allow mid air jumping
-	public bool AllowAirJumps { get; set; } = false;
-
-	#endregion
+	public int JumpForce { get; set; } = 600; // Force applies when jumping
+	public int MaxJumps { get; set; } = 1; // Max number of Jumps
+	public bool AllowAirJumps { get; set; } = false; // Allow mid air jumping
 
 	private int JumpCount { get; set; }
 
-	public EntityCommandGroundJump(IEntityGroundJumpable entity) : base(entity) { }
+	public EntityCommandGroundJump(Entity entity) : base(entity) { }
 
 	public override void Update(float delta)
 	{

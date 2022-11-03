@@ -10,27 +10,6 @@ public enum EntityCommandType
 	MidAirJump
 }
 
-public interface IEntityMoveable : IEntityBase
-{
-	// Velocity of the entity
-	public Vector2 Velocity { get; set; }
-
-	// Position in the world
-	public Vector2 GlobalPosition { get; set; }
-
-	// Connection to the game world
-	public Window Tree { get; }
-
-	// Whether gravity is enabled or not
-	public bool GravityEnabled { get; set; }
-
-	// Assuming all movable entities have a animated sprite
-	public AnimatedSprite2D AnimatedSprite { get; set; }
-
-	// Checks if the entity is on the ground
-	public bool IsNearGround();
-}
-
 public abstract class EntityCommand
 {
 	/// <summary>

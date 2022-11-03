@@ -11,15 +11,7 @@ public enum EntityAnimationType
 	Dash
 }
 
-public interface IEntityAnimation : IEntityBase
-{
-	public Dictionary<EntityAnimationType, EntityAnimation> Animations   { get; }
-	public Dictionary<EntityCommandType, EntityCommand>     Commands     { get; }
-	public EntityAnimationType                              CurrentAnimation   { get; set; }
-	public AnimatedSprite2D                                 AnimatedSprite     { get; }
-}
-
-public abstract class EntityAnimation<T> : EntityAnimation where T : IEntityAnimation
+public abstract class EntityAnimation<T> : EntityAnimation where T : Entity
 {
 	protected T Entity { get; set; }
 

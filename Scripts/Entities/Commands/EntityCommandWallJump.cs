@@ -1,40 +1,11 @@
 ﻿namespace Sankari;
 
-public interface IEntityWallJumpable : IEntityMoveable
+public class EntityCommandWallJump : EntityCommand<Entity>
 {
-	// Left wall checks
-	public List<RayCast2D> RaycastsWallLeft { get; }
-
-	// Right wall checks
-	public List<RayCast2D> RaycastsWallRight { get; }
-
-	// Is entity within wall jump-able area
-	public bool InWallJumpArea { get; }
-
-	// Max speed due to gravity
-	public int ModGravityMaxSpeed { get; set; }
-
-	// Is the entity falling?
-	public bool IsFalling();
-}
-
-public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
-{
-	#region Configuration
-
-	// Horizontal wall jump force
-	public int JumpForceWallHorz { get; set; } = 800;
-
-	// Vertical wall jump force
-	public int JumpForceWallVert { get; set; } = 500;
-
-	// Sliding force downwards
-	public int MaxGravitySpeedSliding { get; set; } = 20;
-
-	// Fast sliding force downwards
-	public int MaxGravitySpeedSlidingFast { get; set; } = 220;
-
-	#endregion
+	public int JumpForceWallHorz { get; set; } = 800; // Horizontal wall jump force
+	public int JumpForceWallVert { get; set; } = 500; // Vertical wall jump force
+	public int MaxGravitySpeedSliding { get; set; } = 20; // Sliding force downwards
+	public int MaxGravitySpeedSlidingFast { get; set; } = 220; // Fast sliding force downwards
 
 	public event EventHandler WallJump;
 	private int previousWallOnJump;
@@ -42,7 +13,7 @@ public class EntityCommandWallJump : EntityCommand<IEntityWallJumpable>
 	private float previousXDir;
 	private int wallDir;
 
-	public EntityCommandWallJump(IEntityWallJumpable entity) : base(entity) { }
+	public EntityCommandWallJump(Entity entity) : base(entity) { }
 
 	public override void Start()
 	{

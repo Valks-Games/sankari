@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
+public partial class BasicEnemy : Entity, IEntity
 {
 	[Export] public float Speed { get; set; } = 40;
 	[Export] public bool Active { get; set; } = true;
@@ -10,7 +10,6 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 	public override int Gravity { get; set; } = 300;
 	public override int MaxSpeedWalk { get; set; } = 100;
 
-	public AnimatedSprite2D AnimatedSprite { get; set; }
 	private bool MovingForward { get; set; }
 
 	public override void Init()

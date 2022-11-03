@@ -1,28 +1,15 @@
 namespace Sankari;
 
-public interface IPlayerAnimations : IEntityAnimationDash, IEntityAnimation
-{ }
-
-public interface IPlayerCommands : IEntityDash, IEntityWallJumpable, IEntityGroundJumpable, IEntityMovement
-{ }
-
-public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
+public partial class Player : Entity
 {
 	// Static
 	public static Vector2 RespawnPosition { get; set; }
 
 	public static bool HasTouchedCheckpoint { get; set; }
 
-	// IEntityJumpable
-	public bool InWallJumpArea { get; set; }
-
 	// IEntityDash
 	public bool CurrentlyDashing { get; set; }
 
-	// IEntityAnimation
-	public AnimatedSprite2D AnimatedSprite { get; set; }
-
-	// Not in a interface
 	public GTimer        TimerNetSend                       { get; set; }
 	public LevelScene    LevelScene                         { get; set; }
 	public Vector2       PrevNetPos                         { get; set; }
@@ -54,7 +41,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 			Position = GameManager.PlayerManager.RespawnPosition;
 
 		TimerNetSend   = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
-		AnimatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		DieTween       = new GTween(this);
 		Timers         = new GTimers(this);
 

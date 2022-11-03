@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class Slime : CharacterBody2D, IEnemy
+public partial class Slime : CharacterBody2D
 {
     private float Gravity { get; set; } = 250f;
     private bool Jumping { get; set; }

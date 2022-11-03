@@ -1,28 +1,12 @@
 ﻿namespace Sankari;
 
-public interface IEntityDash : IEntityMoveable
+public class EntityCommandDash : EntityCommand<Entity>
 {
-
-}
-
-public class EntityCommandDash : EntityCommand<IEntityDash>
-{
-	#region Configuration
-	// Max number of allowed dashes before needing to be reset
-	public int     MaxDashes         { get; set; } = 1;
-
-	// How long before dashing is available again
-	public int     DashCooldown      { get; set; }	= 1400;
-
-	// How long the dash lasts for
-	public int     DashDuration      { get; set; }	= 200;
-
-	// Vertical dash speed
-	public int SpeedDashVertical     { get; set; } = 400;
-
-	// Horizontal dash speed
-	public int SpeedDashHorizontal   { get; set; } = 600;
-	#endregion
+	public int     MaxDashes         { get; set; } = 1; // Max number of allowed dashes before needing to be reset
+	public int     DashCooldown      { get; set; }	= 1400; // How long before dashing is available again
+	public int     DashDuration      { get; set; }	= 200; // How long the dash lasts for
+	public int SpeedDashVertical     { get; set; } = 400; // Vertical dash speed
+	public int SpeedDashHorizontal   { get; set; } = 600; // Horizontal dash speed
 
 	public event    EventHandler DashDurationDone;
 	public bool     CurrentlyDashing  { get; protected set; } = false;
@@ -33,7 +17,7 @@ public class EntityCommandDash : EntityCommand<IEntityDash>
 	private GTimer  TimerDashCooldown { get; set; }
 	private GTimer  TimerDashDuration { get; set; }
 
-	public EntityCommandDash(IEntityDash entity) : base(entity) { }
+	public EntityCommandDash(Entity entity) : base(entity) { }
 
 	public override void Initialize()
 	{

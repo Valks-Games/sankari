@@ -1,12 +1,10 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpStart : EntityAnimation<IEntityAnimation>
+public class EntityAnimationJumpStart : EntityAnimation<Entity>
 {
 	private GTimer TimerDontCheckOnGround;
 
-	public EntityAnimationJumpStart(IEntityAnimation entity) : base(entity)
-	{
-	}
+	public EntityAnimationJumpStart(Entity entity) : base(entity) { }
 
 	public override void EnterState()
 	{
