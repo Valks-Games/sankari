@@ -50,6 +50,6 @@ public class EntityAnimationIdle : EntityAnimation<MovingEntity>
 
 	public override void ExitState()
 	{
-		
+		Entity.Jump -= OnJump;
 	}
 }
