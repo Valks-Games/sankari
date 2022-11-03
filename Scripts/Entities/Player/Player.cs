@@ -40,7 +40,6 @@ public partial class Player : MovingEntity
 
 		TimerNetSend   = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, true, Net.IsMultiplayer());
 		DieTween       = new GTween(this);
-		Timers         = new GTimers(this);
 
 		// dont go under platform at the end of a dash for X ms
 		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;

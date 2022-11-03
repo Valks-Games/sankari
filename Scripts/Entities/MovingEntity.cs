@@ -25,7 +25,6 @@ public abstract partial class MovingEntity : CharacterBody2D
 	public bool InWallJumpArea { get; set; }
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 
-
 	/// <summary>
 	/// All commands for an entity call Initialize() for first frame and Update() and UpdateAir() every frame
 	/// </summary>
@@ -63,11 +62,13 @@ public abstract partial class MovingEntity : CharacterBody2D
 	protected int gravityMaxSpeed = 1200;
 	private GTimer immunityTimer; // the timer for immunity
 	private int damageTakenForce = 300;
+	public event EventHandler Jump;
 
 	sealed public override void _Ready()
 	{
 		Tree = GetTree().Root;
 		MaxSpeed = MaxSpeedWalk;
+		Timers = new GTimers(this);
 
 		// The up direction must be defined in order for the FloorSnapLength
 		// to work properly. A direction of up means gravity goes down and
@@ -214,6 +215,11 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 	public virtual void Kill() { }
 
+	protected virtual void OnJump()
+	{
+		Jump?.Invoke(this, EventArgs.Empty);
+	}
+
 	private void OnImmunityTimerFinished() 
 	{
 		if (InDamageZone)
@@ -332,4 +338,6 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 		return default(TCommand);
 	}
+
+	public override string ToString() => Name;
 }
