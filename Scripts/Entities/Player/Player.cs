@@ -37,7 +37,6 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 
 	public override void Init()
 	{
-		Commands[EntityCommandType.Movement]      = new EntityCommandMovement(this);
 		Commands[EntityCommandType.Dash]          = new EntityCommandDash(this);
 		Commands[EntityCommandType.WallJump]      = new EntityCommandWallJump(this);
 		Commands[EntityCommandType.GroundJump]    = new EntityCommandGroundJump(this);
@@ -97,9 +96,15 @@ public partial class Player : Entity, IPlayerAnimations, IPlayerCommands
 	public override void UpdateGround()
 	{
 		if (PlayerInput.IsSprint)
+		{
+			MaxSpeed = MaxSpeedSprint;
 			Commands.Values.ForEach(cmd => cmd.UpdateGroundSprinting(Delta));
+		}
 		else
+		{
+			MaxSpeed = MaxSpeedWalk;
 			Commands.Values.ForEach(cmd => cmd.UpdateGroundWalking(Delta));
+		}
 	}
 
 	public override void UpdateAir()

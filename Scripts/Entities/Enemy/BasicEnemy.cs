@@ -8,6 +8,8 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 	public override int AccelerationGround { get; set; } = 30;
 	public override int Gravity { get; set; } = 300;
+	public override int MaxSpeedWalk { get; set; } = 100;
+
 	public AnimatedSprite2D AnimatedSprite { get; set; }
 	private bool MovingForward { get; set; }
 
@@ -30,13 +32,8 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 		}
 
 		FloorStopOnSlope = false;
-		
-		Commands[EntityCommandType.Movement] = new EntityCommandMovement(this) 
-		{
-			MaxSpeedWalk = 100
-		};
 
-		Label.Visible = true;
+		//Label.Visible = true;
 	}
 
 	public override void UpdatePhysics()

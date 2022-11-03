@@ -3,16 +3,24 @@
 public abstract partial class Entity : CharacterBody2D
 {
 	[Export] public bool DontCollideWithWall { get; set; } // should this entity care about wall collisions?
-	[Export] public bool FallOffCliff { get; set; } // should this entity keep moving forward when near a cliff?
-	[Export] public bool Debug { get; set; } // there are many entities, this will help debug specific entities since this value can be set per entity through the inspector in the editor
+	[Export] public bool FallOffCliff        { get; set; } // should this entity keep moving forward when near a cliff?
+	[Export] public bool Debug               { get; set; } // there are many entities, this will help debug specific entities since this value can be set per entity through the inspector in the editor
 
 	public Vector2 MoveDir { get; protected set; } // the direction this entity is currently moving
 
-	public virtual bool GravityEnabled { get; set; } = true; // should this entity be affected by gravity?
-	public virtual int Gravity { get; set; } = 1200; // the gravity of the entity
+	public virtual bool GravityEnabled    { get; set; } = true; // should this entity be affected by gravity?
+	public virtual int Gravity            { get; set; } = 1200; // the gravity of the entity
 	public virtual int ModGravityMaxSpeed { get; set; } = 1200; // ???
-	public virtual int AccelerationGround { get; set; } = 50; // the ground acceleration of the entity
-	public virtual int ImmunityMs { get; set; } = 500; // the immunity time in milliseconds after getting hit
+	public virtual int AccelerationGround { get; set; } = 50;   // the ground acceleration of the entity
+	public virtual int ImmunityMs         { get; set; } = 500;  // the immunity time in milliseconds after getting hit
+	public virtual int MaxSpeedWalk       { get; set; } = 350;
+	public virtual int MaxSpeedSprint     { get; set; } = 500;
+	public virtual int MaxSpeedAir        { get; set; } = 350;
+	public virtual int AirAcceleration    { get; set; } = 30;
+	public virtual int DampeningAir       { get; set; } = 10;
+	public virtual int DampeningGround    { get; set; } = 25;
+
+	public int MaxSpeed { get; set; }
 
 
 	/// <summary>
@@ -30,7 +38,7 @@ public abstract partial class Entity : CharacterBody2D
 	public Label Label { get; set; } // a label used for mostly debugging information displayed above the entity in-game but can also be used for other thing
 	public float Delta { get; protected set; } // the delta from _PhysicsProcess(double delta) converted to a float
 	public GTimers Timers { get; set; } // a convience property to help with the initialization of timers
-	public bool HaltLogic { get; private set; } // used to see if _PhysicsProcess() was halted or not
+	public bool HaltLogic { get; set; } // used to see if _PhysicsProcess() was halted or not
 	public bool InDamageZone { get; set; } // the entity is in a damage zone or not
 	public Window Tree { get; set; }
 
@@ -56,6 +64,7 @@ public abstract partial class Entity : CharacterBody2D
 	sealed public override void _Ready()
 	{
 		Tree = GetTree().Root;
+		MaxSpeed = MaxSpeedWalk;
 
 		// The up direction must be defined in order for the FloorSnapLength
 		// to work properly. A direction of up means gravity goes down and
@@ -113,22 +122,26 @@ public abstract partial class Entity : CharacterBody2D
 		PrepareRaycasts(ParentRaycastsCliffRight, RaycastsCliffRight);
 		PrepareRaycasts(ParentRaycastsGround, RaycastsGround);
 
-		// Do not check for cliffs if FallOffCliff is set to true
+		// do not check for cliffs if FallOffCliff is set to true
 		if (FallOffCliff)
 		{
 			SetRaycastsEnabled(RaycastsCliffLeft, false);
 			SetRaycastsEnabled(RaycastsCliffRight, false);
 		}
 
-		// Do not collide with walls if DontCollideWithWall is set to true
+		// do not collide with walls if DontCollideWithWall is set to true
 		if (DontCollideWithWall)
 		{
 			SetRaycastsEnabled(RaycastsWallLeft, false);
 			SetRaycastsEnabled(RaycastsWallRight, false);
 		}
 		
-		// All entities will use Init() instead of _Ready()
+		// all entities will use Init() instead of _Ready()
 		Init();
+
+		// if these are equal to each other then the player movement will not work as expected
+		if (AccelerationGround == DampeningGround)
+			DampeningGround -= 1;
 		
 		Commands.Values.ForEach(cmd => cmd.Initialize());
 		Animations[EntityAnimationType.None] = new EntityAnimationNone();
@@ -142,7 +155,7 @@ public abstract partial class Entity : CharacterBody2D
 		ModGravityMaxSpeed = gravityMaxSpeed; // ???
 		Delta = (float)delta; // convert Delta to a float as most Godot functions require float inputs
 
-		// All entities will use UpdatePhysics() instead of _PhysicsProcess(double delta)
+		// all entities will use UpdatePhysics() instead of _PhysicsProcess(double delta)
 		UpdatePhysics();
 
 		Animations[CurrentAnimation].UpdateState();
@@ -156,12 +169,22 @@ public abstract partial class Entity : CharacterBody2D
 
 		if (IsNearGround())
 		{
-			Velocity = Velocity + new Vector2(MoveDir.x * AccelerationGround, 0);
+			var velocity = Velocity;
+			velocity.x += MoveDir.x * AccelerationGround;
+			velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeed);
+			Velocity = velocity;
+
 			UpdateGround();
 		}
 		else
 		{
+			var velocity = Velocity;
+			velocity.x += MoveDir.x * AirAcceleration;
+			velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeedAir);
+			Velocity = velocity;
+
 			UpdateAir();
+
 			Commands.Values.ForEach(cmd => cmd.UpdateAir(Delta));
 		}
 
@@ -186,6 +209,16 @@ public abstract partial class Entity : CharacterBody2D
 	{
 		if (InDamageZone)
 			TakenDamage(1, 1); // not sure how to input "side" here
+	}
+
+	protected float ClampAndDampen(float horzVelocity, int dampening, int maxSpeedGround) 
+	{
+		if (Mathf.Abs(horzVelocity) <= dampening)
+			return 0;
+		else if (horzVelocity > 0)
+			return Mathf.Min(horzVelocity - dampening, maxSpeedGround);
+		else
+			return Mathf.Max(horzVelocity + dampening, -maxSpeedGround);
 	}
 
 	public void TakenDamage(int side, int damage)
