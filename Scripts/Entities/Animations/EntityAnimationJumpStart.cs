@@ -23,7 +23,6 @@ public class EntityAnimationJumpStart : EntityAnimation<MovingEntity>
 		// JumpStart -> JumpFall
 		// JumpStart -> Dash
 
-
 		if (Entity.IsFalling())
 		{
 			SwitchState(EntityAnimationType.JumpFall);
