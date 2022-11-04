@@ -12,7 +12,7 @@ public class GTween
         Tween.Stop();
     }
 
-	public void Callback(Action action) => Tween.TweenCallback(action);
+	public void Callback(string methodName) => Tween.TweenCallback(new Callable(Target, methodName));
 
     /// <summary>
     /// Hover over the property in the editor to get the string value of that property.

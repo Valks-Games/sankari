@@ -9,9 +9,9 @@ public class MovingEntityCommandDash : EntityCommand<MovingEntity>
 	public int SpeedDashHorizontal   { get; set; } = 600; // Horizontal dash speed
 
 	public event    EventHandler DashDurationDone;
-	public bool     CurrentlyDashing  { get; protected set; } = false;
+	public bool     CurrentlyDashing  { get; set; } = false;
 	public bool     DashReady         { get; set; } = true;
-	private int     DashCount         { get; set; }
+	public int      DashCount         { get; set; }
 	private Vector2 DashDir           { get; set; }
 	private bool    HorizontalDash    { get; set; }
 	private GTimer  TimerDashCooldown { get; set; }
@@ -21,10 +21,10 @@ public class MovingEntityCommandDash : EntityCommand<MovingEntity>
 
 	public override void Initialize()
 	{
-		TimerDashCooldown = Entity.Timers.CreateTimer(new Callable(OnDashReady), DashCooldown, false);
+		TimerDashCooldown = Entity.Timers.CreateTimer(nameof(Entity.OnDashReady), DashCooldown, false);
 		TimerDashCooldown.Loop = false;
 
-		TimerDashDuration = Entity.Timers.CreateTimer(new Callable(OnDashDurationDone), DashDuration, false);
+		TimerDashDuration = Entity.Timers.CreateTimer(nameof(Entity.OnDashDurationDone), DashDuration, false);
 		TimerDashDuration.Loop = false;
 	}
 
@@ -99,19 +99,5 @@ public class MovingEntityCommandDash : EntityCommand<MovingEntity>
 			HorizontalDash = true;
 
 		return new Vector2(x, y);
-	}
-
-	private void OnDashReady()
-	{
-		Audio.PlaySFX("dash_replenish");
-		DashCount = 0; // temporary fix
-		DashReady = true;
-	}
-
-	private void OnDashDurationDone()
-	{
-		CurrentlyDashing = false;
-		Entity.GravityEnabled = true;
-		DashDurationDone?.Invoke(this, EventArgs.Empty);
 	}
 }

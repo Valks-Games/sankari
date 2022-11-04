@@ -50,39 +50,6 @@ public class PlayerCommandDeath : EntityCommand<Player>
 		);
 
 		Entity.DieTween.Start();
-		Entity.DieTween.Callback(() => OnDieTweenCompleted());
-	}
-
-	private async void OnDieTweenCompleted()
-	{
-		if (GameManager.PlayerManager.RemoveLife())
-		{
-			await GameManager.Transition.AlphaToBlack();
-			await Task.Delay(1000);
-			GameManager.LevelUI.ShowLives();
-			await Task.Delay(1750);
-			GameManager.LevelUI.SetLabelLives(GameManager.PlayerManager.Lives);
-			await Task.Delay(1000);
-			await GameManager.LevelUI.HideLivesTransition();
-			await Task.Delay(250);
-			GameManager.LevelUI.AddHealth(6);
-			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
-			GameManager.Transition.BlackToAlpha();
-			Entity.HaltLogic = false;
-			LevelManager.LoadLevelFast();
-			Entity.LevelScene.Camera.StartFollowingPlayer();
-		}
-		else
-		{
-			GameManager.PlayerManager.ResetCoins();
-			await GameManager.Transition.AlphaToBlack();
-			await Task.Delay(1000);
-			GameManager.LevelUI.ShowGameOver();
-			await Task.Delay(1750);
-			GameManager.LoadMap();
-			GameManager.Transition.BlackToAlpha();
-			GameManager.LevelUI.HideGameOver();
-			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
-		}
+		Entity.DieTween.Callback(nameof(Entity.OnDieTweenCompleted));
 	}
 }

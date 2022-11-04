@@ -9,7 +9,7 @@ public class GTimers
 	public GTimer CreateTimer(int delayMS, bool autoStart = true) =>
 		new GTimer(Node, delayMS, autoStart);
 
-	public GTimer CreateTimer(Callable callable, int delayMS, bool autoStart = true) =>
-		new GTimer(Node, callable, delayMS, autoStart);
+	public GTimer CreateTimer(string methodName, int delayMS, bool autoStart = true) =>
+		new GTimer(Node, methodName, delayMS, autoStart);
 }
 

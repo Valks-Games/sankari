@@ -101,7 +101,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 		// Does not seem to have any effect if this is either true or false
 		SlideOnCeiling = true;
 
-		immunityTimer = new GTimer(this, new Callable(OnImmunityTimerFinished), ImmunityMs, false)
+		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false)
 		{
 			Loop = false
 		};
@@ -227,6 +227,20 @@ public abstract partial class MovingEntity : CharacterBody2D
 	{
 		if (InDamageZone)
 			TakenDamage(1, 1); // not sure how to input "side" here
+	}
+
+	public void OnDashReady()
+	{
+		Audio.PlaySFX("dash_replenish");
+		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashCount = 0; // temporary fix
+		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady = true;
+	}
+
+	public void OnDashDurationDone()
+	{
+		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).CurrentlyDashing = false;
+		GravityEnabled = true;
+		//GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashDurationDone?.Invoke(this, EventArgs.Empty);
 	}
 
 	protected float ClampAndDampen(float horzVelocity, int dampening, int maxSpeedGround) 

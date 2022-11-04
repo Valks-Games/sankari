@@ -38,7 +38,7 @@ public partial class Player : MovingEntity
 		if (GameManager.PlayerManager.ActiveCheckpoint)
 			Position = GameManager.PlayerManager.RespawnPosition;
 
-		TimerNetSend = new GTimer(this, new Callable(NetUpdate), NetIntervals.HEARTBEAT, Net.IsMultiplayer())
+		TimerNetSend = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, Net.IsMultiplayer())
 		{
 			Loop = true
 		};
@@ -54,7 +54,7 @@ public partial class Player : MovingEntity
 			Loop = false
 		};
 
-		PreventMovementTimer = new GTimer(this, new Callable(PreventMovementFinished), 50, false)
+		PreventMovementTimer = new GTimer(this, nameof(PreventMovementFinished), 50, false)
 		{
 			Loop = false
 		};
@@ -190,5 +190,38 @@ public partial class Player : MovingEntity
 		HaltLogic = true;
 		await LevelManager.CompleteLevel(LevelManager.CurrentLevel);
 		HaltLogic = false;
+	}
+
+	public async void OnDieTweenCompleted()
+	{
+		if (GameManager.PlayerManager.RemoveLife())
+		{
+			await GameManager.Transition.AlphaToBlack();
+			await Task.Delay(1000);
+			GameManager.LevelUI.ShowLives();
+			await Task.Delay(1750);
+			GameManager.LevelUI.SetLabelLives(GameManager.PlayerManager.Lives);
+			await Task.Delay(1000);
+			await GameManager.LevelUI.HideLivesTransition();
+			await Task.Delay(250);
+			GameManager.LevelUI.AddHealth(6);
+			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
+			GameManager.Transition.BlackToAlpha();
+			HaltLogic = false;
+			LevelManager.LoadLevelFast();
+			LevelScene.Camera.StartFollowingPlayer();
+		}
+		else
+		{
+			GameManager.PlayerManager.ResetCoins();
+			await GameManager.Transition.AlphaToBlack();
+			await Task.Delay(1000);
+			GameManager.LevelUI.ShowGameOver();
+			await Task.Delay(1750);
+			GameManager.LoadMap();
+			GameManager.Transition.BlackToAlpha();
+			GameManager.LevelUI.HideGameOver();
+			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
+		}
 	}
 }
