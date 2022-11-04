@@ -335,7 +335,7 @@ scale = Vector2(1.23333, 1.23333)
 frames = SubResource("73")
 
 [node name="Padding Left" type="Control" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
-custom_minimum_size = Vector2i(25, 0)
+custom_minimum_size = Vector2(25, 0)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 25.0

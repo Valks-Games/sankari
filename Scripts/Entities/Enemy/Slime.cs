@@ -68,4 +68,10 @@ public partial class Slime : MovingEntity
     {
 		canJump = true;
     }
+
+	private void _on_enemy_area_entered(Area2D area)
+	{
+		if (area.GetParent() is Player player)
+			player.TakenDamage(1, 1);
+	}
 }

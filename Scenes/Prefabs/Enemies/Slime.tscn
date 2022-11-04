@@ -95,3 +95,5 @@ shape = SubResource("11")
 scale = Vector2(2, 2)
 frames = SubResource("SpriteFrames_q0yui")
 animation = &"idle"
+
+[connection signal="area_entered" from="Enemy" to="." method="_on_enemy_area_entered"]

@@ -1,19 +1,23 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://bv7vl6hp8o7ui"]
 
-[ext_resource path="res://Sprites/Level/spike.png" type="Texture2D" id=1]
+[ext_resource type="Texture2D" uid="uid://dcmlh7lf5ilf1" path="res://Sprites/Level/spike.png" id="1"]
+[ext_resource type="Script" path="res://Scripts/Entities/Enemy/Spike.cs" id="1_4l8ai"]
 
-[sub_resource type="RectangleShape2D" id=38]
-extents = Vector2( 28, 10 )
+[sub_resource type="RectangleShape2D" id="38"]
+size = Vector2(56, 20)
 
 [node name="Spike" type="Node2D"]
+script = ExtResource("1_4l8ai")
 
 [node name="Area2D" type="Area2D" parent="." groups=["Killzone"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 0, -10 )
-shape = SubResource( 38 )
+position = Vector2(0, -10)
+shape = SubResource("38")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2( 0, -32 )
-scale = Vector2( 4, 4 )
-texture = ExtResource( 1 )
+position = Vector2(0, -32)
+scale = Vector2(4, 4)
+texture = ExtResource("1")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
