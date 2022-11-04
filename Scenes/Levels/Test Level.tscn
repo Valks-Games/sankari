@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/Entities/Level/WallJumpArea.cs" id="3_1jdq3"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Killzone.cs" id="3_722fj"]
 [ext_resource type="PackedScene" uid="uid://k3c0v1nsfid8" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="3_vjv6q"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/Spike.tscn" id="5_bfsgh"]
+[ext_resource type="PackedScene" uid="uid://bv7vl6hp8o7ui" path="res://Scenes/Prefabs/Enemies/Spike.tscn" id="5_bfsgh"]
 [ext_resource type="PackedScene" uid="uid://dgkrwp1kmh5v3" path="res://Scenes/Prefabs/Enemies/Slime.tscn" id="8_o4uh1"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgodp"]

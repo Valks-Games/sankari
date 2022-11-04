@@ -1263,7 +1263,6 @@ scale = Vector2(2, 2)
 [node name="Enemy12" parent="Environment/Enemies" instance=ExtResource("5")]
 position = Vector2(4888, 488)
 scale = Vector2(6, 6)
-Speed = 120.0
 Active = false
 DontCollideWithWall = true
 FallOffCliff = true
@@ -1271,7 +1270,6 @@ FallOffCliff = true
 [node name="Enemy16" parent="Environment/Enemies" instance=ExtResource("5")]
 position = Vector2(5868, 532)
 scale = Vector2(3, 3)
-Speed = 300.0
 Active = false
 DontCollideWithWall = true
 FallOffCliff = true
@@ -1279,7 +1277,6 @@ FallOffCliff = true
 [node name="Enemy17" parent="Environment/Enemies" instance=ExtResource("5")]
 position = Vector2(6000, 516)
 scale = Vector2(4, 4)
-Speed = 200.0
 Active = false
 DontCollideWithWall = true
 FallOffCliff = true
@@ -1287,23 +1284,22 @@ FallOffCliff = true
 [node name="Enemy18" parent="Environment/Enemies" instance=ExtResource("5")]
 position = Vector2(6164, 500)
 scale = Vector2(5, 5)
-Speed = 100.0
 Active = false
 DontCollideWithWall = true
 FallOffCliff = true
 
 [node name="Enemy19" parent="Environment/Enemies" instance=ExtResource("5")]
-position = Vector2(5526, 357)
+position = Vector2(5576, 353)
 scale = Vector2(2, 2)
 DontCollideWithWall = true
 
 [node name="Enemy20" parent="Environment/Enemies" instance=ExtResource("5")]
-position = Vector2(5808, 356)
+position = Vector2(5850, 353)
 scale = Vector2(2, 2)
 DontCollideWithWall = true
 
 [node name="Enemy21" parent="Environment/Enemies" instance=ExtResource("5")]
-position = Vector2(6048, 356)
+position = Vector2(6092, 354)
 scale = Vector2(2, 2)
 DontCollideWithWall = true
 
@@ -1339,7 +1335,7 @@ text = "Jump!"
 position = Vector2(3380, 584)
 
 [node name="Player" parent="." instance=ExtResource("2")]
-position = Vector2(5154, 544)
+position = Vector2(129, 564)
 
 [node name="Level Finish" type="Area2D" parent="." groups=["Level Finish"]]
 script = ExtResource("12_o76mk")
