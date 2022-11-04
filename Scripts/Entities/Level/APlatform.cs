@@ -8,7 +8,7 @@ public abstract partial class APlatform : CharacterBody2D
 
 	public void Init()
 	{
-		Timer = new GTimer(this, new Callable(OnTimerUp), 400, false)
+		Timer = new GTimer(this, new Callable(this, nameof(OnTimerUp)), 400, false)
 		{
 			Loop = false
 		};
