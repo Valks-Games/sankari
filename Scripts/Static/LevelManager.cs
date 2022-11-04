@@ -83,7 +83,7 @@ public static class LevelManager
 			var curLevel = Levels[CurrentLevel];
 
 			Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
-			GameManager.LevelUI.AddHealth(6);
+			//GameManager.LevelUI.AddHealth(6); TODO
 			GameManager.LevelUI.Show();
 		}
 		else

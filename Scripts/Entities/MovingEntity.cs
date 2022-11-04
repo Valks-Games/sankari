@@ -58,10 +58,10 @@ public abstract partial class MovingEntity : CharacterBody2D
 	public List<RayCast2D> RaycastsCliffRight { get; set; } = new();
 	public List<RayCast2D> RaycastsGround { get; set; } = new();
 
-	// Why are these fields and not properties?
-	protected int gravityMaxSpeed = 1200;
-	private GTimer immunityTimer; // the timer for immunity
-	private int damageTakenForce = 300;
+	protected int GravityMaxSpeed { get; set; } = 1200;
+	protected GTimer ImmunityTimer { get; set; }
+	protected int DamageTakenForce { get; set; } = 300;
+
 	public event EventHandler Jump;
 
 	sealed public override void _Ready()
@@ -101,7 +101,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 		// Does not seem to have any effect if this is either true or false
 		SlideOnCeiling = true;
 
-		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false)
+		ImmunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false)
 		{
 			Loop = false
 		};
@@ -159,7 +159,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 		if (HaltLogic) // perhaps SetPhysicsProcess(false) should be used instead of this
 			return;
 
-		ModGravityMaxSpeed = gravityMaxSpeed; // ???
+		ModGravityMaxSpeed = GravityMaxSpeed; // ???
 		Delta = (float)delta; // convert Delta to a float as most Godot functions require float inputs
 
 		// all entities will use UpdatePhysics() instead of _PhysicsProcess(double delta)
@@ -225,8 +225,9 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 	private void OnImmunityTimerFinished() 
 	{
-		if (InDamageZone)
-			TakenDamage(1, 1); // not sure how to input "side" here
+		// TODO
+		//if (InDamageZone)
+			//TakenDamage(1, 1); // not sure how to input "side" here
 	}
 
 	public void OnDashReady()
@@ -251,30 +252,6 @@ public abstract partial class MovingEntity : CharacterBody2D
 			return Mathf.Min(horzVelocity - dampening, maxSpeedGround);
 		else
 			return Mathf.Max(horzVelocity + dampening, -maxSpeedGround);
-	}
-
-	public void TakenDamage(int side, int damage)
-	{
-		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero
-		if (GameManager.LevelUI.Health <= 0)
-			return;
-
-		if (immunityTimer.IsActive())
-			return;
-		else
-			immunityTimer.Start();
-
-		if (!GameManager.LevelUI.RemoveHealth(damage))
-			Kill();
-		else
-		{
-			Vector2 velocity;
-			Commands[EntityCommandType.Dash].Stop();
-
-			velocity.y = -damageTakenForce;
-			velocity.x = side * damageTakenForce;
-			Velocity = velocity;
-		}
 	}
 
 	public bool IsFalling() => Velocity.y > 0;

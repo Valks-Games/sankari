@@ -18,10 +18,19 @@ public partial class Player : MovingEntity
 	public GTimer        PreventMovementTimer               { get; set; }
 
 	private bool preventMovement = false;
+
+	// health
+	private Node HealthBar { get; set; }
+	private int HalfHearts { get; set; }
+	private int MaximumHealth { get; set; } = 6;
+
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 
 	public override void Init()
 	{
+		HealthBar = GameManager.LevelUI.HealthBar;
+		AddHealth(6);
+
 		Commands[EntityCommandType.Dash]          = new MovingEntityCommandDash(this);
 		Commands[EntityCommandType.WallJump]      = new MovingEntityCommandWallJump(this);
 		Commands[EntityCommandType.GroundJump]    = new MovingEntityCommandGroundJump(this);
@@ -46,7 +55,6 @@ public partial class Player : MovingEntity
 		DieTween = new GTween(this);
 
 		// dont go under platform at the end of a dash for X ms
-		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashDurationDone += OnDashDone;
 		GetCommandClass<MovingEntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
 
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false)
@@ -204,7 +212,6 @@ public partial class Player : MovingEntity
 			await Task.Delay(1000);
 			await GameManager.LevelUI.HideLivesTransition();
 			await Task.Delay(250);
-			GameManager.LevelUI.AddHealth(6);
 			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
 			GameManager.Transition.BlackToAlpha();
 			HaltLogic = false;
@@ -223,5 +230,77 @@ public partial class Player : MovingEntity
 			GameManager.LevelUI.HideGameOver();
 			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
 		}
+	}
+
+	public void TakenDamage(int side, int damage)
+	{
+		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero
+		if (HalfHearts <= 0)
+			return;
+
+		if (ImmunityTimer.IsActive())
+			return;
+		else
+			ImmunityTimer.Start();
+
+		RemoveHealth(damage);
+
+		if (HalfHearts == 0)
+			Kill();
+		else
+		{
+			Commands[EntityCommandType.Dash].Stop();
+			Velocity = new Vector2(side * DamageTakenForce, -DamageTakenForce);
+		}
+	}
+
+	/// <summary>
+	/// Add half hearts ensuring not to go over the MaximumHealth
+	/// </summary>
+	public void AddHealth(int v) => SetHealth(HalfHearts + Mathf.Min(MaximumHealth, v));
+
+	/// <summary>
+	/// Remove half hearts ensuring not to remove more than what the player does not have
+	/// </summary>
+	public void RemoveHealth(int v) => SetHealth(HalfHearts - Mathf.Min(HalfHearts, v));
+
+	/// <summary>
+	/// Set the number of half hearts
+	/// </summary>
+	public void SetHealth(int v)
+	{
+		HalfHearts = v;
+
+		HealthBar.QueueFreeChildren(); // clear all heart sprites
+
+		var fullHearts = v / 2;
+		var halfHearts = v % 2;
+
+		for (int i = 0; i < halfHearts; i++)
+			AddHeartSprite(Heart.Half);
+
+		for (int i = 0; i < fullHearts; i++)
+			AddHeartSprite(Heart.Full);
+	}
+
+	private enum Heart
+	{
+		Half,
+		Full
+	}
+
+	private void AddHeartSprite(Heart heart)
+	{
+		var heartTexture = heart == Heart.Half ? Textures.HalfHeart : Textures.FullHeart;
+
+		var textureRect = new TextureRect()
+		{
+			Texture = heartTexture,
+			IgnoreTextureSize = true,
+			CustomMinimumSize = new Vector2(50, 50),
+			StretchMode = TextureRect.StretchModeEnum.KeepAspect
+		};
+
+		HealthBar.AddChild(textureRect);
 	}
 }

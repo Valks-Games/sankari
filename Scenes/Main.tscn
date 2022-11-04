@@ -375,8 +375,10 @@ offset_bottom = 335.0
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_bottom = 40.0
+offset_left = -186.0
+offset_bottom = 50.0
 grow_horizontal = 0
+alignment = 2
 
 [node name="Game Over" type="HBoxContainer" parent="CanvasLayer/Level UI"]
 offset_left = 536.0

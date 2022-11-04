@@ -8,7 +8,6 @@ public class MovingEntityCommandDash : EntityCommand<MovingEntity>
 	public int SpeedDashVertical     { get; set; } = 400; // Vertical dash speed
 	public int SpeedDashHorizontal   { get; set; } = 600; // Horizontal dash speed
 
-	public event    EventHandler DashDurationDone;
 	public bool     CurrentlyDashing  { get; set; } = false;
 	public bool     DashReady         { get; set; } = true;
 	public int      DashCount         { get; set; }
