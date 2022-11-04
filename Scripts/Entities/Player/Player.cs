@@ -38,7 +38,7 @@ public partial class Player : MovingEntity
 		if (GameManager.PlayerManager.ActiveCheckpoint)
 			Position = GameManager.PlayerManager.RespawnPosition;
 
-		TimerNetSend = new GTimer(this, new Callable(this, nameof(NetUpdate)), NetIntervals.HEARTBEAT, Net.IsMultiplayer())
+		TimerNetSend = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, Net.IsMultiplayer())
 		{
 			Loop = true
 		};
@@ -54,7 +54,7 @@ public partial class Player : MovingEntity
 			Loop = false
 		};
 
-		PreventMovementTimer = new GTimer(this, new Callable(this, nameof(PreventMovementFinished)), 50, false)
+		PreventMovementTimer = new GTimer(this, nameof(PreventMovementFinished), 50, false)
 		{
 			Loop = false
 		};
