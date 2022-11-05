@@ -244,20 +244,26 @@ public partial class Player : MovingEntity
 	/// </summary>
 	public void RemoveHealth(int v)
 	{
+		// Do not take damage if immunity timer is active
 		if (ImmunityTimer.IsActive())
 			return;
-		else
-			ImmunityTimer.Start();
 
+		// Damage the player
 		SetHealth(HalfHearts - Mathf.Min(HalfHearts, v));
 
+		// Player has taken damage so start the immunity timer
+		ImmunityTimer.Start();
+
+		// If player has no health left, kill them
 		if (HalfHearts == 0)
-			Kill();
-		else
 		{
-			Commands[EntityCommandType.Dash].Stop();
-			Velocity = new Vector2(-MoveDir.x * DamageTakenForce, -DamageTakenForce);
+			Kill();
+			return;
 		}
+
+		// Stop any dashes in progress and apply a force in the opposite direction the player is moving
+		Commands[EntityCommandType.Dash].Stop();
+		Velocity = new Vector2(-MoveDir.x * DamageTakenForce, -DamageTakenForce);
 	}
 
 	/// <summary>
