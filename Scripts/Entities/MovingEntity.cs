@@ -67,7 +67,6 @@ public abstract partial class MovingEntity : CharacterBody2D
 	private bool TouchedGroundBool { get; set; }
 
 	public event EventHandler Jump;
-	public event EventHandler TouchedGround;
 
 	sealed public override void _Ready()
 	{
@@ -184,7 +183,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 			if (!TouchedGroundBool)
 			{
 				TouchedGroundBool = true;
-				TouchedGround?.Invoke(this, EventArgs.Empty);
+				TouchedGround();
 			}
 
 			if (ClampDampenGround)
@@ -230,6 +229,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 	public abstract void UpdatePhysics();
 
 	public virtual void Kill() { }
+	public virtual void TouchedGround() { }
 
 	protected virtual void OnJump()
 	{

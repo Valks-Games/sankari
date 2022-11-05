@@ -29,14 +29,7 @@ public partial class Slime : MovingEntity
         JumpTimer = new GTimer(this, nameof(OnJumpTimer), 2000, false) { Loop = false };
 
 		//Label.Visible = true;
-
-		TouchedGround += Slime_TouchedGround;
     }
-
-	private void Slime_TouchedGround(object sender, EventArgs e)
-	{
-		IdleTimer.Start();
-	}
 
 	public override void UpdatePhysics()
     {
@@ -71,6 +64,11 @@ public partial class Slime : MovingEntity
 			PreJumpTimer.Start();
 		}
     }
+
+	public override void TouchedGround()
+	{
+		IdleTimer.Start();
+	}
 
 	private void OnPreJumpTimer()
 	{
