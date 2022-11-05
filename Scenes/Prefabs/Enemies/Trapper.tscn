@@ -1,0 +1,101 @@
+[gd_scene load_steps=14 format=3 uid="uid://4apdyjcg3t4o"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Enemy/Trapper.cs" id="1_7povq"]
+[ext_resource type="Texture2D" uid="uid://vjdu4pa2u0x8" path="res://Sprites/Level/Enemies/trapper.png" id="1_p8rm6"]
+
+[sub_resource type="RectangleShape2D" id="12"]
+size = Vector2(30, 32)
+
+[sub_resource type="RectangleShape2D" id="11"]
+size = Vector2(28, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5g7c"]
+atlas = ExtResource("1_p8rm6")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2v8u"]
+atlas = ExtResource("1_p8rm6")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxc37"]
+atlas = ExtResource("1_p8rm6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ml11r"]
+atlas = ExtResource("1_p8rm6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lm72v"]
+atlas = ExtResource("1_p8rm6")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpina"]
+atlas = ExtResource("1_p8rm6")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwqgp"]
+atlas = ExtResource("1_p8rm6")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q0yui"]
+animations = [{
+"frames": [SubResource("AtlasTexture_k5g7c"), SubResource("AtlasTexture_b2v8u"), SubResource("AtlasTexture_pxc37")],
+"loop": false,
+"name": &"hide",
+"speed": 10.0
+}, {
+"frames": [SubResource("AtlasTexture_ml11r")],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [SubResource("AtlasTexture_lm72v"), SubResource("AtlasTexture_kpina"), SubResource("AtlasTexture_dwqgp")],
+"loop": false,
+"name": &"reveal",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xc6g3"]
+radius = 73.1095
+
+[node name="Trapper" type="StaticBody2D"]
+position = Vector2(124, 118)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_7povq")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -20.0
+offset_top = -38.0
+offset_right = 20.0
+offset_bottom = -15.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Damage" type="Area2D" parent="." groups=["Enemy"]]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Damage"]
+position = Vector2(0, 1)
+shape = SubResource("12")
+debug_color = Color(0.701961, 0.52549, 0.6, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+shape = SubResource("11")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+frames = SubResource("SpriteFrames_q0yui")
+animation = &"reveal"
+
+[node name="Detection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detection"]
+shape = SubResource("CircleShape2D_xc6g3")
+debug_color = Color(0, 0.6, 0.701961, 0.121569)
+
+[connection signal="area_entered" from="Damage" to="." method="_on_damage_area_entered"]
+[connection signal="area_entered" from="Detection" to="." method="_on_detection_area_entered"]
