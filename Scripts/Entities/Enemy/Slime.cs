@@ -6,10 +6,12 @@ public partial class Slime : MovingEntity
 	public override bool ClampDampen { get; set; } = false;
 
     private bool Jumping { get; set; }
+	private GTimer PreJumpTimer { get; set; }
     private GTimer JumpTimer { get; set; }
     private bool MovingForward { get; set; }
     private int WallHugTime { get; set; }
 	private bool CanJump { get; set; }
+	private bool StartedPreJump { get; set; }
 
     public override void Init()
     {
@@ -19,6 +21,11 @@ public partial class Slime : MovingEntity
 
 		AnimatedSprite.Animation = "idle";
 		CurrentAnimation = EntityAnimationType.Idle;
+
+		PreJumpTimer = new GTimer(this, nameof(OnPreJumpTimer), 400)
+		{
+			Loop = false
+		};
 
         JumpTimer = new GTimer(this, nameof(OnJumpTimer), 2000)
 		{
@@ -33,11 +40,9 @@ public partial class Slime : MovingEntity
 		Label.Text = "" + CurrentAnimation;
 
         if (IsOnFloor() && !Jumping)
-        {
 			Velocity = Vector2.Zero;
-        }
 
-        if (Jumping)
+        if (Jumping) // this seems unoptimal to check this every frame
             Jumping = false;
 
         if (IsOnWall())
@@ -48,18 +53,27 @@ public partial class Slime : MovingEntity
                 MovingForward = !MovingForward;
         }
 
-		if (IsOnFloor() && CanJump)
+		// this seems like it could be improved for performance, this is being checked every frame
+		if (IsOnFloor() && CanJump && !StartedPreJump)
 		{
-			CanJump = false;
-			OnJump();
-			Jumping = true;
-			WallHugTime = 0;
-
-			Velocity = Velocity + new Vector2(MovingForward ? 20 : -20, -300);
-
-			JumpTimer.Start();
+			StartedPreJump = true;
+			AnimatedSprite.Play("pre_jump_start");
+			PreJumpTimer.Start();
 		}
     }
+
+	private void OnPreJumpTimer()
+	{
+		StartedPreJump = false;
+		CanJump = false;
+		OnJump();
+		Jumping = true;
+		WallHugTime = 0;
+
+		Velocity = Velocity + new Vector2(MovingForward ? 20 : -20, -300);
+
+		JumpTimer.Start();
+	}
 
 	private void OnJumpTimer()
     {
