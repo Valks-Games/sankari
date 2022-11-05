@@ -105,7 +105,7 @@ public partial class BasicEnemy : MovingEntity, IEntity
 		if (area.IsInGroup("Player"))
 		{
 			var player = area.GetParent<Player>();
-			player.TakenDamage(player.GetCollisionSide(area), 1);
+			player.RemoveHealth(1);
 			player.InDamageZone = true;
 		}
 	}

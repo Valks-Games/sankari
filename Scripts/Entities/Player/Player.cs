@@ -1,3 +1,5 @@
+using Godot;
+
 namespace Sankari;
 
 public partial class Player : MovingEntity
@@ -232,28 +234,6 @@ public partial class Player : MovingEntity
 		}
 	}
 
-	public void TakenDamage(int side, int damage)
-	{
-		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero
-		if (HalfHearts <= 0)
-			return;
-
-		if (ImmunityTimer.IsActive())
-			return;
-		else
-			ImmunityTimer.Start();
-
-		RemoveHealth(damage);
-
-		if (HalfHearts == 0)
-			Kill();
-		else
-		{
-			Commands[EntityCommandType.Dash].Stop();
-			Velocity = new Vector2(side * DamageTakenForce, -DamageTakenForce);
-		}
-	}
-
 	/// <summary>
 	/// Add half hearts ensuring not to go over the MaximumHealth
 	/// </summary>
@@ -262,7 +242,23 @@ public partial class Player : MovingEntity
 	/// <summary>
 	/// Remove half hearts ensuring not to remove more than what the player does not have
 	/// </summary>
-	public void RemoveHealth(int v) => SetHealth(HalfHearts - Mathf.Min(HalfHearts, v));
+	public void RemoveHealth(int v)
+	{
+		if (ImmunityTimer.IsActive())
+			return;
+		else
+			ImmunityTimer.Start();
+
+		SetHealth(HalfHearts - Mathf.Min(HalfHearts, v));
+
+		if (HalfHearts == 0)
+			Kill();
+		else
+		{
+			Commands[EntityCommandType.Dash].Stop();
+			Velocity = new Vector2(-MoveDir.x * DamageTakenForce, -DamageTakenForce);
+		}
+	}
 
 	/// <summary>
 	/// Set the number of half hearts

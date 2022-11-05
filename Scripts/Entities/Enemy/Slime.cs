@@ -72,6 +72,6 @@ public partial class Slime : MovingEntity
 	private void _on_enemy_area_entered(Area2D area)
 	{
 		if (area.GetParent() is Player player)
-			player.TakenDamage(1, 1);
+			player.RemoveHealth(1);
 	}
 }
