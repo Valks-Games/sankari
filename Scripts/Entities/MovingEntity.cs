@@ -256,17 +256,6 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 	public bool IsFalling() => Velocity.y > 0;
 
-	// Checks from which side the collision occurred. -1 if is on the left, 1 on the right, 0 if neither
-	public int GetCollisionSide(Area2D area)
-	{
-		if (this.GlobalPosition.x < area.GlobalPosition.x)
-			return -1;
-		else if (this.GlobalPosition.x > area.GlobalPosition.x)
-			return 1;
-
-		return 0;
-	}
-
 	public bool IsNearGround() => AreRaycastsColliding(RaycastsGround, "Ground");
 	protected bool IsNearWallLeft() => AreRaycastsColliding(RaycastsWallLeft, "Wall Left");
 	protected bool IsNearWallRight() => AreRaycastsColliding(RaycastsWallRight, "Wall Right");
