@@ -10,6 +10,26 @@ public partial class Player : MovingEntity
 
 	public bool CurrentlyDashing { get; set; }
 
+	public override int HalfHearts 
+	{ 
+		get => base.HalfHearts; 
+		set 
+		{
+			base.HalfHearts = value;
+
+			HealthBar.QueueFreeChildren(); // clear all heart sprites
+
+			var fullHearts = value / 2;
+			var halfHearts = value % 2;
+
+			for (int i = 0; i < halfHearts; i++)
+				AddHeartSprite(Heart.Half);
+
+			for (int i = 0; i < fullHearts; i++)
+				AddHeartSprite(Heart.Full);
+		}
+	}
+
 	public GTimer        TimerNetSend                       { get; set; }
 	public LevelScene    LevelScene                         { get; set; }
 	public Vector2       PrevNetPos                         { get; set; }
@@ -23,15 +43,13 @@ public partial class Player : MovingEntity
 
 	// health
 	private Node HealthBar { get; set; }
-	private int HalfHearts { get; set; }
-	private int MaximumHealth { get; set; } = 6;
 
 	public void PreInit(LevelScene levelScene) => LevelScene = levelScene;
 
 	public override void Init()
 	{
 		HealthBar = GameManager.LevelUI.HealthBar;
-		AddHealth(6);
+		HalfHearts = 6;
 
 		Commands[EntityCommandType.Dash]          = new MovingEntityCommandDash(this);
 		Commands[EntityCommandType.WallJump]      = new MovingEntityCommandWallJump(this);
@@ -232,57 +250,6 @@ public partial class Player : MovingEntity
 			GameManager.LevelUI.HideGameOver();
 			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
 		}
-	}
-
-	/// <summary>
-	/// Add half hearts ensuring not to go over the MaximumHealth
-	/// </summary>
-	public void AddHealth(int v) => SetHealth(HalfHearts + Mathf.Min(MaximumHealth, v));
-
-	/// <summary>
-	/// Remove half hearts ensuring not to remove more than what the player does not have
-	/// </summary>
-	public void RemoveHealth(int v)
-	{
-		// Do not take damage if immunity timer is active
-		if (ImmunityTimer.IsActive())
-			return;
-
-		// Damage the player
-		SetHealth(HalfHearts - Mathf.Min(HalfHearts, v));
-
-		// Player has taken damage so start the immunity timer
-		ImmunityTimer.Start();
-
-		// If player has no health left, kill them
-		if (HalfHearts == 0)
-		{
-			Kill();
-			return;
-		}
-
-		// Stop any dashes in progress and apply a force in the opposite direction the player is moving
-		Commands[EntityCommandType.Dash].Stop();
-		Velocity = new Vector2(-MoveDir.x * DamageTakenForce, -DamageTakenForce);
-	}
-
-	/// <summary>
-	/// Set the number of half hearts
-	/// </summary>
-	public void SetHealth(int v)
-	{
-		HalfHearts = v;
-
-		HealthBar.QueueFreeChildren(); // clear all heart sprites
-
-		var fullHearts = v / 2;
-		var halfHearts = v % 2;
-
-		for (int i = 0; i < halfHearts; i++)
-			AddHeartSprite(Heart.Half);
-
-		for (int i = 0; i < fullHearts; i++)
-			AddHeartSprite(Heart.Full);
 	}
 
 	private enum Heart

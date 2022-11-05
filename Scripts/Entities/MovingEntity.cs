@@ -20,6 +20,8 @@ public abstract partial class MovingEntity : CharacterBody2D
 	public virtual int  DampeningAir       { get; set; } = 10;
 	public virtual int  DampeningGround    { get; set; } = 25;
 	public virtual bool ClampDampen        { get; set; } = true;
+	public virtual int  HalfHearts         { get; set; } = 6;
+	public virtual int  MaximumHealth      { get; set; } = 6;
 
 	public int MaxSpeed { get; set; }
 	public bool InWallJumpArea { get; set; }
@@ -225,9 +227,37 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 	private void OnImmunityTimerFinished() 
 	{
-		// TODO
-		//if (InDamageZone)
-			//TakenDamage(1, 1); // not sure how to input "side" here
+		if (InDamageZone)
+			RemoveHealth(1);
+	}
+
+	public virtual void AddHealth(int v)
+	{
+		HalfHearts = HalfHearts + Mathf.Min(MaximumHealth, v); // do not add health over maximum
+	}
+
+	public virtual void RemoveHealth(int v)
+	{
+		// Do not take damage if immunity timer is active
+		if (ImmunityTimer.IsActive())
+			return;
+
+		// Damage the player
+		HalfHearts = HalfHearts - Mathf.Min(HalfHearts, v); // do not take away more than what the entity does not have
+
+		// Player has taken damage so start the immunity timer
+		ImmunityTimer.Start();
+
+		// If player has no health left, kill them
+		if (HalfHearts == 0)
+		{
+			Kill();
+			return;
+		}
+
+		// Stop any dashes in progress and apply a force in the opposite direction the player is moving
+		Commands[EntityCommandType.Dash].Stop();
+		Velocity = new Vector2(-MoveDir.x * DamageTakenForce, -DamageTakenForce);
 	}
 
 	public void OnDashReady()
