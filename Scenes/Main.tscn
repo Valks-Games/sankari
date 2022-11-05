@@ -55,7 +55,6 @@ animations = [{
 [node name="Main" type="Node2D"]
 script = ExtResource("2")
 DeveloperMode = true
-LoadTestLevel = true
 InstantlyLoadLevel = true
 NodePathTransition = NodePath("CanvasLayer/Transition")
 
@@ -409,7 +408,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_bottom = 40.0
+offset_left = -917.071
+offset_top = 23.8709
+offset_right = -917.071
+offset_bottom = 63.8709
 grow_horizontal = 0
 
 [node name="Game Over" type="HBoxContainer" parent="CanvasLayer/Level UI"]

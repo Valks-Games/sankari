@@ -57,6 +57,7 @@ public class PlayerCommandDeath : EntityCommand<Player>
 	{
 		if (GameManager.PlayerManager.RemoveLife())
 		{
+			GameManager.LevelUI.HideLevelUI();
 			await GameManager.Transition.AlphaToBlack();
 			await Task.Delay(1000);
 			GameManager.LevelUI.ShowLives();
@@ -65,15 +66,17 @@ public class PlayerCommandDeath : EntityCommand<Player>
 			await Task.Delay(1000);
 			await GameManager.LevelUI.HideLivesTransition();
 			await Task.Delay(250);
-			GameManager.LevelUI.AddHealth(6);
+			GameManager.LevelUI.SetHealthBar(6);
 			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
 			GameManager.Transition.BlackToAlpha();
 			Entity.HaltLogic = false;
 			LevelManager.LoadLevelFast();
 			Entity.LevelScene.Camera.StartFollowingPlayer();
+			GameManager.LevelUI.ShowLevelUI();
 		}
 		else
 		{
+			GameManager.LevelUI.HideLevelUI();
 			GameManager.PlayerManager.ResetCoins();
 			await GameManager.Transition.AlphaToBlack();
 			await Task.Delay(1000);

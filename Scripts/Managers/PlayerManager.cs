@@ -1,8 +1,11 @@
 namespace Sankari;
+//PlayerManager class is the class of the static Player parameters and methods
+// (i.e. parameters and methods that are used in the game, outside the levels)
+// also gives to possibility for the "save game" functionality in the future
 public class PlayerManager
 {
-	public int PlayerHealth { get; set; }
-	private int PlayerHealthMax { get; set; } = 20;
+	//PlayerHealth for the player starting health
+	public int PlayerHealth { get; set; } = 6;
 
 	//The number of additional lives (i.e. the player can die Lives+1 times)
 	public int Lives { get; private set; }
@@ -11,6 +14,7 @@ public class PlayerManager
 	public int Coins { get; private set; }
 	private int CheckpointCoins { get; set; }
 	private int LevelCoins { get; set; }
+
 	public Vector2 RespawnPosition { get; set; }
 	public bool ActiveCheckpoint { get; set; } = false;
 
@@ -23,11 +27,27 @@ public class PlayerManager
 	}
 
 
-	public void SetLives(int lives) => Lives = lives;
-	public void AddLife()
+	public bool SetLives(int lives)
 	{
-		if(Lives < LivesMax)
+		if (Lives < LivesMax)
+		{
+			Lives = lives;
+			return true;
+		}
+		else
+		{
+			Lives = LivesMax;
+			return false;
+		}
+	}
+	public bool AddLife()
+	{
+		if (Lives < LivesMax)
+		{
 			Lives++;
+			return true;
+		}
+		return false;
 	}
 	public bool RemoveLife()
 	{

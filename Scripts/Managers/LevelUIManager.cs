@@ -35,6 +35,17 @@ public partial class LevelUIManager : Control
     }
 
 
+	public void ShowLevelUI()
+	{
+		ShowCoins();
+		ShowHealth();
+	}
+	public void HideLevelUI()
+	{
+		HideCoins();
+		HideHealth();
+	}
+
 
     public void ShowLives() 
     {
@@ -52,7 +63,6 @@ public partial class LevelUIManager : Control
     }
 
 
-
 	public void ShowGameOver()
 	{
 		LabelGameOver.Modulate = Colors.DarkRed;
@@ -60,7 +70,6 @@ public partial class LevelUIManager : Control
 	}
 	public void HideGameOver() => LabelGameOver.Hide();
 	
-
 
 	public void ShowCoins()
 	{
@@ -75,94 +84,31 @@ public partial class LevelUIManager : Control
 	}
     public void SetLabelCoins(int amount) => LabelCoins.Text = "" + amount;
 
-	/// <summary>
-	/// Adds the specified amount of health
-	/// </summary>
-	/// /// <param name="amount">Amount of health to add</param>
-	public void AddHealth(int amount = 2)
+
+	public void ShowHealth() => HealthBar.Show();
+	public void HideHealth() => HealthBar.Hide();
+	public void SetHealthBar(int amount)
 	{
-		//Health is literally an index of visible sprites
-		for (var spriteIndex = Health; spriteIndex < Health + amount; spriteIndex++)
+		var count = HealthBar.GetChildCount();
+		Texture2D[] texture = {Textures.FullHeart, Textures.HalfHeart};
+
+		for (int i = 0; i < count; i++)
+			HealthBar.GetChild<Sprite2D>(i).Hide();
+		while ((count++) < amount)
 		{
-			if (spriteIndex % 2 != 0)
+			var sprite = new Sprite2D()
 			{
-				HealthBar.GetChild<Sprite2D>(spriteIndex - 1).Hide();
-
-				if (HealthBar.GetChildCount() <= spriteIndex)
-					AddHealthSprite(Textures.FullHeart, new Vector2(50 * (spriteIndex - 1)*0.5f, 40));
-			}
-			else
-			{
-				if (HealthBar.GetChildCount() <= spriteIndex)
-				{
-					AddHealthSprite(Textures.HalfHeart, new Vector2(50 * spriteIndex*0.5f, 40));
-
-					HealthBar.GlobalPosition = new Vector2(HealthBar.GlobalPosition.x - 50, HealthBar.GlobalPosition.y);
-					HealthBar.Size = new Vector2(50 * (spriteIndex+1), 48);
-				}
-			}
-
-			HealthBar.GetChild<Sprite2D>(spriteIndex).Show();
+				Texture = texture[count%2],
+				Scale = new Vector2((float)48 / texture[count%2].GetWidth(), (float)48 / texture[count%2].GetHeight()), // 48 looks good as a size (64 was too big, 32 too small)
+			};
+			HealthBar.AddChild(sprite);
 		}
-		Health += amount;
-	}
-
-	private void AddHealthSprite(Texture2D texture, Vector2 position) 
-	{
-		var sprite = new Sprite2D() 
+		for (count = 0; count < amount; count++)
 		{
-			Texture = texture,
-			Scale = new Vector2((float)48 / texture.GetWidth(), (float)48 / texture.GetHeight()), // 48 looks good as a size (64 was too big, 32 too small)
-			Position = position
-		};
-
-		HealthBar.AddChild(sprite);
-	}
-
-	/// <summary>
-	/// If is able to substract some health True otherwise False
-	/// </summary>
-	/// <param name="amount">Amount of health to substract</param>
-	public bool RemoveHealth(int amount = 1)
-	{
-		if ((Health -= amount) <= 0)
-		{
-			for (int i = HealthBar.GetChildCount() - 1; i >= 0; i--)
-			{
-				var curHeart  = HealthBar.GetChild<Sprite2D>(i);
-
-				if (curHeart.Visible)
-					curHeart.Hide();
-			}
-
-			Health = 0;
-
-			return false;
-		}
-		else
-		{
-			var c = amount;
-
-			for (var i = HealthBar.GetChildCount() - 1; i >= 0 && c > 0; i--)
-			{
-				var curHeart  = HealthBar.GetChild<Sprite2D>(i);
-				var prevHeart = HealthBar.GetChild<Sprite2D>(i - 1);
-
-				if (curHeart.Visible)
-				{
-					if (i % 2 == 0)
-						curHeart.Hide();
-					else
-					{
-						curHeart.Hide();
-						prevHeart.Show();
-					}
-
-					c--;
-				}
-			}
-
-			return true;
+			HealthBar.GetChild<Sprite2D>(count).Position = new Vector2(50 * (int)(count/2), 40);
+			if (count % 2 == 1)
+				HealthBar.GetChild<Sprite2D>(count - 1).Hide();
+			HealthBar.GetChild<Sprite2D>(count).Show();
 		}
 	}
 }

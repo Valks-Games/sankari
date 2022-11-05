@@ -19,11 +19,15 @@ public partial class Entity : CharacterBody2D
 	public Node2D          ParentWallChecksRight   { get; set; }
 	public bool            TouchedGround           { get; set; }
 	public Node2D          ParentGroundChecks      { get; set; }
-	public int             ImmunityMs              { get; set; } = 500;
+	public int NoKeyboardMs						   { get; set; } = 200;
+	public int             ImmunityMs              { get; set; } = 1000;
 	public bool            InDamageZone            { get; set; }
+	public bool AbleToCollectStuff { get; set; } = true;
+	public EntityHealthSystem HealthSystem { get; set; } = new(6);
 
 	protected int gravityMaxSpeed = 1200;
 	private GTimer immunityTimer;
+	private GTimer keyboardTurnOffTimer;
 	private int damageTakenForce = 300;
 
 	public override void _Ready()
@@ -62,7 +66,9 @@ public partial class Entity : CharacterBody2D
 		Commands.Values.ForEach(cmd => cmd.Initialize());
 		Animations[EntityAnimationType.None] = new EntityAnimationNone();
 
-		immunityTimer = new GTimer(this, nameof(OnImmunityTimerFinished), ImmunityMs, false, false);
+		HealthSystem.SetHealth(GameManager.PlayerManager.PlayerHealth);
+		GameManager.LevelUI.SetHealthBar(GameManager.PlayerManager.PlayerHealth);
+		immunityTimer = new GTimer(this, ImmunityMs, false, false);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -94,34 +100,27 @@ public partial class Entity : CharacterBody2D
 
 	public virtual void Kill() { }
 
-	private void OnImmunityTimerFinished() 
-	{
-		if (InDamageZone)
-			TakenDamage(1, 1); // not sure how to input "side" here
-	}
-
 	public void TakenDamage(int side, int damage)
 	{
-		// enemy has no idea what players health is, don't kill the player when their health is below or equal to zero
-		if (GameManager.LevelUI.Health <= 0)
-			return;
-
-		if (immunityTimer.IsActive())
-			return;
-		else
-			immunityTimer.Start();
-
-		if (!GameManager.LevelUI.RemoveHealth(damage))
-			Kill();
-		else
+		if (!immunityTimer.IsActive())
 		{
-			Vector2 velocity;
-			Commands[EntityCommandType.Dash].Stop();
-
-			velocity.y = -damageTakenForce;
-			velocity.x = side * damageTakenForce;
-			Velocity = velocity;
+			if (HealthSystem.RemoveHealth(damage))
+			{
+				GameManager.LevelUI.SetHealthBar(HealthSystem.EntityHealth);
+				Commands[EntityCommandType.Dash].Stop();
+				immunityTimer.Start();
+			}
+			else
+			{
+				GameManager.LevelUI.SetHealthBar(HealthSystem.EntityHealth);
+				AbleToCollectStuff = false;
+				Kill();
+			}
 		}
+		Vector2 velocity;
+		velocity.y = -damageTakenForce;
+		velocity.x = side * damageTakenForce;
+		Velocity = velocity;
 	}
 
 	public bool IsFalling() => Velocity.y > 0;
@@ -136,11 +135,11 @@ public partial class Entity : CharacterBody2D
 	}
 
 	// Checks from which side the collision occurred. -1 if is on the left, 1 on the right, 0 if neither
-	public int GetCollisionSide(Area2D area)
+	public int GetCollisionSide(float areaGlobalPositionX)
 	{
-		if (this.GlobalPosition.x < area.GlobalPosition.x)
+		if (this.GlobalPosition.x < areaGlobalPositionX)
 			return -1;
-		else if (this.GlobalPosition.x > area.GlobalPosition.x)
+		else if (this.GlobalPosition.x > areaGlobalPositionX)
 			return 1;
 
 		return 0;

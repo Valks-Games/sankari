@@ -83,8 +83,8 @@ public static class LevelManager
 			var curLevel = Levels[CurrentLevel];
 
 			Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
-			GameManager.LevelUI.AddHealth(6);
-			GameManager.LevelUI.Show();
+			GameManager.LevelUI.ShowLevelUI();
+			//GameManager.LevelUI.Show();
 		}
 		else
 		{
@@ -117,7 +117,7 @@ public static class LevelManager
         foreach (var level in Levels[levelName].Unlocks)
             if (Levels.ContainsKey(level))
                 Levels[level].Locked = false;
-
+		GameManager.LevelUI.HideLevelUI();
         // load map
         GameManager.LoadMap();
     }

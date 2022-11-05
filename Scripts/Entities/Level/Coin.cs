@@ -12,10 +12,13 @@ public partial class Coin : AnimatedSprite2D
     {
         if (area.GetParent() is Player)
         {
-			GameManager.Events.Notify(Event.OnCoinPickup);
-			GameManager.PlayerManager.AddCoins();
-			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
-            QueueFree();
+			if(area.GetParent<Player>().AbleToCollectStuff)
+			{
+				GameManager.Events.Notify(Event.OnCoinPickup);
+				GameManager.PlayerManager.AddCoins();
+				GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
+				QueueFree();
+			}
         }
     }
 }

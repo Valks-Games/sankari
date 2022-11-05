@@ -135,23 +135,15 @@ public partial class BasicEnemy : Entity, IEnemy, IEntity, IEntityMovement
 
 	private void _on_enemy_area_entered(Area2D area)
 	{
-		// TODO: Fix player being able to hide in a enemy's area after touching the enemy
-		// Immunity frames for the player needs to be implemented
-
 		if (area.IsInGroup("Player"))
 		{
 			var player = area.GetParent<Player>();
-			player.TakenDamage(player.GetCollisionSide(area), 1);
-			player.InDamageZone = true;
+			player.TakenDamage(player.GetCollisionSide(this.GlobalPosition.x), 1);
 		}
 	}
 
 	private void _on_enemy_area_exited(Area2D area) 
 	{
-		if (area.IsInGroup("Player"))
-		{
-			var player = area.GetParent<Player>();
-			player.InDamageZone = false;
-		}	
+		//Here we don't need anything, but the game crashes if I delete this function
 	}
 }
