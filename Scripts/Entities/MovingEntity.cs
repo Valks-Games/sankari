@@ -220,13 +220,13 @@ public abstract partial class MovingEntity : CharacterBody2D
 	/// The equivalent to _Ready(), everything here gets called in one frame. All commands
 	/// and animations should be setup in here.
 	/// </summary>
-	public abstract void Init();
+	public virtual void Init() { }
 
 	/// <summary>
 	/// The equivalent to _UpdatePhysics(float delta), everything here gets called every
 	/// frame. Delta is defined in Entity. MoveAndSlide() is called right after this.
 	/// </summary>
-	public abstract void UpdatePhysics();
+	public virtual void UpdatePhysics() { }
 
 	public virtual void Kill() { }
 	public virtual void TouchedGround() { }
