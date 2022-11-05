@@ -2,6 +2,7 @@
 - Updated to Godot 4 Beta 4
 - Health functions are no longer specific to the player and are now defined in MovingEntity
 - Raycasts are no longer specific to the player and are now defined in MovingEntity
+- Added the start the frog / slime enemy
 - Fix enemies not moving under certain conditions
 - Fix player teleport issue
 - Several other small changes
