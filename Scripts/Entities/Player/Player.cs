@@ -116,7 +116,7 @@ public partial class Player : MovingEntity
 		Velocity = new Vector2(MoveDeadZone(Velocity.x, HorizontalDeadZone), Velocity.y); // must be after ClampAndDampen(...)
 	}
 
-	public override void UpdateGround()
+	public override void UpdatePhysicsGround()
 	{
 		if (PlayerInput.IsSprint)
 		{
@@ -130,7 +130,7 @@ public partial class Player : MovingEntity
 		}
 	}
 
-	public override void UpdateAir()
+	public override void UpdatePhysicsAir()
 	{
 		if (PlayerInput.IsFastFall)
 			Velocity = Velocity + new Vector2(0, 10);

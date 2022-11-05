@@ -70,7 +70,7 @@ public partial class BasicEnemy : MovingEntity, IEntity
 		}
 	}
 
-	public override void UpdateGround()
+	public override void UpdatePhysicsGround()
 	{
 		Commands.Values.ForEach(cmd => cmd.UpdateGroundWalking(Delta));
 	}

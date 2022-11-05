@@ -68,7 +68,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 	public event EventHandler Jump;
 
-	sealed public override void _Ready()
+	public sealed override void _Ready()
 	{
 		Tree = GetTree().Root;
 		MaxSpeed = MaxSpeedWalk;
@@ -158,7 +158,12 @@ public abstract partial class MovingEntity : CharacterBody2D
 		Animations[EntityAnimationType.None] = new EntityAnimationNone();
 	}
 
-	sealed public override void _PhysicsProcess(double delta)
+	public sealed override void _Process(double delta)
+	{
+		Update();
+	}
+
+	public sealed override void _PhysicsProcess(double delta)
 	{
 		if (HaltLogic) // perhaps SetPhysicsProcess(false) should be used instead of this
 			return;
@@ -194,7 +199,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 				Velocity = velocity;
 			}
 
-			UpdateGround();
+			UpdatePhysicsGround();
 		}
 		else
 		{
@@ -208,7 +213,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 				Velocity = velocity;
 			}
 
-			UpdateAir();
+			UpdatePhysicsAir();
 
 			Commands.Values.ForEach(cmd => cmd.UpdateAir(Delta));
 		}
@@ -216,31 +221,13 @@ public abstract partial class MovingEntity : CharacterBody2D
 		MoveAndSlide();
 	}
 
-	/// <summary>
-	/// The equivalent to _Ready(), everything here gets called in one frame. All commands
-	/// and animations should be setup in here.
-	/// </summary>
 	public virtual void Init() { }
-
-	/// <summary>
-	/// The equivalent to _UpdatePhysics(float delta), everything here gets called every
-	/// frame. Delta is defined in Entity. MoveAndSlide() is called right after this.
-	/// </summary>
+	public virtual void Update() { }
+	public virtual void UpdatePhysicsGround() { }
+	public virtual void UpdatePhysicsAir() { }
 	public virtual void UpdatePhysics() { }
-
 	public virtual void Kill() { }
 	public virtual void TouchedGround() { }
-
-	protected virtual void OnJump()
-	{
-		Jump?.Invoke(this, EventArgs.Empty);
-	}
-
-	private void OnImmunityTimerFinished() 
-	{
-		if (InDamageZone)
-			RemoveHealth(1);
-	}
 
 	public virtual void AddHealth(int v)
 	{
@@ -269,6 +256,17 @@ public abstract partial class MovingEntity : CharacterBody2D
 		// Stop any dashes in progress and apply a force in the opposite direction the player is moving
 		Commands[EntityCommandType.Dash].Stop();
 		Velocity = new Vector2(-MoveDir.x * DamageTakenForce, -DamageTakenForce);
+	}
+
+	protected virtual void OnJump() // code smell?
+	{
+		Jump?.Invoke(this, EventArgs.Empty);
+	}
+
+	private void OnImmunityTimerFinished() 
+	{
+		if (InDamageZone)
+			RemoveHealth(1);
 	}
 
 	public void OnDashReady()
@@ -344,10 +342,6 @@ public abstract partial class MovingEntity : CharacterBody2D
 			raycastList.Add(raycast);
 		}
 	}
-
-	public virtual void UpdateGround() { }
-
-	public virtual void UpdateAir() { }
 
 	/// <summary>
 	/// Attempts to get the command parsed as Type. If the parse is not successful, default(TCommand) is returned.
