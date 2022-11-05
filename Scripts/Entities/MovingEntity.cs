@@ -19,7 +19,8 @@ public abstract partial class MovingEntity : CharacterBody2D
 	public virtual int  AirAcceleration    { get; set; } = 30;
 	public virtual int  DampeningAir       { get; set; } = 10;
 	public virtual int  DampeningGround    { get; set; } = 25;
-	public virtual bool ClampDampen        { get; set; } = true;
+	public virtual bool ClampDampenGround  { get; set; } = true;
+	public virtual bool ClampDampenAir     { get; set; } = true;
 	public virtual int  HalfHearts         { get; set; } = 6;
 	public virtual int  MaximumHealth      { get; set; } = 6;
 
@@ -63,8 +64,10 @@ public abstract partial class MovingEntity : CharacterBody2D
 	protected int GravityMaxSpeed { get; set; } = 1200;
 	protected GTimer ImmunityTimer { get; set; }
 	protected int DamageTakenForce { get; set; } = 300;
+	private bool TouchedGroundBool { get; set; }
 
 	public event EventHandler Jump;
+	public event EventHandler TouchedGround;
 
 	sealed public override void _Ready()
 	{
@@ -178,7 +181,13 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 		if (IsNearGround())
 		{
-			if (ClampDampen)
+			if (!TouchedGroundBool)
+			{
+				TouchedGroundBool = true;
+				TouchedGround?.Invoke(this, EventArgs.Empty);
+			}
+
+			if (ClampDampenGround)
 			{
 				var velocity = Velocity;
 				velocity.x += MoveDir.x * AccelerationGround;
@@ -190,7 +199,9 @@ public abstract partial class MovingEntity : CharacterBody2D
 		}
 		else
 		{
-			if (ClampDampen)
+			TouchedGroundBool = false;
+
+			if (ClampDampenAir)
 			{
 				var velocity = Velocity;
 				velocity.x += MoveDir.x * AirAcceleration;

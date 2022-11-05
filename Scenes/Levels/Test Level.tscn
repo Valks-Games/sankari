@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/Entities/Level/WallJumpArea.cs" id="3_1jdq3"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Killzone.cs" id="3_722fj"]
 [ext_resource type="PackedScene" uid="uid://k3c0v1nsfid8" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="3_vjv6q"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Enemies/Spike.tscn" id="5_bfsgh"]
+[ext_resource type="PackedScene" uid="uid://bv7vl6hp8o7ui" path="res://Scenes/Prefabs/Enemies/Spike.tscn" id="5_bfsgh"]
 [ext_resource type="PackedScene" uid="uid://dgkrwp1kmh5v3" path="res://Scenes/Prefabs/Enemies/Slime.tscn" id="8_o4uh1"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgodp"]
@@ -1065,10 +1065,18 @@ position = Vector2(1247, 584)
 position = Vector2(1685, 241)
 
 [node name="Slime" parent="Environment/Enemies" instance=ExtResource("8_o4uh1")]
-position = Vector2(1607, 541)
+position = Vector2(2317, 119)
+
+[node name="Slime2" parent="Environment/Enemies" instance=ExtResource("8_o4uh1")]
+position = Vector2(2368, 103)
+scale = Vector2(2, 2)
+
+[node name="Slime3" parent="Environment/Enemies" instance=ExtResource("8_o4uh1")]
+position = Vector2(2442, 86)
+scale = Vector2(3, 3)
 
 [node name="Player" parent="." instance=ExtResource("1_4f86e")]
-position = Vector2(1395, 561)
+position = Vector2(1833, -75)
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
