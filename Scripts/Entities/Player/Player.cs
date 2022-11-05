@@ -4,10 +4,6 @@ namespace Sankari;
 
 public partial class Player : MovingEntity
 {
-	// Static
-	public static Vector2 RespawnPosition { get; set; }
-	public static bool HasTouchedCheckpoint { get; set; }
-
 	public bool CurrentlyDashing { get; set; }
 
 	public override int HalfHearts 
