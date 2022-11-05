@@ -1,3 +1,11 @@
+## v0.1.27
+- Updated to Godot 4 Beta 4
+- Health functions are no longer specific to the player and are now defined in MovingEntity
+- Raycasts are no longer specific to the player and are now defined in MovingEntity
+- Fix enemies not moving under certain conditions
+- Fix player teleport issue
+- Several other small changes
+
 ## v0.1.26
 - Added player health mechanics (https://github.com/Valks-Games/sankari/issues/63)
 - ExtensionsInput.FilterRange() does not work right when there is a minimum specified (https://github.com/Valks-Games/sankari/issues/77)
