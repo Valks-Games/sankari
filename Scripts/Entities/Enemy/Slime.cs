@@ -11,8 +11,7 @@ public partial class Slime : MovingEntity
     private GTimer JumpTimer { get; set; }
     private bool MovingForward { get; set; }
     private int WallHugTime { get; set; }
-
-	private bool canJump;
+	private bool CanJump { get; set; }
 
     public override void Init()
     {
@@ -51,9 +50,9 @@ public partial class Slime : MovingEntity
                 MovingForward = !MovingForward;
         }
 
-		if (IsOnFloor() && canJump)
+		if (IsOnFloor() && CanJump)
 		{
-			canJump = false;
+			CanJump = false;
 			OnJump();
 			Jumping = true;
 			WallHugTime = 0;
@@ -66,7 +65,7 @@ public partial class Slime : MovingEntity
 
 	private void OnJumpTimer()
     {
-		canJump = true;
+		CanJump = true;
     }
 
 	private void _on_enemy_area_entered(Area2D area)

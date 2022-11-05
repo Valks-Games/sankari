@@ -39,7 +39,7 @@ public partial class Player : MovingEntity
 	public GTimer        DontCheckPlatformAfterDashDuration { get; set; }
 	public GTimer        PreventMovementTimer               { get; set; }
 
-	private bool preventMovement = false;
+	private bool PreventMovement { get; set; } = false;
 
 	// health
 	private Node HealthBar { get; set; }
@@ -146,13 +146,13 @@ public partial class Player : MovingEntity
 		GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 
 		// Lock movement
-		preventMovement = true;
+		PreventMovement = true;
 		PreventMovementTimer.Start(); 
 	}
 
 	public void PreventMovementFinished()
 	{
-		preventMovement = false;
+		PreventMovement = false;
 	}
 
 	private float MoveDeadZone(float horzVelocity, int deadzone)
@@ -199,7 +199,7 @@ public partial class Player : MovingEntity
 
 	private void UpdateMoveDirection(MovementInput input)
 	{
-		if (!preventMovement)
+		if (!PreventMovement)
 		{
 			var x = -Convert.ToInt32(input.IsLeft) + Convert.ToInt32(input.IsRight);
 			var y = -Convert.ToInt32(input.IsUp) + Convert.ToInt32(input.IsDown);
