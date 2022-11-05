@@ -1,0 +1,103 @@
+[gd_scene load_steps=11 format=3 uid="uid://c1df5fip5aih6"]
+
+[ext_resource type="Script" path="res://Scripts/Entities/Enemy/Bird.cs" id="1_cv8na"]
+[ext_resource type="Texture2D" uid="uid://rbb3yhxvolqi" path="res://Sprites/Level/Enemies/bird.png" id="1_n3u43"]
+
+[sub_resource type="RectangleShape2D" id="12"]
+size = Vector2(30, 24)
+
+[sub_resource type="RectangleShape2D" id="11"]
+size = Vector2(28, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8141"]
+atlas = ExtResource("1_n3u43")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0e4go"]
+atlas = ExtResource("1_n3u43")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cys2"]
+atlas = ExtResource("1_n3u43")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgvjw"]
+atlas = ExtResource("1_n3u43")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1bbt"]
+atlas = ExtResource("1_n3u43")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q0yui"]
+animations = [{
+"frames": [SubResource("AtlasTexture_x8141"), SubResource("AtlasTexture_0e4go"), SubResource("AtlasTexture_7cys2"), SubResource("AtlasTexture_lgvjw")],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}, {
+"frames": [SubResource("AtlasTexture_u1bbt")],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Bird" type="CharacterBody2D"]
+position = Vector2(124, 118)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_cv8na")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -20.0
+offset_top = -38.0
+offset_right = 20.0
+offset_bottom = -15.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="Wall" type="Node2D" parent="Raycasts"]
+
+[node name="Left" type="Node2D" parent="Raycasts/Wall"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall/Left"]
+position = Vector2(-15, 6)
+target_position = Vector2(-9, 0)
+
+[node name="Right" type="Node2D" parent="Raycasts/Wall"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Raycasts/Wall/Right"]
+position = Vector2(15, 6)
+target_position = Vector2(9, 0)
+
+[node name="Cliff" type="Node2D" parent="Raycasts"]
+
+[node name="Left" type="Node2D" parent="Raycasts/Cliff"]
+
+[node name="Right" type="Node2D" parent="Raycasts/Cliff"]
+
+[node name="Ground" type="Node2D" parent="Raycasts"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Raycasts/Ground"]
+target_position = Vector2(0, 25)
+
+[node name="Damage" type="Area2D" parent="." groups=["Enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Damage"]
+position = Vector2(0, 5)
+shape = SubResource("12")
+debug_color = Color(0.701961, 0.52549, 0.6, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+shape = SubResource("11")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+frames = SubResource("SpriteFrames_q0yui")
+animation = &"fly"
+
+[connection signal="area_entered" from="Damage" to="." method="_on_damage_area_entered"]
