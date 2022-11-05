@@ -1,5 +1,3 @@
-using System;
-
 namespace Sankari;
 
 public partial class Slime : MovingEntity
