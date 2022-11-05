@@ -20,7 +20,7 @@ This project was created to gain experience in the C# Godot environment for the 
 [Patch Notes](https://github.com/Valks-Games/sankari/blob/main/.github/CHANGELOG.md)  
 
 ## Project Setup
-1. Install [Godot 4 Beta 2 Mono (C#)](https://godotengine.org/article/dev-snapshot-godot-4-0-beta-2#downloads)
+1. Install [Godot 4 Beta 4 Mono (C#)](https://godotengine.org/article/dev-snapshot-godot-4-0-beta-4#downloads) *(I try my best to keep this link updated, sometimes I forget, but usually this is the latest beta version of Godot 4, if you are unsure please ask me in the Discord)*
 2. Install [.NET SDK 6.0](https://dotnet.microsoft.com/en-us/download)
 3. Install [.NET Framework 4.7.2](https://duckduckgo.com/?q=.net+framework+4.7.2)
 4. In `Godot Editor > Editor Settings > Mono > Builds`: Make sure `Build Tool` is set to `dotnet CLI`
