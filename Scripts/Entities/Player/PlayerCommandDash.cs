@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class MovingEntityCommandDash : EntityCommand<MovingEntity>
+public class PlayerCommandDash : PlayerCommand<Player>
 {
 	public int     MaxDashes         { get; set; } = 1; // Max number of allowed dashes before needing to be reset
 	public int     DashCooldown      { get; set; }	= 1400; // How long before dashing is available again
@@ -16,7 +16,7 @@ public class MovingEntityCommandDash : EntityCommand<MovingEntity>
 	private GTimer  TimerDashCooldown { get; set; }
 	private GTimer  TimerDashDuration { get; set; }
 
-	public MovingEntityCommandDash(MovingEntity entity) : base(entity) { }
+	public PlayerCommandDash(Player player) : base(player) { }
 
 	public override void Initialize()
 	{

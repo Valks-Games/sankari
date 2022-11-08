@@ -33,7 +33,7 @@ public class EntityAnimationJumpStart : EntityAnimation<MovingEntity>
 		(
 			Entity is Player player &&
 			player.PlayerInput.IsDash && 
-			player.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady
+			player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady
 		)
 		{
 			SwitchState(EntityAnimationType.Dash);

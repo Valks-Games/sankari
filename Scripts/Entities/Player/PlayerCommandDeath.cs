@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class PlayerCommandDeath : EntityCommand<Player>
+public class PlayerCommandDeath : PlayerCommand<Player>
 {
 	public PlayerCommandDeath(Player player) : base(player) { }
 

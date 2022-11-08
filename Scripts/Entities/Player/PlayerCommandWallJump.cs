@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class PlayerCommandWallJump : EntityCommand<Player>
+public class PlayerCommandWallJump : PlayerCommand<Player>
 {
 	// constants
 	public int JumpForceWallHorz { get; set; } = 800; // Horizontal wall jump force

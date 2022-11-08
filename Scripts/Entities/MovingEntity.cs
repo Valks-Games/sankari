@@ -31,7 +31,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 	/// <summary>
 	/// All commands for an entity call Initialize() for first frame and Update() and UpdateAir() every frame
 	/// </summary>
-	public Dictionary<EntityCommandType, MovingEntityCommand> Commands { get; set; } = new();
+	public Dictionary<PlayerCommandType, PlayerCommand> Commands { get; set; } = new();
 
 	/// <summary>
 	/// All animations for an entity call UpdateState() and HandleStateTransitions() every frame
@@ -254,7 +254,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 		}
 
 		// Stop any dashes in progress and apply a force in the opposite direction the player is moving
-		Commands[EntityCommandType.Dash].Stop();
+		Commands[PlayerCommandType.Dash].Stop();
 		Velocity = new Vector2(-MoveDir.x * DamageTakenForce, -DamageTakenForce);
 	}
 
@@ -272,13 +272,13 @@ public abstract partial class MovingEntity : CharacterBody2D
 	public void OnDashReady()
 	{
 		Audio.PlaySFX("dash_replenish");
-		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashCount = 0; // temporary fix
-		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady = true;
+		GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashCount = 0; // temporary fix
+		GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady = true;
 	}
 
 	public void OnDashDurationDone()
 	{
-		GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).CurrentlyDashing = false;
+		GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).CurrentlyDashing = false;
 		GravityEnabled = true;
 		//GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashDurationDone?.Invoke(this, EventArgs.Empty);
 	}
@@ -349,7 +349,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 	/// <typeparam name="TCommand">EntityCommand to cast</typeparam>
 	/// <param name="commandType">Entry into Commands</param>
 	/// <returns>Gets the command parsed as Type or default(TCommand)</returns>
-	public TCommand GetCommandClass<TCommand>(EntityCommandType commandType) where TCommand : MovingEntityCommand
+	public TCommand GetCommandClass<TCommand>(PlayerCommandType commandType) where TCommand : PlayerCommand
 	{
 		if (Commands[commandType] is TCommand command)
 			return command;

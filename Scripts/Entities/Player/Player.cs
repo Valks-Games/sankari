@@ -52,8 +52,8 @@ public partial class Player : MovingEntity
 		HealthBar = GameManager.LevelUI.HealthBar;
 		HalfHearts = 6;
 
-		Commands[EntityCommandType.Dash]          = new MovingEntityCommandDash(this);
-		Commands[EntityCommandType.WallJump]      = new PlayerCommandWallJump(this);
+		Commands[PlayerCommandType.Dash]          = new PlayerCommandDash(this);
+		Commands[PlayerCommandType.WallJump]      = new PlayerCommandWallJump(this);
 
 		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle(this);
 		Animations[EntityAnimationType.Walking]   = new EntityAnimationWalking(this);
@@ -75,7 +75,7 @@ public partial class Player : MovingEntity
 		DieTween = new GTween(this);
 
 		// dont go under platform at the end of a dash for X ms
-		GetCommandClass<PlayerCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
+		GetCommandClass<PlayerCommandWallJump>(PlayerCommandType.WallJump).WallJump += OnWallJump;
 
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false)
 		{
@@ -106,7 +106,7 @@ public partial class Player : MovingEntity
 		{
 			if (!IsNearGround()) // Wall jump
 			{
-				Commands[EntityCommandType.WallJump].Start();
+				Commands[PlayerCommandType.WallJump].Start();
 			}
 			else
 			{
@@ -123,7 +123,7 @@ public partial class Player : MovingEntity
 		}
 
 		if (PlayerInput.IsDash)
-			Commands[EntityCommandType.Dash].Start();
+			Commands[PlayerCommandType.Dash].Start();
 
 		Velocity = new Vector2(MoveDeadZone(Velocity.x, HorizontalDeadZone), Velocity.y); // must be after ClampAndDampen(...)
 	}

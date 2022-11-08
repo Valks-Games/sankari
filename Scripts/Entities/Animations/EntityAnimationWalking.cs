@@ -26,7 +26,7 @@ public class EntityAnimationWalking : EntityAnimation<MovingEntity>
 			if (player.PlayerInput.IsJump)
 				SwitchState(EntityAnimationType.JumpStart);
 
-			else if (player.PlayerInput.IsDash && player.GetCommandClass<MovingEntityCommandDash>(EntityCommandType.Dash).DashReady)
+			else if (player.PlayerInput.IsDash && player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
 				SwitchState(EntityAnimationType.Dash);
 
 			else if (player.PlayerInput.IsSprint)

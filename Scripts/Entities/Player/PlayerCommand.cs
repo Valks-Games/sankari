@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public enum EntityCommandType
+public enum PlayerCommandType
 {
 	Animation,
 	Dash,
@@ -9,7 +9,7 @@ public enum EntityCommandType
 	MidAirJump
 }
 
-public abstract class MovingEntityCommand
+public abstract class PlayerCommand
 {
 	/// <summary>
 	/// Called after parent entity is ready
@@ -32,7 +32,7 @@ public abstract class MovingEntityCommand
 	/// Called when walking on the ground
 	/// </summary>
 	/// <param name="delta"></param>
-	public virtual void UpdateGroundWalking(float delta) {  }
+	public virtual void UpdateGroundWalking(float delta) { }
 
 	/// <summary>
 	/// Called when running on the ground
@@ -51,11 +51,11 @@ public abstract class MovingEntityCommand
 	public virtual void Stop() { }
 }
 
-public abstract class EntityCommand<T> : MovingEntityCommand
+public abstract class PlayerCommand<T> : PlayerCommand
 {
 	protected T Entity { get; set; }
 
-	public EntityCommand(T entity)
+	public PlayerCommand(T entity)
 	{
 		Entity = entity;
 	}

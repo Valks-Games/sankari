@@ -1,4 +1,6 @@
-﻿namespace Sankari;
+﻿using Sankari;
+
+namespace Sankari;
 
 public class EntityAnimationDash : EntityAnimation<MovingEntity>
 {
@@ -21,7 +23,7 @@ public class EntityAnimationDash : EntityAnimation<MovingEntity>
 		// Dash -> Walking
 		// Dash -> Running
 
-		if (!((MovingEntityCommandDash)Entity.Commands[EntityCommandType.Dash]).CurrentlyDashing)
+		if (!((PlayerCommandDash)Entity.Commands[PlayerCommandType.Dash]).CurrentlyDashing)
 			if (!Entity.IsNearGround())
 			{
 				if (Entity.Velocity.y > 0)
