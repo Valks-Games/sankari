@@ -58,20 +58,6 @@ public class MovingEntityCommandWallJump : EntityCommand<MovingEntity>
 		if (isSliding)
 		{
 			var velocity = Entity.Velocity;
-			// Snap to nearest wall if we weren't sliding
-
-			// Commenting this out fixes the "teleport issue" where the player teleports
-			// small random distances whilst touching walls
-			// Not sure why this was needed in the first place but it looks totally fine without it
-			/*if (!wasSliding)
-			{
-				var collider = GetCollidingWall();
-
-				if (collider != default)
-				{
-					Entity.GlobalPosition = new Vector2(collider.GetCollisionPoint().x, Entity.GlobalPosition.y);
-				}
-			}*/
 
 			if (Entity.IsFalling())
 			{
