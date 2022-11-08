@@ -6,6 +6,7 @@ public enum EntityAnimationType
 	Idle,
 	Walking,
 	Running,
+	PreJumpStart,
 	JumpStart,
 	JumpFall,
 	Dash

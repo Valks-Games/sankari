@@ -6,7 +6,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 	[Export] public bool FallOffCliff        { get; set; } // should this entity keep moving forward when near a cliff?
 	[Export] public bool Debug               { get; set; } // there are many entities, this will help debug specific entities since this value can be set per entity through the inspector in the editor
 
-	public Vector2 MoveDir { get; protected set; } // the direction this entity is currently moving
+	public Vector2 MoveDir { get; set; } // the direction this entity is currently moving
 
 	public virtual bool GravityEnabled     { get; set; } = true; // should this entity be affected by gravity?
 	public virtual int  Gravity            { get; set; } = 1200; // the gravity of the entity

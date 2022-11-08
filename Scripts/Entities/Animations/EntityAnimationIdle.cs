@@ -14,13 +14,13 @@ public class EntityAnimationIdle<T> : EntityAnimation<T> where T : MovingEntity
 	{
 		if (!Entity.IsNearGround() && Entity.IsFalling())
 			HandleTransitionsFalling();
-		else if (!Entity.IsNearGround() && Entity.Velocity.y != 0)
-			HandleTransitionsNearGround();
+		else if (!Entity.IsNearGround())
+			HandleTransitionsNotNearGround();
 	}
 
 	public virtual void HandleTransitionsFalling() =>
 		SwitchState(EntityAnimationType.JumpFall);
 
-	public virtual void HandleTransitionsNearGround() =>
+	public virtual void HandleTransitionsNotNearGround() =>
 		SwitchState(EntityAnimationType.JumpStart);
 }
