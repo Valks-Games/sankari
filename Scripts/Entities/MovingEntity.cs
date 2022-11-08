@@ -10,7 +10,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 
 	public virtual bool GravityEnabled     { get; set; } = true; // should this entity be affected by gravity?
 	public virtual int  Gravity            { get; set; } = 1200; // the gravity of the entity
-	public virtual int  FakeGravitySpeed { get; set; } = 1200; // ???
+	public virtual int  FakeGravitySpeed   { get; set; } = 1200; // currently only used for fake wall sliding gravity
 	public virtual int  AccelerationGround { get; set; } = 50;   // the ground acceleration of the entity
 	public virtual int  ImmunityMs         { get; set; } = 500;  // the immunity time in milliseconds after getting hit
 	public virtual int  MaxSpeedWalk       { get; set; } = 350;
@@ -168,7 +168,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 		if (HaltLogic) // perhaps SetPhysicsProcess(false) should be used instead of this
 			return;
 
-		FakeGravitySpeed = GravityMaxSpeed; // ???
+		FakeGravitySpeed = GravityMaxSpeed;
 		Delta = (float)delta; // convert Delta to a float as most Godot functions require float inputs
 
 		// all entities will use UpdatePhysics() instead of _PhysicsProcess(double delta)
