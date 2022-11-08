@@ -53,7 +53,7 @@ public partial class Player : MovingEntity
 		HalfHearts = 6;
 
 		Commands[EntityCommandType.Dash]          = new MovingEntityCommandDash(this);
-		Commands[EntityCommandType.WallJump]      = new MovingEntityCommandWallJump(this);
+		Commands[EntityCommandType.WallJump]      = new PlayerCommandWallJump(this);
 
 		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle(this);
 		Animations[EntityAnimationType.Walking]   = new EntityAnimationWalking(this);
@@ -75,7 +75,7 @@ public partial class Player : MovingEntity
 		DieTween = new GTween(this);
 
 		// dont go under platform at the end of a dash for X ms
-		GetCommandClass<MovingEntityCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
+		GetCommandClass<PlayerCommandWallJump>(EntityCommandType.WallJump).WallJump += OnWallJump;
 
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false)
 		{

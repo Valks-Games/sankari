@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class MovingEntityCommandWallJump : EntityCommand<MovingEntity>
+public class PlayerCommandWallJump : EntityCommand<Player>
 {
 	// constants
 	public int JumpForceWallHorz { get; set; } = 800; // Horizontal wall jump force
@@ -19,7 +19,7 @@ public class MovingEntityCommandWallJump : EntityCommand<MovingEntity>
 	// events
 	public event EventHandler WallJump;
 
-	public MovingEntityCommandWallJump(MovingEntity entity) : base(entity) { }
+	public PlayerCommandWallJump(Player player) : base(player) { }
 
 	public override void Start()
 	{
