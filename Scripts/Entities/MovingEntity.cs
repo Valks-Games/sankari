@@ -36,7 +36,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 	/// <summary>
 	/// All animations for an entity call UpdateState() and HandleStateTransitions() every frame
 	/// </summary>
-	public Dictionary<EntityAnimationType, EntityAnimation> Animations { get; set; } = new();
+	public Dictionary<EntityAnimationType, EntityAnimation<MovingEntity>> Animations { get; set; } = new();
 
 	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None; // The current animation that is being used for the entity
 
@@ -155,7 +155,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 			DampeningGround -= 1;
 		
 		Commands.Values.ForEach(cmd => cmd.Initialize());
-		Animations[EntityAnimationType.None] = new EntityAnimationNone();
+		Animations[EntityAnimationType.None] = new EntityAnimationNone(this);
 	}
 
 	public sealed override void _Process(double delta)

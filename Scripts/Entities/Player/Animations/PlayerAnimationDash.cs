@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationDash : EntityAnimation<Player>
+public class PlayerAnimationDash : EntityAnimation<MovingEntity>
 {
 	public PlayerAnimationDash(Player player) : base(player) { }
 

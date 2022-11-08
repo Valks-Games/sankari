@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationIdle : EntityAnimation<Slime>
+public class EntityAnimationIdle : EntityAnimation<MovingEntity>
 {
 	public EntityAnimationIdle(Slime entity) : base(entity) { }
 

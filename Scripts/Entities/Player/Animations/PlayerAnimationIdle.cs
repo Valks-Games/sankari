@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationIdle : EntityAnimation<Player>
+public class PlayerAnimationIdle : EntityAnimation<MovingEntity>
 {
 	public PlayerAnimationIdle(Player player) : base(player) { }
 

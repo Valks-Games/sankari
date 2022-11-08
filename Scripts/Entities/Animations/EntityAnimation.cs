@@ -11,11 +11,11 @@ public enum EntityAnimationType
 	Dash
 }
 
-public abstract class EntityAnimation<T> : EntityAnimation where T : MovingEntity
+public abstract class EntityAnimation<T> where T : MovingEntity
 {
 	protected T Entity { get; set; }
 
-	public EntityAnimation(T entity) : base()
+	public EntityAnimation(T entity)
 	{
 		Entity = entity;
 	}
@@ -43,13 +43,6 @@ public abstract class EntityAnimation<T> : EntityAnimation where T : MovingEntit
 		}
 	}
 
-	public override string ToString() => GetType().Name.Replace(nameof(EntityAnimation), "");
-}
-
-public abstract class EntityAnimation
-{
-	public EntityAnimation() { }
-
 	/// <summary>
 	/// Setup and start the animation
 	/// </summary>
@@ -69,4 +62,6 @@ public abstract class EntityAnimation
 	/// Cleanly exit the animation state
 	/// </summary>
 	public abstract void ExitState();
+
+	public override string ToString() => GetType().Name.Replace("EntityAnimation", "");
 }
