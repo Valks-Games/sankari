@@ -6,7 +6,6 @@ public enum EntityCommandType
 	Dash,
 	Movement,
 	WallJump,
-	GroundJump,
 	MidAirJump
 }
 

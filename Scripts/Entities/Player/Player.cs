@@ -5,6 +5,11 @@ namespace Sankari;
 public partial class Player : MovingEntity
 {
 	public bool CurrentlyDashing { get; set; }
+	public int JumpForce { get; set; } = 600; // Force applies when jumping
+	public int MaxJumps { get; set; } = 1; // Max number of Jumps
+	public bool AllowAirJumps { get; set; } = false; // Allow mid air jumping
+
+	private int JumpCount { get; set; }
 
 	public override int HalfHearts 
 	{ 
@@ -49,7 +54,6 @@ public partial class Player : MovingEntity
 
 		Commands[EntityCommandType.Dash]          = new MovingEntityCommandDash(this);
 		Commands[EntityCommandType.WallJump]      = new MovingEntityCommandWallJump(this);
-		Commands[EntityCommandType.GroundJump]    = new MovingEntityCommandGroundJump(this);
 
 		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle(this);
 		Animations[EntityAnimationType.Walking]   = new EntityAnimationWalking(this);
@@ -93,6 +97,10 @@ public partial class Player : MovingEntity
 		if (!CurrentlyDashing && !DontCheckPlatformAfterDashDuration.IsActive())
 			UpdateUnderPlatform(PlayerInput);
 
+		// Check if Entity in on ground and not current moving away from it
+		if (IsNearGround() && Velocity.y >=0)
+			JumpCount = 0;
+
 		// jump is handled before all movement restrictions
 		if (PlayerInput.IsJump)
 		{
@@ -102,7 +110,15 @@ public partial class Player : MovingEntity
 			}
 			else
 			{
-				Commands[EntityCommandType.GroundJump].Start();
+				// Ground Jump
+				if (JumpCount < MaxJumps && (IsNearGround() || AllowAirJumps))
+				{
+					GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+
+					JumpCount++;
+					//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
+					Velocity = Velocity - new Vector2(0, JumpForce);
+				}
 			}
 		}
 
