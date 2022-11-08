@@ -1,20 +1,17 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationJumpFall : EntityAnimation<MovingEntity>
+public class PlayerAnimationJumpFall : EntityAnimationJumpFall<MovingEntity>
 {
-	public PlayerAnimationJumpFall(Player player) : base(player) { }
+	private Player Player { get; set; }
 
-	public override void EnterState()
-	{
-		Entity.AnimatedSprite.Play("jump_fall");
-	}
+	public PlayerAnimationJumpFall(Player player) : base(player) => Player = player;
 
-	public override void UpdateState()
+	public override void Update()
 	{
 		FlipSpriteOnDirection();
 	}
 
-	public override void HandleStateTransitions()
+	public override void HandleTransitions()
 	{
 		// JumpFall -> Idle
 		// JumpFall -> Walking
@@ -22,22 +19,20 @@ public class PlayerAnimationJumpFall : EntityAnimation<MovingEntity>
 		// JumpFall -> Dash
 		// JumpFall -> JumpStart
 
-		if (Entity.IsNearGround())
-			if (Entity.MoveDir != Vector2.Zero)
-				if (Entity is Player player && player.PlayerInput.IsSprint)
-					SwitchState(EntityAnimationType.Running);
-				else
-					SwitchState(EntityAnimationType.Walking);
-			else
-				SwitchState(EntityAnimationType.Idle);
-		else if (Entity is Player player && player.PlayerInput.IsDash && Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
+		base.HandleTransitions();
+			
+		if (Player.PlayerInput.IsDash && Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
 			SwitchState(EntityAnimationType.Dash);
-		else if (!Entity.IsFalling() && Entity.Velocity.y != 0)
-			SwitchState(EntityAnimationType.JumpStart);
 	}
 
-	public override void ExitState()
+	public override void HandleTransitionsNearGround()
 	{
-
+		if (Entity.MoveDir != Vector2.Zero)
+			if (Player.PlayerInput.IsSprint)
+				SwitchState(EntityAnimationType.Running);
+			else
+				SwitchState(EntityAnimationType.Walking);
+		else
+			SwitchState(EntityAnimationType.Idle);
 	}
 }

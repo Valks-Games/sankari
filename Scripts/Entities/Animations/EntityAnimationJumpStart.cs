@@ -1,37 +1,34 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpStart : EntityAnimation<MovingEntity>
+public class EntityAnimationJumpStart<T> : EntityAnimation<T> where T : MovingEntity
 {
-	private GTimer TimerDontCheckOnGround;
+	private GTimer TimerDontCheckOnGround { get; set; }
 
-	public EntityAnimationJumpStart(MovingEntity entity) : base(entity) { }
+	public EntityAnimationJumpStart(T entity) : base(entity) { }
 
-	public override void EnterState()
+	public override void Enter()
 	{
-		Entity.AnimatedSprite.Play("jump_start");
-
 		TimerDontCheckOnGround = Entity.Timers.CreateTimer(100);
 		TimerDontCheckOnGround.Loop = false;
-	}
-
-	public override void ExitState()
-	{
 		
+		Entity.AnimatedSprite.Play("jump_start");
 	}
 
-	public override void HandleStateTransitions()
+	/// <summary>
+	/// <br>JumpStart -> Idle</br>
+	///	<br>JumpStart -> JumpFall</br>
+	/// </summary>
+	public override void HandleTransitions()
 	{
-		// JumpStart -> Idle
-		// JumpStart -> JumpFall
-
 		if (Entity.IsFalling())
-			SwitchState(EntityAnimationType.JumpFall);
+			HandleTransitionsFalling();
 		else if (Entity.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
-			SwitchState(EntityAnimationType.Idle);
+			HandleTransitionsNearGround();
 	}
 
-	public override void UpdateState()
-	{
-		
-	}
+	public virtual void HandleTransitionsFalling() =>
+		SwitchState(EntityAnimationType.JumpFall);
+
+	public virtual void HandleTransitionsNearGround() =>
+		SwitchState(EntityAnimationType.Idle);
 }

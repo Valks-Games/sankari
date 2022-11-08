@@ -1,45 +1,29 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationJumpStart : EntityAnimation<MovingEntity>
+public class PlayerAnimationJumpStart : EntityAnimationJumpStart<MovingEntity>
 {
-	private GTimer TimerDontCheckOnGround;
+	private Player Player { get; set; }
 
-	public PlayerAnimationJumpStart(Player player) : base(player) { }
+	public PlayerAnimationJumpStart(Player player) : base(player) => Player = player;
 
-	public override void EnterState()
-	{
-		TimerDontCheckOnGround = Entity.Timers.CreateTimer(100);
-		TimerDontCheckOnGround.Loop = false;
-
-		Entity.AnimatedSprite.Play("jump_start");
-	}
-
-	public override void UpdateState()
+	public override void Update()
 	{
 		FlipSpriteOnDirection();
 	}
 
-	public override void HandleStateTransitions()
+	public override void HandleTransitions()
 	{
 		// JumpStart -> Idle
 		// JumpStart -> JumpFall
 		// JumpStart -> Dash
 
-		if (Entity.IsFalling())
-			SwitchState(EntityAnimationType.JumpFall);
-		else if
+		base.HandleTransitions();
+
+		if
 		(
-			Entity is Player player &&
-			player.PlayerInput.IsDash &&
-			player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady
+			Player.PlayerInput.IsDash &&
+			Player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady
 		)
 			SwitchState(EntityAnimationType.Dash);
-		else if (Entity.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
-			SwitchState(EntityAnimationType.Idle);
-	}
-
-	public override void ExitState()
-	{
-
 	}
 }

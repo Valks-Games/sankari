@@ -2,19 +2,16 @@
 
 public class PlayerAnimationDash : EntityAnimation<MovingEntity>
 {
-	public PlayerAnimationDash(Player player) : base(player) { }
+	public Player Player { get; set; }
 
-	public override void EnterState()
-	{
+	public PlayerAnimationDash(Player player) : base(player) => Player = player;
 
-	}
-
-	public override void UpdateState()
+	public override void Update()
 	{
 		FlipSpriteOnDirection();
 	}
 
-	public override void HandleStateTransitions()
+	public override void HandleTransitions()
 	{
 		// Dash -> Idle
 		// Dash -> JumpFall
@@ -27,7 +24,7 @@ public class PlayerAnimationDash : EntityAnimation<MovingEntity>
 					SwitchState(EntityAnimationType.JumpFall);
 				else
 				if (Entity.MoveDir != Vector2.Zero)
-					if (Entity is Player player && player.PlayerInput.IsSprint)
+					if (Player.PlayerInput.IsSprint)
 						SwitchState(EntityAnimationType.Running);
 					else
 						SwitchState(EntityAnimationType.Walking);
@@ -36,10 +33,5 @@ public class PlayerAnimationDash : EntityAnimation<MovingEntity>
 			else
 				// entity is touching the ground
 				SwitchState(EntityAnimationType.Idle);
-	}
-
-	public override void ExitState()
-	{
-
 	}
 }

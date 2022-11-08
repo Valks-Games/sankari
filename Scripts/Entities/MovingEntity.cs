@@ -155,7 +155,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 			DampeningGround -= 1;
 		
 		Commands.Values.ForEach(cmd => cmd.Initialize());
-		Animations[EntityAnimationType.None] = new EntityAnimationNone(this);
+		Animations[EntityAnimationType.None] = new EntityAnimationNone<MovingEntity>(this);
 	}
 
 	public sealed override void _Process(double delta)
@@ -174,8 +174,8 @@ public abstract partial class MovingEntity : CharacterBody2D
 		// all entities will use UpdatePhysics() instead of _PhysicsProcess(double delta)
 		UpdatePhysics();
 
-		Animations[CurrentAnimation].UpdateState();
-		Animations[CurrentAnimation].HandleStateTransitions();
+		Animations[CurrentAnimation].Update();
+		Animations[CurrentAnimation].HandleTransitions();
 
 		Commands.Values.ForEach(cmd => cmd.Update(Delta));
 

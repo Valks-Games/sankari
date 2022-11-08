@@ -2,45 +2,46 @@
 
 public class PlayerAnimationRunning : EntityAnimation<MovingEntity>
 {
-	public PlayerAnimationRunning(Player player) : base(player) { }
+	public Player Player { get; set; }
 
-	public override void EnterState()
+	public PlayerAnimationRunning(Player player) : base(player) => Player = player;
+
+	public override void Enter()
 	{
 		Entity.AnimatedSprite.Play("walk");
 		Entity.AnimatedSprite.SpeedScale = 1.5f;
 	}
 
-	public override void UpdateState()
+	public override void Update()
 	{
 		FlipSpriteOnDirection();
 	}
 
-	public override void HandleStateTransitions()
+	public override void HandleTransitions()
 	{
 		// Running -> Idle
 		// Running -> Walking
 		// Running -> Dash
 		// Running -> JumpStart
 
-		if (Entity is Player player)
-			if (player.PlayerInput.IsJump)
+		if (Player.PlayerInput.IsJump)
 
-				SwitchState(EntityAnimationType.JumpStart);
+			SwitchState(EntityAnimationType.JumpStart);
 
-			else if (player.PlayerInput.IsDash && player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
+		else if (Player.PlayerInput.IsDash && Player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
 
-				SwitchState(EntityAnimationType.Dash);
+			SwitchState(EntityAnimationType.Dash);
 
-			else if (!player.PlayerInput.IsSprint)
+		else if (!Player.PlayerInput.IsSprint)
 
-				SwitchState(EntityAnimationType.Walking);
+			SwitchState(EntityAnimationType.Walking);
 
-			else if (Entity.MoveDir == Vector2.Zero || player.Velocity.y != 0)
+		else if (Entity.MoveDir == Vector2.Zero || Player.Velocity.y != 0)
 
-				SwitchState(EntityAnimationType.Idle);
+			SwitchState(EntityAnimationType.Idle);
 	}
 
-	public override void ExitState()
+	public override void Exit()
 	{
 		Entity.AnimatedSprite.SpeedScale = 1.0f;
 	}

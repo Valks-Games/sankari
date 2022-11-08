@@ -1,32 +1,26 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationIdle : EntityAnimation<MovingEntity>
+public class EntityAnimationIdle<T> : EntityAnimation<T> where T : MovingEntity
 {
-	public EntityAnimationIdle(Slime entity) : base(entity) { }
+	public EntityAnimationIdle(T entity) : base(entity) { }
 
-	public override void EnterState()
+	public override void Enter() => Entity.AnimatedSprite.Play("idle");
+
+	/// <summary>
+	/// <br>Idle -> JumpStart</br>
+	/// <br>Idle -> JumpFall</br>
+	/// </summary>
+	public override void HandleTransitions()
 	{
-		Entity.AnimatedSprite.Play("idle");
-	}
-
-	public override void ExitState()
-	{
-		
-	}
-
-	public override void HandleStateTransitions()
-	{
-		// Idle -> JumpStart
-		// Idle -> JumpFall
-
 		if (!Entity.IsNearGround() && Entity.IsFalling())
-			SwitchState(EntityAnimationType.JumpFall);
+			HandleTransitionsFalling();
 		else if (!Entity.IsNearGround() && Entity.Velocity.y != 0)
-			SwitchState(EntityAnimationType.JumpStart);
+			HandleTransitionsNearGround();
 	}
 
-	public override void UpdateState()
-	{
-		
-	}
+	public virtual void HandleTransitionsFalling() =>
+		SwitchState(EntityAnimationType.JumpFall);
+
+	public virtual void HandleTransitionsNearGround() =>
+		SwitchState(EntityAnimationType.JumpStart);
 }

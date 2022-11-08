@@ -1,15 +1,17 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationIdle : EntityAnimation<MovingEntity>
+public class PlayerAnimationIdle : EntityAnimationIdle<MovingEntity>
 {
-	public PlayerAnimationIdle(Player player) : base(player) { }
+	public Player Player { get; set; }
 
-	public override void EnterState()
+	public PlayerAnimationIdle(Player player) : base(player) => Player = player;
+
+	public override void Enter()
 	{
 		Entity.AnimatedSprite.Play("idle");
 		// Idle animation should only occur if nothing else interesting is happening
 		// Transition immediately to see if there is a better animation to be in
-		HandleStateTransitions();
+		HandleTransitions();
 
 		Entity.Jump += OnJump;
 	}
@@ -19,36 +21,29 @@ public class PlayerAnimationIdle : EntityAnimation<MovingEntity>
 
 	}
 
-	public override void UpdateState()
-	{
-
-	}
-
-	public override void HandleStateTransitions()
+	public override void HandleTransitions()
 	{
 		// Idle -> Walking
 		// Idle -> Sprinting
 		// Idle -> JumpStart
 		// Idle -> JumpFall
 
-		if (Entity.IsNearGround() && Entity is Player player)
+		base.HandleTransitions();
+
+		if (Entity.IsNearGround())
 		{
-			if (player.PlayerInput.IsJump)
+			if (Player.PlayerInput.IsJump)
 				SwitchState(EntityAnimationType.JumpStart);
 
 			if (Entity.MoveDir != Vector2.Zero)
-				if (player.PlayerInput.IsSprint)
+				if (Player.PlayerInput.IsSprint)
 					SwitchState(EntityAnimationType.Running);
 				else
 					SwitchState(EntityAnimationType.Walking);
 		}
-		else if (!Entity.IsNearGround() && Entity.IsFalling())
-			SwitchState(EntityAnimationType.JumpFall);
-		else if (!Entity.IsNearGround() && Entity.Velocity.y != 0)
-			SwitchState(EntityAnimationType.JumpStart);
 	}
 
-	public override void ExitState()
+	public override void Exit()
 	{
 		Entity.Jump -= OnJump;
 	}

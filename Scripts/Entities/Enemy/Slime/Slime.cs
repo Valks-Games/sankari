@@ -17,9 +17,9 @@ public partial class Slime : MovingEntity
 
     public override void Init()
     {
-		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle(this);
-		Animations[EntityAnimationType.JumpStart] = new EntityAnimationJumpStart(this);
-		Animations[EntityAnimationType.JumpFall]  = new EntityAnimationJumpFall(this);
+		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle<MovingEntity>(this);
+		Animations[EntityAnimationType.JumpStart] = new EntityAnimationJumpStart<MovingEntity>(this);
+		Animations[EntityAnimationType.JumpFall]  = new EntityAnimationJumpFall<MovingEntity>(this);
 
 		AnimatedSprite.Animation = "idle";
 		CurrentAnimation = EntityAnimationType.Idle;

@@ -30,9 +30,9 @@ public abstract class EntityAnimation<T> where T : MovingEntity
 			return;
 		}
 
-		Entity.Animations[Entity.CurrentAnimation].ExitState();
+		Entity.Animations[Entity.CurrentAnimation].Exit();
 		Entity.CurrentAnimation = animation;
-		Entity.Animations[Entity.CurrentAnimation].EnterState();
+		Entity.Animations[Entity.CurrentAnimation].Enter();
 	}
 
 	protected void FlipSpriteOnDirection()
@@ -46,22 +46,22 @@ public abstract class EntityAnimation<T> where T : MovingEntity
 	/// <summary>
 	/// Setup and start the animation
 	/// </summary>
-	public abstract void EnterState();
+	public virtual void Enter() { }
 
 	/// <summary>
 	/// Update the current animation
 	/// </summary>
-	public abstract void UpdateState();
+	public virtual void Update() { }
 
 	/// <summary>
 	/// Potentially transition to a new state
 	/// </summary>
-	public abstract void HandleStateTransitions();
+	public virtual void HandleTransitions() { }
 
 	/// <summary>
 	/// Cleanly exit the animation state
 	/// </summary>
-	public abstract void ExitState();
+	public virtual void Exit() { }
 
 	public override string ToString() => GetType().Name.Replace("EntityAnimation", "");
 }
