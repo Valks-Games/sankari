@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dgkrwp1kmh5v3"]
+[gd_scene load_steps=10 format=3]
 
-[ext_resource type="Script" path="res://Scripts/Entities/Enemy/Slime.cs" id="1"]
+[ext_resource type="Script" path="res://Scripts/Entities/Enemy/Slime/Slime.cs" id="1"]
 [ext_resource type="Texture2D" uid="uid://dkmct23pefadd" path="res://Sprites/Level/Enemies/frog.png" id="2_7njte"]
 
 [sub_resource type="RectangleShape2D" id="12"]

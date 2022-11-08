@@ -55,12 +55,12 @@ public partial class Player : MovingEntity
 		Commands[PlayerCommandType.Dash]          = new PlayerCommandDash(this);
 		Commands[PlayerCommandType.WallJump]      = new PlayerCommandWallJump(this);
 
-		Animations[EntityAnimationType.Idle]      = new EntityAnimationIdle(this);
-		Animations[EntityAnimationType.Walking]   = new EntityAnimationWalking(this);
-		Animations[EntityAnimationType.Running]   = new EntityAnimationRunning(this);
-		Animations[EntityAnimationType.JumpStart] = new EntityAnimationJumpStart(this);
-		Animations[EntityAnimationType.JumpFall]  = new EntityAnimationJumpFall(this);
-		Animations[EntityAnimationType.Dash]      = new EntityAnimationDash(this);
+		Animations[EntityAnimationType.Idle]      = new PlayerAnimationIdle(this);
+		Animations[EntityAnimationType.Walking]   = new PlayerAnimationWalking(this);
+		Animations[EntityAnimationType.Running]   = new PlayerAnimationRunning(this);
+		Animations[EntityAnimationType.JumpStart] = new PlayerAnimationJumpStart(this);
+		Animations[EntityAnimationType.JumpFall]  = new PlayerAnimationJumpFall(this);
+		Animations[EntityAnimationType.Dash]      = new PlayerAnimationDash(this);
 
 		CurrentAnimation = EntityAnimationType.Idle;
 

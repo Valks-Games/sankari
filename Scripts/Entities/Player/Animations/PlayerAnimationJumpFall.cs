@@ -1,8 +1,8 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpFall : EntityAnimation<MovingEntity>
+public class PlayerAnimationJumpFall : EntityAnimation<Player>
 {
-	public EntityAnimationJumpFall(MovingEntity entity) : base(entity) { }
+	public PlayerAnimationJumpFall(Player player) : base(player) { }
 
 	public override void EnterState()
 	{
@@ -38,6 +38,6 @@ public class EntityAnimationJumpFall : EntityAnimation<MovingEntity>
 
 	public override void ExitState()
 	{
-		
+
 	}
 }

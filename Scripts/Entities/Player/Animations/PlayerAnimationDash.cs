@@ -1,14 +1,12 @@
-﻿using Sankari;
+﻿namespace Sankari;
 
-namespace Sankari;
-
-public class EntityAnimationDash : EntityAnimation<MovingEntity>
+public class PlayerAnimationDash : EntityAnimation<Player>
 {
-	public EntityAnimationDash(MovingEntity entity) : base(entity) { }
+	public PlayerAnimationDash(Player player) : base(player) { }
 
 	public override void EnterState()
 	{
-		
+
 	}
 
 	public override void UpdateState()
@@ -25,7 +23,6 @@ public class EntityAnimationDash : EntityAnimation<MovingEntity>
 
 		if (!((PlayerCommandDash)Entity.Commands[PlayerCommandType.Dash]).CurrentlyDashing)
 			if (!Entity.IsNearGround())
-			{
 				if (Entity.Velocity.y > 0)
 					SwitchState(EntityAnimationType.JumpFall);
 				else
@@ -36,16 +33,13 @@ public class EntityAnimationDash : EntityAnimation<MovingEntity>
 						SwitchState(EntityAnimationType.Walking);
 				else
 					SwitchState(EntityAnimationType.Idle);
-			}
 			else
-			{
 				// entity is touching the ground
 				SwitchState(EntityAnimationType.Idle);
-			}
 	}
 
 	public override void ExitState()
 	{
-		
+
 	}
 }

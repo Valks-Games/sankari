@@ -1,8 +1,8 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationIdle : EntityAnimation<MovingEntity>
+public class PlayerAnimationIdle : EntityAnimation<Player>
 {
-	public EntityAnimationIdle(MovingEntity entity) : base(entity) { }
+	public PlayerAnimationIdle(Player player) : base(player) { }
 
 	public override void EnterState()
 	{
@@ -14,14 +14,14 @@ public class EntityAnimationIdle : EntityAnimation<MovingEntity>
 		Entity.Jump += OnJump;
 	}
 
-	private void OnJump(object sender, EventArgs e) 
+	private void OnJump(object sender, EventArgs e)
 	{
-		
+
 	}
 
 	public override void UpdateState()
 	{
-		
+
 	}
 
 	public override void HandleStateTransitions()
