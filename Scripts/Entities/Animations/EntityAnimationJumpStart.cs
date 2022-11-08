@@ -1,17 +1,17 @@
 ﻿namespace Sankari;
 
-public class SlimeAnimationJumpStart : EntityAnimation<Slime>
+public class EntityAnimationJumpStart : EntityAnimation<MovingEntity>
 {
 	private GTimer TimerDontCheckOnGround;
 
-	public SlimeAnimationJumpStart(Slime entity) : base(entity) { }
+	public EntityAnimationJumpStart(MovingEntity entity) : base(entity) { }
 
 	public override void EnterState()
 	{
+		Entity.AnimatedSprite.Play("jump_start");
+
 		TimerDontCheckOnGround = Entity.Timers.CreateTimer(100);
 		TimerDontCheckOnGround.Loop = false;
-
-		Entity.AnimatedSprite.Play("jump_start");
 	}
 
 	public override void ExitState()
