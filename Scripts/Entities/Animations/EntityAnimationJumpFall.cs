@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpFall<T> : EntityAnimation<T> where T : MovingEntity<T>
+public class EntityAnimationJumpFall<T> : EntityAnimation<T> where T : MovingEntity
 {
 	public EntityAnimationJumpFall(T entity) : base(entity) { }
 

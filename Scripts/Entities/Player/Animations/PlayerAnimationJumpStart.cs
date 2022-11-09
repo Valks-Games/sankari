@@ -1,8 +1,10 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationJumpStart : EntityAnimationJumpStart<Player>
+public class PlayerAnimationJumpStart : EntityAnimationJumpStart<MovingEntity>
 {
-	public PlayerAnimationJumpStart(Player player) : base(player) { }
+	public Player Player { get; set; }
+
+	public PlayerAnimationJumpStart(Player player) : base(player) => Player = player;
 
 	public override void Update()
 	{
@@ -19,7 +21,7 @@ public class PlayerAnimationJumpStart : EntityAnimationJumpStart<Player>
 
 		if
 		(
-			Entity.PlayerInput.IsDash &&
+			Player.PlayerInput.IsDash &&
 			Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady
 		)
 			SwitchState(EntityAnimationType.Dash);

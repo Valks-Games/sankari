@@ -2,7 +2,7 @@ using Godot;
 
 namespace Sankari;
 
-public partial class Player : MovingEntity<Player>
+public partial class Player : MovingEntity
 {
 	public bool CurrentlyDashing { get; set; }
 	public int JumpForce { get; set; } = 600; // Force applies when jumping

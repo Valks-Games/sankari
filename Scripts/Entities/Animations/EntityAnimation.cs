@@ -12,7 +12,7 @@ public enum EntityAnimationType
 	Dash
 }
 
-public abstract class EntityAnimation<T> where T : MovingEntity<T>
+public abstract class EntityAnimation<T> where T : MovingEntity
 {
 	protected T Entity { get; set; }
 

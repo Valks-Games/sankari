@@ -1,12 +1,14 @@
 ﻿namespace Sankari;
 
-public class SlimeAnimationPreJumpStart : EntityAnimation<Slime>
+public class SlimeAnimationPreJumpStart : EntityAnimation<MovingEntity>
 {
-	public SlimeAnimationPreJumpStart(Slime slime) : base(slime) { }
+	public Slime Slime { get; set; }
+
+	public SlimeAnimationPreJumpStart(Slime slime) : base(slime) => Slime = slime;
 
 	public override void Enter()
 	{
-		Entity.SlimeJump += Slime_SlimeJump;
+		Slime.SlimeJump += Slime_SlimeJump;
 
 		Entity.AnimatedSprite.Play("pre_jump_start");
 	}
@@ -20,7 +22,7 @@ public class SlimeAnimationPreJumpStart : EntityAnimation<Slime>
 
 	public override void Exit()
 	{
-		Entity.SlimeJump -= Slime_SlimeJump;
+		Slime.SlimeJump -= Slime_SlimeJump;
 	}
 
 	private void Slime_SlimeJump(object sender, EventArgs e)

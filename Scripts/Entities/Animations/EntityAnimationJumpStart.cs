@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationJumpStart<T> : EntityAnimation<T> where T : MovingEntity<T>
+public class EntityAnimationJumpStart<T> : EntityAnimation<T> where T : MovingEntity
 {
 	private GTimer TimerDontCheckOnGround { get; set; }
 

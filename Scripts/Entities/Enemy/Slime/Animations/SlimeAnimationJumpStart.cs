@@ -1,10 +1,12 @@
 ﻿namespace Sankari;
 
-public class SlimeAnimationJumpStart : EntityAnimationJumpStart<Slime>
+public class SlimeAnimationJumpStart : EntityAnimationJumpStart<MovingEntity>
 {
+	public Slime Slime { get; set; }
+
 	private bool ChangingDirections { get; set; }
 
-	public SlimeAnimationJumpStart(Slime slime) : base(slime) { }
+	public SlimeAnimationJumpStart(Slime slime) : base(slime) => Slime = slime;
 
 	public override void Enter()
 	{
@@ -16,12 +18,12 @@ public class SlimeAnimationJumpStart : EntityAnimationJumpStart<Slime>
 	{
 		if (Entity.IsOnWall())
         {
-            Entity.WallHugTime++;
+            Slime.WallHugTime++;
 
-            if (Entity.WallHugTime >= 10 && !ChangingDirections)
+            if (Slime.WallHugTime >= 10 && !ChangingDirections)
 			{
 				ChangingDirections = true;
-                Entity.MovingForward = !Entity.MovingForward;
+                Slime.MovingForward = !Slime.MovingForward;
 			}
         }
 	}

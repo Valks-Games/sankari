@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class Slime : MovingEntity<Slime>
+public partial class Slime : MovingEntity
 {
     public override int Gravity { get; set; } = 250;
 	public override bool ClampDampenAir { get; set; } = false;
@@ -19,7 +19,7 @@ public partial class Slime : MovingEntity<Slime>
 		Animations[EntityAnimationType.Idle]         = new SlimeAnimationIdle(this);
 		Animations[EntityAnimationType.PreJumpStart] = new SlimeAnimationPreJumpStart(this);
 		Animations[EntityAnimationType.JumpStart]    = new SlimeAnimationJumpStart(this);
-		Animations[EntityAnimationType.JumpFall]     = new EntityAnimationJumpFall<Slime>(this);
+		Animations[EntityAnimationType.JumpFall]     = new EntityAnimationJumpFall<MovingEntity>(this);
 
 		AnimatedSprite.Animation = "idle";
 		CurrentAnimation = EntityAnimationType.Idle;
