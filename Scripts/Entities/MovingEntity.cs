@@ -157,7 +157,7 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 			DampeningGround -= 1;
 		
 		Commands.Values.ForEach(cmd => cmd.Initialize());
-		//Animations[EntityAnimationType.None] = new EntityAnimationNone<T>(this);
+		Animations[EntityAnimationType.None] = new EntityAnimationNone<T>(null);
 	}
 
 	public sealed override void _Process(double delta)
