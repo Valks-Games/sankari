@@ -1,6 +1,8 @@
 ﻿namespace Sankari;
 
-public abstract partial class MovingEntity : CharacterBody2D
+public interface IMovingEntity { }
+
+public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity where T : MovingEntity<T>
 {
 	[Export] public bool DontCollideWithWall { get; set; } // should this entity care about wall collisions?
 	[Export] public bool FallOffCliff        { get; set; } // should this entity keep moving forward when near a cliff?
@@ -36,7 +38,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 	/// <summary>
 	/// All animations for an entity call UpdateState() and HandleStateTransitions() every frame
 	/// </summary>
-	public Dictionary<EntityAnimationType, EntityAnimation<MovingEntity>> Animations { get; set; } = new();
+	public Dictionary<EntityAnimationType, EntityAnimation<T>> Animations { get; set; } = new();
 
 	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None; // The current animation that is being used for the entity
 
@@ -155,7 +157,7 @@ public abstract partial class MovingEntity : CharacterBody2D
 			DampeningGround -= 1;
 		
 		Commands.Values.ForEach(cmd => cmd.Initialize());
-		Animations[EntityAnimationType.None] = new EntityAnimationNone<MovingEntity>(this);
+		//Animations[EntityAnimationType.None] = new EntityAnimationNone<T>(this);
 	}
 
 	public sealed override void _Process(double delta)

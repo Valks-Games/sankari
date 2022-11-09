@@ -1,10 +1,8 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationIdle : EntityAnimationIdle<MovingEntity>
+public class PlayerAnimationIdle : EntityAnimationIdle<Player>
 {
-	public Player Player { get; set; }
-
-	public PlayerAnimationIdle(Player player) : base(player) => Player = player;
+	public PlayerAnimationIdle(Player player) : base(player) { }
 
 	public override void Enter()
 	{
@@ -32,11 +30,11 @@ public class PlayerAnimationIdle : EntityAnimationIdle<MovingEntity>
 
 		if (Entity.IsNearGround())
 		{
-			if (Player.PlayerInput.IsJump)
+			if (Entity.PlayerInput.IsJump)
 				SwitchState(EntityAnimationType.JumpStart);
 
 			if (Entity.MoveDir != Vector2.Zero)
-				if (Player.PlayerInput.IsSprint)
+				if (Entity.PlayerInput.IsSprint)
 					SwitchState(EntityAnimationType.Running);
 				else
 					SwitchState(EntityAnimationType.Walking);

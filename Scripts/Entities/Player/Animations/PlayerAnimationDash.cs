@@ -1,10 +1,8 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationDash : EntityAnimation<MovingEntity>
+public class PlayerAnimationDash : EntityAnimation<Player>
 {
-	public Player Player { get; set; }
-
-	public PlayerAnimationDash(Player player) : base(player) => Player = player;
+	public PlayerAnimationDash(Player player) : base(player) { }
 
 	public override void Update()
 	{
@@ -24,7 +22,7 @@ public class PlayerAnimationDash : EntityAnimation<MovingEntity>
 					SwitchState(EntityAnimationType.JumpFall);
 				else
 				if (Entity.MoveDir != Vector2.Zero)
-					if (Player.PlayerInput.IsSprint)
+					if (Entity.PlayerInput.IsSprint)
 						SwitchState(EntityAnimationType.Running);
 					else
 						SwitchState(EntityAnimationType.Walking);

@@ -12,7 +12,7 @@ public partial class Killzone : Area2D
 			return; // do not queue free the player by accident
 		} 
 
-        if (parent is MovingEntity)
+        if (parent is IMovingEntity)
 		{
             parent.QueueFree();
 			return; // do not do something else by accident
