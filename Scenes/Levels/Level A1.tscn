@@ -1339,7 +1339,7 @@ text = "Jump!"
 position = Vector2(3380, 584)
 
 [node name="Player" parent="." instance=ExtResource("2")]
-position = Vector2(5154, 544)
+position = Vector2(136, 568)
 
 [node name="Level Finish" type="Area2D" parent="." groups=["Level Finish"]]
 script = ExtResource("12_o76mk")
