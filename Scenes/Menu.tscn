@@ -19,7 +19,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_2kwsd")
 script = ExtResource("2")
 
 [node name="Left Sidebar" type="MarginContainer" parent="."]
-layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -29,20 +28,17 @@ offset_bottom = 26.0
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Left Sidebar"]
-layout_mode = 2
 offset_right = 249.0
 offset_bottom = 52.0
 theme = ExtResource("4")
 
 [node name="Play" type="Button" parent="Left Sidebar/VBoxContainer"]
-layout_mode = 2
 offset_right = 249.0
 offset_bottom = 49.0
 focus_neighbor_right = NodePath("../../../Right Sidebar/VBoxContainer/Options")
 text = "Play"
 
 [node name="Right Sidebar" type="MarginContainer" parent="."]
-layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -56,41 +52,35 @@ grow_vertical = 2
 theme = ExtResource("5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Right Sidebar"]
-layout_mode = 2
 offset_right = 212.0
 offset_bottom = 204.0
 theme = ExtResource("5")
 
 [node name="Options" type="Button" parent="Right Sidebar/VBoxContainer"]
 visible = false
-layout_mode = 2
 offset_right = 212.0
 offset_bottom = 49.0
 text = "Options"
 
 [node name="Mods" type="Button" parent="Right Sidebar/VBoxContainer"]
 visible = false
-layout_mode = 2
 offset_right = 212.0
 offset_bottom = 49.0
 text = "Mods"
 
 [node name="Credits" type="Button" parent="Right Sidebar/VBoxContainer"]
 visible = false
-layout_mode = 2
 offset_right = 212.0
 offset_bottom = 49.0
 text = "Credits"
 
 [node name="Quit" type="Button" parent="Right Sidebar/VBoxContainer"]
-layout_mode = 2
 offset_right = 212.0
 offset_bottom = 49.0
 focus_neighbor_left = NodePath("../../../Left Sidebar/VBoxContainer/Play")
 text = "Quit"
 
 [node name="Social Links" type="MarginContainer" parent="."]
-layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -99,19 +89,16 @@ offset_right = 139.0
 grow_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Social Links"]
-layout_mode = 2
 offset_right = 139.0
 offset_bottom = 27.0
 
 [node name="Discord" type="Button" parent="Social Links/HBoxContainer"]
-layout_mode = 2
 offset_right = 61.0
 offset_bottom = 27.0
 text = "Discord"
 flat = true
 
 [node name="GitHub" type="Button" parent="Social Links/HBoxContainer"]
-layout_mode = 2
 offset_left = 65.0
 offset_right = 121.0
 offset_bottom = 27.0

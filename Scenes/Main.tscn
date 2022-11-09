@@ -301,7 +301,7 @@ offset_top = 86.0
 offset_right = 250.0
 offset_bottom = 91.0
 
-[node name="Join World3D" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+[node name="Join World" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
 layout_mode = 2
 offset_top = 95.0
 offset_right = 250.0
@@ -439,5 +439,5 @@ text = "Game Over"
 [connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host/Server Toggle" to="CanvasLayer/UIMapMenu" method="_on_Server_Toggle_pressed"]
 [connection signal="text_changed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join/IP" to="CanvasLayer/UIMapMenu" method="_on_IP_text_changed"]
 [connection signal="text_changed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join/Join Password" to="CanvasLayer/UIMapMenu" method="_on_Join_Password_text_changed"]
-[connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join/Join World3D" to="CanvasLayer/UIMapMenu" method="_on_Join_World_pressed"]
+[connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join/Join World" to="CanvasLayer/UIMapMenu" method="_on_Join_World_pressed"]
 [connection signal="pressed" from="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Game/Back to Main Menu" to="CanvasLayer/UIMapMenu" method="_on_Back_to_Main_Menu_pressed"]
