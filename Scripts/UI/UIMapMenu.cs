@@ -37,7 +37,7 @@ public partial class UIMapMenu : Control
 
         LineEditJoinIp = ControlJoin.GetNode<LineEdit>("IP");
         LineEditJoinPassword = ControlJoin.GetNode<LineEdit>("Join Password");
-        BtnJoin = ControlJoin.GetNode<Button>("Join World3D");
+        BtnJoin = ControlJoin.GetNode<Button>("Join World");
 
         LineEditOnlineUsername = GetNode<LineEdit>(NodePathOnlineUsername);
         OnlineUsername = LineEditOnlineUsername.Text;
