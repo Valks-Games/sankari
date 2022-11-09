@@ -66,7 +66,7 @@ public partial class UIMapMenu : Control
         while (!Net.Server.HasSomeoneConnected)
             await Task.Delay(1);
 
-        BtnHostServerToggle.Text = "Close World3D to Other Players";
+        BtnHostServerToggle.Text = "Close World to Other Players";
     }
 
 	public void Join(string ip = "127.0.0.1", ushort port = 25565)
