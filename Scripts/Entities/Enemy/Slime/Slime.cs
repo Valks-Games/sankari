@@ -12,8 +12,6 @@ public partial class Slime : MovingEntity
     public int WallHugTime { get; set; }
 	public bool StartedPreJump { get; set; }
 
-	public event EventHandler SlimeJump;
-
     public override void Init()
     {
 		Animations[EntityAnimationType.Idle]         = new SlimeAnimationIdle(this);
@@ -39,14 +37,12 @@ public partial class Slime : MovingEntity
 
 	private void OnPreJumpTimer()
 	{
+		OnJump();
 		AnimatedSprite.Offset = Vector2.Zero;
 		StartedPreJump = false;
-		OnJump();
 		WallHugTime = 0;
 
 		Velocity = Velocity + new Vector2(MovingForward ? 40 : -40, -300);
-
-		SlimeJump?.Invoke(this, EventArgs.Empty);
 	}
 
 	private void _on_enemy_area_entered(Area2D area)

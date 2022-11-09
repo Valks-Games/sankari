@@ -8,7 +8,7 @@ public class SlimeAnimationPreJumpStart : EntityAnimation<MovingEntity>
 
 	public override void Enter()
 	{
-		Slime.SlimeJump += Slime_SlimeJump;
+		Slime.Jump += Slime_Jump;
 
 		Entity.AnimatedSprite.Play("pre_jump_start");
 	}
@@ -22,10 +22,10 @@ public class SlimeAnimationPreJumpStart : EntityAnimation<MovingEntity>
 
 	public override void Exit()
 	{
-		Slime.SlimeJump -= Slime_SlimeJump;
+		Slime.Jump -= Slime_Jump;
 	}
 
-	private void Slime_SlimeJump(object sender, EventArgs e)
+	private void Slime_Jump(object sender, EventArgs e)
 	{
 		SwitchState(EntityAnimationType.JumpStart);
 	}
