@@ -174,7 +174,7 @@ public partial class UIMapMenu : Control
             Net.Server.Stop();
             Net.Client.Stop();
 
-            BtnHostServerToggle.Text = "Open World3D to Other Players";
+            BtnHostServerToggle.Text = "Open World to Other Players";
         }
         else 
         {
