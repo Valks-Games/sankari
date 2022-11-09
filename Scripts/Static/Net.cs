@@ -34,7 +34,7 @@ public static class Net
         {
             Client.ExecuteCode((client) => client.TryingToConnect = false);
             mapScript.BtnJoin.Disabled = false;
-            mapScript.BtnJoin.Text = "Join World3D";
+            mapScript.BtnJoin.Text = "Join World";
 
             GameManager.UIPlayerList.RemoveAllPlayers();
         });
