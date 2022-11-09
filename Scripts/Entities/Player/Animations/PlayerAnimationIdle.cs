@@ -35,7 +35,7 @@ public class PlayerAnimationIdle : EntityAnimationIdle<MovingEntity>
 			if (Player.PlayerInput.IsJump)
 				SwitchState(EntityAnimationType.JumpStart);
 
-			if (Entity.MoveDir != Vector2.Zero)
+			if (Entity.MoveDir.x != 0)
 				if (Player.PlayerInput.IsSprint)
 					SwitchState(EntityAnimationType.Running);
 				else

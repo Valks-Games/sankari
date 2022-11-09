@@ -23,7 +23,7 @@ public class PlayerAnimationDash : EntityAnimation<MovingEntity>
 				if (Entity.Velocity.y > 0)
 					SwitchState(EntityAnimationType.JumpFall);
 				else
-				if (Entity.MoveDir != Vector2.Zero)
+				if (Entity.MoveDir.x != 0)
 					if (Player.PlayerInput.IsSprint)
 						SwitchState(EntityAnimationType.Running);
 					else
