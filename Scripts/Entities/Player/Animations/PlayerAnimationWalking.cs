@@ -26,13 +26,13 @@ public class PlayerAnimationWalking : EntityAnimation<MovingEntity>
 		if (Player.PlayerInput.IsJump)
 			SwitchState(EntityAnimationType.JumpStart);
 
-		else if (Player.PlayerInput.IsDash && Player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
+		else if (Player.PlayerInput.IsDash && Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
 			SwitchState(EntityAnimationType.Dash);
 
 		else if (Player.PlayerInput.IsSprint)
 			SwitchState(EntityAnimationType.Running);
 
-		else if (Player.MoveDir == Vector2.Zero || Player.Velocity.y != 0)
+		else if (Entity.MoveDir == Vector2.Zero || Entity.Velocity.y != 0)
 			SwitchState(EntityAnimationType.Idle);
 	}
 }

@@ -87,6 +87,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ry2kl")
 
 [node name="Console" type="VBoxContainer" parent="CanvasLayer/PanelContainer"]
 visible = false
+layout_mode = 2
 offset_left = 1.0
 offset_top = 1.0
 offset_right = 1151.0
@@ -94,6 +95,7 @@ offset_bottom = 647.0
 script = ExtResource("8")
 
 [node name="Console Logs" type="TextEdit" parent="CanvasLayer/PanelContainer/Console"]
+layout_mode = 2
 offset_right = 1150.0
 offset_bottom = 617.0
 size_flags_vertical = 3
@@ -101,6 +103,7 @@ theme = ExtResource("7")
 highlight_all_occurrences = true
 
 [node name="Console Input" type="LineEdit" parent="CanvasLayer/PanelContainer/Console"]
+layout_mode = 2
 offset_top = 621.0
 offset_right = 1150.0
 offset_bottom = 646.0
@@ -125,6 +128,7 @@ grow_horizontal = 0
 script = ExtResource("9")
 
 [node name="VBox" type="VBoxContainer" parent="CanvasLayer/Player List"]
+layout_mode = 2
 offset_right = 100.0
 offset_bottom = 14.0
 
@@ -143,6 +147,7 @@ NodePathJoin = NodePath("PanelContainer/Margin/VBox/Net/Join")
 NodePathOnlineUsername = NodePath("PanelContainer/Margin/VBox/VBox/Online Username")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UIMapMenu"]
+layout_mode = 2
 offset_left = 462.0
 offset_top = 195.0
 offset_right = 690.0
@@ -151,27 +156,32 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="Margin" type="MarginContainer" parent="CanvasLayer/UIMapMenu/PanelContainer"]
+layout_mode = 2
 offset_left = 1.0
 offset_top = 1.0
 offset_right = 227.0
 offset_bottom = 257.0
 
 [node name="VBox" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin"]
+layout_mode = 2
 offset_right = 226.0
 offset_bottom = 256.0
 alignment = 1
 
 [node name="HBox" type="HBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
+layout_mode = 2
 offset_right = 226.0
 offset_bottom = 25.0
 
 [node name="Host" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/HBox"]
+layout_mode = 2
 offset_right = 111.0
 offset_bottom = 25.0
 size_flags_horizontal = 3
 text = "Host"
 
 [node name="Join" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/HBox"]
+layout_mode = 2
 offset_left = 115.0
 offset_right = 226.0
 offset_bottom = 25.0
@@ -179,63 +189,73 @@ size_flags_horizontal = 3
 text = "Join"
 
 [node name="VBox" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
+layout_mode = 2
 offset_top = 29.0
 offset_right = 226.0
 offset_bottom = 80.0
 
 [node name="Label" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/VBox"]
+layout_mode = 2
 offset_right = 226.0
 offset_bottom = 22.0
 text = "Online Username"
 
 [node name="Online Username" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/VBox"]
+layout_mode = 2
 offset_top = 26.0
 offset_right = 226.0
 offset_bottom = 51.0
 text = "valk"
 
 [node name="Net" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
+layout_mode = 2
 offset_top = 84.0
 offset_right = 226.0
 offset_bottom = 223.0
 
 [node name="Host" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
+layout_mode = 2
 offset_right = 226.0
 offset_bottom = 139.0
 size_flags_horizontal = 5
 size_flags_vertical = 0
 
 [node name="Label" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
+layout_mode = 2
 offset_right = 226.0
 offset_bottom = 22.0
 text = "Port"
 
 [node name="Port" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
+layout_mode = 2
 offset_top = 26.0
 offset_right = 226.0
 offset_bottom = 51.0
 text = "25565"
 
 [node name="Label2" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
+layout_mode = 2
 offset_top = 55.0
 offset_right = 226.0
 offset_bottom = 77.0
 text = "Password"
 
 [node name="Password" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
+layout_mode = 2
 offset_top = 81.0
 offset_right = 226.0
 offset_bottom = 106.0
 secret = true
 
 [node name="Padding" type="Control" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
-layout_mode = 3
+layout_mode = 2
 anchors_preset = 0
 offset_top = 110.0
 offset_right = 226.0
 offset_bottom = 110.0
 
 [node name="Server Toggle" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Host"]
+layout_mode = 2
 offset_top = 114.0
 offset_right = 226.0
 offset_bottom = 139.0
@@ -244,52 +264,59 @@ text = "Open World3D to Other Players"
 
 [node name="Join" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net"]
 visible = false
+layout_mode = 2
 offset_right = 250.0
 offset_bottom = 120.0
 
 [node name="Label" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+layout_mode = 2
 offset_right = 250.0
 offset_bottom = 19.0
 text = "Server Address"
 
 [node name="IP" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+layout_mode = 2
 offset_top = 23.0
 offset_right = 250.0
 offset_bottom = 39.0
 text = "127.0.0.1:25565"
 
 [node name="Label2" type="Label" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+layout_mode = 2
 offset_top = 43.0
 offset_right = 250.0
 offset_bottom = 62.0
 text = "Password"
 
 [node name="Join Password" type="LineEdit" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+layout_mode = 2
 offset_top = 66.0
 offset_right = 250.0
 offset_bottom = 82.0
 
 [node name="Padding" type="Control" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
-layout_mode = 3
+layout_mode = 2
 anchors_preset = 0
 offset_top = 86.0
 offset_right = 250.0
 offset_bottom = 91.0
 
 [node name="Join World3D" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Net/Join"]
+layout_mode = 2
 offset_top = 95.0
 offset_right = 250.0
 offset_bottom = 120.0
 text = "Join World3D"
 
 [node name="Padding" type="Control" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
-layout_mode = 3
+layout_mode = 2
 anchors_preset = 0
 offset_top = 227.0
 offset_right = 226.0
 offset_bottom = 227.0
 
 [node name="Game" type="VBoxContainer" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox"]
+layout_mode = 2
 offset_left = 41.0
 offset_top = 231.0
 offset_right = 184.0
@@ -298,6 +325,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 
 [node name="Back to Main Menu" type="Button" parent="CanvasLayer/UIMapMenu/PanelContainer/Margin/VBox/Game"]
+layout_mode = 2
 offset_right = 143.0
 offset_bottom = 25.0
 text = "Back to Main Menu"
@@ -319,11 +347,13 @@ NodePathHealthBar = NodePath("Health Bar")
 NodePathGameOver = NodePath("Game Over/Label")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Level UI"]
+layout_mode = 0
 offset_right = 53.0
 offset_bottom = 31.0
 theme = ExtResource("7")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Level UI/PanelContainer"]
+layout_mode = 2
 offset_left = 1.0
 offset_top = 1.0
 offset_right = 52.0
@@ -336,12 +366,13 @@ frames = SubResource("73")
 
 [node name="Padding Left" type="Control" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(25, 0)
-layout_mode = 3
+layout_mode = 2
 anchors_preset = 0
 offset_right = 25.0
 offset_bottom = 29.0
 
 [node name="Coin Value" type="Label" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
+layout_mode = 2
 offset_left = 29.0
 offset_top = 3.0
 offset_right = 38.0
@@ -350,6 +381,7 @@ text = "0"
 
 [node name="Lives" type="HBoxContainer" parent="CanvasLayer/Level UI"]
 visible = false
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -358,6 +390,7 @@ grow_vertical = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="CanvasLayer/Level UI/Lives"]
+layout_mode = 2
 offset_left = 545.0
 offset_top = 311.0
 offset_right = 601.0
@@ -366,12 +399,14 @@ size_flags_horizontal = 4
 text = "Lives x "
 
 [node name="Lives Value" type="Label" parent="CanvasLayer/Level UI/Lives"]
+layout_mode = 2
 offset_left = 605.0
 offset_top = 312.0
 offset_right = 606.0
 offset_bottom = 335.0
 
 [node name="Health Bar" type="HBoxContainer" parent="CanvasLayer/Level UI"]
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -381,6 +416,7 @@ grow_horizontal = 0
 alignment = 2
 
 [node name="Game Over" type="HBoxContainer" parent="CanvasLayer/Level UI"]
+layout_mode = 0
 offset_left = 536.0
 offset_top = 304.0
 offset_right = 623.0
@@ -388,6 +424,7 @@ offset_bottom = 344.0
 
 [node name="Label" type="Label" parent="CanvasLayer/Level UI/Game Over"]
 visible = false
+layout_mode = 2
 offset_top = 7.0
 offset_right = 87.0
 offset_bottom = 33.0

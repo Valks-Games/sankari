@@ -16,7 +16,7 @@ public class SlimeAnimationJumpStart : EntityAnimationJumpStart<MovingEntity>
 
 	public override void Update()
 	{
-		if (Slime.IsOnWall())
+		if (Entity.IsOnWall())
         {
             Slime.WallHugTime++;
 

@@ -27,8 +27,6 @@ public partial class Slime : MovingEntity
 		IdleTimer = new GTimer(this, 1000) { Loop = false };
 		PreJumpTimer = new GTimer(this, nameof(OnPreJumpTimer), 400, false) { Loop = false };
 
-		MovingForward = true;
-
 		Label.Visible = true;
     }
 

@@ -1,13 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://du56s3jx2icue"]
+[gd_scene load_steps=16 format=3 uid="uid://du56s3jx2icue"]
 
 [ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="1_4f86e"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="1_pxesi"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="2_h0i8n"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/WallJumpArea.cs" id="3_1jdq3"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Killzone.cs" id="3_722fj"]
-[ext_resource type="PackedScene" uid="uid://k3c0v1nsfid8" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="3_vjv6q"]
-[ext_resource type="PackedScene" uid="uid://bv7vl6hp8o7ui" path="res://Scenes/Prefabs/Enemies/Spike.tscn" id="5_bfsgh"]
-[ext_resource type="PackedScene" uid="uid://dgkrwp1kmh5v3" path="res://Scenes/Prefabs/Enemies/Slime.tscn" id="8_o4uh1"]
+[ext_resource type="PackedScene" uid="uid://c1df5fip5aih6" path="res://Scenes/Prefabs/Enemies/Bird.tscn" id="4_1oo7u"]
+[ext_resource type="PackedScene" uid="uid://ndrqcfwlr8c3" path="res://Scenes/Prefabs/Enemies/Slime.tscn" id="5_rv6et"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgodp"]
 load_path = "res://.godot/imported/grass_dirt_16.png-a4c5d3e9e447e6431aeae544ed7d9b15.ctex"
@@ -1058,25 +1057,14 @@ shape = SubResource("RectangleShape2D_rypwg")
 
 [node name="Enemies" type="Node2D" parent="Environment"]
 
-[node name="Spike" parent="Environment/Enemies" instance=ExtResource("5_bfsgh")]
-position = Vector2(1247, 584)
+[node name="Bird" parent="Environment/Enemies" instance=ExtResource("4_1oo7u")]
+position = Vector2(692, 550)
 
-[node name="CharacterBody2D" parent="Environment/Enemies" instance=ExtResource("3_vjv6q")]
-position = Vector2(1685, 241)
-
-[node name="Slime" parent="Environment/Enemies" instance=ExtResource("8_o4uh1")]
-position = Vector2(2317, 119)
-
-[node name="Slime2" parent="Environment/Enemies" instance=ExtResource("8_o4uh1")]
-position = Vector2(2368, 103)
-scale = Vector2(2, 2)
-
-[node name="Slime3" parent="Environment/Enemies" instance=ExtResource("8_o4uh1")]
-position = Vector2(2442, 86)
-scale = Vector2(3, 3)
+[node name="Slime" parent="Environment/Enemies" instance=ExtResource("5_rv6et")]
+position = Vector2(2462, 119)
 
 [node name="Player" parent="." instance=ExtResource("1_4f86e")]
-position = Vector2(1833, -75)
+position = Vector2(2374, 111)
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true

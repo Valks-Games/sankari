@@ -17,7 +17,7 @@ public class SlimeAnimationPreJumpStart : EntityAnimation<MovingEntity>
 	{
 		var shakeStrength = 0.4f;
 
-		Slime.AnimatedSprite.Offset = new Vector2(-shakeStrength + new Random().NextSingle() * shakeStrength * 2, 0);
+		Entity.AnimatedSprite.Offset = new Vector2(-shakeStrength + new Random().NextSingle() * shakeStrength * 2, 0);
 	}
 
 	public override void Exit()

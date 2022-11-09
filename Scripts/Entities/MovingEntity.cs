@@ -1,6 +1,8 @@
 ﻿namespace Sankari;
 
-public abstract partial class MovingEntity : CharacterBody2D
+public interface IMovingEntity { }
+
+public abstract partial class MovingEntity : CharacterBody2D, IMovingEntity
 {
 	[Export] public bool DontCollideWithWall { get; set; } // should this entity care about wall collisions?
 	[Export] public bool FallOffCliff        { get; set; } // should this entity keep moving forward when near a cliff?
@@ -155,9 +157,9 @@ public abstract partial class MovingEntity : CharacterBody2D
 			DampeningGround -= 1;
 		
 		Commands.Values.ForEach(cmd => cmd.Initialize());
-		Animations[EntityAnimationType.None] = new EntityAnimationNone<MovingEntity>(this);
+		Animations[EntityAnimationType.None] = new EntityAnimationNone<MovingEntity>(null);
 	}
-
+	
 	public sealed override void _Process(double delta)
 	{
 		Update();

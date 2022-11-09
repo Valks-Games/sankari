@@ -2,7 +2,7 @@
 
 public class PlayerAnimationJumpFall : EntityAnimationJumpFall<MovingEntity>
 {
-	private Player Player { get; set; }
+	public Player Player { get; set; }
 
 	public PlayerAnimationJumpFall(Player player) : base(player) => Player = player;
 

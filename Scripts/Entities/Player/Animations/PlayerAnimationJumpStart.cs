@@ -2,7 +2,7 @@
 
 public class PlayerAnimationJumpStart : EntityAnimationJumpStart<MovingEntity>
 {
-	private Player Player { get; set; }
+	public Player Player { get; set; }
 
 	public PlayerAnimationJumpStart(Player player) : base(player) => Player = player;
 
@@ -22,7 +22,7 @@ public class PlayerAnimationJumpStart : EntityAnimationJumpStart<MovingEntity>
 		if
 		(
 			Player.PlayerInput.IsDash &&
-			Player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady
+			Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady
 		)
 			SwitchState(EntityAnimationType.Dash);
 	}

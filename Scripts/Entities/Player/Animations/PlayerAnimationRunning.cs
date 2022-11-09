@@ -28,7 +28,7 @@ public class PlayerAnimationRunning : EntityAnimation<MovingEntity>
 
 			SwitchState(EntityAnimationType.JumpStart);
 
-		else if (Player.PlayerInput.IsDash && Player.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
+		else if (Player.PlayerInput.IsDash && Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
 
 			SwitchState(EntityAnimationType.Dash);
 
@@ -36,7 +36,7 @@ public class PlayerAnimationRunning : EntityAnimation<MovingEntity>
 
 			SwitchState(EntityAnimationType.Walking);
 
-		else if (Entity.MoveDir == Vector2.Zero || Player.Velocity.y != 0)
+		else if (Entity.MoveDir == Vector2.Zero || Entity.Velocity.y != 0)
 
 			SwitchState(EntityAnimationType.Idle);
 	}
