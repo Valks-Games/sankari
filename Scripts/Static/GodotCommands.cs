@@ -28,7 +28,7 @@ public static class GodotCommands
                             }
 
                     if (logOpcode)
-                        Logger.Log($"[Client] Received: {opcode}");
+                        Net.Client.Log($"Received: {opcode}");
 
                     // WARN: Not a thread safe way of getting HandlePacket
                     // Should not effect anything

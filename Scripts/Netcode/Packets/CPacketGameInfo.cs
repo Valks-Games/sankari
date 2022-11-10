@@ -36,7 +36,7 @@ public class CPacketGameInfo : APacketClient
     {
         ClientGameInfo = (ClientGameInfo)reader.ReadUShort();
 
-        Logger.Log($"[Server] Received: {ClientGameInfo}");
+        Net.Server.Log($"Received: {ClientGameInfo}");
 
         switch (ClientGameInfo)
         {
@@ -116,6 +116,6 @@ public class CPacketGameInfo : APacketClient
         if (Host)
             server.HostId = peer.ID;
 
-        Logger.Log($"[Server] Player with username '{Username}' (id {peer.ID}) joined");
+        server.Log($"Player with username '{Username}' (id {peer.ID}) joined");
     }
 }

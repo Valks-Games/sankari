@@ -68,7 +68,7 @@ public class SPacketGameInfo : APacketServer
     {
         ServerGameInfo = (ServerGameInfo)reader.ReadUShort();
 
-        Logger.Log($"[Client] Received: {ServerGameInfo}");
+        Net.Client.Log($"Received: {ServerGameInfo}");
 
         switch (ServerGameInfo)
         {

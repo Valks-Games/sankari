@@ -109,13 +109,18 @@ public static class Logger
     private static void Print(object v, ConsoleColor color)
     {
         Console.ForegroundColor = color;
-        GD.Print(v);
+
+		if (OS.HasFeature("standalone")) // exported release
+			GD.Print(v);
+		else
+			GD.PrintRich($"[color={color.ToString()}]{v}[/color]");
     }
 
     private static void PrintErr(object v, ConsoleColor color)
     {
         Console.ForegroundColor = color;
         GD.PrintErr(v);
+		//GD.PushError("" + v);
     }
 }
 
