@@ -9,7 +9,7 @@ public class GameServer : ENetServer
     /// <summary>
     /// This property is not thread safe
     /// </summary>
-    public Dictionary<byte, DataPlayer> Players = new();
+    public Dictionary<byte, DataPlayer> Players { get; set; } = new();
 
     /// <summary>
     /// This property is not thread safe
