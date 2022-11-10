@@ -75,6 +75,8 @@ public class CPacketGameInfo : APacketClient
 
         if (!Host)
         {
+			// a new client is joining the server
+
             // notify joining player of all players in the server
             server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo
             {
