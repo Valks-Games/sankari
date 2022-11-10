@@ -40,4 +40,9 @@ This project is under the [MIT license](https://github.com/Valks-Games/sankari/b
 - Some of the audio is from [Mixkit](https://mixkit.co/free-sound-effects/game-over/) under the Mixkit license
 - The networking library [ENet-CSharp](https://github.com/SoftwareGuy/ENet-CSharp) is under the [MIT license](https://github.com/SoftwareGuy/ENet-CSharp/blob/master/LICENSE)
 
-![image](https://user-images.githubusercontent.com/6277739/188284863-dec66a12-e4d4-4d5a-b332-ca3c1907108e.png)
+## Credit
+Thank you to the following wonderful people that helped make this project something even better
+
+[AdamLaine](https://github.com/AdamLaine)  
+[Dunkhan](https://github.com/Dunkhan)  
+[Policiu](https://github.com/policiu)  
