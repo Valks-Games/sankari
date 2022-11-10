@@ -1,3 +1,7 @@
+## v0.1.28
+- Updated the [scripting](https://github.com/Valks-Games/sankari/wiki/Scripting) and [multiplayer scripting](https://github.com/Valks-Games/sankari/wiki/Multiplayer-Scripting) sections of the wiki
+- Improved readability of scripts
+
 ## v0.1.27
 - Updated to Godot 4 Beta 4
 - Health functions are no longer specific to the player and are now defined in MovingEntity
