@@ -66,6 +66,12 @@ public class CPacketGameInfo : APacketClient
 
     private void HandlePlayerJoin()
     {
+		// Reminder that this is code that is executed on the server-side.
+		// If you are unsure of where code is being executed from, hover
+		// your mouse over the 'void Handle(ENet.Peer)' method to see its
+		// description. It will tell you if this code is being executed
+		// server-side or client-side.
+
         if (server.Players.ContainsKey((byte)peer.ID))
         {
             server.Kick(peer.ID, DisconnectOpcode.Kicked);
