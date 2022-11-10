@@ -63,17 +63,17 @@ public partial class Linker : Node
 
 			if (AutoHostJoin)
 			{
-				if (OS.HasFeature("standalone"))
+				if (GOS.IsExportedRelease())
 				{
 					// running in an exported build
-					DisplayServer.WindowSetTitle("OtherClient");
+					GOS.SetWindowTitle("OtherClient");
 					GameManager.UIMapMenu.OnlineUsername = "OtherClient";
 					GameManager.UIMapMenu.Join();
 				}
 				else
 				{
 					// running in the editor
-					DisplayServer.WindowSetTitle("ImHost");
+					GOS.SetWindowTitle("ImHost");
 					GameManager.UIMapMenu.OnlineUsername = "ImHost";
 					await GameManager.UIMapMenu.HostGame();
 				}

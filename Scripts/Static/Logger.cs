@@ -110,7 +110,7 @@ public static class Logger
     {
         Console.ForegroundColor = color;
 
-		if (OS.HasFeature("standalone")) // exported release
+		if (GOS.IsExportedRelease())
 			GD.Print(v);
 		else
 			GD.PrintRich($"[color={color.ToString()}]{v}[/color]");
