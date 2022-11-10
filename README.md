@@ -8,8 +8,6 @@
 
 https://user-images.githubusercontent.com/6277739/199924817-a5d3992f-edd0-444c-be70-0dbe7eb977ca.mp4
 
-https://user-images.githubusercontent.com/6277739/199924849-4f7da8c4-da39-46bf-9b0c-aa84a9961586.mp4
-
 https://user-images.githubusercontent.com/6277739/199924992-c549865c-5e34-45fe-9674-bdb8bea82434.mp4
 
 https://user-images.githubusercontent.com/6277739/200099886-5068418b-e8fe-4ce9-b1cd-050bf08eef70.mp4
