@@ -121,6 +121,11 @@ public static class Audio
     }
 
 	/// <summary>
+	/// Set the music volume. Values range from 0 to 100.
+	/// </summary>
+	public static void SetVolumeMusic(int v) => MusicPlayer.Volume = v;
+
+	/// <summary>
 	/// Stop the music track currently being played
 	/// </summary>
     public static void StopMusic() => MusicPlayer.Stop();
