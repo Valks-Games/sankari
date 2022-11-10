@@ -20,8 +20,10 @@ public static class LevelManager
 		{
 			// This is here because of a Godot issue (https://github.com/godotengine/godot/issues/66014)
 			// for linux users. If this gets fixed, this code should be deleted.
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-				fileName  = fileName.Replace(".tscn.remap", ".tscn");
+			//if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+			// This is not just for linux, this problem also happens on Windows, it's just
+			// the game does not crash when it happens unlike on Linux
+			fileName = fileName.Replace(".tscn.remap", ".tscn");
 
 			if (!dir.CurrentIsDir())
 				Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
