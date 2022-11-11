@@ -17,6 +17,10 @@ Sankari ("hero" in Finnish) is a non-profit F2P 2D Platformer about a hero whose
 
 This project was created to gain experience in the C# Godot environment for the 2D Platform genre and to prove to myself that I can make a complete game. I hope in making this open source that others will also learn some things that I have learned.
 
+The project will be considered complete when there is around 2 to 3 hours of fun and memorable content. Some of the major goals of the project include getting multiplayer to a playable state and making the code as flexible and as readable as possible.
+
+If you have any questions or suggestions about the project or just want to talk to me in general, my Discord username is `valk#9904`. You can also find me on the [Sankari Discord](https://discord.gg/5frafxrwwd).
+
 [Changelog](https://github.com/Valks-Games/sankari/blob/main/.github/CHANGELOG.md)  
 
 ## Project Setup
