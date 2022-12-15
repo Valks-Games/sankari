@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class PlayerAnimationJumpFall : EntityAnimationJumpFall<MovingEntity>
+public class PlayerAnimationJumpFall : EntityAnimationJumpFall<Player>
 {
 	public Player Player { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class EntityAnimationIdle<T> : EntityAnimation<T> where T : MovingEntity
+public class EntityAnimationIdle<T> : EntityAnimation<T> where T : MovingEntity<T>
 {
 	public EntityAnimationIdle(T entity) : base(entity) { }
 

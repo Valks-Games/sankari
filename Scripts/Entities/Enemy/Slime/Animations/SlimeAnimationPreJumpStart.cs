@@ -1,6 +1,6 @@
 ﻿namespace Sankari;
 
-public class SlimeAnimationPreJumpStart : EntityAnimation<MovingEntity>
+public class SlimeAnimationPreJumpStart : EntityAnimation<Slime>
 {
 	public Slime Slime { get; set; }
 

@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class BasicEnemy : MovingEntity, IEntity
+public partial class BasicEnemy : MovingEntity<BasicEnemy>, IEntity
 {	
 	[Export] public float Speed { get; set; } = 40;
 	[Export] public bool Active { get; set; } = true;

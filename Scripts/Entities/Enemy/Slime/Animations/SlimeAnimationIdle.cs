@@ -1,18 +1,16 @@
 ﻿namespace Sankari;
 
-public class SlimeAnimationIdle : EntityAnimationIdle<MovingEntity>
+public class SlimeAnimationIdle : EntityAnimationIdle<Slime>
 {
-	public Slime Slime { get; set; }
-
-	public SlimeAnimationIdle(Slime slime) : base(slime) => Slime = slime;
+	public SlimeAnimationIdle(Slime entity) : base(entity) { }
 
 	public override void HandleTransitions()
 	{
-		if (Slime.IsNearGround() && !Slime.StartedPreJump && !Slime.IdleTimer.IsActive())
+		if (Entity.IsNearGround() && !Entity.StartedPreJump && !Entity.IdleTimer.IsActive())
 		{
-			Slime.StartedPreJump = true;
-			Slime.AnimatedSprite.Play("pre_jump_start");
-			Slime.PreJumpTimer.Start();
+			Entity.StartedPreJump = true;
+			Entity.AnimatedSprite.Play("pre_jump_start");
+			Entity.PreJumpTimer.Start();
 			SwitchState(EntityAnimationType.PreJumpStart);
 		}
 	}

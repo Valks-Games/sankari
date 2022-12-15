@@ -1,6 +1,6 @@
 namespace Sankari;
 
-public partial class Bird : MovingEntity
+public partial class Bird : MovingEntity<Bird>
 {
 	public override int Gravity { get; set; } = 100;
 	public override bool ClampDampenGround { get; set; } = false;
