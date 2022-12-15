@@ -2,9 +2,7 @@
 
 public class PlayerAnimationDash : EntityAnimation<Player>
 {
-	public Player Player { get; set; }
-
-	public PlayerAnimationDash(Player player) : base(player) => Player = player;
+	public PlayerAnimationDash(Player player) : base(player) => Entity = player;
 
 	public override void Update()
 	{
@@ -24,7 +22,7 @@ public class PlayerAnimationDash : EntityAnimation<Player>
 					SwitchState(EntityAnimationType.JumpFall);
 				else
 				if (Entity.MoveDir.x != 0)
-					if (Player.PlayerInput.IsSprint)
+					if (Entity.PlayerInput.IsSprint)
 						SwitchState(EntityAnimationType.Running);
 					else
 						SwitchState(EntityAnimationType.Walking);

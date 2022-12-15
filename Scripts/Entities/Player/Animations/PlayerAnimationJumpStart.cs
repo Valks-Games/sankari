@@ -2,9 +2,7 @@
 
 public class PlayerAnimationJumpStart : EntityAnimationJumpStart<Player>
 {
-	public Player Player { get; set; }
-
-	public PlayerAnimationJumpStart(Player player) : base(player) => Player = player;
+	public PlayerAnimationJumpStart(Player player) : base(player) => Entity = player;
 
 	public override void Update()
 	{
@@ -21,7 +19,7 @@ public class PlayerAnimationJumpStart : EntityAnimationJumpStart<Player>
 
 		if
 		(
-			Player.PlayerInput.IsDash &&
+			Entity.PlayerInput.IsDash &&
 			Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady
 		)
 			SwitchState(EntityAnimationType.Dash);

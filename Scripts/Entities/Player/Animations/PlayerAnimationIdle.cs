@@ -2,9 +2,7 @@
 
 public class PlayerAnimationIdle : EntityAnimationIdle<Player>
 {
-	public Player Player { get; set; }
-
-	public PlayerAnimationIdle(Player player) : base(player) => Player = player;
+	public PlayerAnimationIdle(Player player) : base(player) => Entity = player;
 
 	public override void Enter()
 	{
@@ -32,11 +30,11 @@ public class PlayerAnimationIdle : EntityAnimationIdle<Player>
 
 		if (Entity.IsNearGround())
 		{
-			if (Player.PlayerInput.IsJump)
+			if (Entity.PlayerInput.IsJump)
 				SwitchState(EntityAnimationType.JumpStart);
 
 			if (Entity.MoveDir.x != 0)
-				if (Player.PlayerInput.IsSprint)
+				if (Entity.PlayerInput.IsSprint)
 					SwitchState(EntityAnimationType.Running);
 				else
 					SwitchState(EntityAnimationType.Walking);

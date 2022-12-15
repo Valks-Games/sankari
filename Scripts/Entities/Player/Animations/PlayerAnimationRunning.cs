@@ -2,9 +2,7 @@
 
 public class PlayerAnimationRunning : EntityAnimation<Player>
 {
-	public Player Player { get; set; }
-
-	public PlayerAnimationRunning(Player player) : base(player) => Player = player;
+	public PlayerAnimationRunning(Player player) : base(player) => Entity = player;
 
 	public override void Enter()
 	{
@@ -24,15 +22,15 @@ public class PlayerAnimationRunning : EntityAnimation<Player>
 		// Running -> Dash
 		// Running -> JumpStart
 
-		if (Player.PlayerInput.IsJump)
+		if (Entity.PlayerInput.IsJump)
 
 			SwitchState(EntityAnimationType.JumpStart);
 
-		else if (Player.PlayerInput.IsDash && Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
+		else if (Entity.PlayerInput.IsDash && Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
 
 			SwitchState(EntityAnimationType.Dash);
 
-		else if (!Player.PlayerInput.IsSprint)
+		else if (!Entity.PlayerInput.IsSprint)
 
 			SwitchState(EntityAnimationType.Walking);
 
