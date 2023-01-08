@@ -122,12 +122,9 @@ public partial class Player : MovingEntity<Player>
 			}
 		}
 
-		if (JumpCount > 0)
+		if (JumpCount > 0 && Input.IsActionJustReleased("player_jump") && !IsFalling())
 		{
-			if (Input.IsActionJustReleased("player_jump") && !IsFalling())
-			{
-				Velocity = new Vector2(Velocity.x, 0);
-			}
+			Velocity = new Vector2(Velocity.x, 0);
 		}
 
 		if (PlayerInput.IsDash)
