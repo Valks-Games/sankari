@@ -10,6 +10,7 @@ public partial class Player : MovingEntity<Player>
 	public bool AllowAirJumps { get; set; } = false; // Allow mid air jumping
 
 	private int JumpCount { get; set; }
+	private bool JumpHeld { get; set; } = false;
 
 	public override int HalfHearts 
 	{ 
@@ -116,10 +117,22 @@ public partial class Player : MovingEntity<Player>
 					GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 
 					JumpCount++;
+					JumpHeld = true;
 					//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
 					Velocity = Velocity - new Vector2(0, JumpForce);
 				}
 			}
+		}
+
+		if (JumpCount > 0)
+		{
+			if (JumpHeld && !Input.IsActionPressed("player_jump") && Velocity.y < 0)
+			{
+				JumpHeld = false;
+				Velocity = new Vector2(Velocity.x, 0);
+			}
+			else if (JumpHeld && Velocity.y >= 0) 
+				JumpHeld = false; // This doesn't change anything functionally, but it's confusing if the property is still true during descent
 		}
 
 		if (PlayerInput.IsDash)
