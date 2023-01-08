@@ -122,6 +122,14 @@ public partial class Player : MovingEntity<Player>
 			}
 		}
 
+		if (JumpCount > 0)
+		{
+			if (Input.IsActionJustReleased("player_jump") && Velocity.y < 0)
+			{
+				Velocity = new Vector2(Velocity.x, 0);
+			}
+		}
+
 		if (PlayerInput.IsDash)
 			Commands[PlayerCommandType.Dash].Start();
 
