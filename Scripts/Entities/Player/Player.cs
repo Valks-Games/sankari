@@ -124,7 +124,7 @@ public partial class Player : MovingEntity<Player>
 
 		if (JumpCount > 0)
 		{
-			if (Input.IsActionJustReleased("player_jump") && Velocity.y < 0)
+			if (Input.IsActionJustReleased("player_jump") && !IsFalling())
 			{
 				Velocity = new Vector2(Velocity.x, 0);
 			}
