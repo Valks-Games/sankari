@@ -5,7 +5,7 @@ namespace Sankari;
 public partial class Player : MovingEntity<Player>
 {
 	public bool CurrentlyDashing { get; set; }
-	public int JumpForce { get; set; } = 600; // Force applies when jumping
+	public int JumpForce { get; set; } = 50; // Force applies when jumping
 	public int MaxJumps { get; set; } = 1; // Max number of Jumps
 	public bool AllowAirJumps { get; set; } = false; // Allow mid air jumping
 
@@ -88,6 +88,8 @@ public partial class Player : MovingEntity<Player>
 		};
 	}
 
+	private float CurrentJumpForce { get; set; }
+
 	public override void UpdatePhysics()
 	{
 		PlayerInput = MovementUtils.GetPlayerMovementInput(); // PlayerInput = ... needs to go before base._PhysicsProcess(delta)
@@ -102,7 +104,7 @@ public partial class Player : MovingEntity<Player>
 			JumpCount = 0;
 
 		// jump is handled before all movement restrictions
-		if (PlayerInput.IsJump)
+		if (PlayerInput.IsJumpJustPressed)
 		{
 			if (!IsNearGround()) // Wall jump
 			{
@@ -117,9 +119,30 @@ public partial class Player : MovingEntity<Player>
 
 					JumpCount++;
 					//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
-					Velocity = Velocity - new Vector2(0, JumpForce);
 				}
 			}
+		}
+
+		// Constantly do something while the jump key is held down
+		if (PlayerInput.IsJumpPressed && JumpCount < MaxJumps)
+		{
+			// This is too linear
+			// There needs to be some kind of large initial jump force
+			// followed by decreased force while the player is in the air
+			// over time.
+
+			// Also JumpCount < MaxJumps does not seem to be working here. Most
+			// likely because it is only incremented when near the ground.
+
+			// There also needs to be a initial timer to dictate how long the jump
+			// key can be held down. I feel like a GTimer or System.Diagnostics.StopWatch
+			// might do the trick.
+			Velocity = Velocity - new Vector2(0, JumpForce);
+		}
+
+		if (HasJumpedBefore() && PlayerInput.IsJumpJustReleased && !IsFalling())
+		{
+			//Velocity = new Vector2(Velocity.x, 0);
 		}
 
 		if (PlayerInput.IsDash)
@@ -147,6 +170,8 @@ public partial class Player : MovingEntity<Player>
 		if (PlayerInput.IsFastFall)
 			Velocity = Velocity + new Vector2(0, 10);
 	}
+
+	private bool HasJumpedBefore() => JumpCount > 0;
 
 	/// <summary>
 	/// Called when a Dash Command finishes as Dash
