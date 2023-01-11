@@ -60,7 +60,7 @@ public class PlayerCommandDash : PlayerCommand<Player>
 		if (CurrentlyDashing)
 		{
 			var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
-			sprite.Texture = Entity.AnimatedSprite.Frames.GetFrame(Entity.AnimatedSprite.Animation, Entity.AnimatedSprite.Frame);
+			sprite.Texture = Entity.AnimatedSprite.Frames.GetFrameTexture(Entity.AnimatedSprite.Animation, Entity.AnimatedSprite.Frame);
 			sprite.GlobalPosition = Entity.GlobalPosition;
 			sprite.Scale = new Vector2(2f, 2f); // this is ugly
 			sprite.FlipH = Entity.AnimatedSprite.FlipH;
