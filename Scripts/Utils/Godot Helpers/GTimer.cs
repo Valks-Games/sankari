@@ -25,6 +25,7 @@ public class GTimer
 	{
 		Init(node, delayMs, autoStart);
 		Callable = new Callable(node, methodName);
+		Timer.OneShot = true; // make non-looping by default
 		Timer.Connect("timeout", Callable);
 	}
 
