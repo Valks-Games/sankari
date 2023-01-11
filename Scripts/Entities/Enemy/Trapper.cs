@@ -10,8 +10,8 @@ public partial class Trapper : Entity
 	public override void Init()
 	{
 		AreaDamage = GetNode<Area2D>("Damage");
-		TimerReveal = new GTimer(this, nameof(OnTimerReveal), 1500, false) { Loop = false };
-		TimerRevealCooldown = new GTimer(this, 2000, false) { Loop = false };
+		TimerReveal = new GTimer(this, nameof(OnTimerReveal), 1500, false);
+		TimerRevealCooldown = new GTimer(this, 2000, false);
 		AnimatedSprite.Play("idle");
 	}
 

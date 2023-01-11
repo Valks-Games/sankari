@@ -21,10 +21,7 @@ public class PlayerCommandDash : PlayerCommand<Player>
 	public override void Initialize()
 	{
 		TimerDashCooldown = Entity.Timers.CreateTimer(nameof(Entity.OnDashReady), DashCooldown, false);
-		TimerDashCooldown.Loop = false;
-
 		TimerDashDuration = Entity.Timers.CreateTimer(nameof(Entity.OnDashDurationDone), DashDuration, false);
-		TimerDashDuration.Loop = false;
 	}
 
 	public override void Start()

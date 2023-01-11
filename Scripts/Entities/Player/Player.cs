@@ -77,15 +77,8 @@ public partial class Player : MovingEntity<Player>
 		// dont go under platform at the end of a dash for X ms
 		GetCommandClass<PlayerCommandWallJump>(PlayerCommandType.WallJump).WallJump += OnWallJump;
 
-		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false)
-		{
-			Loop = false
-		};
-
-		PreventMovementTimer = new GTimer(this, nameof(PreventMovementFinished), 50, false)
-		{
-			Loop = false
-		};
+		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false);
+		PreventMovementTimer               = new GTimer(this, nameof(PreventMovementFinished), 50, false);
 	}
 
 	public override void UpdatePhysics()

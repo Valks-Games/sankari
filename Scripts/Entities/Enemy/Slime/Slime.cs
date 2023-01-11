@@ -22,8 +22,8 @@ public partial class Slime : MovingEntity<Slime>
 		AnimatedSprite.Animation = "idle";
 		CurrentAnimation = EntityAnimationType.Idle;
 
-		IdleTimer = new GTimer(this, 1000) { Loop = false };
-		PreJumpTimer = new GTimer(this, nameof(OnPreJumpTimer), 400, false) { Loop = false };
+		IdleTimer = new GTimer(this, 1000);
+		PreJumpTimer = new GTimer(this, nameof(OnPreJumpTimer), 400, false);
 
 		Label.Visible = true;
     }
