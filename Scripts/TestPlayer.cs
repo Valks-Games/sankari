@@ -4,38 +4,28 @@ namespace Sankari;
 
 public partial class TestPlayer : CharacterBody2D
 {
-	private GTimer TimerJumpForce { get; set; }
+	// settings
+	private int GravityForce { get; set; } = 20;
+	private int JumpForce { get; set; } = 70;
+	private float JumpForceLoss { get; set; } = 2.5f;
 
-	public override void _Ready()
-	{
-		// Only allow holding down the jump key for a certain time
-		TimerJumpForce = new(this, 1000, false);
-
-		// Godot sets this to true by default which always confuses me
-		// because I'm thinking I'm dealing with a non-looping timer
-		// This should be set to false by default in GTimer
-		TimerJumpForce.Loop = false; 
-	}
+	// not to be edited
+	private float JumpForceLossCounter { get; set; }
 
 	public override void _PhysicsProcess(double delta)
 	{
 		// Gravity
-		Velocity += new Vector2(0, 20);
+		Velocity += new Vector2(0, GravityForce);
 
 		// Just pressed jump
 		if (Input.IsActionJustPressed("player_jump"))
-		{
-			TimerJumpForce.Start();
-		}
+			JumpForceLossCounter = 0;
 
 		// Holding down jump key
 		if (Input.IsActionPressed("player_jump"))
 		{
-			if (TimerJumpForce.IsActive())
-			{
-				// only apply force while allowed to do so
-				Velocity -= new Vector2(0, 30);
-			}
+			JumpForceLossCounter += JumpForceLoss;
+			Velocity -= new Vector2(0, Mathf.Max(0, JumpForce - JumpForceLossCounter));
 		}
 
 		MoveAndSlide();
