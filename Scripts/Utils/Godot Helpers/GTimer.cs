@@ -58,7 +58,9 @@ public class GTimer
 	public void Stop()
 	{
 		Timer.Stop();
-		Callable.Call();
+
+		if (!Callable.Equals(default(Callable)))
+			Callable.Call();
 	}
 
 	public void QueueFree() => Timer.QueueFree();
