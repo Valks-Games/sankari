@@ -47,7 +47,7 @@ public static class Audio
 
 		events.AddListener(nameof(Audio), Event.OnMapLoaded, (args) => 
 		{
-			PlayMusic("map_grassy");	
+			//PlayMusic("map_grassy");	
 		});
     }
 

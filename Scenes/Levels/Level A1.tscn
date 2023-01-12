@@ -1313,9 +1313,12 @@ DontCollideWithWall = true
 
 [node name="Wall Jump Areas" type="Node2D" parent="Environment/Areas"]
 
-[node name="Labels" type="Node2D" parent="Environment"]
+[node name="Labels" type="Control" parent="Environment"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Move" type="Label" parent="Environment/Labels"]
+layout_mode = 0
 offset_left = 14.0
 offset_top = 419.0
 offset_right = 257.0
@@ -1327,6 +1330,7 @@ S = Drop Down
 J = Dash / Sprint"
 
 [node name="Jump!" type="Label" parent="Environment/Labels"]
+layout_mode = 0
 offset_left = 2908.0
 offset_top = 120.0
 offset_right = 3004.0
