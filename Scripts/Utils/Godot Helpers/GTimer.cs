@@ -25,12 +25,12 @@ public class GTimer
 	{
 		Init(node, delayMs, autoStart);
 		Callable = new Callable(node, methodName);
-		Timer.OneShot = true; // make non-looping by default
 		Timer.Connect("timeout", Callable);
 	}
 
 	private void Init(Node target, int delayMs, bool autoStart)
 	{
+		Timer.OneShot = true; // make non-looping by default
 		Timer.Autostart = autoStart;
 		Timer.WaitTime = delayMs / 1000f;
 		target.AddChild(Timer);

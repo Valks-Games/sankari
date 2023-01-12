@@ -30,7 +30,7 @@ public partial class Slime : MovingEntity<Slime>
 
 	public override void UpdatePhysics()
     {
-		Label.Text = "" + CurrentAnimation;
+		Label.Text = "" + CurrentAnimation; // this shouldnt be set every frame
     }
 
 	public override void TouchedGround() => IdleTimer.Start();
