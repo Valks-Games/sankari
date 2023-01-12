@@ -15,7 +15,7 @@ public partial class Trapper : Entity
 		AnimatedSprite.Play("idle");
 
 		// Set detection range dynamically on startup
-		var spriteWidth = AnimatedSprite.Frames.GetFrameTexture("idle", 0).GetWidth();
+		var spriteWidth = AnimatedSprite.GetWidth("idle");
 		var detectionRange = spriteWidth + 10;
 		var collisionShape = (GetNode<CollisionShape2D>("Detection/CollisionShape2D").Shape as CircleShape2D);
 		
