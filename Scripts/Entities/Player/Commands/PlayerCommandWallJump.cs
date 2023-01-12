@@ -58,7 +58,13 @@ public class PlayerCommandWallJump : PlayerCommand<Player>
 			JumpForceMultiplierVert *= jumpForceReductionVert;
 			JumpForceMultiplierHorz *= jumpForceReductionHorz;
 
-			velocity.x += -JumpForceWallHorz * WallDir * JumpForceMultiplierHorz;
+			if (EntityIsFacingWall())
+			{
+				velocity.x += -JumpForceWallHorz * WallDir * JumpForceMultiplierHorz * 0.3f;
+			}
+			else
+				velocity.x += -JumpForceWallHorz * WallDir * JumpForceMultiplierHorz;
+
 			velocity.y = -JumpForceWallVert * JumpForceMultiplierVert;
 		}
 		else
@@ -73,7 +79,13 @@ public class PlayerCommandWallJump : PlayerCommand<Player>
 			JumpForceMultiplierVert = 0.95f;
 			JumpForceMultiplierHorz = 0.5f;
 
-			velocity.x += -JumpForceWallHorz * WallDir;
+			if (EntityIsFacingWall())
+			{
+				velocity.x += -JumpForceWallHorz * WallDir * 0.3f;
+			}
+			else
+				velocity.x += -JumpForceWallHorz * WallDir;
+
 			velocity.y = -JumpForceWallVert;
 		}
 
@@ -114,6 +126,7 @@ public class PlayerCommandWallJump : PlayerCommand<Player>
 		}
 	}
 
+	private bool EntityIsFacingWall() => Entity.MoveDir.x == WallDir;
 	private bool OnAWall() => WallDir != 0;
 	private bool JumpOnSameWall() => PreviousWall == WallDir;
 
