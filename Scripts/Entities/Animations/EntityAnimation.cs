@@ -21,9 +21,11 @@ public abstract class EntityAnimation<T> where T : MovingEntity<T>
 		Entity = entity;
 	}
 
+	//private int Counter { get; set; }
+
 	protected void SwitchState(EntityAnimationType animation)
 	{
-		//Logger.Log("Switching to " + animation);
+		//Logger.Log($"[{Counter++}][{Entity}] Switching to {animation}");
 
 		if (!Entity.Animations.ContainsKey(animation))
 		{

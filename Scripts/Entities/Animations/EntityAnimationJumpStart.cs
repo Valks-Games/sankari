@@ -20,7 +20,9 @@ public class EntityAnimationJumpStart<T> : EntityAnimation<T> where T : MovingEn
 	public override void HandleTransitions()
 	{
 		if (Entity.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
-			HandleTransitionsNearGround();
+			HandleTransitionsIdleNearGround();
+		else if (Entity.IsNearGround() && !TimerDontCheckOnGround.IsActive())
+			SwitchState(EntityAnimationType.Walking);
 		else if (Entity.IsFalling())
 			HandleTransitionsFalling();
 	}
@@ -28,6 +30,6 @@ public class EntityAnimationJumpStart<T> : EntityAnimation<T> where T : MovingEn
 	public virtual void HandleTransitionsFalling() =>
 		SwitchState(EntityAnimationType.JumpFall);
 
-	public virtual void HandleTransitionsNearGround() =>
+	public virtual void HandleTransitionsIdleNearGround() =>
 		SwitchState(EntityAnimationType.Idle);
 }

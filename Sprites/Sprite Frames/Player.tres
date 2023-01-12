@@ -48,27 +48,60 @@ region = Rect2(80, 16, 16, 16)
 
 [resource]
 animations = [{
-"frames": [SubResource("4"), SubResource("3")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("4")
+}, {
+"duration": 1.0,
+"texture": SubResource("3")
+}],
 "loop": true,
 "name": &"idle",
 "speed": 2.0
 }, {
-"frames": [SubResource("15")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("15")
+}],
 "loop": true,
 "name": &"jump_fall",
 "speed": 5.0
 }, {
-"frames": [SubResource("16")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("16")
+}],
 "loop": true,
 "name": &"jump_land",
 "speed": 5.0
 }, {
-"frames": [SubResource("14")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("14")
+}],
 "loop": true,
 "name": &"jump_start",
 "speed": 5.0
 }, {
-"frames": [SubResource("8"), SubResource("9"), SubResource("10"), SubResource("11"), SubResource("12"), SubResource("13")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("8")
+}, {
+"duration": 1.0,
+"texture": SubResource("9")
+}, {
+"duration": 1.0,
+"texture": SubResource("10")
+}, {
+"duration": 1.0,
+"texture": SubResource("11")
+}, {
+"duration": 1.0,
+"texture": SubResource("12")
+}, {
+"duration": 1.0,
+"texture": SubResource("13")
+}],
 "loop": true,
 "name": &"walk",
 "speed": 10.0
