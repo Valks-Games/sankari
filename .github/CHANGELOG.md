@@ -1,3 +1,10 @@
+## v0.1.29
+- Player no longer has a strong jump if facing a wall while jumping from that wall. If the player is not facing the wall when jumping from it then it will be the normal wall jump force
+- Shortened time the player dash trace is visible
+- Greatly improved logic for player switching animation states. No more funny business while on slopes
+- Holding space will increase jump height, tapping space will give the shorest jump possible
+- Upgrading to Godot 4 Beta 11 fixed the generics bug
+
 ## v0.1.28
 - Updated the [scripting](https://github.com/Valks-Games/sankari/wiki/Scripting) and [multiplayer scripting](https://github.com/Valks-Games/sankari/wiki/Multiplayer-Scripting) sections of the wiki
 - Improved readability of scripts
