@@ -19,10 +19,10 @@ public class EntityAnimationJumpStart<T> : EntityAnimation<T> where T : MovingEn
 	/// </summary>
 	public override void HandleTransitions()
 	{
-		if (Entity.IsFalling())
-			HandleTransitionsFalling();
-		else if (Entity.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
+		if (Entity.IsNearGround() && Entity.MoveDir == Vector2.Zero && !TimerDontCheckOnGround.IsActive())
 			HandleTransitionsNearGround();
+		else if (Entity.IsFalling())
+			HandleTransitionsFalling();
 	}
 
 	public virtual void HandleTransitionsFalling() =>
