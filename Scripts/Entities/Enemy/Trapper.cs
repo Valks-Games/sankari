@@ -13,6 +13,13 @@ public partial class Trapper : Entity
 		TimerReveal = new GTimer(this, nameof(OnTimerReveal), 1500, false);
 		TimerRevealCooldown = new GTimer(this, 2000, false);
 		AnimatedSprite.Play("idle");
+
+		// Set detection range dynamically on startup
+		var spriteWidth = AnimatedSprite.Frames.GetFrameTexture("idle", 0).GetWidth();
+		var detectionRange = spriteWidth + 10;
+		var collisionShape = (GetNode<CollisionShape2D>("Detection/CollisionShape2D").Shape as CircleShape2D);
+		
+		collisionShape.Radius = detectionRange;
 	}
 
 	public override void UpdatePhysics()
