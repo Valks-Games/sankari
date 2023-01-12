@@ -4,31 +4,35 @@ public interface IMovingEntity { }
 
 public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity where T : MovingEntity<T>
 {
-	[Export] public bool DontCollideWithWall { get; set; } // should this entity care about wall collisions?
-	[Export] public bool FallOffCliff        { get; set; } // should this entity keep moving forward when near a cliff?
-	[Export] public bool Debug               { get; set; } // there are many entities, this will help debug specific entities since this value can be set per entity through the inspector in the editor
+	// Gravity
+	public virtual bool     GravityEnabled      { get; set; } = true;
+	public virtual int      Gravity             { get; set; } = 1200;
+	public virtual int      FakeGravitySpeed    { get; set; } = 1200; // currently only used for fake wall sliding gravity
+						    
+	// Movement			    
+	[Export] public bool    DontCollideWithWall { get; set; }
+	[Export] public bool    FallOffCliff        { get; set; }
+	public Vector2          MoveDir             { get; set; }
+	public virtual int      AccelerationGround  { get; set; } = 50;
+	public virtual int      MaxSpeedWalk        { get; set; } = 350;
+	public virtual int      MaxSpeedSprint      { get; set; } = 500;
+	public virtual int      MaxSpeedAir         { get; set; } = 350;
+	public virtual int      AirAcceleration     { get; set; } = 30;
+	public virtual int      DampeningAir        { get; set; } = 10;
+	public virtual int      DampeningGround     { get; set; } = 25;
+	public virtual bool     ClampDampenGround   { get; set; } = true;
+	public virtual bool     ClampDampenAir      { get; set; } = true;
+						    
+	// Combat			    
+	public virtual int      HalfHearts          { get; set; } = 6;
+	public virtual int      ImmunityMs          { get; set; } = 500;  // the immunity time in milliseconds after getting hit
+	public virtual int      MaximumHealth       { get; set; } = 6;
 
-	public Vector2 MoveDir { get; set; } // the direction this entity is currently moving
-
-	public virtual bool GravityEnabled     { get; set; } = true; // should this entity be affected by gravity?
-	public virtual int  Gravity            { get; set; } = 1200; // the gravity of the entity
-	public virtual int  FakeGravitySpeed   { get; set; } = 1200; // currently only used for fake wall sliding gravity
-	public virtual int  AccelerationGround { get; set; } = 50;   // the ground acceleration of the entity
-	public virtual int  ImmunityMs         { get; set; } = 500;  // the immunity time in milliseconds after getting hit
-	public virtual int  MaxSpeedWalk       { get; set; } = 350;
-	public virtual int  MaxSpeedSprint     { get; set; } = 500;
-	public virtual int  MaxSpeedAir        { get; set; } = 350;
-	public virtual int  AirAcceleration    { get; set; } = 30;
-	public virtual int  DampeningAir       { get; set; } = 10;
-	public virtual int  DampeningGround    { get; set; } = 25;
-	public virtual bool ClampDampenGround  { get; set; } = true;
-	public virtual bool ClampDampenAir     { get; set; } = true;
-	public virtual int  HalfHearts         { get; set; } = 6;
-	public virtual int  MaximumHealth      { get; set; } = 6;
-
-	public int MaxSpeed { get; set; }
-	public bool InWallJumpArea { get; set; }
-	public AnimatedSprite2D AnimatedSprite { get; set; }
+	// Special Properties
+	[Export] public bool    Debug               { get; set; } // there are many entities, this will help debug specific entities since this value can be set per entity through the inspector in the editor
+	public int              MaxSpeed            { get; private set; }
+	public bool             InWallJumpArea      { get; private set; }
+	public AnimatedSprite2D AnimatedSprite      { get; private set; }
 
 	/// <summary>
 	/// All commands for an entity call Initialize() for first frame and Update() and UpdateAir() every frame
