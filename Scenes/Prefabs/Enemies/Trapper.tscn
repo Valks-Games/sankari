@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://4apdyjcg3t4o"]
+[gd_scene load_steps=15 format=3 uid="uid://4apdyjcg3t4o"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/Trapper.cs" id="1_7povq"]
 [ext_resource type="Texture2D" uid="uid://vjdu4pa2u0x8" path="res://Sprites/Level/Enemies/trapper.png" id="1_p8rm6"]
@@ -25,6 +25,10 @@ region = Rect2(0, 0, 16, 16)
 atlas = ExtResource("1_p8rm6")
 region = Rect2(0, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir5m3"]
+atlas = ExtResource("1_p8rm6")
+region = Rect2(64, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_lm72v"]
 atlas = ExtResource("1_p8rm6")
 region = Rect2(80, 0, 16, 16)
@@ -39,17 +43,56 @@ region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q0yui"]
 animations = [{
-"frames": [SubResource("AtlasTexture_k5g7c"), SubResource("AtlasTexture_b2v8u"), SubResource("AtlasTexture_pxc37")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5g7c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2v8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxc37")
+}],
 "loop": false,
 "name": &"hide",
 "speed": 10.0
 }, {
-"frames": [SubResource("AtlasTexture_ml11r")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ml11r")
+}],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
 }, {
-"frames": [SubResource("AtlasTexture_lm72v"), SubResource("AtlasTexture_kpina"), SubResource("AtlasTexture_dwqgp")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ir5m3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm72v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm72v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm72v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm72v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm72v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm72v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpina")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwqgp")
+}],
 "loop": false,
 "name": &"reveal",
 "speed": 10.0
