@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://du56s3jx2icue"]
+[gd_scene load_steps=15 format=3 uid="uid://du56s3jx2icue"]
 
 [ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="1_4f86e"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="1_pxesi"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelCamera.cs" id="2_h0i8n"]
+[ext_resource type="PackedScene" uid="uid://4apdyjcg3t4o" path="res://Scenes/Prefabs/Enemies/Trapper.tscn" id="2_s3ws5"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/WallJumpArea.cs" id="3_1jdq3"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Killzone.cs" id="3_722fj"]
 
@@ -1031,6 +1032,10 @@ tile_set = SubResource("TileSet_fn6x1")
 format = 2
 layer_0/tile_data = PackedInt32Array(393237, 589826, 2, 393238, 589826, 2, 393239, 589826, 2, 393240, 589826, 2, 458776, 589826, 2, 524312, 589826, 2, 589848, 589826, 3, 589847, 589826, 3, 589846, 589826, 3, 589845, 589826, 3, 589844, 589826, 3, 589843, 589826, 3, 524307, 589826, 2, 458771, 589826, 2, 393235, 589826, 2, 393236, 589826, 2, 458773, 589826, 2, 458772, 589826, 2, 524308, 589826, 2, 524309, 589826, 2, 524310, 589826, 2, 524311, 589826, 2, 458774, 589826, 2, 458775, 589826, 2, 393241, 589826, 2, 458777, 589826, 2, 524313, 589826, 2, 589849, 589826, 3, 393242, 720898, 2, 458778, 720898, 2, 524314, 720898, 2, 589850, 720898, 3, 524306, 589826, 2, 458770, 589826, 2, 393234, 589826, 2, 393233, 589826, 2, 458769, 589826, 2, 524305, 589826, 2, 589841, 589826, 3, 589842, 589826, 3, 589840, 524290, 3, 524304, 524290, 1, 458768, 524290, 1, 393232, 524290, 1, 327696, 524290, 1, 327697, 589826, 2, 327698, 589826, 2, 327699, 589826, 2, 327700, 589826, 2, 327701, 589826, 2, 327702, 589826, 2, 327703, 589826, 2, 327704, 589826, 2, 327705, 589826, 2, 327706, 720898, 2, 262170, 720898, 0, 262169, 655362, 0, 262168, 655362, 0, 262167, 655362, 0, 262166, 655362, 0, 262165, 655362, 0, 262164, 655362, 0, 262163, 655362, 0, 262162, 655362, 0, 262161, 655362, 0, 262160, 524290, 0)
 
+[node name="Trapper" parent="Environment/TileMaps" instance=ExtResource("2_s3ws5")]
+position = Vector2(1378, 528)
+scale = Vector2(4, 4)
+
 [node name="Bottom Layer" type="TileMap" parent="Environment/TileMaps" groups=["Tileset"]]
 scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_v7g3y")
@@ -1056,7 +1061,7 @@ shape = SubResource("RectangleShape2D_rypwg")
 [node name="Enemies" type="Node2D" parent="Environment"]
 
 [node name="Player" parent="." instance=ExtResource("1_4f86e")]
-position = Vector2(2374, 111)
+position = Vector2(1753, 570)
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
