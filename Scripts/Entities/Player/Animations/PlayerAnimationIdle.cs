@@ -30,7 +30,7 @@ public class PlayerAnimationIdle : EntityAnimationIdle<Player>
 
 		if (Entity.IsNearGround())
 		{
-			if (Entity.PlayerInput.IsJump)
+			if (Entity.PlayerInput.IsJumpJustPressed)
 				SwitchState(EntityAnimationType.JumpStart);
 
 			if (Entity.MoveDir.x != 0)

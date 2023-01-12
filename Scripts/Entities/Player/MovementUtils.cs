@@ -2,14 +2,16 @@
 
 public class MovementInput
 {
-	public bool IsJump { get; set; }
-	public bool IsLeft { get; set; }
-	public bool IsRight { get; set; }
-	public bool IsUp { get; set; }
-	public bool IsDown { get; set; }
-	public bool IsFastFall { get; set; }
-	public bool IsDash { get; set; }
-	public bool IsSprint { get; set; }
+	public bool IsJumpPressed      { get; set; }
+	public bool IsJumpJustPressed  { get; set; }
+	public bool IsJumpJustReleased { get; set; }
+	public bool IsLeft             { get; set; }
+	public bool IsRight            { get; set; }
+	public bool IsUp               { get; set; }
+	public bool IsDown             { get; set; }
+	public bool IsFastFall         { get; set; }
+	public bool IsDash             { get; set; }
+	public bool IsSprint           { get; set; }
 }
 
 public class MovementUtils
@@ -18,14 +20,16 @@ public class MovementUtils
 	{
 		return new()
 		{
-			IsJump     = Input.IsActionJustPressed("player_jump"),
-			IsDash     = Input.IsActionJustPressed("player_dash"),
-			IsLeft     = Input.IsActionPressed    ("player_move_left"),
-			IsRight    = Input.IsActionPressed    ("player_move_right"),
-			IsUp       = Input.IsActionPressed    ("player_move_up"),
-			IsDown     = Input.IsActionPressed    ("player_move_down"),
-			IsFastFall = Input.IsActionPressed    ("player_fast_fall"),
-			IsSprint   = Input.IsActionPressed    ("player_sprint"),
+			IsJumpPressed      = Input.IsActionPressed     ("player_jump"),
+			IsJumpJustPressed  = Input.IsActionJustPressed ("player_jump"),
+			IsJumpJustReleased = Input.IsActionJustReleased("player_jump"),
+			IsDash             = Input.IsActionJustPressed ("player_dash"),
+			IsLeft             = Input.IsActionPressed     ("player_move_left"),
+			IsRight            = Input.IsActionPressed     ("player_move_right"),
+			IsUp               = Input.IsActionPressed     ("player_move_up"),
+			IsDown             = Input.IsActionPressed     ("player_move_down"),
+			IsFastFall         = Input.IsActionPressed     ("player_fast_fall"),
+			IsSprint           = Input.IsActionPressed     ("player_sprint"),
 		};
 	}
 

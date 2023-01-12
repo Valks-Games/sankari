@@ -22,7 +22,7 @@ public class PlayerAnimationRunning : EntityAnimation<Player>
 		// Running -> Dash
 		// Running -> JumpStart
 
-		if (Entity.PlayerInput.IsJump)
+		if (Entity.PlayerInput.IsJumpJustPressed)
 
 			SwitchState(EntityAnimationType.JumpStart);
 

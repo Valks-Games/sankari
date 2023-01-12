@@ -30,8 +30,8 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 
 	// Special Properties
 	[Export] public bool    Debug               { get; set; } // there are many entities, this will help debug specific entities since this value can be set per entity through the inspector in the editor
-	public int              MaxSpeed            { get; private set; }
-	public bool             InWallJumpArea      { get; private set; }
+	public int              MaxSpeed            { get; set; }
+	public bool             InWallJumpArea      { get; set; }
 	public AnimatedSprite2D AnimatedSprite      { get; private set; }
 
 	/// <summary>

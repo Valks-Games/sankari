@@ -5,7 +5,10 @@ namespace Sankari;
 public partial class Player : MovingEntity<Player>
 {
 	public bool CurrentlyDashing { get; set; }
-	public int JumpForce { get; set; } = 600; // Force applies when jumping
+	public int JumpForce { get; set; } = 100; // Force applies when jumping
+	private float JumpForceLoss { get; set; } = 7.5f;
+	private float JumpForceLossCounter { get; set; }
+	private bool HoldingJumpKey { get; set; }
 	public int MaxJumps { get; set; } = 1; // Max number of Jumps
 	public bool AllowAirJumps { get; set; } = false; // Allow mid air jumping
 
@@ -95,7 +98,7 @@ public partial class Player : MovingEntity<Player>
 			JumpCount = 0;
 
 		// jump is handled before all movement restrictions
-		if (PlayerInput.IsJump)
+		if (PlayerInput.IsJumpJustPressed)
 		{
 			if (!IsNearGround()) // Wall jump
 			{
@@ -106,13 +109,27 @@ public partial class Player : MovingEntity<Player>
 				// Ground Jump
 				if (JumpCount < MaxJumps && (IsNearGround() || AllowAirJumps))
 				{
+					HoldingJumpKey = true;
+					JumpForceLossCounter = 0;
+
 					GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 
 					JumpCount++;
 					//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
-					Velocity = Velocity - new Vector2(0, JumpForce);
+					//Velocity = Velocity - new Vector2(0, JumpForce);
 				}
 			}
+		}
+
+		if (PlayerInput.IsJumpPressed && HoldingJumpKey)
+		{
+			JumpForceLossCounter += JumpForceLoss;
+			Velocity -= new Vector2(0, Mathf.Max(0, JumpForce - JumpForceLossCounter));
+		}
+
+		if (PlayerInput.IsJumpJustReleased)
+		{
+			HoldingJumpKey = false;
 		}
 
 		if (PlayerInput.IsDash)
