@@ -287,7 +287,7 @@ public partial class Player : MovingEntity<Player>
 		var textureRect = new TextureRect()
 		{
 			Texture = heartTexture,
-			IgnoreTextureSize = true,
+			ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
 			CustomMinimumSize = new Vector2(50, 50),
 			StretchMode = TextureRect.StretchModeEnum.KeepAspect
 		};

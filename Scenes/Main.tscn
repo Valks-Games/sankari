@@ -98,9 +98,9 @@ editor_description = "If there was only one AudioStreamPlayer for SFX then if 2 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Menu" parent="CanvasLayer" instance=ExtResource("1")]
-anchors_preset = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -124,6 +124,7 @@ highlight_all_occurrences = true
 layout_mode = 2
 
 [node name="Transition" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -133,6 +134,7 @@ color = Color(0, 0, 0, 0)
 script = ExtResource("3")
 
 [node name="Player List" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -100.0
@@ -145,6 +147,7 @@ layout_mode = 2
 
 [node name="UIMapMenu" type="MarginContainer" parent="CanvasLayer"]
 visible = false
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
