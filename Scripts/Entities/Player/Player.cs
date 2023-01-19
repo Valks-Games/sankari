@@ -158,7 +158,7 @@ public partial class Player : MovingEntity<Player>
 		if (PlayerInput.IsFastFall)
 			Velocity = Velocity + new Vector2(0, 10);
 		if (PlayerInput.IsStomp)
-			Velocity = Velocity + new Vector2(0, StompForce);
+			Velocity = new Vector2(0, StompForce);
 	}
 
 	/// <summary>
