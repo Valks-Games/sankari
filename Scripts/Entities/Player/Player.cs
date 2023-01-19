@@ -14,6 +14,7 @@ public partial class Player : MovingEntity<Player>
 
 	private int JumpCount { get; set; }
 	private int StompForce { get; set; } = 600;
+	public bool ShakeWhenIHitTheGround { get; set; } = false;
 
 	public override int HalfHearts 
 	{ 
@@ -157,8 +158,11 @@ public partial class Player : MovingEntity<Player>
 	{
 		if (PlayerInput.IsFastFall)
 			Velocity = Velocity + new Vector2(0, 10);
-		if (PlayerInput.IsStomp)
+		if (PlayerInput.IsStomp){
 			Velocity = new Vector2(0, StompForce);
+			ShakeWhenIHitTheGround = true;
+		}
+		
 	}
 
 	/// <summary>
