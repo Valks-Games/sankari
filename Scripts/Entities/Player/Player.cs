@@ -14,10 +14,19 @@ public partial class Player : MovingEntity<Player>
 
 	private int JumpCount { get; set; }
 
+<<<<<<< Updated upstream
 	public override int HalfHearts
 	{
 		get => base.HalfHearts;
 		set
+=======
+	private int StompForce { get; set; } = 600;
+
+	public override int HalfHearts 
+	{ 
+		get => base.HalfHearts; 
+		set 
+>>>>>>> Stashed changes
 		{
 			base.HalfHearts = value;
 
@@ -161,8 +170,14 @@ public partial class Player : MovingEntity<Player>
 	public override void UpdatePhysicsAir()
 	{
 		if (PlayerInput.IsFastFall)
+<<<<<<< Updated upstream
 			//Velocity = Velocity + new Vector2(0, 10);
 			Velocity = new Vector2(Velocity.x, 500); //if the player is fast falling they should be falling not just adding force which will likely still be positive?
+=======
+			Velocity = Velocity + new Vector2(0, 10);
+		if (PlayerInput.IsStomp)
+			Velocity = Velocity + new Vector2(0, StompForce);
+>>>>>>> Stashed changes
 	}
 
 	/// <summary>
