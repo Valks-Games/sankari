@@ -14,10 +14,10 @@ public partial class Player : MovingEntity<Player>
 
 	private int JumpCount { get; set; }
 
-	public override int HalfHearts 
-	{ 
-		get => base.HalfHearts; 
-		set 
+	public override int HalfHearts
+	{
+		get => base.HalfHearts;
+		set
 		{
 			base.HalfHearts = value;
 
@@ -34,14 +34,14 @@ public partial class Player : MovingEntity<Player>
 		}
 	}
 
-	public GTimer        TimerNetSend                       { get; set; }
-	public LevelScene    LevelScene                         { get; set; }
-	public Vector2       PrevNetPos                         { get; set; }
-	public MovementInput PlayerInput                        { get; set; }
-	public int           HorizontalDeadZone                 { get; set; } = 25;
-	public GTween        DieTween                           { get; set; }
-	public GTimer        DontCheckPlatformAfterDashDuration { get; set; }
-	public GTimer        PreventMovementTimer               { get; set; }
+	public GTimer TimerNetSend { get; set; }
+	public LevelScene LevelScene { get; set; }
+	public Vector2 PrevNetPos { get; set; }
+	public MovementInput PlayerInput { get; set; }
+	public int HorizontalDeadZone { get; set; } = 25;
+	public GTween DieTween { get; set; }
+	public GTimer DontCheckPlatformAfterDashDuration { get; set; }
+	public GTimer PreventMovementTimer { get; set; }
 
 	private bool PreventMovement { get; set; } = false;
 
@@ -55,15 +55,15 @@ public partial class Player : MovingEntity<Player>
 		HealthBar = GameManager.LevelUI.HealthBar;
 		HalfHearts = 6;
 
-		Commands[PlayerCommandType.Dash]          = new PlayerCommandDash(this);
-		Commands[PlayerCommandType.WallJump]      = new PlayerCommandWallJump(this);
+		Commands[PlayerCommandType.Dash] = new PlayerCommandDash(this);
+		Commands[PlayerCommandType.WallJump] = new PlayerCommandWallJump(this);
 
-		Animations[EntityAnimationType.Idle]      = new PlayerAnimationIdle(this);
-		Animations[EntityAnimationType.Walking]   = new PlayerAnimationWalking(this);
-		Animations[EntityAnimationType.Running]   = new PlayerAnimationRunning(this);
+		Animations[EntityAnimationType.Idle] = new PlayerAnimationIdle(this);
+		Animations[EntityAnimationType.Walking] = new PlayerAnimationWalking(this);
+		Animations[EntityAnimationType.Running] = new PlayerAnimationRunning(this);
 		Animations[EntityAnimationType.JumpStart] = new PlayerAnimationJumpStart(this);
-		Animations[EntityAnimationType.JumpFall]  = new PlayerAnimationJumpFall(this);
-		Animations[EntityAnimationType.Dash]      = new PlayerAnimationDash(this);
+		Animations[EntityAnimationType.JumpFall] = new PlayerAnimationJumpFall(this);
+		Animations[EntityAnimationType.Dash] = new PlayerAnimationDash(this);
 
 		CurrentAnimation = EntityAnimationType.Idle;
 
@@ -81,7 +81,7 @@ public partial class Player : MovingEntity<Player>
 		GetCommandClass<PlayerCommandWallJump>(PlayerCommandType.WallJump).WallJump += OnWallJump;
 
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false);
-		PreventMovementTimer               = new GTimer(this, nameof(PreventMovementFinished), 50, false);
+		PreventMovementTimer = new GTimer(this, nameof(PreventMovementFinished), 50, false);
 	}
 
 	public override void UpdatePhysics()
@@ -94,7 +94,7 @@ public partial class Player : MovingEntity<Player>
 			UpdateUnderPlatform(PlayerInput);
 
 		// Check if Entity in on ground and not current moving away from it
-		if (IsNearGround() && Velocity.y >=0)
+		if (IsNearGround() && Velocity.y >= 0)
 			JumpCount = 0;
 
 		// jump is handled before all movement restrictions
@@ -135,6 +135,12 @@ public partial class Player : MovingEntity<Player>
 		if (PlayerInput.IsDash)
 			Commands[PlayerCommandType.Dash].Start();
 
+		//Stomp
+		if (Input.IsKeyPressed(Key.K)) // I assume you want the keybind somewhere else but I'm not sure where.
+			PlayerInput.IsFastFall = true; // Is fast fall meant for stomp? It seems to be unused.
+		if (PlayerInput.IsFastFall && IsOnFloor())
+			PlayerInput.IsFastFall = false;
+
 		Velocity = new Vector2(MoveDeadZone(Velocity.x, HorizontalDeadZone), Velocity.y); // must be after ClampAndDampen(...)
 	}
 
@@ -155,7 +161,8 @@ public partial class Player : MovingEntity<Player>
 	public override void UpdatePhysicsAir()
 	{
 		if (PlayerInput.IsFastFall)
-			Velocity = Velocity + new Vector2(0, 10);
+			//Velocity = Velocity + new Vector2(0, 10);
+			Velocity = new Vector2(Velocity.x, 500); //if the player is fast falling they should be falling not just adding force which will likely still be positive?
 	}
 
 	/// <summary>
@@ -169,7 +176,7 @@ public partial class Player : MovingEntity<Player>
 
 		// Lock movement
 		PreventMovement = true;
-		PreventMovementTimer.Start(); 
+		PreventMovementTimer.Start();
 	}
 
 	public void PreventMovementFinished()
