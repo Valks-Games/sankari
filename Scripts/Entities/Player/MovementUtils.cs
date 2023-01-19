@@ -12,6 +12,7 @@ public class MovementInput
 	public bool IsFastFall         { get; set; }
 	public bool IsDash             { get; set; }
 	public bool IsSprint           { get; set; }
+	public bool IsStomp			   { get; set; }
 }
 
 public class MovementUtils
@@ -30,6 +31,7 @@ public class MovementUtils
 			IsDown             = Input.IsActionPressed     ("player_move_down"),
 			IsFastFall         = Input.IsActionPressed     ("player_fast_fall"),
 			IsSprint           = Input.IsActionPressed     ("player_sprint"),
+			IsStomp			   = Input.IsActionPressed	   ("player_sprint"),
 		};
 	}
 
