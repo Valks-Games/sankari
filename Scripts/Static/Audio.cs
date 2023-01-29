@@ -53,7 +53,7 @@ public static class Audio
 
 	private static void LoadSoundEffects()
     {
-        LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav");
+        /*LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav");
         LoadSFX("coin_pickup_1", "Environment/Coin Pickup/1/sfx_coin_single1.wav");
         LoadSFX("coin_pickup_2", "Environment/Coin Pickup/2/coin.wav");
         LoadSFX("dash", "Movement/Dash/swish-9.wav");
@@ -62,7 +62,7 @@ public static class Audio
         LoadSFX("game_over_1", "Game Over/1/retro-game-over.wav");
         LoadSFX("game_over_2", "Game Over/2/game-over-dark-orchestra.wav");
         LoadSFX("game_over_3", "Game Over/3/musical-game-over.wav");
-        LoadSFX("game_over_4", "Game Over/4/orchestra-game-over.wav");
+        LoadSFX("game_over_4", "Game Over/4/orchestra-game-over.wav");*/
     }
 
     private static void LoadSoundTracks()
@@ -78,6 +78,12 @@ public static class Audio
 	/// </summary>
     public static void PlaySFX(string name, int volume = 100)
     {
+		if (!Sfx.ContainsKey(name))
+		{
+			Logger.LogWarning($"SFX '{name}' was not loaded so it could not be played");
+			return;
+		}
+
 		var sfxPlayer = new GAudioStreamPlayer(SFXPlayers, true);
 
         sfxPlayer.Volume = volume;
