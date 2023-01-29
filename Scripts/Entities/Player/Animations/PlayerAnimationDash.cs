@@ -18,10 +18,10 @@ public class PlayerAnimationDash : EntityAnimation<Player>
 
 		if (!((PlayerCommandDash)Entity.Commands[PlayerCommandType.Dash]).CurrentlyDashing)
 			if (!Entity.IsNearGround())
-				if (Entity.Velocity.y > 0)
+				if (Entity.Velocity.Y > 0)
 					SwitchState(EntityAnimationType.JumpFall);
 				else
-				if (Entity.MoveDir.x != 0)
+				if (Entity.MoveDir.X != 0)
 					if (Entity.PlayerInput.IsSprint)
 						SwitchState(EntityAnimationType.Running);
 					else

@@ -41,7 +41,7 @@ public class MovementUtils
 	/// <returns>True if the vector is pointing upwards</returns>
 	public static bool IsUp(Vector2 vector)
 	{
-		return vector.y < 0;
+		return vector.Y < 0;
 	}
 
 	/// <summary>
@@ -50,7 +50,7 @@ public class MovementUtils
 	/// <returns>True if the vector is pointing downwards</returns>
 	public static bool IsDown(Vector2 vector)
 	{
-		return vector.y > 0;
+		return vector.Y > 0;
 	}
 
 	/// <summary>
@@ -62,14 +62,14 @@ public class MovementUtils
 		var x = 0;
 		var y = 0;
 
-		if (vector.x > 0)
+		if (vector.X > 0)
 			x = 1;
-		else if (vector.x < 0)
+		else if (vector.X < 0)
 			x = -1;
 
-		if (vector.y > 0)
+		if (vector.Y > 0)
 			y = 1;
-		if (vector.y < 0)
+		if (vector.Y < 0)
 			y = -1;
 
 		return new Vector2(x, y);

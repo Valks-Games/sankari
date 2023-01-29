@@ -38,8 +38,8 @@ public class PacketWriter : IDisposable
 
     public void Write(Vector2 v)
     {
-        Writer.Write(v.x);
-        Writer.Write(v.y);
+        Writer.Write(v.X);
+        Writer.Write(v.Y);
     }
 
     public void Write<T>(T v)

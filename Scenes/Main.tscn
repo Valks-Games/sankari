@@ -293,7 +293,7 @@ layout_mode = 2
 [node name="Coin Sprite2D" type="AnimatedSprite2D" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
 position = Vector2(14, 14)
 scale = Vector2(1.23333, 1.23333)
-frames = SubResource("73")
+sprite_frames = SubResource("73")
 
 [node name="Padding Left" type="Control" parent="CanvasLayer/Level UI/PanelContainer/HBoxContainer"]
 custom_minimum_size = Vector2(25, 0)

@@ -80,7 +80,7 @@ public static class CollectionExtensions
 			// Ignored properties (prevents crashes)
 			var ignoredProps = new Type[]
 			{
-				typeof(Godot.Object),
+				typeof(GodotObject),
 				typeof(Node),
 				typeof(NodePath)
 			};

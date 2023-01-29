@@ -17,7 +17,7 @@ public class PlayerCommandDeath : PlayerCommand<Player>
 		Entity.LevelScene.Camera.StopFollowingPlayer();
 		Entity.AnimatedSprite.Stop();
 
-		var dieStartPos = Entity.Position.y;
+		var dieStartPos = Entity.Position.Y;
 		var goUpDuration = 1.25f;
 
 		// animate y position

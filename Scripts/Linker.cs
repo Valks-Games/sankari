@@ -110,7 +110,8 @@ public partial class Linker : Node
 
 	public override async void _Notification(long what)
 	{
-		if (what == NotificationWmCloseRequest)
+		
+		if (what == NotificationWMCloseRequest)
 		{
 			GetTree().AutoAcceptQuit = false;
 			await Cleanup();

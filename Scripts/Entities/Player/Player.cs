@@ -95,7 +95,7 @@ public partial class Player : MovingEntity<Player>
 			UpdateUnderPlatform(PlayerInput);
 
 		// Check if Entity in on ground and not current moving away from it
-		if (IsNearGround() && Velocity.y >=0)
+		if (IsNearGround() && Velocity.Y >=0)
 			JumpCount = 0;
 
 		// jump is handled before all movement restrictions
@@ -116,7 +116,7 @@ public partial class Player : MovingEntity<Player>
 					GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
 
 					JumpCount++;
-					//Velocity = new Vector2(Velocity.x, 0); // reset velocity before jump (is this really needed?)
+					//Velocity = new Vector2(Velocity.X, 0); // reset velocity before jump (is this really needed?)
 					//Velocity = Velocity - new Vector2(0, JumpForce);
 				}
 			}
@@ -136,7 +136,7 @@ public partial class Player : MovingEntity<Player>
 		if (PlayerInput.IsDash)
 			Commands[PlayerCommandType.Dash].Start();
 
-		Velocity = new Vector2(MoveDeadZone(Velocity.x, HorizontalDeadZone), Velocity.y); // must be after ClampAndDampen(...)
+		Velocity = new Vector2(MoveDeadZone(Velocity.X, HorizontalDeadZone), Velocity.Y); // must be after ClampAndDampen(...)
 	}
 
 	public override void UpdatePhysicsGround()
@@ -182,7 +182,7 @@ public partial class Player : MovingEntity<Player>
 
 	private float MoveDeadZone(float horzVelocity, int deadzone)
 	{
-		if (MoveDir.x == 0 && horzVelocity >= -deadzone && horzVelocity <= deadzone)
+		if (MoveDir.X == 0 && horzVelocity >= -deadzone && horzVelocity <= deadzone)
 			return horzVelocity * 0.5f;
 
 		return horzVelocity;

@@ -60,12 +60,12 @@ public class PlayerCommandWallJump : PlayerCommand<Player>
 
 			if (EntityIsFacingWall())
 			{
-				velocity.x += -JumpForceWallHorz * WallDir * JumpForceMultiplierHorz * 0.3f;
+				velocity.X += -JumpForceWallHorz * WallDir * JumpForceMultiplierHorz * 0.3f;
 			}
 			else
-				velocity.x += -JumpForceWallHorz * WallDir * JumpForceMultiplierHorz;
+				velocity.X += -JumpForceWallHorz * WallDir * JumpForceMultiplierHorz;
 
-			velocity.y = -JumpForceWallVert * JumpForceMultiplierVert;
+			velocity.Y = -JumpForceWallVert * JumpForceMultiplierVert;
 		}
 		else
 		{
@@ -81,12 +81,12 @@ public class PlayerCommandWallJump : PlayerCommand<Player>
 
 			if (EntityIsFacingWall())
 			{
-				velocity.x += -JumpForceWallHorz * WallDir * 0.3f;
+				velocity.X += -JumpForceWallHorz * WallDir * 0.3f;
 			}
 			else
-				velocity.x += -JumpForceWallHorz * WallDir;
+				velocity.X += -JumpForceWallHorz * WallDir;
 
-			velocity.y = -JumpForceWallVert;
+			velocity.Y = -JumpForceWallVert;
 		}
 
 		Entity.Velocity = velocity;
@@ -118,15 +118,15 @@ public class PlayerCommandWallJump : PlayerCommand<Player>
 						Entity.FakeGravitySpeed = MaxGravitySpeedSlidingFast;
 
 				// Slow down the player
-				//if (velocity.y != Entity.FakeGravitySpeed)
-					velocity = velocity.MoveToward(new Vector2(velocity.x, Entity.FakeGravitySpeed), 2000 * delta);
+				//if (velocity.Y != Entity.FakeGravitySpeed)
+					velocity = velocity.MoveToward(new Vector2(velocity.X, Entity.FakeGravitySpeed), 2000 * delta);
 			}
 
 			Entity.Velocity = velocity;
 		}
 	}
 
-	private bool EntityIsFacingWall() => Entity.MoveDir.x == WallDir;
+	private bool EntityIsFacingWall() => Entity.MoveDir.X == WallDir;
 	private bool OnAWall() => WallDir != 0;
 	private bool JumpOnSameWall() => PreviousWall == WallDir;
 

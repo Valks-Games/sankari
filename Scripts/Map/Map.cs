@@ -35,7 +35,7 @@ public partial class Map : Node
 
 		foreach (var level in LevelManager.Levels.Values)
 			if (level.Completed)
-				TileMapLevelIcons.SetCell(0, (Vector2i)level.Position, 1); // remember 1 is gray circle
+				TileMapLevelIcons.SetCell(0, (Vector2I)level.Position, 1); // remember 1 is gray circle
 
 		if (HasMapLoadedBefore)
 		{

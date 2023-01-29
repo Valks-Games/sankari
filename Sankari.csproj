@@ -1,7 +1,7 @@
-﻿<Project Sdk="Godot.NET.Sdk/4.0.0-beta.12">
+﻿<Project Sdk="Godot.NET.Sdk/4.0.0-beta.16">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>10</LangVersion>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>11</LangVersion>
     <RootNamespace>Sankari</RootNamespace>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <!--Required in Godot 4 or Newtonsoft will not be found-->

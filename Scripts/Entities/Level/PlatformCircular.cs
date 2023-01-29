@@ -14,7 +14,7 @@ public partial class PlatformCircular : APlatform
         Init();
         CollisionShapeRadius = GetNode<CollisionShape2D>("Radius");
 
-        var spriteWidth = GetNode<Sprite2D>("Sprite2D").Texture.GetSize().x;
+        var spriteWidth = GetNode<Sprite2D>("Sprite2D").Texture.GetSize().X;
 
         Radius = (CollisionShapeRadius.Shape as CircleShape2D).Radius - (spriteWidth / 2);
         StartPos = Position;

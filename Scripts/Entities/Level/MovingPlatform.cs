@@ -17,7 +17,7 @@ public partial class MovingPlatform : APlatform
         (
             Position, 
             GetNode<Marker2D>("Target").GlobalPosition, 
-            GetNode<Sprite2D>("Sprite2D").GetRect().Size.x,
+            GetNode<Sprite2D>("Sprite2D").GetRect().Size.X,
             Duration, 
             StartDelay, 
             TransitionType, 

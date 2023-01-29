@@ -22,14 +22,14 @@ public partial class Bird : MovingEntity<Bird>
 		if (IsOnWall() && !TimerChangeDirection.IsActive())
 		{
 			TimerChangeDirection.Start();
-			MoveDir = new Vector2(-MoveDir.x, MoveDir.y);
-			AnimatedSprite.FlipH = MoveDir.x == 1;
+			MoveDir = new Vector2(-MoveDir.X, MoveDir.Y);
+			AnimatedSprite.FlipH = MoveDir.X == 1;
 		}
 	}
 
 	private void OnTimerFlap() 
 	{
-		Velocity = Velocity + new Vector2(40 * MoveDir.x, -80);
+		Velocity = Velocity + new Vector2(40 * MoveDir.X, -80);
 	}
 
 	private void _on_damage_area_entered(Area2D area)

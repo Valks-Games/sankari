@@ -40,9 +40,9 @@ public abstract class EntityAnimation<T> where T : MovingEntity<T>
 
 	protected void FlipSpriteOnDirection()
 	{
-		if (Entity.MoveDir.x != 0)
+		if (Entity.MoveDir.X != 0)
 		{
-			Entity.AnimatedSprite.FlipH = Entity.MoveDir.x < 0; // flip sprite if moving left
+			Entity.AnimatedSprite.FlipH = Entity.MoveDir.X < 0; // flip sprite if moving left
 		}
 	}
 

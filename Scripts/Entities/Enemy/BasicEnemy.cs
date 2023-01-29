@@ -78,7 +78,7 @@ public partial class BasicEnemy : MovingEntity<BasicEnemy>, IEntity
 	public void Activate()
 	{
 		SetPhysicsProcess(true);
-		AnimatedSprite.Frame = GD.RandRange(0, AnimatedSprite.Frames.GetFrameCount("default"));
+		AnimatedSprite.Frame = GD.RandRange(0, AnimatedSprite.SpriteFrames.GetFrameCount("default"));
 		AnimatedSprite.SpeedScale = 1 + (Speed * 0.002f);
 		AnimatedSprite.Play();
 	}

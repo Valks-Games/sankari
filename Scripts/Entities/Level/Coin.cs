@@ -4,8 +4,8 @@ public partial class Coin : AnimatedSprite2D
 {
     public override void _Ready()
     {
-        Playing = true;
-        Frame = GD.RandRange(0, Frames.GetFrameCount("default"));
+		Play();
+        Frame = GD.RandRange(0, SpriteFrames.GetFrameCount("default"));
     }
 
     private void _on_Area_area_entered(Area2D area)

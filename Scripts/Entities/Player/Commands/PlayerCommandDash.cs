@@ -57,7 +57,7 @@ public class PlayerCommandDash : PlayerCommand<Player>
 		if (CurrentlyDashing)
 		{
 			var sprite = Prefabs.PlayerDashTrace.Instantiate<Sprite2D>();
-			sprite.Texture = Entity.AnimatedSprite.Frames.GetFrameTexture(Entity.AnimatedSprite.Animation, Entity.AnimatedSprite.Frame);
+			sprite.Texture = Entity.AnimatedSprite.SpriteFrames.GetFrameTexture(Entity.AnimatedSprite.Animation, Entity.AnimatedSprite.Frame);
 			sprite.GlobalPosition = Entity.GlobalPosition;
 			sprite.Scale = new Vector2(2f, 2f); // this is ugly
 			sprite.FlipH = Entity.AnimatedSprite.FlipH;
@@ -78,20 +78,20 @@ public class PlayerCommandDash : PlayerCommand<Player>
 		// Get vertical dash direction
 		var y = 0f;
 		if (MovementUtils.IsDown(moveDir))
-			y = Vector2.Down.y;
+			y = Vector2.Down.Y;
 		else if (MovementUtils.IsUp(moveDir))
-			y = Vector2.Up.y;
+			y = Vector2.Up.Y;
 
 		// Get horizontal dash direction
 		var x = 0f;
-		if (moveDir.x != 0)
-			x = moveDir.x > 0 ? 1 : -1;
+		if (moveDir.X != 0)
+			x = moveDir.X > 0 ? 1 : -1;
 
 		// Only update horizontal dash property if input for it is received
-		if (MovementUtils.IsUp(moveDir) || (MovementUtils.IsDown(moveDir) && moveDir.x == 0))
+		if (MovementUtils.IsUp(moveDir) || (MovementUtils.IsDown(moveDir) && moveDir.X == 0))
 			// Prioritize input up for vertical dashing
 			HorizontalDash = false;
-		else if (moveDir.x != 0)
+		else if (moveDir.X != 0)
 			HorizontalDash = true;
 
 		return new Vector2(x, y);

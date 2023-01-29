@@ -28,7 +28,7 @@ public partial class LevelUIManager : Control
 		HealthBar = GetNode<HBoxContainer>(NodePathHealthBar);
 		LabelGameOver = GetNode<Label>(NodePathGameOver);
 
-        CoinSprite.Playing = true;
+        CoinSprite.Play();
 		LabelGameOver.Hide();
         ControlLives.Hide();
     }
@@ -63,7 +63,7 @@ public partial class LevelUIManager : Control
 	{
 		CoinSprite.Show();
 		LabelCoins.Show();
-		CoinSprite.Playing = true;
+		CoinSprite.Play();
 	}
 	public void HideCoins()
 	{

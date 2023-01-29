@@ -25,7 +25,7 @@ public class PlayerAnimationJumpFall : EntityAnimationJumpFall<Player>
 
 	public override void HandleTransitionsNearGround()
 	{
-		if (Entity.MoveDir.x != 0)
+		if (Entity.MoveDir.X != 0)
 			if (Entity.PlayerInput.IsSprint)
 				SwitchState(EntityAnimationType.Running);
 			else

@@ -14,7 +14,7 @@ public class EntityAnimationJumpFall<T> : EntityAnimation<T> where T : MovingEnt
 	{
 		if (Entity.IsNearGround())
 			HandleTransitionsNearGround();
-		else if (!Entity.IsFalling() && Entity.Velocity.y != 0)
+		else if (!Entity.IsFalling() && Entity.Velocity.Y != 0)
 			HandleTransitionsFalling();
 	}
 

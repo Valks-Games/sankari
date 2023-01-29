@@ -197,8 +197,8 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 			if (ClampDampenGround)
 			{
 				var velocity = Velocity;
-				velocity.x += MoveDir.x * AccelerationGround;
-				velocity.x = ClampAndDampen(velocity.x, DampeningGround, MaxSpeed);
+				velocity.X += MoveDir.X * AccelerationGround;
+				velocity.X = ClampAndDampen(velocity.X, DampeningGround, MaxSpeed);
 				Velocity = velocity;
 			}
 
@@ -211,8 +211,8 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 			if (ClampDampenAir)
 			{
 				var velocity = Velocity;
-				velocity.x += MoveDir.x * AirAcceleration;
-				velocity.x = ClampAndDampen(velocity.x, DampeningAir, MaxSpeedAir);
+				velocity.X += MoveDir.X * AirAcceleration;
+				velocity.X = ClampAndDampen(velocity.X, DampeningAir, MaxSpeedAir);
 				Velocity = velocity;
 			}
 
@@ -258,7 +258,7 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 
 		// Stop any dashes in progress and apply a force in the opposite direction the player is moving
 		Commands[PlayerCommandType.Dash].Stop();
-		Velocity = new Vector2(-MoveDir.x * DamageTakenForce, -DamageTakenForce);
+		Velocity = new Vector2(-MoveDir.X * DamageTakenForce, -DamageTakenForce);
 	}
 
 	protected virtual void OnJump() // code smell?
@@ -296,7 +296,7 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 			return Mathf.Max(horzVelocity + dampening, -maxSpeedGround);
 	}
 
-	public bool IsFalling() => Velocity.y > 0;
+	public bool IsFalling() => Velocity.Y > 0;
 
 	public bool IsNearGround() => AreRaycastsColliding(RaycastsGround, "Ground");
 	protected bool IsNearWallLeft() => AreRaycastsColliding(RaycastsWallLeft, "Wall Left");
