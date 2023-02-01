@@ -71,10 +71,7 @@ public partial class Player : MovingEntity<Player>
 		if (GameManager.PlayerManager.ActiveCheckpoint)
 			Position = GameManager.PlayerManager.RespawnPosition;
 
-		TimerNetSend = new GTimer(this, NetUpdate, NetIntervals.HEARTBEAT)
-		{
-			Loop = true
-		};
+		TimerNetSend = new GTimer(this, NetUpdate, NetIntervals.HEARTBEAT) { Loop = true };
 
 		if (Net.IsMultiplayer())
 			TimerNetSend.Start();
