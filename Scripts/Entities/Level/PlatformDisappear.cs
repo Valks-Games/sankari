@@ -22,9 +22,9 @@ public partial class PlatformDisappear : APlatform
         Sprite = GetNode<Sprite2D>("Sprite2D");
         ShaderMaterial = (Sprite.Material as ShaderMaterial);
 
-        TimerFlash1 = new GTimer(this, OnTimerFlash1Up, DurationFlash1, false);
-        TimerFlash2 = new GTimer(this, OnTimerFlash2Up, DurationFlash2, false);
-        TimerReappear = new GTimer(this, OnTimerReappear, DurationReappear, false);
+        TimerFlash1 = new GTimer(this, OnTimerFlash1Up, DurationFlash1);
+        TimerFlash2 = new GTimer(this, OnTimerFlash2Up, DurationFlash2);
+        TimerReappear = new GTimer(this, OnTimerReappear, DurationReappear);
     }
 
     public override void _PhysicsProcess(double d)

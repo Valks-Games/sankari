@@ -6,10 +6,10 @@ public class GTimers
 
 	public GTimers(Node node) => Node = node;
 
-	public GTimer CreateTimer(int delayMS, bool autoStart = true) =>
-		new GTimer(Node, delayMS, autoStart);
+	public GTimer CreateTimer(int delayMS) =>
+		new GTimer(Node, delayMS);
 
-	public GTimer CreateTimer(Action action, int delayMS, bool autoStart = true) =>
-		new GTimer(Node, action, delayMS, autoStart);
+	public GTimer CreateTimer(Action action, int delayMS) =>
+		new GTimer(Node, action, delayMS);
 }
 

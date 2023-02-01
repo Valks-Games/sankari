@@ -10,8 +10,8 @@ public partial class Trapper : Entity
 	public override void Init()
 	{
 		AreaDamage = GetNode<Area2D>("Damage");
-		TimerReveal = new GTimer(this, OnTimerReveal, 1500, false);
-		TimerRevealCooldown = new GTimer(this, 2000, false);
+		TimerReveal = new GTimer(this, OnTimerReveal, 1500);
+		TimerRevealCooldown = new GTimer(this, 2000);
 		AnimatedSprite.Play("idle");
 
 		// Set detection range dynamically on startup

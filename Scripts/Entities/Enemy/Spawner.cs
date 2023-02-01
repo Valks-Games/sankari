@@ -9,7 +9,7 @@ public partial class Spawner : Marker2D, IEntity
 
     public override void _Ready()
     {
-        Timer = new GTimer(this, OnTimer, RespawnInterval, false)
+        Timer = new GTimer(this, OnTimer, RespawnInterval)
 		{
 			Loop = true
 		};
