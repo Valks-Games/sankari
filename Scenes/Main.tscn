@@ -80,7 +80,7 @@ animations = [{
 script = ExtResource("2")
 DeveloperMode = true
 PressPlayOnLaunch = true
-AutoHostJoin = true
+InstantlyLoadLevel = true
 NodePathTransition = NodePath("CanvasLayer/Transition")
 
 [node name="Map" type="Node2D" parent="."]

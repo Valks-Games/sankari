@@ -1,10 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://bmbied2802aut"]
+[gd_scene load_steps=35 format=3 uid="uid://bmbied2802aut"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/Spawner.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="2"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelScene.cs" id="3"]
 [ext_resource type="PackedScene" uid="uid://k3c0v1nsfid8" path="res://Scenes/Prefabs/Enemies/BasicEnemy.tscn" id="5"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Killzone.cs" id="7"]
+[ext_resource type="Texture2D" uid="uid://cs0qaxwrbjork" path="res://Sprites/Level/Coins/Full Coins.png" id="7_qckl7"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://w64koklfslbm" path="res://Sprites/Level/Parallax Backgrounds/Grass/5_clouds.png" id="11"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/LevelFinish.cs" id="12_o76mk"]
@@ -1020,6 +1021,70 @@ terrain_set_0/terrain_0/name = "Dirt"
 terrain_set_0/terrain_0/color = Color(1, 0, 0.0392157, 1)
 sources/2 = SubResource("TileSetAtlasSource_7ddqc")
 
+[sub_resource type="AtlasTexture" id="22"]
+atlas = ExtResource("7_qckl7")
+region = Rect2(0, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="23"]
+atlas = ExtResource("7_qckl7")
+region = Rect2(15, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="24"]
+atlas = ExtResource("7_qckl7")
+region = Rect2(30, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="25"]
+atlas = ExtResource("7_qckl7")
+region = Rect2(45, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="26"]
+atlas = ExtResource("7_qckl7")
+region = Rect2(60, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="27"]
+atlas = ExtResource("7_qckl7")
+region = Rect2(75, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="28"]
+atlas = ExtResource("7_qckl7")
+region = Rect2(90, 0, 15, 16)
+
+[sub_resource type="AtlasTexture" id="29"]
+atlas = ExtResource("7_qckl7")
+region = Rect2(105, 0, 15, 16)
+
+[sub_resource type="SpriteFrames" id="30"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("22")
+}, {
+"duration": 1.0,
+"texture": SubResource("23")
+}, {
+"duration": 1.0,
+"texture": SubResource("24")
+}, {
+"duration": 1.0,
+"texture": SubResource("25")
+}, {
+"duration": 1.0,
+"texture": SubResource("26")
+}, {
+"duration": 1.0,
+"texture": SubResource("27")
+}, {
+"duration": 1.0,
+"texture": SubResource("28")
+}, {
+"duration": 1.0,
+"texture": SubResource("29")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="135"]
 size = Vector2(106.5, 565)
 
@@ -1088,75 +1153,99 @@ texture = ExtResource("16")
 
 [node name="Coin" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(291, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin2" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(327, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin3" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(363, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin4" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(399, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin5" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(434, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin6" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(470, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin7" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(506, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin8" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(542, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin9" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(578, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin10" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(614, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin11" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(650, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin12" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(752, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin13" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1147, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin14" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1183, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin15" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1219, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin16" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1255, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin17" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1290, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin18" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1326, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin19" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1362, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin20" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1398, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin21" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1434, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin22" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1470, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin23" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1506, 568)
+sprite_frames = SubResource("30")
 
 [node name="Coin24" parent="Environment/Coins" instance=ExtResource("13")]
 position = Vector2(1542, 568)
+sprite_frames = SubResource("30")
 
 [node name="Triggers" type="Node2D" parent="Environment"]
 
@@ -1360,7 +1449,6 @@ position = Vector2(4632, 1152)
 shape = SubResource("5")
 
 [node name="Camera" type="Camera2D" parent="."]
-current = true
 limit_left = -8
 limit_top = -1138
 limit_right = 9368
