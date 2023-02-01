@@ -12,7 +12,7 @@ public partial class Bird : MovingEntity<Bird>
 	public override void Init()
 	{
 		TimerChangeDirection = new GTimer(this, 1000, false);
-		TimerFlap = new GTimer(this, nameof(OnTimerFlap), 1000, true) { Loop = true };
+		TimerFlap = new GTimer(this, OnTimerFlap, 1000, true) { Loop = true };
 		AnimatedSprite.Play("fly");
 		MoveDir = Vector2.Left;
 	}

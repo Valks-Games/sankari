@@ -23,7 +23,7 @@ public partial class Slime : MovingEntity<Slime>
 		CurrentAnimation = EntityAnimationType.Idle;
 
 		IdleTimer = new GTimer(this, 1000);
-		PreJumpTimer = new GTimer(this, nameof(OnPreJumpTimer), 400, false);
+		PreJumpTimer = new GTimer(this, OnPreJumpTimer, 400, false);
 
 		Label.Visible = true;
     }

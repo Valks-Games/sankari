@@ -20,8 +20,8 @@ public class PlayerCommandDash : PlayerCommand<Player>
 
 	public override void Initialize()
 	{
-		TimerDashCooldown = Entity.Timers.CreateTimer(nameof(Entity.OnDashReady), DashCooldown, false);
-		TimerDashDuration = Entity.Timers.CreateTimer(nameof(Entity.OnDashDurationDone), DashDuration, false);
+		TimerDashCooldown = Entity.Timers.CreateTimer(Entity.OnDashReady, DashCooldown, false);
+		TimerDashDuration = Entity.Timers.CreateTimer(Entity.OnDashDurationDone, DashDuration, false);
 	}
 
 	public override void Start()

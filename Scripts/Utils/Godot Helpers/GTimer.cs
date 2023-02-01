@@ -21,10 +21,10 @@ public class GTimer
 	public GTimer(Node node, int delayMs = 1000, bool autoStart = true) =>
 		Init(node, delayMs, autoStart);
 
-	public GTimer(Node node, string methodName, int delayMs = 1000, bool autoStart = true)
+	public GTimer(Node node, Action action, int delayMs = 1000, bool autoStart = true)
 	{
 		Init(node, delayMs, autoStart);
-		Callable = new Callable(node, methodName);
+		Callable = Callable.From(action);
 		Timer.Connect("timeout", Callable);
 	}
 

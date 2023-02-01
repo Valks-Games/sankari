@@ -71,7 +71,7 @@ public partial class Player : MovingEntity<Player>
 		if (GameManager.PlayerManager.ActiveCheckpoint)
 			Position = GameManager.PlayerManager.RespawnPosition;
 
-		TimerNetSend = new GTimer(this, nameof(NetUpdate), NetIntervals.HEARTBEAT, Net.IsMultiplayer())
+		TimerNetSend = new GTimer(this, NetUpdate, NetIntervals.HEARTBEAT, Net.IsMultiplayer())
 		{
 			Loop = true
 		};
@@ -82,7 +82,7 @@ public partial class Player : MovingEntity<Player>
 		GetCommandClass<PlayerCommandWallJump>(PlayerCommandType.WallJump).WallJump += OnWallJump;
 
 		DontCheckPlatformAfterDashDuration = new GTimer(this, 500, false);
-		PreventMovementTimer               = new GTimer(this, nameof(PreventMovementFinished), 50, false);
+		PreventMovementTimer               = new GTimer(this, PreventMovementFinished, 50, false);
 	}
 
 	public override void UpdatePhysics()
