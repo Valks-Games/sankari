@@ -31,7 +31,7 @@ public partial class Map : Node
 		Levels = GetNode<Node>(NodePathLevels);
 		PlayerIcon = GetNode<Sprite2D>(NodePathPlayerIcon);
 		Camera = GetNode<Camera2D>(NodePathCamera);
-		Camera.Current = true; // cameras are not set to current by default if a previous camera was set to current in a previous scene / child node
+		Camera.MakeCurrent(); // cameras are not set to current by default if a previous camera was set to current in a previous scene / child node
 
 		foreach (var level in LevelManager.Levels.Values)
 			if (level.Completed)

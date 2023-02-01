@@ -108,7 +108,7 @@ public partial class Linker : Node
 			Notifications.Notify(this, Event.OnJoypadButtonInput, inputEventJoypadButton);
 	}*/
 
-	public override async void _Notification(long what)
+	public override async void _Notification(int what)
 	{
 		
 		if (what == NotificationWMCloseRequest)

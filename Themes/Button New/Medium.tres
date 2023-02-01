@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://d10ct68nx07s2" path="res://Fonts/Roboto/Roboto-Regular.ttf" id="1"]
 
 [sub_resource type="FontFile" id="4"]
-fallbacks = [ExtResource("1")]
+fallbacks = Array[Font]([ExtResource("1")])
 face_index = null
 embolden = null
 transform = null

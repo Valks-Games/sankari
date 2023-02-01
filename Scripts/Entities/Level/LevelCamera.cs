@@ -7,7 +7,7 @@ public partial class LevelCamera : Camera2D
     public override void _Ready()
     {
         Player = GetNode<Player>("../Player");
-		Current = true;
+		MakeCurrent();
     }
 
     public override void _Process(double delta) => Position = Player.Position;
