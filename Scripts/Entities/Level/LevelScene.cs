@@ -60,27 +60,30 @@ public partial class LevelScene : Node
 
     private void CreateLevelBounds()
     {
-        var colliderThickness = 5;
-        
-        // left
-        CreateCollider
-        (
-            new Vector2(Camera.LimitLeft - colliderThickness, (Camera.LimitTop + Camera.LimitBottom) / 2),
-            new Vector2(colliderThickness, (Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom)) / 2)
-        );
+		// I don't know if this is 100% correct but it seems to do the job for now
+        var thickness = 5;
+		var height = Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom);
+		var width = Mathf.Abs(Camera.LimitLeft) + Mathf.Abs(Camera.LimitRight);
 
-        // right
-        CreateCollider
-        (
-            new Vector2(Camera.LimitRight + colliderThickness, (Camera.LimitTop + Camera.LimitBottom) / 2),
-            new Vector2(colliderThickness, (Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom)) / 2)
-        );
+		// left
+		CreateCollider
+		(
+			new Vector2(Camera.LimitLeft - thickness, Camera.LimitBottom - height / 2),
+			new Vector2(thickness, height)
+		);
+
+		// right
+		CreateCollider
+		(
+			new Vector2(Camera.LimitRight + thickness, Camera.LimitBottom - height / 2),
+			new Vector2(thickness, height)
+		);
 
         // top
         CreateCollider
         (
-            new Vector2((Camera.LimitLeft + Camera.LimitRight) / 2, Camera.LimitTop - colliderThickness),
-            new Vector2(Mathf.Abs(Camera.LimitLeft) + (Mathf.Abs(Camera.LimitRight) / 2), colliderThickness)
+            new Vector2(width / 2, Camera.LimitTop - thickness),
+            new Vector2(width, thickness)
         );
     }
 
