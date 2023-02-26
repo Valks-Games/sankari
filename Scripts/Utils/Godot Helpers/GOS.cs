@@ -9,7 +9,8 @@ public static class GOS
 {
 	public static void SetWindowTitle(string title) => DisplayServer.WindowSetTitle(title);
 
-	public static bool IsExportedRelease() => OS.HasFeature("standalone");
+	// Read up on feature tags https://docs.godotengine.org/en/latest/tutorials/export/feature_tags.html
+	public static bool IsExportedRelease() => OS.HasFeature("template");
 
 	public static bool IsEditor() => !IsExportedRelease();
 
