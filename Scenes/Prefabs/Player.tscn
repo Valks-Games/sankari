@@ -56,7 +56,7 @@ target_position = Vector2(0, 10)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
-frames = ExtResource("2_pdwy7")
+sprite_frames = ExtResource("2_pdwy7")
 animation = &"idle"
 
 [node name="Area2D" type="Area2D" parent="." groups=["Player"]]
