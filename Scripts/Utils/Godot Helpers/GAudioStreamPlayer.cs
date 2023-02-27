@@ -1,4 +1,4 @@
-namespace Sankari;
+namespace GodotUtils;
 
 public class GAudioStreamPlayer 
 {
@@ -42,6 +42,7 @@ public class GAudioStreamPlayer
         target.AddChild(AudioStreamPlayer);
 
 		if (deleteOnFinished)
+			// can't be included in library because this will not work (will get "Method not found")
 			AudioStreamPlayer.Connect("finished", new Callable(AudioStreamPlayer, "OnFinished"));
     }
 

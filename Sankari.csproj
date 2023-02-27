@@ -1,4 +1,4 @@
-﻿<Project Sdk="Godot.NET.Sdk/4.0.0-rc.3">
+﻿<Project Sdk="Godot.NET.Sdk/4.0.0-rc.5">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <LangVersion>11</LangVersion>
@@ -7,6 +7,7 @@
     <!--Required in Godot 4 or Newtonsoft will not be found-->
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="ValksGodotUtils" Version="1.0.0" />
     <PackageReference Include="ENet-CSharp" Version="2.4.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <!--This is used because net472 does not have System.Text.Json-->
