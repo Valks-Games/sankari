@@ -24,7 +24,7 @@ If you have any questions or suggestions about the project or just want to talk 
 [Changelog](https://github.com/Valks-Games/sankari/blob/main/.github/CHANGELOG.md)  
 
 ## Project Setup
-1. Install the latest Godot 4 release
+1. Install the latest Godot 4 C# release
 2. Install [.NET SDK 6.0](https://dotnet.microsoft.com/en-us/download)
 3. Install [.NET Framework 4.7.2](https://duckduckgo.com/?q=.net+framework+4.7.2)
 4. In `Godot Editor > Editor Settings > Mono > Builds`: Make sure `Build Tool` is set to `dotnet CLI`
