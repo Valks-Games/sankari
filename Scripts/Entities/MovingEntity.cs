@@ -261,10 +261,7 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 		Velocity = new Vector2(-MoveDir.X * DamageTakenForce, -DamageTakenForce);
 	}
 
-	protected virtual void OnJump() // code smell?
-	{
-		Jump?.Invoke();
-	}
+	protected virtual void OnJump() => Jump?.Invoke();
 
 	private void OnImmunityTimerFinished() 
 	{
