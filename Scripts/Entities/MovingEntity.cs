@@ -46,12 +46,12 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 
 	public EntityAnimationType CurrentAnimation { get; set; } = EntityAnimationType.None; // The current animation that is being used for the entity
 
-	public Label Label { get; set; } // a label used for mostly debugging information displayed above the entity in-game but can also be used for other thing
-	public float Delta { get; protected set; } // the delta from _PhysicsProcess(double delta) converted to a float
-	public GTimers Timers { get; set; } // a convience property to help with the initialization of timers
-	public bool HaltLogic { get; set; } // used to see if _PhysicsProcess() was halted or not
-	public bool InDamageZone { get; set; } // the entity is in a damage zone or not
-	public Window Tree { get; set; }
+	public Label   Label        { get; set; } // a label used for mostly debugging information displayed above the entity in-game but can also be used for other thing
+	public float   Delta        { get; protected set; } // the delta from _PhysicsProcess(double delta) converted to a float
+	public GTimers Timers       { get; set; } // a convience property to help with the initialization of timers
+	public bool    HaltLogic    { get; set; } // used to see if _PhysicsProcess() was halted or not
+	public bool    InDamageZone { get; set; } // the entity is in a damage zone or not
+	public Window  Tree         { get; set; }
 
 	// Raycast Parents
 	protected Node ParentRaycastsWallLeft   { get; set; }
@@ -61,13 +61,13 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 	protected Node ParentRaycastsGround     { get; set; }
 
 	// Raycasts
-	public List<RayCast2D> RaycastsWallLeft { get; set; } = new();
-	public List<RayCast2D> RaycastsWallRight { get; set; } = new();
-	public List<RayCast2D> RaycastsCliffLeft { get; set; } = new();
+	public List<RayCast2D> RaycastsWallLeft   { get; set; } = new();
+	public List<RayCast2D> RaycastsWallRight  { get; set; } = new();
+	public List<RayCast2D> RaycastsCliffLeft  { get; set; } = new();
 	public List<RayCast2D> RaycastsCliffRight { get; set; } = new();
-	public List<RayCast2D> RaycastsGround { get; set; } = new();
+	public List<RayCast2D> RaycastsGround     { get; set; } = new();
 
-	protected int GravityMaxSpeed { get; set; } = 1200;
+	protected int GravityMaxSpeed  { get; set; } = 1200;
 	protected GTimer ImmunityTimer { get; set; }
 	protected int DamageTakenForce { get; set; } = 300;
 	private bool TouchedGroundBool { get; set; }
@@ -124,17 +124,17 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 		Label = GetNodeOrNull<Label>("Label");
 		AnimatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 
-		ParentRaycastsWallLeft = GetNodeOrNull<Node>("Raycasts/Wall/Left");
-		ParentRaycastsWallRight = GetNodeOrNull<Node>("Raycasts/Wall/Right");
-		ParentRaycastsCliffLeft = GetNodeOrNull<Node>("Raycasts/Cliff/Left");
+		ParentRaycastsWallLeft   = GetNodeOrNull<Node>("Raycasts/Wall/Left");
+		ParentRaycastsWallRight  = GetNodeOrNull<Node>("Raycasts/Wall/Right");
+		ParentRaycastsCliffLeft  = GetNodeOrNull<Node>("Raycasts/Cliff/Left");
 		ParentRaycastsCliffRight = GetNodeOrNull<Node>("Raycasts/Cliff/Right");
-		ParentRaycastsGround = GetNodeOrNull<Node>("Raycasts/Ground");
+		ParentRaycastsGround     = GetNodeOrNull<Node>("Raycasts/Ground");
 
-		PrepareRaycasts(ParentRaycastsWallLeft, RaycastsWallLeft);
-		PrepareRaycasts(ParentRaycastsWallRight, RaycastsWallRight);
-		PrepareRaycasts(ParentRaycastsCliffLeft, RaycastsCliffLeft);
+		PrepareRaycasts(ParentRaycastsWallLeft,   RaycastsWallLeft);
+		PrepareRaycasts(ParentRaycastsWallRight,  RaycastsWallRight);
+		PrepareRaycasts(ParentRaycastsCliffLeft,  RaycastsCliffLeft);
 		PrepareRaycasts(ParentRaycastsCliffRight, RaycastsCliffRight);
-		PrepareRaycasts(ParentRaycastsGround, RaycastsGround);
+		PrepareRaycasts(ParentRaycastsGround,     RaycastsGround);
 
 		// do not check for cliffs if FallOffCliff is set to true
 		if (FallOffCliff)
