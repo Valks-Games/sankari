@@ -7,7 +7,10 @@
     <!--Required in Godot 4 or Newtonsoft will not be found-->
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ValksGodotUtils" Version="1.0.0" />
+    <!--<PackageReference Include="ValksGodotUtils" Version="1.0.0" />-->
+	<Reference Include="GodotUtils">
+      <HintPath>GodotUtils.dll</HintPath>
+    </Reference>
     <PackageReference Include="ENet-CSharp" Version="2.4.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <!--This is used because net472 does not have System.Text.Json-->
