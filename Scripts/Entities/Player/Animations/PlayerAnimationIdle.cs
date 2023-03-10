@@ -14,7 +14,7 @@ public class PlayerAnimationIdle : EntityAnimationIdle<Player>
 		Entity.Jump += OnJump;
 	}
 
-	private void OnJump(object sender, EventArgs e)
+	private void OnJump()
 	{
 
 	}

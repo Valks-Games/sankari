@@ -72,7 +72,7 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 	protected int DamageTakenForce { get; set; } = 300;
 	private bool TouchedGroundBool { get; set; }
 
-	public event EventHandler Jump;
+	public event Action Jump;
 
 	public sealed override void _Ready()
 	{
@@ -263,7 +263,7 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
 
 	protected virtual void OnJump() // code smell?
 	{
-		Jump?.Invoke(this, EventArgs.Empty);
+		Jump?.Invoke();
 	}
 
 	private void OnImmunityTimerFinished() 
