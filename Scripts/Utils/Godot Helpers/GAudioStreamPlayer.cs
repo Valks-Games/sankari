@@ -41,20 +41,20 @@ public class GAudioStreamPlayer
         AudioStreamPlayer = new();
         target.AddChild(AudioStreamPlayer);
 
-		if (deleteOnFinished)
-			// can't be included in library because this will not work (will get "Method not found")
-			AudioStreamPlayer.Connect("finished", new Callable(AudioStreamPlayer, "OnFinished"));
+        if (deleteOnFinished)
+            // can't be included in library because this will not work (will get "Method not found")
+            AudioStreamPlayer.Connect("finished", new Callable(AudioStreamPlayer, "OnFinished"));
     }
 
     public void Play() => AudioStreamPlayer.Play();
     public void Stop() => AudioStreamPlayer.Stop();
-	public void QueueFree() => AudioStreamPlayer.QueueFree();
+    public void QueueFree() => AudioStreamPlayer.QueueFree();
 }
 
 public partial class SFXSound : AudioStreamPlayer
 {
-	private void OnFinished() 
-	{
-		QueueFree();	
-	}
+    private void OnFinished() 
+    {
+        QueueFree();    
+    }
 }

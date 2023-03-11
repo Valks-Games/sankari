@@ -26,8 +26,8 @@ public abstract class ENetClient
 
     private int OutgoingId { get; set; }
     protected CancellationTokenSource CancellationTokenSource { get; set; } = new();
-	
-	// fields
+    
+    // fields
     private long connected;
     private long running;
 

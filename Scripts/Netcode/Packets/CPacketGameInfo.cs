@@ -66,11 +66,11 @@ public class CPacketGameInfo : APacketClient
 
     private void HandlePlayerJoin()
     {
-		// Reminder that this is code that is executed on the server-side.
-		// If you are unsure of where code is being executed from, hover
-		// your mouse over the 'void Handle(ENet.Peer)' method to see its
-		// description. It will tell you if this code is being executed
-		// server-side or client-side.
+        // Reminder that this is code that is executed on the server-side.
+        // If you are unsure of where code is being executed from, hover
+        // your mouse over the 'void Handle(ENet.Peer)' method to see its
+        // description. It will tell you if this code is being executed
+        // server-side or client-side.
 
         if (server.Players.ContainsKey((byte)peer.ID))
         {
@@ -81,7 +81,7 @@ public class CPacketGameInfo : APacketClient
 
         if (!Host)
         {
-			// a new client is joining the server
+            // a new client is joining the server
 
             // notify joining player of all players in the server
             server.Send(ServerPacketOpcode.GameInfo, new SPacketGameInfo

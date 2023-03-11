@@ -14,20 +14,20 @@ public static class LevelManager
     {
         NodeLevel = nodeLevel;
 
-		GodotFileManager.LoadDir("Scenes/Levels", (dir, fileName) => 
-		{
-			// This is here because of a Godot issue (https://github.com/godotengine/godot/issues/66014)
-			// for linux users. If this gets fixed, this code should be deleted.
-			// This is not just for linux, this problem also happens on Windows, it's just
-			// the game does not crash when it happens unlike on Linux
-			fileName = fileName.Replace(".tscn.remap", ".tscn");
+        GodotFileManager.LoadDir("Scenes/Levels", (dir, fileName) => 
+        {
+            // This is here because of a Godot issue (https://github.com/godotengine/godot/issues/66014)
+            // for linux users. If this gets fixed, this code should be deleted.
+            // This is not just for linux, this problem also happens on Windows, it's just
+            // the game does not crash when it happens unlike on Linux
+            fileName = fileName.Replace(".tscn.remap", ".tscn");
 
-			if (!dir.CurrentIsDir())
-				Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
-		});
+            if (!dir.CurrentIsDir())
+                Scenes[fileName.Replace(".tscn", "")] = ResourceLoader.Load<PackedScene>($"res://Scenes/Levels/{fileName}");
+        });
 
-		// test level
-		AddLevel("Test Level");
+        // test level
+        AddLevel("Test Level");
 
         AddLevel("Level A1", "grassy_1", 0.9f, false);
         AddLevel("Level A2", "grassy_2", 0.9f);
@@ -48,8 +48,8 @@ public static class LevelManager
 
     public static async Task LoadLevel(bool instant = false)
     {
-		if (!instant)
-			await GameManager.Transition.AlphaToBlackAndBack();
+        if (!instant)
+            await GameManager.Transition.AlphaToBlackAndBack();
 
         LoadALevel();
     }
@@ -74,24 +74,24 @@ public static class LevelManager
 
         var levelPacked = ResourceLoader.Load<PackedScene>(scenePath);
 
-		if (levelPacked.Instantiate() is LevelScene level)
-		{
-			level.PreInit();
-			NodeLevel.AddChild(level);
+        if (levelPacked.Instantiate() is LevelScene level)
+        {
+            level.PreInit();
+            NodeLevel.AddChild(level);
 
-			var curLevel = Levels[CurrentLevel];
+            var curLevel = Levels[CurrentLevel];
 
-			//Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
-			GameManager.LevelUI.Show();
-		}
-		else
-		{
-			Logger.LogWarning
-			(
-				"Level does not have LevelScene.cs script attached " +
-				"to root node. Some things may not function as expected."
-			);
-		}
+            //Audio.PlayMusic(curLevel.Music, curLevel.MusicPitch);
+            GameManager.LevelUI.Show();
+        }
+        else
+        {
+            Logger.LogWarning
+            (
+                "Level does not have LevelScene.cs script attached " +
+                "to root node. Some things may not function as expected."
+            );
+        }
     }
 
     public static async Task CompleteLevel(string levelName)
@@ -136,9 +136,9 @@ public class Level
         var levelId = name.Split(" ")[1];
         var letter = levelId.Substring(0, 1);
 
-		// for example "Test Level" does not have a number in the name
-		if (!int.TryParse(levelId.Substring(1), out int num))
-			return;
+        // for example "Test Level" does not have a number in the name
+        if (!int.TryParse(levelId.Substring(1), out int num))
+            return;
         
         num += 1;
 

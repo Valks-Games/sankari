@@ -29,8 +29,8 @@ public abstract class ENetServer
     protected readonly Dictionary<uint, Peer> Peers = new();
     protected CancellationTokenSource CancellationTokenSource { get; set; } = new();
     protected bool QueueRestart { get; set; }
-	
-	// fields
+    
+    // fields
     private long someoneConnected = 0;
     private long running = 0;
 

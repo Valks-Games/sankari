@@ -13,9 +13,9 @@ public class EventManager<TEvent>
 {
     private Dictionary<TEvent, List<Listener>> Listeners { get; set; } = new();
 
-	/// <summary>
-	/// The event type to be listened to
-	/// </summary>
+    /// <summary>
+    /// The event type to be listened to
+    /// </summary>
     public void AddListener(TEvent eventType, Action<object[]> action)
     {
         if (!Listeners.ContainsKey(eventType))
@@ -24,9 +24,9 @@ public class EventManager<TEvent>
         Listeners[eventType].Add(new Listener(action));
     }
 
-	/// <summary>
-	/// Remove ALL listeners of type 'TEvent'
-	/// </summary>
+    /// <summary>
+    /// Remove ALL listeners of type 'TEvent'
+    /// </summary>
     public void RemoveAllListenersForEventType(TEvent eventType)
     {
         if (!Listeners.ContainsKey(eventType))
@@ -38,23 +38,23 @@ public class EventManager<TEvent>
                     pair.Value.RemoveAt(i);
     }
 
-	/// <summary>
-	/// Remove ALL listeners from ALL event types
-	/// </summary>
-	public void RemoveAllListenersForAllEvents() 
-	{
-		foreach (TEvent eventType in Enum.GetValues(typeof(TEvent)))
-			RemoveAllListenersForEventType(eventType);
-	}
+    /// <summary>
+    /// Remove ALL listeners from ALL event types
+    /// </summary>
+    public void RemoveAllListenersForAllEvents() 
+    {
+        foreach (TEvent eventType in Enum.GetValues(typeof(TEvent)))
+            RemoveAllListenersForEventType(eventType);
+    }
 
-	/// <summary>
-	/// Not sure if this is useful or not
-	/// </summary>
+    /// <summary>
+    /// Not sure if this is useful or not
+    /// </summary>
     public void ClearListeners() => Listeners.Clear();
 
-	/// <summary>
-	/// Notify all listeners
-	/// </summary>
+    /// <summary>
+    /// Notify all listeners
+    /// </summary>
     public void Notify(TEvent eventType, params object[] args)
     {
         if (!Listeners.ContainsKey(eventType))
@@ -68,5 +68,5 @@ public class EventManager<TEvent>
     {
         public Action<object[]> Action { get; set; }
         public Listener(Action<object[]> action) => Action = action;
-	}
+    }
 }

@@ -127,12 +127,12 @@ public class SPacketGameInfo : APacketServer
         if (Joining)
             Events.Generic.Notify(EventGeneric.OnGameClientJoined, Id, Username);
         else
-			Events.Generic.Notify(EventGeneric.OnGameClientLeft, Id);
+            Events.Generic.Notify(EventGeneric.OnGameClientLeft, Id);
     }
 
     private void HandlePlayersOnServer() 
     {
-		Events.Generic.Notify(EventGeneric.OnReceivePlayersFromServer, Usernames);
+        Events.Generic.Notify(EventGeneric.OnReceivePlayersFromServer, Usernames);
     }
 
     private async Task HandleStartLevel()

@@ -37,7 +37,7 @@ public partial class LevelScene : Node
             }
         }
 
-		Events.Generic.AddListener(EventGeneric.OnGameClientLeft, (args) => 
+        Events.Generic.AddListener(EventGeneric.OnGameClientLeft, (args) => 
         {
             var id = (byte)args[0];
             OtherPlayers[id].QueueFree();
@@ -60,24 +60,24 @@ public partial class LevelScene : Node
 
     private void CreateLevelBounds()
     {
-		// I don't know if this is 100% correct but it seems to do the job for now
+        // I don't know if this is 100% correct but it seems to do the job for now
         var thickness = 5;
-		var height = Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom);
-		var width = Mathf.Abs(Camera.LimitLeft) + Mathf.Abs(Camera.LimitRight);
+        var height = Mathf.Abs(Camera.LimitTop) + Mathf.Abs(Camera.LimitBottom);
+        var width = Mathf.Abs(Camera.LimitLeft) + Mathf.Abs(Camera.LimitRight);
 
-		// left
-		CreateCollider
-		(
-			new Vector2(Camera.LimitLeft - thickness, Camera.LimitBottom - height / 2),
-			new Vector2(thickness, height)
-		);
+        // left
+        CreateCollider
+        (
+            new Vector2(Camera.LimitLeft - thickness, Camera.LimitBottom - height / 2),
+            new Vector2(thickness, height)
+        );
 
-		// right
-		CreateCollider
-		(
-			new Vector2(Camera.LimitRight + thickness, Camera.LimitBottom - height / 2),
-			new Vector2(thickness, height)
-		);
+        // right
+        CreateCollider
+        (
+            new Vector2(Camera.LimitRight + thickness, Camera.LimitBottom - height / 2),
+            new Vector2(thickness, height)
+        );
 
         // top
         CreateCollider

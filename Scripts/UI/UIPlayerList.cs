@@ -18,12 +18,12 @@ public partial class UIPlayerList : Control
             RemovePlayer((byte)args[0]);
         });
 
-		Events.Generic.AddListener(EventGeneric.OnGameClientJoined, (args) => 
+        Events.Generic.AddListener(EventGeneric.OnGameClientJoined, (args) => 
         {
             AddPlayer((byte)args[0], (string)args[1]);
         });
 
-		Events.Generic.AddListener(EventGeneric.OnReceivePlayersFromServer, (args) => 
+        Events.Generic.AddListener(EventGeneric.OnReceivePlayersFromServer, (args) => 
         {
             var usernames = (Dictionary<byte, string>)args[0];
 

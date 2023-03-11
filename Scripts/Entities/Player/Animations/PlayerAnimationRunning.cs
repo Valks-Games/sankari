@@ -2,45 +2,45 @@
 
 public class PlayerAnimationRunning : EntityAnimation<Player>
 {
-	public PlayerAnimationRunning(Player player) : base(player) => Entity = player;
+    public PlayerAnimationRunning(Player player) : base(player) => Entity = player;
 
-	public override void Enter()
-	{
-		Entity.AnimatedSprite.Play("walk");
-		Entity.AnimatedSprite.SpeedScale = 1.5f;
-	}
+    public override void Enter()
+    {
+        Entity.AnimatedSprite.Play("walk");
+        Entity.AnimatedSprite.SpeedScale = 1.5f;
+    }
 
-	public override void Update()
-	{
-		FlipSpriteOnDirection();
-	}
+    public override void Update()
+    {
+        FlipSpriteOnDirection();
+    }
 
-	public override void HandleTransitions()
-	{
-		// Running -> Idle
-		// Running -> Walking
-		// Running -> Dash
-		// Running -> JumpStart
+    public override void HandleTransitions()
+    {
+        // Running -> Idle
+        // Running -> Walking
+        // Running -> Dash
+        // Running -> JumpStart
 
-		if (Entity.PlayerInput.IsJumpJustPressed)
+        if (Entity.PlayerInput.IsJumpJustPressed)
 
-			SwitchState(EntityAnimationType.JumpStart);
+            SwitchState(EntityAnimationType.JumpStart);
 
-		else if (Entity.PlayerInput.IsDash && Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
+        else if (Entity.PlayerInput.IsDash && Entity.GetCommandClass<PlayerCommandDash>(PlayerCommandType.Dash).DashReady)
 
-			SwitchState(EntityAnimationType.Dash);
+            SwitchState(EntityAnimationType.Dash);
 
-		else if (!Entity.PlayerInput.IsSprint)
+        else if (!Entity.PlayerInput.IsSprint)
 
-			SwitchState(EntityAnimationType.Walking);
+            SwitchState(EntityAnimationType.Walking);
 
-		else if (Entity.MoveDir == Vector2.Zero || Entity.Velocity.Y != 0)
+        else if (Entity.MoveDir == Vector2.Zero || Entity.Velocity.Y != 0)
 
-			SwitchState(EntityAnimationType.Idle);
-	}
+            SwitchState(EntityAnimationType.Idle);
+    }
 
-	public override void Exit()
-	{
-		Entity.AnimatedSprite.SpeedScale = 1.0f;
-	}
+    public override void Exit()
+    {
+        Entity.AnimatedSprite.SpeedScale = 1.0f;
+    }
 }

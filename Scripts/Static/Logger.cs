@@ -4,21 +4,21 @@ public static class Logger
 {
     private static ConcurrentQueue<LogInfo> Messages { get; } = new();
 
-	/// <summary>
-	/// Log a message
-	/// </summary>
+    /// <summary>
+    /// Log a message
+    /// </summary>
     public static void Log(object message, ConsoleColor color = ConsoleColor.Gray) =>
         Messages.Enqueue(new LogInfo(LoggerOpcode.Message, new LogMessage($"{message}"), color));
 
-	/// <summary>
-	/// Log a warning
-	/// </summary>
+    /// <summary>
+    /// Log a warning
+    /// </summary>
     public static void LogWarning(object message, ConsoleColor color = ConsoleColor.Yellow) =>
         Log($"[Warning] {message}", color);
 
-	/// <summary>
-	/// Log a todo
-	/// </summary>
+    /// <summary>
+    /// Log a todo
+    /// </summary>
     public static void LogTodo(object message, ConsoleColor color = ConsoleColor.White) =>
         Log($"[Todo] {message}", color);
 
@@ -46,9 +46,9 @@ public static class Logger
         [CallerLineNumber] int lineNumber = 0
     ) => LogDetailed(LoggerOpcode.Debug, $"[Debug] {message}", color, trace, filePath, lineNumber);
 
-	/// <summary>
-	/// Log the time it takes to do a section of code
-	/// </summary>
+    /// <summary>
+    /// Log the time it takes to do a section of code
+    /// </summary>
     public static void LogMs(Action code)
     {
         var watch = new Stopwatch();
@@ -58,9 +58,9 @@ public static class Logger
         Log($"Took {watch.ElapsedMilliseconds} ms", ConsoleColor.DarkGray);
     }
 
-	/// <summary>
-	/// Checks to see if there are any messages left in the queue
-	/// </summary>
+    /// <summary>
+    /// Checks to see if there are any messages left in the queue
+    /// </summary>
     public static bool StillWorking() => !Messages.IsEmpty;
 
     /// <summary>
@@ -110,17 +110,17 @@ public static class Logger
     {
         Console.ForegroundColor = color;
 
-		if (GOS.IsExportedRelease())
-			GD.Print(v);
-		else
-			GD.PrintRich($"[color={color.ToString()}]{v}[/color]");
+        if (GOS.IsExportedRelease())
+            GD.Print(v);
+        else
+            GD.PrintRich($"[color={color.ToString()}]{v}[/color]");
     }
 
     private static void PrintErr(object v, ConsoleColor color)
     {
         Console.ForegroundColor = color;
         GD.PrintErr(v);
-		//GD.PushError("" + v);
+        //GD.PushError("" + v);
     }
 }
 

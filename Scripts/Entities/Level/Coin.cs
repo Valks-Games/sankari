@@ -4,7 +4,7 @@ public partial class Coin : AnimatedSprite2D
 {
     public override void _Ready()
     {
-		Play();
+        Play();
         Frame = GD.RandRange(0, SpriteFrames.GetFrameCount("default"));
     }
 
@@ -12,9 +12,9 @@ public partial class Coin : AnimatedSprite2D
     {
         if (area.GetParent() is Player)
         {
-			Events.Generic.Notify(EventGeneric.OnCoinPickup);
-			GameManager.PlayerManager.AddCoins();
-			GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
+            Events.Generic.Notify(EventGeneric.OnCoinPickup);
+            GameManager.PlayerManager.AddCoins();
+            GameManager.LevelUI.SetLabelCoins(GameManager.PlayerManager.Coins);
             QueueFree();
         }
     }

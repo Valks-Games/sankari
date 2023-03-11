@@ -19,9 +19,9 @@ public partial class Checkpoint : Node2D
     {
         if (area.GetParent() is Player)
         {
-			GameManager.PlayerManager.ActiveCheckpoint = true;
-			GameManager.PlayerManager.RespawnPosition = Position;
-			GameManager.PlayerManager.SetCheckpointCoins();
+            GameManager.PlayerManager.ActiveCheckpoint = true;
+            GameManager.PlayerManager.RespawnPosition = Position;
+            GameManager.PlayerManager.SetCheckpointCoins();
             Capture();
         }
     }

@@ -28,7 +28,7 @@ public class GameManager
     public static Map Map { get; private set; }
     public static UIConsoleManager Console { get; private set; }
     public static UIMenu Menu { get; private set; }
-	public static PlayerManager PlayerManager { get; private set; }
+    public static PlayerManager PlayerManager { get; private set; }
 
     private static Node NodeMap { get; set; }
 
@@ -48,10 +48,10 @@ public class GameManager
         LevelManager.Init(linker.GetNode<Node>("Level"));
         Popups.Init(linker);
         Net.Init();
-		PlayerManager = new PlayerManager(2, 6); //this numbers are for testing purposes!
-		LevelUI.SetLabelLives(2); //required for the arbitrary lives count
-		PlayerManager.SetLevelCoins();
-		LevelUI.SetLabelCoins(PlayerManager.Coins);
+        PlayerManager = new PlayerManager(2, 6); //this numbers are for testing purposes!
+        LevelUI.SetLabelLives(2); //required for the arbitrary lives count
+        PlayerManager.SetLevelCoins();
+        LevelUI.SetLabelCoins(PlayerManager.Coins);
 
         LevelUI.Hide();
     }
@@ -66,7 +66,7 @@ public class GameManager
     public static void LoadMap()
     {
         LevelUI.Show();
-		PlayerManager.SetLevelCoins();
+        PlayerManager.SetLevelCoins();
         // weird place to put this but its whatever right now
         Map = (Map)Prefabs.Map.Instantiate(); 
 

@@ -69,7 +69,7 @@ public partial class UIMapMenu : Control
         BtnHostServerToggle.Text = "Close World to Other Players";
     }
 
-	public void Join(string ip = "127.0.0.1", ushort port = 25565)
+    public void Join(string ip = "127.0.0.1", ushort port = 25565)
     {
         IsHost = false;
 
@@ -149,7 +149,7 @@ public partial class UIMapMenu : Control
         Hide();
     }
 
-	// host
+    // host
     private void _on_Host_pressed() 
     {
         ControlHost.Show();

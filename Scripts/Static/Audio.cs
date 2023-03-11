@@ -15,45 +15,45 @@ public static class Audio
         MusicPlayer = musicPlayer;
         MusicPlayer.Volume = 100;
 
-		LoadSoundEffects();
-		LoadSoundTracks();
+        LoadSoundEffects();
+        LoadSoundTracks();
 
-		// Player
-		Events.Player.AddListener(EventPlayer.OnJump, (args) => 
-		{
-			PlaySFX("player_jump", 80);
-		});
+        // Player
+        Events.Player.AddListener(EventPlayer.OnJump, (args) => 
+        {
+            PlaySFX("player_jump", 80);
+        });
 
-		Events.Player.AddListener(EventPlayer.OnDied, (args) => 
-		{
-			StopMusic();
-			PlaySFX("game_over_1");	
-		});
+        Events.Player.AddListener(EventPlayer.OnDied, (args) => 
+        {
+            StopMusic();
+            PlaySFX("game_over_1");    
+        });
 
-		Events.Player.AddListener(EventPlayer.OnDash, (args) => 
-		{
-			PlaySFX("dash");
-		});
+        Events.Player.AddListener(EventPlayer.OnDash, (args) => 
+        {
+            PlaySFX("dash");
+        });
 
-		// Game
-		Events.Generic.AddListener(EventGeneric.OnCoinPickup, (args) => 
-		{
-			PlaySFX("coin_pickup_1", 30);	
-		});
+        // Game
+        Events.Generic.AddListener(EventGeneric.OnCoinPickup, (args) => 
+        {
+            PlaySFX("coin_pickup_1", 30);    
+        });
 
-		Events.Generic.AddListener(EventGeneric.OnMapLoaded, (args) => 
-		{
-			//PlayMusic("map_grassy");	
-		});
+        Events.Generic.AddListener(EventGeneric.OnMapLoaded, (args) => 
+        {
+            //PlayMusic("map_grassy");    
+        });
     }
 
-	private static void LoadSoundEffects()
+    private static void LoadSoundEffects()
     {
         LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav");
         LoadSFX("coin_pickup_1", "Environment/Coin Pickup/1/sfx_coin_single1.wav");
         LoadSFX("coin_pickup_2", "Environment/Coin Pickup/2/coin.wav");
         LoadSFX("dash", "Movement/Dash/swish-9.wav");
-		LoadSFX("dash_replenish", "Movement/Dash/sfx_sounds_powerup17.wav");
+        LoadSFX("dash_replenish", "Movement/Dash/sfx_sounds_powerup17.wav");
 
         LoadSFX("game_over_1", "Game Over/1/retro-game-over.wav");
         LoadSFX("game_over_2", "Game Over/2/game-over-dark-orchestra.wav");
@@ -69,18 +69,18 @@ public static class Audio
         LoadMusic("ice_1", "Level/Ice/Icy_Expanse.mp3");
     }
 
-	/// <summary>
-	/// Play a sound (volume ranges from 0 to 100)
-	/// </summary>
+    /// <summary>
+    /// Play a sound (volume ranges from 0 to 100)
+    /// </summary>
     public static void PlaySFX(string name, int volume = 100)
     {
-		if (!Sfx.ContainsKey(name))
-		{
-			Logger.LogWarning($"SFX '{name}' was not loaded so it could not be played");
-			return;
-		}
+        if (!Sfx.ContainsKey(name))
+        {
+            Logger.LogWarning($"SFX '{name}' was not loaded so it could not be played");
+            return;
+        }
 
-		var sfxPlayer = new GAudioStreamPlayer(SFXPlayers, true);
+        var sfxPlayer = new GAudioStreamPlayer(SFXPlayers, true);
 
         sfxPlayer.Volume = volume;
         sfxPlayer.Stream = Sfx[name];
@@ -101,9 +101,9 @@ public static class Audio
         sfxPlayer.Play();
     }
 
-	/// <summary>
-	/// Play a music track (pitch values between 0.1 and 1 are slower, values higher than 1.0 are faster)
-	/// </summary>
+    /// <summary>
+    /// Play a music track (pitch values between 0.1 and 1 are slower, values higher than 1.0 are faster)
+    /// </summary>
     public static void PlayMusic(string name, float pitch = 1)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -122,23 +122,23 @@ public static class Audio
         MusicPlayer.Play();
     }
 
-	/// <summary>
-	/// Set the music volume. Values range from 0 to 100.
-	/// </summary>
-	public static void SetVolumeMusic(int v) => MusicPlayer.Volume = v;
+    /// <summary>
+    /// Set the music volume. Values range from 0 to 100.
+    /// </summary>
+    public static void SetVolumeMusic(int v) => MusicPlayer.Volume = v;
 
-	/// <summary>
-	/// Stop the music track currently being played
-	/// </summary>
+    /// <summary>
+    /// Stop the music track currently being played
+    /// </summary>
     public static void StopMusic() => MusicPlayer.Stop();
 
-	/// <summary>
-	/// Load a sound effect, for e.g. LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav")
-	/// </summary>
+    /// <summary>
+    /// Load a sound effect, for e.g. LoadSFX("player_jump", "Movement/Jump/sfx_movement_jump1.wav")
+    /// </summary>
     public static void LoadSFX(string name, string path) => Sfx[name] = ResourceLoader.Load<AudioStream>($"res://Audio/SFX/{path}");
     
-	/// <summary>
-	/// Load a music track, for e.g. LoadMusic("ice_1", "Level/Ice/Icy_Expanse.mp3")
-	/// </summary>
-	public static void LoadMusic(string name, string path) => Music[name] = ResourceLoader.Load<AudioStream>($"res://Audio/Music/{path}");
+    /// <summary>
+    /// Load a music track, for e.g. LoadMusic("ice_1", "Level/Ice/Icy_Expanse.mp3")
+    /// </summary>
+    public static void LoadMusic(string name, string path) => Music[name] = ResourceLoader.Load<AudioStream>($"res://Audio/Music/{path}");
 }
