@@ -7,6 +7,9 @@ namespace Sankari;
 /// - If there are 2 listeners for 1 event type then removing a listener will remove ALL the 
 /// listeners for that event type (If this is undesired then one may consider using 
 /// 'event Action<TArgs>' instead of this class)
+/// - Can't define AddListener<T>(TEvent eventType, Action<T> action) so you don't know what
+/// the types are on the subscriber end. If you try to define this, the godot game will
+/// freeze on startup.
 /// </summary>
 /// <typeparam name="TEvent">The event type enum to be used. For example 'EventPlayer' enum.</typeparam>
 public class EventManager<TEvent>
