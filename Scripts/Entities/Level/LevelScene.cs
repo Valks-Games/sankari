@@ -37,9 +37,8 @@ public partial class LevelScene : Node
             }
         }
 
-        Events.Generic.AddListener(EventGeneric.OnGameClientLeft, (args) => 
+        Events.Generic.AddListener<byte>(EventGeneric.OnGameClientLeft, (id) => 
         {
-            var id = (byte)args[0];
             OtherPlayers[id].QueueFree();
             OtherPlayers.Remove(id);
         });
