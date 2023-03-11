@@ -32,7 +32,7 @@ public class PlayerCommandDash : PlayerCommand<Player>
 
 			if (DashDir != Vector2.Zero)
 			{
-				GameManager.EventsPlayer.Notify(EventPlayer.OnDash);
+				Events.Player.Notify(EventPlayer.OnDash);
 				Entity.GravityEnabled = false;
 				DashCount++;
 				DashReady = false;

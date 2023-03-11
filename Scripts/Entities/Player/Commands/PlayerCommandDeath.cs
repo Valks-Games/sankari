@@ -12,7 +12,7 @@ public class PlayerCommandDeath : PlayerCommand<Player>
 
 		Entity.HaltLogic = true;
 
-		GameManager.EventsPlayer.Notify(EventPlayer.OnDied);
+		Events.Player.Notify(EventPlayer.OnDied);
 		
 		Entity.LevelScene.Camera.StopFollowingPlayer();
 		Entity.AnimatedSprite.Stop();

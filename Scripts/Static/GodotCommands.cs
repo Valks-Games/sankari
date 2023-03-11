@@ -40,7 +40,7 @@ public static class GodotCommands
                     packetReader.Dispose();
                     break;
                 case GodotOpcode.NetEvent:
-                    GameManager.Events.Notify((Event)cmd.Data);
+                    Events.Generic.Notify((EventGeneric)cmd.Data);
                     break;
                 case GodotOpcode.SpawnPopupMessage:
                     var dataMessage = (GodotCmdPopupMessage)cmd.Data;

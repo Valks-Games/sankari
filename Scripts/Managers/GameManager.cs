@@ -30,10 +30,6 @@ public class GameManager
     public static UIMenu Menu { get; private set; }
 	public static PlayerManager PlayerManager { get; private set; }
 
-	// notifications
-	public static EventManager<Event> Events {  get; private set; } = new();
-	public static EventManager<EventPlayer> EventsPlayer { get; private set; } = new();
-
     private static Node NodeMap { get; set; }
 
     public GameManager(Linker linker) 
@@ -75,7 +71,7 @@ public class GameManager
         Map = (Map)Prefabs.Map.Instantiate(); 
 
         NodeMap.CallDeferred("add_child", Map); // need to wait for the engine because we are dealing with areas with is physics related
-        GameManager.Events.Notify(Event.OnMapLoaded);
+        Events.Generic.Notify(EventGeneric.OnMapLoaded);
     }
 
     public static void DestroyMap() => NodeMap.QueueFreeChildren();

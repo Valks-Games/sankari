@@ -18,34 +18,30 @@ public static class Audio
 		LoadSoundEffects();
 		LoadSoundTracks();
 
-		var eventsPlayer = GameManager.EventsPlayer;
-
 		// Player
-		eventsPlayer.AddListener(EventPlayer.OnJump, (args) => 
+		Events.Player.AddListener(EventPlayer.OnJump, (args) => 
 		{
 			PlaySFX("player_jump", 80);
 		});
 
-		eventsPlayer.AddListener(EventPlayer.OnDied, (args) => 
+		Events.Player.AddListener(EventPlayer.OnDied, (args) => 
 		{
 			StopMusic();
 			PlaySFX("game_over_1");	
 		});
 
-		eventsPlayer.AddListener(EventPlayer.OnDash, (args) => 
+		Events.Player.AddListener(EventPlayer.OnDash, (args) => 
 		{
 			PlaySFX("dash");
 		});
 
 		// Game
-		var events = GameManager.Events;
-
-		events.AddListener(Event.OnCoinPickup, (args) => 
+		Events.Generic.AddListener(EventGeneric.OnCoinPickup, (args) => 
 		{
 			PlaySFX("coin_pickup_1", 30);	
 		});
 
-		events.AddListener(Event.OnMapLoaded, (args) => 
+		Events.Generic.AddListener(EventGeneric.OnMapLoaded, (args) => 
 		{
 			//PlayMusic("map_grassy");	
 		});

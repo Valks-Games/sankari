@@ -1,29 +1,5 @@
 namespace Sankari;
 
-public enum Event
-{
-    OnKeyboardInput,
-    OnMouseButtonInput,
-    OnMouseMotionInput,
-    OnJoypadButtonInput,
-    OnSceneChanged,
-    OnGameClientStopped,
-    OnGameClientConnected,
-    OnLevelLoaded,
-    OnGameClientLeft,
-    OnGameClientJoined,
-    OnReceivePlayersFromServer,
-	OnCoinPickup,
-	OnMapLoaded
-}
-
-public enum EventPlayer 
-{
-	OnJump,
-	OnDied,
-	OnDash
-}
-
 /// <summary>
 /// This class was created to attempt to simplify the process of creating C# for gamedev.
 /// 

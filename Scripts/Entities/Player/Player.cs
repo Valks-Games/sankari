@@ -113,7 +113,7 @@ public partial class Player : MovingEntity<Player>
 					HoldingJumpKey = true;
 					JumpForceLossCounter = 0;
 
-					GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+					Events.Player.Notify(EventPlayer.OnJump);
 
 					JumpCount++;
 					//Velocity = new Vector2(Velocity.X, 0); // reset velocity before jump (is this really needed?)
@@ -168,7 +168,7 @@ public partial class Player : MovingEntity<Player>
 
 	public void OnWallJump(object _, EventArgs _2)
 	{
-		GameManager.EventsPlayer.Notify(EventPlayer.OnJump);
+		Events.Player.Notify(EventPlayer.OnJump);
 
 		// Lock movement
 		PreventMovement = true;

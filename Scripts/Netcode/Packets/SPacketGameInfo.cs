@@ -125,14 +125,14 @@ public class SPacketGameInfo : APacketServer
     private void HandlePlayerJoinLeave()
     {
         if (Joining)
-            GameManager.Events.Notify(Event.OnGameClientJoined, Id, Username);
+            Events.Generic.Notify(EventGeneric.OnGameClientJoined, Id, Username);
         else
-            GameManager.Events.Notify(Event.OnGameClientLeft, Id);
+			Events.Generic.Notify(EventGeneric.OnGameClientLeft, Id);
     }
 
     private void HandlePlayersOnServer() 
     {
-        GameManager.Events.Notify(Event.OnReceivePlayersFromServer, Usernames);
+		Events.Generic.Notify(EventGeneric.OnReceivePlayersFromServer, Usernames);
     }
 
     private async Task HandleStartLevel()

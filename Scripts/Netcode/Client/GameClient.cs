@@ -51,7 +51,7 @@ public class GameClient : ENetClient
 
     protected override void Connect(ref Event netEvent)
     {
-        GodotCommands.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientConnected);
+        GodotCommands.Enqueue(GodotOpcode.NetEvent, Sankari.EventGeneric.OnGameClientConnected);
         Log("Client connected");
     }
 
@@ -62,7 +62,7 @@ public class GameClient : ENetClient
 
     protected override void Stopped()
     {
-        GodotCommands.Enqueue(GodotOpcode.NetEvent, Sankari.Event.OnGameClientStopped);
+        GodotCommands.Enqueue(GodotOpcode.NetEvent, Sankari.EventGeneric.OnGameClientStopped);
         Log("Client stopped");
     }
 
