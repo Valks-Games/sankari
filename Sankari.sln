@@ -1,12 +1,15 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sankari", "Sankari.csproj", "{E9D26ED8-4A53-4400-8393-34567697AD97}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sankari", "Sankari.csproj", "{E9D26ED8-4A53-4400-8393-34567697AD97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E9D26ED8-4A53-4400-8393-34567697AD97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +18,11 @@ Global
 		{E9D26ED8-4A53-4400-8393-34567697AD97}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{E9D26ED8-4A53-4400-8393-34567697AD97}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{E9D26ED8-4A53-4400-8393-34567697AD97}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CED7BE4C-02B0-4619-BE49-65FF3BD32AA3}
 	EndGlobalSection
 EndGlobal
