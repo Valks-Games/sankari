@@ -37,7 +37,7 @@ public partial class LevelScene : Node
             }
         }
 
-        GameManager.Events.AddListener(nameof(LevelScene), Event.OnGameClientLeft, (args) => 
+        GameManager.Events.AddListener(Event.OnGameClientLeft, (args) => 
         {
             var id = (byte)args[0];
             OtherPlayers[id].QueueFree();

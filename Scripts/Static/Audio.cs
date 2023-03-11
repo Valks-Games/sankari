@@ -21,18 +21,18 @@ public static class Audio
 		var eventsPlayer = GameManager.EventsPlayer;
 
 		// Player
-		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnJump, (args) => 
+		eventsPlayer.AddListener(EventPlayer.OnJump, (args) => 
 		{
 			PlaySFX("player_jump", 80);
 		});
 
-		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnDied, (args) => 
+		eventsPlayer.AddListener(EventPlayer.OnDied, (args) => 
 		{
 			StopMusic();
 			PlaySFX("game_over_1");	
 		});
 
-		eventsPlayer.AddListener(nameof(Audio), EventPlayer.OnDash, (args) => 
+		eventsPlayer.AddListener(EventPlayer.OnDash, (args) => 
 		{
 			PlaySFX("dash");
 		});
@@ -40,12 +40,12 @@ public static class Audio
 		// Game
 		var events = GameManager.Events;
 
-		events.AddListener(nameof(Audio), Event.OnCoinPickup, (args) => 
+		events.AddListener(Event.OnCoinPickup, (args) => 
 		{
 			PlaySFX("coin_pickup_1", 30);	
 		});
 
-		events.AddListener(nameof(Audio), Event.OnMapLoaded, (args) => 
+		events.AddListener(Event.OnMapLoaded, (args) => 
 		{
 			//PlayMusic("map_grassy");	
 		});

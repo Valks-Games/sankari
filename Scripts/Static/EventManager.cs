@@ -24,37 +24,61 @@ public enum EventPlayer
 	OnDash
 }
 
+/// <summary>
+/// This class was created to attempt to simplify the process of creating C# for gamedev.
+/// 
+/// Limitations of this
+/// - If there are 2 listeners for 1 event type then removing a listener will remove ALL the 
+/// listeners for that event type (If this is undesired then one may consider using 
+/// 'event Action<TArgs>' instead of this class)
+/// </summary>
+/// <typeparam name="TEvent">The event type enum to be used. For example 'EventPlayer' enum.</typeparam>
 public class EventManager<TEvent>
 {
     private Dictionary<TEvent, List<Listener>> Listeners { get; set; } = new();
 
-    public void AddListener(string sender, TEvent eventType, Action<object[]> action)
+	/// <summary>
+	/// The event type to be listened to
+	/// </summary>
+    public void AddListener(TEvent eventType, Action<object[]> action)
     {
         if (!Listeners.ContainsKey(eventType))
             Listeners.Add(eventType, new List<Listener>());
 
-        Listeners[eventType].Add(new Listener(sender, action));
+        Listeners[eventType].Add(new Listener(action));
     }
 
-    public void RemoveListener(string sender, TEvent eventType)
+	/// <summary>
+	/// Remove ALL listeners of type 'TEvent'
+	/// </summary>
+    public void RemoveAllListenersForEventType(TEvent eventType)
     {
         if (!Listeners.ContainsKey(eventType))
             throw new InvalidOperationException($"Tried to remove listener of event type '{eventType}' from an event type that has not even been defined yet");
 
         foreach (var pair in Listeners)
             for (int i = pair.Value.Count - 1; i >= 0; i--)
-                if (sender == pair.Value[i].Sender)
+                if (pair.Key.Equals(eventType))
                     pair.Value.RemoveAt(i);
     }
 
-	public void RemoveListeners(string sender) 
+	/// <summary>
+	/// Remove ALL listeners from ALL event types
+	/// </summary>
+	public void RemoveAllListenersForAllEvents() 
 	{
 		foreach (TEvent eventType in Enum.GetValues(typeof(TEvent)))
-			RemoveListener(sender, eventType);
+			RemoveAllListenersForEventType(eventType);
 	}
 
-    public void RemoveAllListeners() => Listeners.Clear();
+	/// <summary>
+	/// Not sure if this is useful or not
+	/// </summary>
+    public void ClearListeners() => Listeners.Clear();
 
+	/// <summary>
+	/// Notify all listeners
+	/// </summary>
     public void Notify(TEvent eventType, params object[] args)
     {
         if (!Listeners.ContainsKey(eventType))
@@ -66,13 +90,7 @@ public class EventManager<TEvent>
 
     private class Listener
     {
-        public string Sender { get; set; }
         public Action<object[]> Action { get; set; }
-
-        public Listener(string sender, Action<object[]> action)
-        {
-            Sender = sender;
-            Action = action;
-        }
-    }
+        public Listener(Action<object[]> action) => Action = action;
+	}
 }
