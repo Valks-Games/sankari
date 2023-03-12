@@ -97,7 +97,7 @@ public static class LevelManager
     public static async Task CompleteLevel(string levelName)
     {
         // the level scene is no longer active, clean it up
-        Events.Generic.RemoveAllListenersForEventType(EventGeneric.OnGameClientLeft);
+        Events.Generic.RemoveListeners(EventGeneric.OnGameClientLeft);
         GameManager.LevelScene = null;
 
         await GameManager.Transition.AlphaToBlackAndBack();
