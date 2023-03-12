@@ -2,11 +2,6 @@ namespace Sankari;
 
 /// <summary>
 /// This class was created to attempt to simplify the process of creating C# for gamedev.
-/// 
-/// Limitations of this
-/// - If there are 2 listeners for 1 event type then removing a listener will remove ALL the 
-/// listeners for that event type (If this is undesired then one may consider using 
-/// 'event Action<TArgs>' instead of this class)
 /// </summary>
 /// <typeparam name="TEvent">The event type enum to be used. For example 'EventPlayer' enum.</typeparam>
 public class EventManager<TEvent>
