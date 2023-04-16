@@ -23,6 +23,13 @@ If you have any questions or suggestions about the project or just want to talk 
 
 [Changelog](https://github.com/Valks-Games/sankari/blob/main/.github/CHANGELOG.md)  
 
+## Roadmap
+- Use Godot scenes instead of one big master node handling all scene nodes. This will allow for easier testing of inidivual scenes in the future.
+- Wrap my head around the current codebase. Make the code look nicer. Make it less confusing to the reader.
+- Figure out why "Load First Level" option is not working as intended. (First level is loaded but map screen is hiding the level)
+- Tinker with the player movement more to get that more snappier platformer like feel.
+- Introduce new water tiles.
+
 ## Project Setup
 1. Install the latest Godot 4 C# release
 2. Install [.NET SDK 6.0](https://dotnet.microsoft.com/en-us/download)
