@@ -4,6 +4,7 @@ namespace Sankari;
 
 public partial class Player : MovingEntity<Player>
 {
+    public override int MaxSpeedWalk { get; set; } = 300;
     public bool CurrentlyDashing { get; set; }
     public int JumpForce { get; set; } = 100; // Force applies when jumping
     private float JumpForceLoss { get; set; } = 7.5f;
