@@ -3,7 +3,7 @@
 </p>
 
 <h4 align="center">
-  <a href="https://www.youtube.com/watch?v=mSUxmJlmxyc">Video of Gameplay</a>
+  <a href="https://youtu.be/QddaW1QEVYc">Video of Gameplay</a>
 </h4>
 
 https://user-images.githubusercontent.com/6277739/199924817-a5d3992f-edd0-444c-be70-0dbe7eb977ca.mp4
