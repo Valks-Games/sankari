@@ -53,33 +53,6 @@ public partial class UIMapMenu : Control
 
     private bool InvalidOnlineUsername() => string.IsNullOrWhiteSpace(OnlineUsername);
 
-    public async Task HostGame(string ip = "127.0.0.1", ushort port = 25565, int maxPlayers = 10)
-    {
-        var ctsServer = Tokens.Create("server_running");
-        var ctsClient = Tokens.Create("client_running");
-
-        IsHost = true;
-
-        Net.StartServer(HostPort, maxPlayers, ctsServer);
-        Net.StartClient(ip, port, ctsClient); // TODO: Get external IP automatically
-
-        while (!Net.Server.HasSomeoneConnected)
-            await Task.Delay(1);
-
-        BtnHostServerToggle.Text = "Close World to Other Players";
-    }
-
-    public void Join(string ip = "127.0.0.1", ushort port = 25565)
-    {
-        IsHost = false;
-
-        Net.Client.ExecuteCode((client) => client.TryingToConnect = true);
-        BtnJoin.Disabled = true;
-        BtnJoin.Text = "Searching for world...";
-        var ctsClient = Tokens.Create("client_running");
-        Net.StartClient(ip, port, ctsClient);
-    }
-
     // join
     private void _on_Join_pressed() 
     {
@@ -93,54 +66,9 @@ public partial class UIMapMenu : Control
 
     private void _on_Online_Username_text_changed(string text) => OnlineUsername = text;
 
-    private void _on_Join_World_pressed()
-    {
-        if (InvalidOnlineUsername()) 
-        {
-            Popups.SpawnMessage("Please provide a valid online username");
-            return;
-        }
-
-        // WARN: Not thread safe to access net.Client.TryingToConnect directly from another thread
-        // Note: This should not cause any problems
-        if (Net.Client.TryingToConnect || Net.Client.IsConnected) 
-            return;
-
-        var indexColon = JoinIP.IndexOf(":");
-
-        if (indexColon == -1) 
-        {
-            Popups.SpawnMessage("The address is missing a port");
-            return;
-        }
-
-        var address = JoinIP.Substring(0, indexColon);
-        var port = JoinIP.Substring(indexColon + 1);
-
-        if (!address.IsAddress() || string.IsNullOrWhiteSpace(address)) 
-        {
-            Popups.SpawnMessage("Please enter a valid address");
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(port) || !ushort.TryParse(port, out ushort portNum)) 
-        {
-            Popups.SpawnMessage("Please enter a valid port");
-            return;
-        }
-
-        Join(address, portNum);
-    }
-
     // game
     private void _on_Back_to_Main_Menu_pressed()
     {
-        if (Net.Server.IsRunning)
-            Net.Server.Stop();
-
-        if (Net.Client.IsRunning)
-            Net.Client.Stop();
-
         GameManager.LevelUI.Hide();
         Map.RememberPlayerPosition();
         GameManager.DestroyMap();
@@ -160,25 +88,4 @@ public partial class UIMapMenu : Control
         HostPort = (ushort)LineEditHostPort.FilterRange(ushort.MaxValue);
 
     private void _on_Password_text_changed(string text) => HostPassword = text;
-
-    private async void _on_Server_Toggle_pressed() 
-    {
-        if (InvalidOnlineUsername()) 
-        {
-            Popups.SpawnMessage("Please provide a valid online username");
-            return;
-        }
-
-        if (Net.Server.IsRunning)
-        {
-            Net.Server.Stop();
-            Net.Client.Stop();
-
-            BtnHostServerToggle.Text = "Open World to Other Players";
-        }
-        else 
-        {
-            await HostGame("127.0.0.1", HostPort, 10);
-        }
-    }
 }

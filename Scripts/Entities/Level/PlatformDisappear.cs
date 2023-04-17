@@ -49,14 +49,14 @@ public partial class PlatformDisappear : APlatform
     private void OnTimerFlash1Up()
     {
         Phase2 = true;
-        TimerFlash2.Start();
+        TimerFlash2.StartMs();
     }
 
     private void OnTimerFlash2Up() 
     {
         Visible = false;
         Collision.Disabled = true;
-        TimerReappear.Start();
+        TimerReappear.StartMs();
     }
 
     private void OnTimerReappear()
@@ -71,7 +71,7 @@ public partial class PlatformDisappear : APlatform
         if (AreaIsPlayer(area))
         {
             PlayerOnPlatform = true;
-            TimerFlash1.Start();
+            TimerFlash1.StartMs();
         }
     }
 

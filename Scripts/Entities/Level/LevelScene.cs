@@ -18,25 +18,6 @@ public partial class LevelScene : Node
 
         CreateLevelBounds();
 
-        if (Net.IsMultiplayer())
-        {
-            var players = GameManager.UIPlayerList.Players;
-            
-            foreach (var player in players)
-            {
-                // WARN: Should not access Client.PeerId directly from another thread
-                // Should not effect anything because this is only executed players.Count times once
-                if (player.Key == Net.Client.PeerId)
-                    continue;
-
-                var otherPlayer = Prefabs.OtherPlayer.Instantiate<OtherPlayer>();
-
-                OtherPlayers.Add(player.Key, otherPlayer);
-
-                AddChild(otherPlayer);
-            }
-        }
-
         Events.Generic.AddListener<byte>(EventGeneric.OnGameClientLeft, (id) => 
         {
             OtherPlayers[id].QueueFree();

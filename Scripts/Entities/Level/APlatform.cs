@@ -15,7 +15,7 @@ public abstract partial class APlatform : CharacterBody2D
 
     public void TemporarilyDisablePlatform() 
     {
-        Timer.Start();
+        Timer.StartMs();
         Collision.Disabled = true;
     }
 

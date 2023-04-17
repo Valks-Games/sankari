@@ -9,9 +9,6 @@ public partial class Linker : Node
     [Export] public bool LoadTestLevel { get; set; }
     [Export] public bool InstantlyLoadLevel { get; set; }
 
-    // net
-    [Export] public Godot.Collections.Array<ServerPacketOpcode> IgnoreOpcodesFromServer { get; set; }
-    [Export] public Godot.Collections.Array<ClientPacketOpcode> IgnoreOpcodesFromClient { get; set; }
 
     [Export] public NodePath NodePathTransition;
 
@@ -60,31 +57,12 @@ public partial class Linker : Node
                 LevelManager.CurrentLevel = "Test Level";
                 await LevelManager.LoadLevel(InstantlyLoadLevel);
             }
-
-            if (AutoHostJoin)
-            {
-                if (GOS.IsExportedRelease())
-                {
-                    // running in an exported build
-                    GOS.SetWindowTitle("OtherClient");
-                    GameManager.UIMapMenu.OnlineUsername = "OtherClient";
-                    GameManager.UIMapMenu.Join();
-                }
-                else
-                {
-                    // running in the editor
-                    GOS.SetWindowTitle("ImHost");
-                    GameManager.UIMapMenu.OnlineUsername = "ImHost";
-                    await GameManager.UIMapMenu.HostGame();
-                }
-            }
         }
     }
 
-    public override async void _Process(double delta)
+    public override void _Process(double delta)
     {
         Logger.Update();
-        await GameManager.Update();
     }
 
     public override void _Input(InputEvent @event)
@@ -125,7 +103,6 @@ public partial class Linker : Node
 
         //ModLoader.SaveEnabled();
         //Options.SaveOptions();
-        await Net.Cleanup();
         Tokens.Cleanup();
         GetTree().Quit();
     }

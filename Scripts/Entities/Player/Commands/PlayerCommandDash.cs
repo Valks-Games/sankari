@@ -37,8 +37,8 @@ public class PlayerCommandDash : PlayerCommand<Player>
                 DashCount++;
                 DashReady = false;
                 CurrentlyDashing = true;
-                TimerDashDuration.Start();
-                TimerDashCooldown.Start();
+                TimerDashDuration.StartMs();
+                TimerDashCooldown.StartMs();
             }
         }
     }

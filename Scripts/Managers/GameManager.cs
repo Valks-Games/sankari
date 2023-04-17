@@ -9,9 +9,6 @@ global using System.Threading;
 global using System.Text.RegularExpressions;
 global using System.Threading.Tasks;
 global using System.Linq;
-global using Sankari.Netcode;
-global using Sankari.Netcode.Client;
-global using Sankari.Netcode.Server;
 
 namespace Sankari;
 
@@ -47,18 +44,12 @@ public class GameManager
         UIPlayerList = linker.UIPlayerList;
         LevelManager.Init(linker.GetNode<Node>("Level"));
         Popups.Init(linker);
-        Net.Init();
         PlayerManager = new PlayerManager(2, 6); //this numbers are for testing purposes!
         LevelUI.SetLabelLives(2); //required for the arbitrary lives count
         PlayerManager.SetLevelCoins();
         LevelUI.SetLabelCoins(PlayerManager.Coins);
 
         LevelUI.Hide();
-    }
-
-    public static async Task Update()
-    {
-        await Net.Update();
     }
 
     public static void ShowMenu() => Menu.Show();

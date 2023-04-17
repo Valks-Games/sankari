@@ -16,30 +16,6 @@ public class CommandDebug : Command
                 Logger.Log(cmd);
         };
 
-        Commands["peerid"] = () => 
-        {
-            if (!Net.Client.IsRunning)
-            {
-                Logger.Log("Client is not running!");
-                return;
-            }
-
-            // WARN: Not a thread safe way to get peerId
-            Logger.Log(Net.Client.PeerId);
-        };
-
-        Commands["players"] = () => 
-        {
-            if (!Net.Server.IsRunning)
-            {
-                Logger.Log("Server is not running on this client");
-                return;
-            }
-
-            // WARN: Not a thread safe way to get Players
-            Logger.Log(Net.Server.Players.PrintFull());
-        };
-
         Commands["scroll"] = () => 
         {
             GameManager.Console.ScrollToBottom = !GameManager.Console.ScrollToBottom;

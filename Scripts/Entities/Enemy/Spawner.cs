@@ -12,7 +12,7 @@ public partial class Spawner : Marker2D, IEntity
         Timer = new GTimer(this, OnTimer, RespawnInterval) { Loop = true };
     }
 
-    public void Activate() => Timer.Start();
+    public void Activate() => Timer.StartMs();
     public void Deactivate() => Timer.Stop();
     public void Destroy() => QueueFree();
 

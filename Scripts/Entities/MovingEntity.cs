@@ -247,7 +247,7 @@ public abstract partial class MovingEntity<T> : CharacterBody2D, IMovingEntity w
         HalfHearts = HalfHearts - Mathf.Min(HalfHearts, v); // do not take away more than what the entity does not have
 
         // Player has taken damage so start the immunity timer
-        ImmunityTimer.Start();
+        ImmunityTimer.StartMs();
 
         // If player has no health left, kill them
         if (HalfHearts == 0)

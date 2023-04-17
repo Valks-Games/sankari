@@ -43,7 +43,7 @@ public partial class Trapper : Entity
             Revealed = true;
             AnimatedSprite.Play("reveal");
             AreaDamage.SetDeferred("monitoring", true);
-            TimerReveal.Start();
+            TimerReveal.StartMs();
         }
     }
 
@@ -52,6 +52,6 @@ public partial class Trapper : Entity
         Revealed = false;
         AreaDamage.SetDeferred("monitoring", false);
         AnimatedSprite.Play("hide");
-        TimerRevealCooldown.Start();
+        TimerRevealCooldown.StartMs();
     }
 }

@@ -70,49 +70,17 @@ public partial class Map : Node
         if (GameManager.UIMapMenu.Visible || GameManager.Console.Visible)
             return;
 
-        if (Net.IsMultiplayer())
-        {
-            if (Net.IsHost()) // only the host can move around on the map
-            {
-                HandleMovement();
-            }
-        }
-        else
-        {
-            // singleplayer
-            HandleMovement();
-        }
+        HandleMovement();
 
         if (Input.IsActionJustPressed("map_action") && !LoadingLevel)
         {
             // TODO GODOT 4 CONVERSION
             //if (tileMapLevelIcons.GetTileName(playerIcon.Position) == "uncleared")
             {
-                if (Net.IsMultiplayer())
-                {
-                    // only the host can start levels
-                    if (Net.IsHost())
-                    {
-                        LoadingLevel = true;
 
-                        Net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
-                        {
-                            ServerGameInfo = ServerGameInfo.StartLevel,
-                            LevelName = LevelManager.CurrentLevel
-                        });
-
-                        // WARN: Not a thread safe way of doing this
-                        Net.Server.LevelUpdateLoop.Start();
-
-                        await LevelManager.LoadLevel();
-                    }
-                }
-                else
-                {
-                    // singleplayer
-                    LoadingLevel = true;
-                    await LevelManager.LoadLevel();
-                }
+                // singleplayer
+                LoadingLevel = true;
+                await LevelManager.LoadLevel();
 
                 PrevPlayerMapIconPosition = PlayerIcon.Position;
             }
@@ -153,15 +121,6 @@ public partial class Map : Node
             //    return;
 
             PlayerIcon.Position = nextPos;
-
-            if (Net.IsMultiplayer() && Net.IsHost())
-            {
-                Net.Server.SendToEveryoneButHost(ServerPacketOpcode.GameInfo, new SPacketGameInfo
-                {
-                    ServerGameInfo = ServerGameInfo.MapPosition,
-                    MapPosition = nextPos
-                });
-            }
         }
     }
     private void _on_Player_Area_area_entered(Area2D area)

@@ -20,36 +20,35 @@ public class PlayerCommandDeath : PlayerCommand<Player>
         var dieStartPos = Entity.Position.Y;
         var goUpDuration = 1.25f;
 
+        Entity.DieTween.Create();
+
         // animate y position
-        Entity.DieTween.InterpolateProperty
+        Entity.DieTween.Animate
         (
             "position:y",
             dieStartPos - 80,
-            goUpDuration,
-            0 // delay
+            goUpDuration
         );
 
-        Entity.DieTween.InterpolateProperty
+        Entity.DieTween.Animate
         (
             "position:y",
             dieStartPos + 400,
             1.5f,
-            goUpDuration, // delay
             true
         )
         .From(dieStartPos - 80);
 
         // animate rotation
-        Entity.DieTween.InterpolateProperty
+        Entity.DieTween.Animate
         (
             "rotation",
             Mathf.Pi,
             1.5f,
-            goUpDuration, // delay
             true
         );
 
-        Entity.DieTween.Start();
-        Entity.DieTween.Callback(nameof(Entity.OnDieTweenCompleted));
+        //Entity.DieTween.Start();
+        Entity.DieTween.Callback(Entity.OnDieTweenCompleted);
     }
 }

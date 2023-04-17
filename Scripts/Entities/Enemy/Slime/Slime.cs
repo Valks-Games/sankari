@@ -33,7 +33,7 @@ public partial class Slime : MovingEntity<Slime>
         Label.Text = "" + CurrentAnimation; // this shouldnt be set every frame
     }
 
-    public override void TouchedGround() => IdleTimer.Start();
+    public override void TouchedGround() => IdleTimer.StartMs();
 
     private void OnPreJumpTimer()
     {

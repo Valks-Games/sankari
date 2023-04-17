@@ -13,7 +13,7 @@ public partial class Bird : MovingEntity<Bird>
     {
         TimerChangeDirection = new GTimer(this, 1000);
         TimerFlap = new GTimer(this, OnTimerFlap, 1000) { Loop = true };
-        TimerFlap.Start();
+        TimerFlap.StartMs();
         AnimatedSprite.Play("fly");
         MoveDir = Vector2.Left;
     }
@@ -22,7 +22,7 @@ public partial class Bird : MovingEntity<Bird>
     {
         if (IsOnWall() && !TimerChangeDirection.IsActive())
         {
-            TimerChangeDirection.Start();
+            TimerChangeDirection.StartMs();
             MoveDir = new Vector2(-MoveDir.X, MoveDir.Y);
             AnimatedSprite.FlipH = MoveDir.X == 1;
         }

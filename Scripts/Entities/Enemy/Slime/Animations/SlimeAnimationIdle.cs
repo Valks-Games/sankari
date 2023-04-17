@@ -10,7 +10,7 @@ public class SlimeAnimationIdle : EntityAnimationIdle<Slime>
         {
             Entity.StartedPreJump = true;
             Entity.AnimatedSprite.Play("pre_jump_start");
-            Entity.PreJumpTimer.Start();
+            Entity.PreJumpTimer.StartMs();
             SwitchState(EntityAnimationType.PreJumpStart);
         }
     }

@@ -72,11 +72,6 @@ public partial class Player : MovingEntity<Player>
         if (GameManager.PlayerManager.ActiveCheckpoint)
             Position = GameManager.PlayerManager.RespawnPosition;
 
-        TimerNetSend = new GTimer(this, NetUpdate, NetIntervals.HEARTBEAT) { Loop = true };
-
-        if (Net.IsMultiplayer())
-            TimerNetSend.Start();
-
         DieTween = new GTween(this);
 
         // dont go under platform at the end of a dash for X ms
@@ -165,7 +160,7 @@ public partial class Player : MovingEntity<Player>
     /// <summary>
     /// Called when a Dash Command finishes as Dash
     /// </summary>
-    public void OnDashDone(object _, EventArgs _2) => DontCheckPlatformAfterDashDuration.Start();
+    public void OnDashDone(object _, EventArgs _2) => DontCheckPlatformAfterDashDuration.StartMs();
 
     public void OnWallJump(object _, EventArgs _2)
     {
@@ -173,7 +168,7 @@ public partial class Player : MovingEntity<Player>
 
         // Lock movement
         PreventMovement = true;
-        PreventMovementTimer.Start(); 
+        PreventMovementTimer.StartMs(); 
     }
 
     public void PreventMovementFinished()
@@ -187,17 +182,6 @@ public partial class Player : MovingEntity<Player>
             return horzVelocity * 0.5f;
 
         return horzVelocity;
-    }
-
-    private void NetUpdate()
-    {
-        if (Position != PrevNetPos)
-            Net.Client.Send(ClientPacketOpcode.PlayerPosition, new CPacketPlayerPosition
-            {
-                Position = Position
-            });
-
-        PrevNetPos = Position;
     }
 
     private async void UpdateUnderPlatform(MovementInput input)

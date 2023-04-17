@@ -7,11 +7,11 @@ public partial class MovingPlatform : APlatform
     [Export] public Tween.TransitionType TransitionType { get; set; } = Tween.TransitionType.Cubic;
     [Export] public Tween.EaseType EaseType { get; set; } = Tween.EaseType.InOut;
 
-    public override async void _Ready()
+    public override void _Ready()
     {
         Init();
 
-        var tween = new GTween(this);
+        /*var tween = new GTween(this);
 
         await tween.AnimatePlatform
         (
@@ -22,6 +22,6 @@ public partial class MovingPlatform : APlatform
             StartDelay, 
             TransitionType, 
             EaseType
-        );
+        );*/
     }
 }
