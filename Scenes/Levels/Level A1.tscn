@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://bdtypmdgryi6r"]
+[gd_scene load_steps=58 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Entities/Enemy/Spawner.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://bfeednkyjlv1t" path="res://Scenes/Prefabs/Player.tscn" id="2"]
@@ -26,7 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://da35q1i260s8q" path="res://Sprites/Level/Parallax Backgrounds/Grass/2_trees.png" id="15"]
 [ext_resource type="Texture2D" uid="uid://vg4rwpcnjqwo" path="res://Sprites/Level/Parallax Backgrounds/Grass/1_trees.png" id="16"]
 [ext_resource type="Script" path="res://Scripts/Entities/Level/Trigger.cs" id="21"]
-[ext_resource type="Shader" path="res://GodRays.gdshader" id="27_eeclp"]
+[ext_resource type="Shader" path="res://GodotUtils/Shaders/2D/GodRays.gdshader" id="27_eeclp"]
 
 [sub_resource type="Shader" id="Shader_2y4hf"]
 code = "// original wind shader from https://github.com/Maujoe/godot-simple-wind-shader-2d/tree/master/assets/maujoe.simple_wind_shader_2d
