@@ -3,7 +3,7 @@
 </p>
 
 <h4 align="center">
-  <a href="https://www.youtube.com/watch?v=mSUxmJlmxyc">Video of Gameplay</a>
+  <a href="https://youtu.be/QddaW1QEVYc">Video of Gameplay</a>
 </h4>
 
 https://user-images.githubusercontent.com/6277739/199924817-a5d3992f-edd0-444c-be70-0dbe7eb977ca.mp4
@@ -22,6 +22,13 @@ The project will be considered complete when there is around 2 to 3 hours of fun
 If you have any questions or suggestions about the project or just want to talk to me in general, my Discord username is `va#9904`. You can also find me on the [Sankari Discord](https://discord.gg/5frafxrwwd).
 
 [Changelog](https://github.com/Valks-Games/sankari/blob/main/.github/CHANGELOG.md)  
+
+## Roadmap
+- Use Godot scenes instead of one big master node handling all scene nodes. This will allow for easier testing of inidivual scenes in the future.
+- Wrap my head around the current codebase. Make the code look nicer. Make it less confusing to the reader.
+- Figure out why "Load First Level" option is not working as intended. (First level is loaded but map screen is hiding the level)
+- Tinker with the player movement more to get that more snappier platformer like feel.
+- Introduce new water tiles.
 
 ## Project Setup
 1. Install the latest Godot 4 C# release
