@@ -36,7 +36,7 @@ public class PlayerCommandDeath : PlayerCommand<Player>
             dieStartPos + 400,
             1.5f,
             true
-        )
+        ).SetDelay(goUpDuration)
         .From(dieStartPos - 80);
 
         // animate rotation
@@ -46,7 +46,7 @@ public class PlayerCommandDeath : PlayerCommand<Player>
             Mathf.Pi,
             1.5f,
             true
-        );
+        ).SetDelay(goUpDuration);
 
         //Entity.DieTween.Start();
         Entity.DieTween.Callback(Entity.OnDieTweenCompleted);
