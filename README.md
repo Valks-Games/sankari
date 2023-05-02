@@ -1,4 +1,4 @@
-# All future development will be on the [sankari-v2 repo](https://github.com/ValksGodotTools/sankari-v2)
+# All future development will be on the [sankari-v2 repo](https://github.com/Valks-Games/sankari-v2)
 
 <p align="center">
   <img alt="Discord" src="https://img.shields.io/discord/1005979449340211240?color=black&label=Sankari&logo=Discord&logoColor=white">
@@ -14,7 +14,7 @@ https://user-images.githubusercontent.com/6277739/199924992-c549865c-5e34-45fe-9
 
 https://user-images.githubusercontent.com/6277739/200099886-5068418b-e8fe-4ce9-b1cd-050bf08eef70.mp4
 
-# All future development will be on the [sankari-v2 repo](https://github.com/ValksGodotTools/sankari-v2)
+# All future development will be on the [sankari-v2 repo](https://github.com/Valks-Games/sankari-v2)
 
 ## What is Sankari?
 Sankari ("hero" in Finnish) is a non-profit F2P 2D Platformer about a hero whose village gets raided by the evil king. The hero goes on a journey to free back the villagers that were captured and defeat the evil king. 
