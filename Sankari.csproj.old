@@ -1,0 +1,15 @@
+﻿<Project Sdk="Godot.NET.Sdk/4.0.1-rc.1">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <LangVersion>11</LangVersion>
+    <RootNamespace>Sankari</RootNamespace>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!--Required in Godot 4 or Newtonsoft will not be found-->
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ENet-CSharp" Version="2.4.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <!--This is used because net472 does not have System.Text.Json-->
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
+</Project>
