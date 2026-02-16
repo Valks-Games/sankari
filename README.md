@@ -1,5 +1,5 @@
 > [!NOTE]
-> This has been archived because it is out of sync with [CSharpGodotTools/Template](https://github.com/CSharpGodotTools/Template) and the code is arguably messy and should be redone from scratch.
+> This has been archived because it is out of sync with [CSharpGodotTools/Template](https://github.com/CSharpGodotTools/Template), the code is arguably messy and should be redone from scratch and development has come to a halt. If you are a C# developer, want to actively contribute to revitalizing this project, send me a message over Discord, my username is valky5.
 
 <p align="center">
   <img alt="Discord" src="https://img.shields.io/discord/1005979449340211240?color=black&label=Sankari&logo=Discord&logoColor=white">
