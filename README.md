@@ -1,3 +1,6 @@
+> [!NOTE]
+> This has been archived because it is out of sync with [CSharpGodotTools/Template](https://github.com/CSharpGodotTools/Template) and the code is arguably messy and should be redone from scratch.
+
 <p align="center">
   <img alt="Discord" src="https://img.shields.io/discord/1005979449340211240?color=black&label=Sankari&logo=Discord&logoColor=white">
 </p>
